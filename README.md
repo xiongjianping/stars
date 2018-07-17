@@ -68,4 +68,3 @@
             "</script>")
     List<ProjectCQRSListResponseDTO> findProjectCQRS(@Param("list") List<String> projectIds, @Param("search") ProjectCQRSListRequestDTO projectCQRSListRequestDTO);
 ```
->>>>>>> 初始化项目
