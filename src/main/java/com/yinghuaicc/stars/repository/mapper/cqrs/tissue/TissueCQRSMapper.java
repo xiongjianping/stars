@@ -27,16 +27,17 @@ public interface TissueCQRSMapper {
             "em.name as name, " +
             "em.user_name as userName, " +
             "em.phone as phone, " +
-            "de.name as deptName, " +
+            "concat(IFNULL(de.name,''),IFNULL(co.name,'')) as deptName, " +
             "em.email as email, " +
             "em.state as state " +
             "from yhcc_employee as em " +
-            "inner join yhcc_department as de on em.org_id = de.id " +
+            "left join yhcc_department as de on em.org_id = de.id " +
+            "left join yhcc_company as co on em.org_id = co.id " +
             "<where> " +
             "<bind name='search.name' value=\"'%' + search.name + '%'\" /> " +
             "<bind name='search.userName' value=\"'%' + search.userName + '%'\" /> " +
             "<if test='search.name != null and search.name !=\"\" '>AND em.name like #{search.name}</if> " +
-            "<if test='search.userName != null and search.userName !=\"\" '>AND em.userName like #{search.userName}</if> " +
+            "<if test='search.userName != null and search.userName !=\"\" '>AND em.user_name like #{search.userName}</if> " +
             "</where> " +
             "order by em.modify_time desc " +
             "</script> ")
