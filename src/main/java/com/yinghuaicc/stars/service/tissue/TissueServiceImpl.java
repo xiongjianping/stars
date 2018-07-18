@@ -217,7 +217,7 @@ public class TissueServiceImpl implements TissueService{
     @Override
     public void saveDepartment(SaveDepartmentRequestDTO saveDepartmentRequestDTO, String loginEmployeeId) {
 
-        if (Objects.isNull(regionMapper.findCompanyById(saveDepartmentRequestDTO.getCompanyId()))){
+        if (Objects.isNull(tissueMapper.findDepartmentByParentId(saveDepartmentRequestDTO.getParentId()))){
 
             throw exceptionUtil.throwCustomException("TISSUE_SAVE_DEPARTMENT_003");
         }
@@ -258,7 +258,6 @@ public class TissueServiceImpl implements TissueService{
         tissueMapper.editDepartment(
                 department
                         .setParentId(editDepartmentRequestDTO.getParentId())
-                        .setCompanyId(editDepartmentRequestDTO.getCompanyId())
                         .setName(editDepartmentRequestDTO.getName())
                         .setModifyTime(LocalDateTime.now())
                         .setModifyUser(loginEmployeeId));

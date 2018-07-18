@@ -2,10 +2,16 @@ package com.yinghuaicc.stars.task.scheduled;
 
 import com.yinghuaicc.stars.common.utils.json.GsonUtil;
 import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
+import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
+import com.yinghuaicc.stars.config.base.BusinessNum;
 import com.yinghuaicc.stars.controller.config.system.SystemResource;
 import com.yinghuaicc.stars.repository.mapper.external.ExternalMapper;
+import com.yinghuaicc.stars.repository.mapper.region.RegionMapper;
+import com.yinghuaicc.stars.repository.mapper.tissue.TissueMapper;
 import com.yinghuaicc.stars.repository.model.contract.Contract;
 import com.yinghuaicc.stars.repository.model.external.ExternalOrg;
+import com.yinghuaicc.stars.repository.model.region.Company;
+import com.yinghuaicc.stars.repository.model.tissue.Department;
 import com.yinghuaicc.stars.task.dto.OrgResponseDTO;
 import com.yinghuaicc.stars.task.dto.ResultDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +50,18 @@ public class ExternalOrgSync {
     @Autowired
     private ExternalMapper externalMapper;
 
+    @Autowired
+    private TissueMapper tissueMapper;
+
+    @Autowired
+    private RegionMapper regionMapper;
+
     /**
      *@Author:Fly Created in 2018/7/15 下午6:17
      *@Description: 获取外部系统组织机构数据,每天晚上11点59分执行
      */
-    @Scheduled(fixedRate = 200000)
-//    @Scheduled(cron = "0 59 23 ? * *")
+//    @Scheduled(fixedRate = 200000)
+    @Scheduled(cron = "0 59 23 ? * *")
     @Transactional(rollbackFor = Exception.class)
     public void getOrg(){
 
@@ -75,6 +87,10 @@ public class ExternalOrgSync {
         if (Objects.nonNull(result) && result.size()>0){
 
             this.updateOrgDataBases(result);
+
+            this.updateDepartment(result);
+
+            this.updateCompany(result);
         }
     }
 
@@ -102,7 +118,7 @@ public class ExternalOrgSync {
 
     /**
      *@Author:Fly Created in 2018/7/15 下午7:19
-     *@Description: 更新外部人员数据信息
+     *@Description: 更新外部组织架构数据信息
      */
     private void updateOrgDataBases(List<OrgResponseDTO> result){
 
@@ -126,7 +142,28 @@ public class ExternalOrgSync {
      */
     private void updateDepartment(List<OrgResponseDTO> result){
 
-//        result.stream().filter(orgResponseDTO -> orgResponseDTO.getType().equals("dept")||orgResponseDTO.getType().equals("dept"))
+        List<Department> departments = result.stream()
+                .filter(orgResponseDTO -> "dept".equals(orgResponseDTO.getType()))
+                .map(orgResponseDTO -> {
+
+                    return new Department()
+                            .setId(orgResponseDTO.getId())
+                            .setNum(BusinessNum.DEPARTMENT+ UuidUtil.randomUUID())
+                            .setName(orgResponseDTO.getName())
+                            .setParentId(orgResponseDTO.getParentId())
+                            .setType(2)
+                            .setCreateTime(LocalDateTime.now())
+                            .setModifyTime(LocalDateTime.now())
+                            .setCreateUser("system")
+                            .setModifyUser("system");
+                }).collect(Collectors.toList());
+
+        if (Objects.nonNull(departments) && departments.size() > 0){
+
+            tissueMapper.removeDepartmentByIds(departments.stream().map(Department::getId).collect(Collectors.toList()));
+
+            tissueMapper.saveDepartment(departments);
+        }
     }
 
     /**
@@ -135,6 +172,27 @@ public class ExternalOrgSync {
      */
     private void updateCompany(List<OrgResponseDTO> result){
 
+        List<Company> companies = result.stream()
+                .filter(orgResponseDTO -> "company".equals(orgResponseDTO.getType()))
+                .map(orgResponseDTO -> {
 
+                    return new Company()
+                            .setId(orgResponseDTO.getId())
+                            .setNum(BusinessNum.COMPANY+UuidUtil.randomUUID())
+                            .setName(orgResponseDTO.getName())
+                            .setParentId(orgResponseDTO.getParentId())
+                            .setType(2)
+                            .setCreateTime(LocalDateTime.now())
+                            .setModifyTime(LocalDateTime.now())
+                            .setCreateUser("system")
+                            .setModifyUser("system");
+                }).collect(Collectors.toList());
+
+        if (Objects.nonNull(companies) && companies.size() > 0){
+
+            regionMapper.removeCompanyByIds(companies.stream().map(Company::getId).collect(Collectors.toList()));
+
+            regionMapper.saveCompany(companies);
+        }
     }
 }

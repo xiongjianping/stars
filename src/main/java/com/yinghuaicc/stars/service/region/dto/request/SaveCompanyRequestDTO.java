@@ -14,10 +14,6 @@ public class SaveCompanyRequestDTO {
     @NotEmpty(message = "REGION_SAVE_COMPANY_001")
     private String name;
 
-    //城市id
-    @NotEmpty(message = "REGION_SAVE_COMPANY_002")
-    private String cityId;
-
     //区域id
     @NotEmpty(message = "REGION_SAVE_COMPANY_003")
     private String areaId;
@@ -31,15 +27,6 @@ public class SaveCompanyRequestDTO {
 
     public SaveCompanyRequestDTO setName(String name) {
         this.name = name;
-        return this;
-    }
-
-    public String getCityId() {
-        return cityId;
-    }
-
-    public SaveCompanyRequestDTO setCityId(String cityId) {
-        this.cityId = cityId;
         return this;
     }
 

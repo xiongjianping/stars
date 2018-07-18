@@ -144,7 +144,7 @@ public interface RegionMapper {
     @Insert("<script> " +
             "insert into yhcc_company values " +
             "<foreach item = 'item' index = 'index' collection='list' separator=','> " +
-            "(#{item.id}, #{item.num}, #{item.name}, #{item.cityId}, #{parentId}, #{type}, " +
+            "(#{item.id}, #{item.num}, #{item.name}, #{item.parentId}, #{item.type}, " +
             "#{item.createTime}, #{item.modifyTime}, #{item.createUser}, #{item.modifyUser} )" +
             "</foreach> " +
             "</script>")
@@ -170,6 +170,26 @@ public interface RegionMapper {
      */
     @Select("select * from yhcc_company where id = #{id}")
     Company findCompanyById(String id);
+
+    /**
+     *@Author:Fly Created in 2018/7/18 上午10:51
+     *@Description: 批量删除外部系统公司数据
+     */
+    @Delete("<script> " +
+            "delete from yhcc_company where id in" +
+            "<foreach item='item' collection='list' open='(' close=')' separator=','> " +
+            "#{item}" +
+            "</foreach> " +
+            "and type = 2 " +
+            "</script> ")
+    void removeCompanyByIds(List<String> ids);
+
+    /**
+     *@Author:Fly Created in 2018/7/18 上午11:13
+     *@Description: 查询所有公司
+     */
+    @Select("select * from yhcc_company")
+    List<Company> findCompanyAll();
 
     /**
      *@Author:Fly Created in 2018/7/11 下午12:53

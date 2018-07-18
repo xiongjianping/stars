@@ -8,10 +8,8 @@ import com.yinghuaicc.stars.controller.config.system.SystemResource;
 import com.yinghuaicc.stars.repository.mapper.external.ExternalMapper;
 import com.yinghuaicc.stars.repository.mapper.tissue.TissueMapper;
 import com.yinghuaicc.stars.repository.model.external.ExternalEmployee;
-import com.yinghuaicc.stars.repository.model.external.ExternalOrg;
 import com.yinghuaicc.stars.repository.model.tissue.Employee;
 import com.yinghuaicc.stars.task.dto.EmployeeResponseDTO;
-import com.yinghuaicc.stars.task.dto.OrgResponseDTO;
 import com.yinghuaicc.stars.task.dto.ResultDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -56,8 +54,8 @@ public class ExternalEmployeeSync {
      *@Author:Fly Created in 2018/7/15 下午6:17
      *@Description: 获取外部系统人员数据,每天晚上11点59分执行
      */
-    @Scheduled(fixedRate = 200000)
-//    @Scheduled(cron = "0 59 23 ? * *")
+//    @Scheduled(fixedRate = 200000)
+    @Scheduled(cron = "0 59 23 ? * *")
     @Transactional(rollbackFor = Exception.class)
     public void getOrg(){
 

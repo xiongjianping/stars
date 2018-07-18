@@ -8,12 +8,14 @@ import com.yinghuaicc.stars.config.base.BusinessNum;
 import com.yinghuaicc.stars.repository.mapper.region.RegionMapper;
 import com.yinghuaicc.stars.repository.mapper.tissue.TissueMapper;
 import com.yinghuaicc.stars.repository.model.region.*;
+import com.yinghuaicc.stars.repository.model.tissue.Department;
 import com.yinghuaicc.stars.repository.model.tissue.EmployeeProjectRelationTeam;
 import com.yinghuaicc.stars.service.region.dto.request.*;
 import com.yinghuaicc.stars.service.region.dto.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -403,6 +405,98 @@ public class RegionServiceImpl implements RegionService {
 
         return MapperFactoryUtil.mapperList(
                 regionMapper.findProjectAll(), FindProjectAllResponseDTO.class);
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/18 上午11:11
+     *@Description: 机构树
+     */
+    @Override
+    public List<FindCompanyTreeResponseDTO> orgTreeAll() {
+
+        List<Company> companies = regionMapper.findCompanyAll();
+
+        List<Department> departments = tissueMapper.findDepartmentAll();
+
+        List<FindCompanyTreeResponseDTO> findCompanyTreeResponseDTOS = new ArrayList<FindCompanyTreeResponseDTO>();
+
+        findCompanyTreeResponseDTOS.addAll(companies.stream().map(company -> {
+
+            return new FindCompanyTreeResponseDTO()
+                    .setId(company.getId())
+                    .setParentId(company.getParentId())
+                    .setType("company")
+                    .setName(company.getName());
+        }).collect(Collectors.toList()));
+
+        findCompanyTreeResponseDTOS.addAll(departments.stream().map(department -> {
+
+            return new FindCompanyTreeResponseDTO()
+                    .setId(department.getId())
+                    .setParentId(department.getParentId())
+                    .setType("dept")
+                    .setName(department.getName());
+        }).collect(Collectors.toList()));
+
+        List<FindCompanyTreeResponseDTO> one =
+                findCompanyTreeResponseDTOS.stream().filter(
+                        findCompanyTreeResponseDTO -> StringUtils.isEmpty(findCompanyTreeResponseDTO.getParentId()))
+                        .collect(Collectors.toList());
+
+        List<FindCompanyTreeResponseDTO> child =
+                findCompanyTreeResponseDTOS.stream().filter(
+                        findCompanyTreeResponseDTO -> !StringUtils.isEmpty(findCompanyTreeResponseDTO.getParentId()))
+                        .collect(Collectors.toList());
+
+
+
+        return this.orgTree(one, child);
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/18 下午12:02
+     *@Description: 组织机构树
+     */
+    private List<FindCompanyTreeResponseDTO> orgTree(List<FindCompanyTreeResponseDTO> one, List<FindCompanyTreeResponseDTO> child){
+
+        one.stream().forEach(oneOrg -> {
+
+            oneOrg.setChildTree(this.searchChild(oneOrg.getId(), child));
+        });
+
+        return one;
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/18 下午12:07
+     *@Description: 查找子机构的子机构
+     */
+    private List<FindCompanyTreeResponseDTO> searchChild(String parentId, List<FindCompanyTreeResponseDTO> child){
+
+        List<FindCompanyTreeResponseDTO> childTree = new ArrayList<FindCompanyTreeResponseDTO>();
+
+        child.stream().forEach(childOrg -> {
+
+            if (parentId.equals(childOrg.getParentId())){
+
+                childTree.add(childOrg);
+            }
+        });
+
+        childTree.stream().forEach(childOrg -> {
+
+            if (child.stream().anyMatch(c -> childOrg.getId().equals(c.getParentId()))){
+
+                this.searchChild(childOrg.getId(), child);
+            }
+        });
+
+        if (childTree.size() ==0){
+
+            return null;
+        }
+
+        return childTree;
     }
 
     /**

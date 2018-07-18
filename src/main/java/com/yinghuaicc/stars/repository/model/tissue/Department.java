@@ -19,9 +19,6 @@ public class Department {
     //部门名称
     private String name;
 
-    //城市公司id
-    private String companyId;
-
     //父id
     private String parentId;
 
@@ -64,15 +61,6 @@ public class Department {
 
     public Department setName(String name) {
         this.name = name;
-        return this;
-    }
-
-    public String getCompanyId() {
-        return companyId;
-    }
-
-    public Department setCompanyId(String companyId) {
-        this.companyId = companyId;
         return this;
     }
 

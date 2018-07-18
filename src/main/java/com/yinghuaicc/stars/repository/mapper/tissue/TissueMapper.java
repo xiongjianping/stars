@@ -138,7 +138,7 @@ public interface TissueMapper {
     @Insert("<script> " +
             "insert into yhcc_department values " +
             "<foreach item = 'item' index = 'index' collection='list' separator=','> " +
-            "(#{item.id}, #{item.num}, #{item.name}, #{item.companyId}, #{parentId}, #{type}, " +
+            "(#{item.id}, #{item.num}, #{item.name}, #{item.parentId}, #{item.type}, " +
             "#{item.createTime}, #{item.modifyTime}, #{item.createUser}, #{item.modifyUser}) " +
             "</foreach>" +
             "</script>")
@@ -149,7 +149,7 @@ public interface TissueMapper {
      *@Description: 修改部门
      */
     @Update("update yhcc_department set " +
-            "num = #{num}, name = #{name}, company_id = #{companyId}, parent_id = #{parentId}, type = #{type}, " +
+            "num = #{num}, name = #{name}, parent_id = #{parentId}, type = #{type}, " +
             "create_time = #{createTime}, modify_time = #{modifyTime}, create_user = #{createUser}, modify_user = #{modifyUser} " +
             "where id = #{id}")
     void editDepartment(Department department);
@@ -169,10 +169,37 @@ public interface TissueMapper {
     void removeDepartment(String id);
 
     /**
+     *@Author:Fly Created in 2018/7/18 上午10:37
+     *@Description: 批量删除外部系统部门数据
+     */
+    @Delete("<script> " +
+            "delete from yhcc_department where id in" +
+            "<foreach item='item' collection='list' open='(' close=')' separator=','> " +
+            "#{item}" +
+            "</foreach> " +
+            "and type = 2 " +
+            "</script> ")
+    void removeDepartmentByIds(List<String> ids);
+
+    /**
      *@Author:Fly Created in 2018/7/6 下午4:20
      *@Description: 根据部门id查询部门人数
      */
     @Select("select count(*) from yhcc_employee_department_relation where department_id = #{departmentId}")
     Integer countEmployeeDepartmentRelationByDepartmentId(String departmentId);
+
+    /**
+     *@Author:Fly Created in 2018/7/18 上午10:31
+     *@Description: 按照部门上级查询部门信息
+     */
+    @Select("select * from yhcc_department where id = #{parentId}")
+    Department findDepartmentByParentId(String parentId);
+
+    /**
+     *@Author:Fly Created in 2018/7/18 上午11:16
+     *@Description: 查询所有部门
+     */
+    @Select("select * from yhcc_department ")
+    List<Department> findDepartmentAll();
 
 }

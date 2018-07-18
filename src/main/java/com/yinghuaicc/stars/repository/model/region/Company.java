@@ -16,14 +16,8 @@ public class Company {
     //编号
     private String num;
 
-    //区域id
-    private String areaId;
-
     //城市公司名称
     private String name;
-
-    //所属城市Id
-    private String cityId;
 
     //父id
     private String parentId;
@@ -61,30 +55,12 @@ public class Company {
         return this;
     }
 
-    public String getAreaId() {
-        return areaId;
-    }
-
-    public Company setAreaId(String areaId) {
-        this.areaId = areaId;
-        return this;
-    }
-
     public String getName() {
         return name;
     }
 
     public Company setName(String name) {
         this.name = name;
-        return this;
-    }
-
-    public String getCityId() {
-        return cityId;
-    }
-
-    public Company setCityId(String cityId) {
-        this.cityId = cityId;
         return this;
     }
 

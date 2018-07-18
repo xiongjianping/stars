@@ -18,7 +18,7 @@ public class Project {
     private String num;
 
     //区域id
-    private String area_id;
+    private String areaId;
 
     //城市公司id
     private String companyId;
@@ -68,12 +68,12 @@ public class Project {
         return this;
     }
 
-    public String getArea_id() {
-        return area_id;
+    public String getAreaId() {
+        return areaId;
     }
 
-    public Project setArea_id(String area_id) {
-        this.area_id = area_id;
+    public Project setAreaId(String areaId) {
+        this.areaId = areaId;
         return this;
     }
 

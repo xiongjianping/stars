@@ -296,4 +296,14 @@ public class RegionController {
                 regionCQRSService.roomByProject(
                         findRoomByProjectCQRSRequestDTO.getProjectId(), findRoomByProjectCQRSRequestDTO.getRoomName()));
     }
+
+    /**
+     *@Author:Fly Created in 2018/7/18 下午12:38
+     *@Description: 组织机构树
+     */
+    @GetMapping(value = "/find/org/tree")
+    public JsonResult findOrgTree(){
+
+        return JsonResult.success(regionService.orgTreeAll());
+    }
 }

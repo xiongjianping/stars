@@ -14,11 +14,8 @@ public class SaveDepartmentRequestDTO {
     @NotEmpty(message = "TISSUE_SAVE_DEPARTMENT_001")
     private String name;
 
-    //所属城市公司id
-    @NotEmpty(message = "TISSUE_SAVE_DEPARTMENT_002")
-    private String companyId;
-
     //父id
+    @NotEmpty(message = "TISSUE_SAVE_DEPARTMENT_002")
     private String parentId;
 
     public String getName() {
@@ -27,15 +24,6 @@ public class SaveDepartmentRequestDTO {
 
     public SaveDepartmentRequestDTO setName(String name) {
         this.name = name;
-        return this;
-    }
-
-    public String getCompanyId() {
-        return companyId;
-    }
-
-    public SaveDepartmentRequestDTO setCompanyId(String companyId) {
-        this.companyId = companyId;
         return this;
     }
 

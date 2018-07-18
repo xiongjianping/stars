@@ -115,4 +115,10 @@ public interface RegionService {
      */
     List<FindProjectAllResponseDTO> findProjectAll();
 
+    /**
+     *@Author:Fly Created in 2018/7/18 上午11:11
+     *@Description: 所有组织机构树
+     */
+    List<FindCompanyTreeResponseDTO> orgTreeAll();
+
 }
