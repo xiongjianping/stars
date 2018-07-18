@@ -147,7 +147,7 @@ public class ExternalEmployeeSync {
                     .setEmail(employeeResponseDTO.getEmail())
                     .setPhone(employeeResponseDTO.getMobile())
                     .setPassword("123456")
-                    .setState(true)
+                    .setState("0".equals(employeeResponseDTO.getStatus())?true:false)
                     .setType(2)
                     .setOrgId(employeeResponseDTO.getBelongOrgId())
                     .setCreateUser("system")

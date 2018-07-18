@@ -163,7 +163,7 @@ public class TargetServiceImpl implements TargetService{
 
         return new ResultPageList<FindTargetAllListResponseDTO>()
                 .setResultList(result)
-                .setCountPage(pageParam.getP())
+                .setPage(pageParam.getP())
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());

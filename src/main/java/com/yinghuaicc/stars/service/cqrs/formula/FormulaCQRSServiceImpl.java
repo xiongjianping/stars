@@ -39,7 +39,7 @@ public class FormulaCQRSServiceImpl implements FormulaCQRSService{
 
         return new ResultPageList<FindFormulaListCQRSListResponseDTO>()
                 .setResultList(result)
-                .setCountPage(pageParam.getP())
+                .setPage(pageParam.getP())
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());

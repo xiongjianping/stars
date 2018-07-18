@@ -62,7 +62,7 @@ public class RegionCQRSServiceImpl implements RegionCQRSService {
 
         return new ResultPageList<ProjectCQRSListResponseDTO>()
                 .setResultList(result)
-                .setCountPage(pageParam.getP())
+                .setPage(pageParam.getP())
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
@@ -115,7 +115,7 @@ public class RegionCQRSServiceImpl implements RegionCQRSService {
         List<FloorCQRSListResponseDTO> result = regionCQRSMapper.findFloorListCQRS(floorCQRSListRequestDTO);
         return new ResultPageList<FloorCQRSListResponseDTO>()
                 .setResultList(result)
-                .setCountPage(pageParam.getP())
+                .setPage(pageParam.getP())
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
@@ -144,7 +144,7 @@ public class RegionCQRSServiceImpl implements RegionCQRSService {
 
         return new ResultPageList<RoomCQRSListResponseDTO>()
                 .setResultList(result)
-                .setCountPage(pageParam.getP())
+                .setPage(pageParam.getP())
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());

@@ -36,7 +36,7 @@ public class BaseCQRSServiceImpl implements BaseCQRSService {
 
         return new ResultPageList<FindByBusinessSpeciesCQRSListResponseDTO>()
                 .setResultList(result)
-                .setCountPage(pageParam.getP())
+                .setPage(pageParam.getP())
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());

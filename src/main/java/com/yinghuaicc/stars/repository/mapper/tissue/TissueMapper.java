@@ -106,6 +106,13 @@ public interface TissueMapper {
     void saveEmployeeByExternal(List<Employee> employees);
 
     /**
+     *@Author:Fly Created in 2018/7/18 下午2:15
+     *@Description: 根据组织查询员工
+     */
+    @Select("select * from yhcc_employee where org_id = #{orgId} ")
+    List<Employee> findEmployeeByOrgId(String orgId);
+
+    /**
      *@Author:Fly Created in 2018/7/5 上午1:51
      *@Description: 添加数据权限
      */

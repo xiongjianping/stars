@@ -1,7 +1,10 @@
 package com.yinghuaicc.stars.controller.business.pc.tissue;
 
+import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.response.JsonResult;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
+import com.yinghuaicc.stars.service.cqrs.tissue.TissueCQRSService;
+import com.yinghuaicc.stars.service.cqrs.tissue.dto.request.EmployeeListCQRSRequestDTO;
 import com.yinghuaicc.stars.service.tissue.TissueService;
 import com.yinghuaicc.stars.service.tissue.dto.request.EditDepartmentRequestDTO;
 import com.yinghuaicc.stars.service.tissue.dto.request.EditEmployeeProjectDataRequestDTO;
@@ -30,6 +33,9 @@ public class TissueController {
 
     @Autowired
     private TissueService tissueService;
+
+    @Autowired
+    private TissueCQRSService tissueCQRSService;
 
     /**
      *@Author:Fly Created in 2018/7/2 上午3:53
@@ -136,5 +142,26 @@ public class TissueController {
         tissueService.removeDepartment(departmentId);
 
         return JsonResult.success("OK");
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/18 下午2:27
+     *@Description: 分页查询机构员工
+     */
+    @GetMapping(value = "/find/employee/by/org/{orgId}")
+    public JsonResult findEmployeeByOrgId(@PathVariable String orgId, @ModelAttribute PageParam pageParam){
+
+        return JsonResult.success(tissueService.findEmployeeByOrgId(orgId, pageParam));
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/18 下午3:09
+     *@Description: 分页查询所有员工
+     */
+    @PostMapping(value = "/find/employee/list")
+    public JsonResult findEmployeeList(@RequestBody EmployeeListCQRSRequestDTO employeeListCQRSRequestDTO, @ModelAttribute PageParam pageParam){
+
+        return JsonResult.success(
+                tissueCQRSService.findEmployeeListCQRS(employeeListCQRSRequestDTO, pageParam));
     }
 }

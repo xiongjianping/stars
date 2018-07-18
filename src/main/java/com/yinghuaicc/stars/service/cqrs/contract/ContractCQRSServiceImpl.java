@@ -38,7 +38,7 @@ public class ContractCQRSServiceImpl implements ContractCQRSService{
 
         return new ResultPageList<ContractCQRSListResponseDTO>()
                 .setResultList(result)
-                .setCountPage(pageParam.getP())
+                .setPage(pageParam.getP())
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());

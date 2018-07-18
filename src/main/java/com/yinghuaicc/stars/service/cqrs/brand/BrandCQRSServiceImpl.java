@@ -39,7 +39,7 @@ public class BrandCQRSServiceImpl implements BrandCQRSService{
 
         return new ResultPageList<BrandCQRSListResponseDTO>()
                 .setResultList(result)
-                .setCountPage(pageParam.getP())
+                .setPage(pageParam.getP())
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());

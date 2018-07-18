@@ -1,11 +1,15 @@
 package com.yinghuaicc.stars.service.tissue;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sun.org.apache.regexp.internal.RE;
 import com.yinghuaicc.stars.common.config.base.BaseConfig;
 import com.yinghuaicc.stars.common.utils.exception.ExceptionUtil;
 import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.config.base.BusinessNum;
+import com.yinghuaicc.stars.config.page.PageParam;
+import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.region.RegionMapper;
 import com.yinghuaicc.stars.repository.mapper.tissue.TissueMapper;
 import com.yinghuaicc.stars.repository.mapper.token.TokenMapper;
@@ -18,10 +22,7 @@ import com.yinghuaicc.stars.service.tissue.dto.request.EditDepartmentRequestDTO;
 import com.yinghuaicc.stars.service.tissue.dto.request.EditEmployeeProjectDataRequestDTO;
 import com.yinghuaicc.stars.service.tissue.dto.request.EmployeeLoginRequestDTO;
 import com.yinghuaicc.stars.service.tissue.dto.request.SaveDepartmentRequestDTO;
-import com.yinghuaicc.stars.service.tissue.dto.response.ConfEmployeeRoleRequestDTO;
-import com.yinghuaicc.stars.service.tissue.dto.response.EmployeeLoginInfoResponseDTO;
-import com.yinghuaicc.stars.service.tissue.dto.response.EmployeeLoginTokenResponseDTO;
-import com.yinghuaicc.stars.service.tissue.dto.response.FindEmployeeProjectDataByEmployeeIdResponseDTO;
+import com.yinghuaicc.stars.service.tissue.dto.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -277,6 +278,25 @@ public class TissueServiceImpl implements TissueService{
         }
 
         tissueMapper.removeDepartment(departmentId);
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/18 下午2:24
+     *@Description: 分页查询机构员工
+     */
+    @Override
+    public ResultPageList<FindEmployeeByOrgIdResponseDTO> findEmployeeByOrgId(String orgId, PageParam pageParam) {
+
+        Page page = PageHelper.startPage(pageParam.getP(), pageParam.getC());
+
+        List<Employee> employees = tissueMapper.findEmployeeByOrgId(orgId);
+
+        return new ResultPageList<FindEmployeeByOrgIdResponseDTO>()
+                .setResultList(MapperFactoryUtil.mapperList(employees, FindEmployeeByOrgIdResponseDTO.class))
+                .setCountPage(pageParam.getP())
+                .setSize(pageParam.getC())
+                .setCountPage(page.getPages())
+                .setCountSize(page.getTotal());
     }
 
     /**

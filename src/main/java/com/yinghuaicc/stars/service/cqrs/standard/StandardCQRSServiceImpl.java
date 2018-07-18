@@ -36,7 +36,7 @@ public class StandardCQRSServiceImpl implements StandardCQRSService{
 
         return new ResultPageList<FindIntervalListCQRSResponseDTO>()
                 .setResultList(result)
-                .setCountPage(pageParam.getP())
+                .setPage(pageParam.getP())
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());

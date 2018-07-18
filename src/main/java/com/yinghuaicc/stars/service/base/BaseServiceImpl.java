@@ -152,7 +152,7 @@ public class BaseServiceImpl implements BaseService{
 
         return new ResultPageList<FindBusinessFormListResponseDTO>()
                 .setResultList(result)
-                .setCountPage(pageParam.getP())
+                .setPage(pageParam.getP())
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());

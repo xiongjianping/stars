@@ -1,14 +1,13 @@
 package com.yinghuaicc.stars.service.tissue;
 
+import com.yinghuaicc.stars.config.page.PageParam;
+import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.tissue.Department;
 import com.yinghuaicc.stars.service.tissue.dto.request.EditDepartmentRequestDTO;
 import com.yinghuaicc.stars.service.tissue.dto.request.EditEmployeeProjectDataRequestDTO;
 import com.yinghuaicc.stars.service.tissue.dto.request.EmployeeLoginRequestDTO;
 import com.yinghuaicc.stars.service.tissue.dto.request.SaveDepartmentRequestDTO;
-import com.yinghuaicc.stars.service.tissue.dto.response.ConfEmployeeRoleRequestDTO;
-import com.yinghuaicc.stars.service.tissue.dto.response.EmployeeLoginInfoResponseDTO;
-import com.yinghuaicc.stars.service.tissue.dto.response.EmployeeLoginTokenResponseDTO;
-import com.yinghuaicc.stars.service.tissue.dto.response.FindEmployeeProjectDataByEmployeeIdResponseDTO;
+import com.yinghuaicc.stars.service.tissue.dto.response.*;
 
 import java.util.List;
 
@@ -74,5 +73,11 @@ public interface TissueService {
      *@Description: 删除部门
      */
     void removeDepartment(String departmentId);
+
+    /**
+     *@Author:Fly Created in 2018/7/18 下午2:23
+     *@Description: 分页查询机构员工
+     */
+    ResultPageList<FindEmployeeByOrgIdResponseDTO> findEmployeeByOrgId(String orgId, PageParam pageParam);
 
 }
