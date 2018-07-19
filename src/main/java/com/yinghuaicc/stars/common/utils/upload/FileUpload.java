@@ -44,9 +44,11 @@ public class FileUpload {
             throw exceptionUtil.throwCustomException("COMMON_FILE_UPLOAD_LOCALHOST_001");
         }
 
-        String fileName = this.fileInfo(file.getOriginalFilename()).get("fileName");
+        Map<String, String> fileInfoMap = this.fileInfo(file.getOriginalFilename());
 
-        String fileDir = this.fileInfo(file.getOriginalFilename()).get("fileDir");
+        String fileName = fileInfoMap.get("fileName");
+
+        String fileDir = fileInfoMap.get("fileDir");
 
         File targetFile = new File(fileDir);
 
@@ -78,7 +80,14 @@ public class FileUpload {
 
         }
 
-        return systemResource.getFileAccessUrl()+fileName;
+        return fileInfoMap.get("type").equals(SystemNum.IMAGE)
+                ?
+                systemResource.getFileImageUrl()+fileInfoMap.get("accessName")
+                :(fileInfoMap.get("type").equals(SystemNum.EXCEL)
+                    ?
+                    systemResource.getFileExcelUrl()+fileInfoMap.get("accessName")
+                    :
+                    systemResource.getFileOtherUrl()+fileInfoMap.get("accessName"));
     }
 
     /**
@@ -96,22 +105,40 @@ public class FileUpload {
                 ||
                 this.allImageSuffix().stream().map(String::toUpperCase).anyMatch(str -> sourceFileNameSuffix.contains(str))){
 
+            String accessName = SystemNum.IMAGE+UuidUtil.randomUUID()+sourceFileNameSuffix;
+
             result.put("fileDir", systemResource.getFileUploadImagePathUrl());
 
-            result.put("fileName", systemResource.getFileUploadImagePathUrl()+SystemNum.IMAGE+UuidUtil.randomUUID()+sourceFileNameSuffix);
+            result.put("fileName", systemResource.getFileUploadImagePathUrl() + accessName);
+
+            result.put("type", SystemNum.IMAGE);
+
+            result.put("accessName", accessName);
 
         }else if (this.allExcelSuffix().stream().anyMatch(str -> sourceFileNameSuffix.contains(str))
                 ||
                 this.allExcelSuffix().stream().map(String::toUpperCase).anyMatch(str -> sourceFileNameSuffix.contains(str))){
 
+            String accessName = SystemNum.EXCEL+UuidUtil.randomUUID()+sourceFileNameSuffix;
+
             result.put("fileDir", systemResource.getFileUploadExcelPathUrl());
 
-            result.put("fileName", systemResource.getFileUploadExcelPathUrl()+SystemNum.EXCEL+UuidUtil.randomUUID()+sourceFileNameSuffix);
+            result.put("fileName", systemResource.getFileUploadExcelPathUrl() + accessName);
+
+            result.put("type", SystemNum.EXCEL);
+
+            result.put("accessName", accessName);
         }else {
+
+            String accessName = SystemNum.OTHER+UuidUtil.randomUUID()+sourceFileNameSuffix;
 
             result.put("fileDir", systemResource.getFileUploadOtherPathUrl());
 
-            result.put("fileName", systemResource.getFileUploadOtherPathUrl()+SystemNum.OTHER+UuidUtil.randomUUID()+sourceFileNameSuffix);
+            result.put("fileName", systemResource.getFileUploadOtherPathUrl() + accessName);
+
+            result.put("type", SystemNum.OTHER);
+
+            result.put("accessName", accessName);
         }
 
         return result;

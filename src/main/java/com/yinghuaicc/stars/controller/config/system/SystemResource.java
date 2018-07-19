@@ -26,8 +26,14 @@ public class SystemResource {
     @Value("${file.upload.other.path.url}")
     private String fileUploadOtherPathUrl;
 
-    @Value("${file.access.url}")
-    private String fileAccessUrl;
+    @Value("${file.image.url}")
+    private String fileImageUrl;
+
+    @Value("${file.excel.url}")
+    private String fileExcelUrl;
+
+    @Value("${file.other.url}")
+    private String fileOtherUrl;
 
     @Value("${external.url}")
     private String externalUrl;
@@ -68,12 +74,30 @@ public class SystemResource {
         return this;
     }
 
-    public String getFileAccessUrl() {
-        return fileAccessUrl;
+    public String getFileImageUrl() {
+        return fileImageUrl;
     }
 
-    public SystemResource setFileAccessUrl(String fileAccessUrl) {
-        this.fileAccessUrl = fileAccessUrl;
+    public SystemResource setFileImageUrl(String fileImageUrl) {
+        this.fileImageUrl = fileImageUrl;
+        return this;
+    }
+
+    public String getFileExcelUrl() {
+        return fileExcelUrl;
+    }
+
+    public SystemResource setFileExcelUrl(String fileExcelUrl) {
+        this.fileExcelUrl = fileExcelUrl;
+        return this;
+    }
+
+    public String getFileOtherUrl() {
+        return fileOtherUrl;
+    }
+
+    public SystemResource setFileOtherUrl(String fileOtherUrl) {
+        this.fileOtherUrl = fileOtherUrl;
         return this;
     }
 
