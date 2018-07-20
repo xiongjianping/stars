@@ -81,6 +81,13 @@ public interface RegionMapper {
     List<Project> findProjectByCompanyId(String companyId);
 
     /**
+     *@Author:Fly Created in 2018/7/20 上午10:08
+     *@Description: 按照区域查询项目
+     */
+    @Select("select * from yhcc_project where area_id = #{areaId}")
+    List<Project> findProjectByAreaId(String areaId);
+
+    /**
      *@Author:Fly Created in 2018/7/5 上午10:06
      *@Description: 按照项目查询项目组员
      */

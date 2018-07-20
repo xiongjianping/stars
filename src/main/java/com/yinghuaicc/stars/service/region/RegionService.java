@@ -38,6 +38,12 @@ public interface RegionService {
     void removeProject(String id);
 
     /**
+     *@Author:Fly Created in 2018/7/20 上午10:11
+     *@Description: 按照区域查询项目
+     */
+    List<FindProjectByAreaIdResponseDTO> findProjectByAreaId(String areaId);
+
+    /**
      *@Author:Fly Created in 2018/7/11 下午3:19
      *@Description: 添加层
      */

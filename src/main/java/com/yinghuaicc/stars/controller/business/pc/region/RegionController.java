@@ -96,6 +96,16 @@ public class RegionController {
     }
 
     /**
+     *@Author:Fly Created in 2018/7/20 上午10:14
+     *@Description: 按照区域id查询项目
+     */
+    @GetMapping(value = "/find/project/by/area/{areaId}")
+    public JsonResult findProjectByAreaId(@PathVariable String areaId){
+
+        return JsonResult.success(regionService.findProjectByAreaId(areaId));
+    }
+
+    /**
      *@Author:Fly Created in 2018/7/4 下午4:46
      *@Description: 添加公司
      */
