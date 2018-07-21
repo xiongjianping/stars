@@ -9,9 +9,11 @@ import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.help.HelpMapper;
 import com.yinghuaicc.stars.repository.model.help.HelpContext;
+import com.yinghuaicc.stars.repository.model.help.HelpPlanBusinessSpecies;
+import com.yinghuaicc.stars.repository.model.help.HelpPlanFloor;
+import com.yinghuaicc.stars.repository.model.help.HelpPlanProject;
 import com.yinghuaicc.stars.service.help.HelpService;
-import com.yinghuaicc.stars.service.help.dto.request.EditHelpContextRequestDTO;
-import com.yinghuaicc.stars.service.help.dto.request.SaveHelpContextRequestDTO;
+import com.yinghuaicc.stars.service.help.dto.request.*;
 import com.yinghuaicc.stars.service.help.dto.response.FindHelpContextListResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,5 +111,171 @@ public class HelpServiceImpl implements HelpService {
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/20 下午3:24
+     *@Description: 添加项目帮扶计划
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void saveHelpPlanProject(SaveHelpPlanProjectRequestDTO saveHelpPlanProjectRequestDTO, String loginEmployeeId) {
+
+        HelpPlanProject helpPlanProject = helpMapper.findHelpPlanProjectByProjectId(saveHelpPlanProjectRequestDTO.getProjectId());
+
+        if (Objects.isNull(helpPlanProject)){
+
+            helpPlanProject = new HelpPlanProject()
+                    .setId(UuidUtil.randomUUID())
+                    .setProjectId(saveHelpPlanProjectRequestDTO.getProjectId())
+                    .setCreateUser(loginEmployeeId)
+                    .setModifyUser(loginEmployeeId)
+                    .setModifyTime(LocalDateTime.now())
+                    .setCreateTime(LocalDateTime.now());
+        }
+
+        if (saveHelpPlanProjectRequestDTO.getType().equals("yx")){
+
+            helpPlanProject.setYxHelpContext(
+                    saveHelpPlanProjectRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+        }else if (saveHelpPlanProjectRequestDTO.getType().equals("lh")){
+
+            helpPlanProject.setLhHelpContext(
+                    saveHelpPlanProjectRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+        }else if (saveHelpPlanProjectRequestDTO.getType().equals("ts")){
+
+            helpPlanProject.setTsHelpContext(
+                    saveHelpPlanProjectRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+        }else if (saveHelpPlanProjectRequestDTO.getType().equals("hl")){
+
+            helpPlanProject.setHlHelpContext(
+                    saveHelpPlanProjectRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+        }else if (saveHelpPlanProjectRequestDTO.getType().equals("ks")){
+
+            helpPlanProject.setKsHelpContext(
+                    saveHelpPlanProjectRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+        }
+
+        if (helpMapper.countHelpPlanProjectByProjectId(saveHelpPlanProjectRequestDTO.getProjectId())==0){
+
+            helpMapper.saveHelpPlanProject(Stream.of(helpPlanProject).collect(Collectors.toList()));
+        }else {
+
+            helpMapper.updateHelpPlanProject(helpPlanProject.setModifyUser(loginEmployeeId).setModifyTime(LocalDateTime.now()));
+        }
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/20 下午8:21
+     *@Description: 添加层帮扶计划
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void saveHelpPlanFloor(SaveHelpPlanFloorRequestDTO saveHelpPlanFloorRequestDTO, String loginEmployeeId) {
+
+        HelpPlanFloor helpPlanFloor =
+                helpMapper.findHelpPlanFloorByProjectIdAndFloorId(
+                        saveHelpPlanFloorRequestDTO.getProjectId(), saveHelpPlanFloorRequestDTO.getFloorId());
+
+        if (Objects.isNull(helpPlanFloor)){
+
+            helpPlanFloor = new HelpPlanFloor()
+                    .setId(UuidUtil.randomUUID())
+                    .setProjectId(saveHelpPlanFloorRequestDTO.getProjectId())
+                    .setFloorId(saveHelpPlanFloorRequestDTO.getFloorId())
+                    .setCreateUser(loginEmployeeId)
+                    .setModifyUser(loginEmployeeId)
+                    .setModifyTime(LocalDateTime.now())
+                    .setCreateTime(LocalDateTime.now());
+        }
+
+        if (saveHelpPlanFloorRequestDTO.getType().equals("yx")){
+
+            helpPlanFloor.setYxHelpContext(
+                    saveHelpPlanFloorRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+        }else if (saveHelpPlanFloorRequestDTO.getType().equals("lh")){
+
+            helpPlanFloor.setLhHelpContext(
+                    saveHelpPlanFloorRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+        }else if (saveHelpPlanFloorRequestDTO.getType().equals("ts")){
+
+            helpPlanFloor.setTsHelpContext(
+                    saveHelpPlanFloorRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+        }else if (saveHelpPlanFloorRequestDTO.getType().equals("hl")){
+
+            helpPlanFloor.setHlHelpContext(
+                    saveHelpPlanFloorRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+        }else if (saveHelpPlanFloorRequestDTO.getType().equals("ks")){
+
+            helpPlanFloor.setKsHelpContext(
+                    saveHelpPlanFloorRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+        }
+
+        if (helpMapper.countHelpPlanFloorByProjectIdAndFloorId(saveHelpPlanFloorRequestDTO.getProjectId(), saveHelpPlanFloorRequestDTO.getFloorId())==0){
+
+            helpMapper.saveHelpPlanFloor(Stream.of(helpPlanFloor).collect(Collectors.toList()));
+        }else {
+
+            helpMapper.editHelpPlanFloor(helpPlanFloor.setModifyUser(loginEmployeeId).setModifyTime(LocalDateTime.now()));
+        }
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/21 下午1:36
+     *@Description: 添加业种帮扶计划
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void saveHelpPlanHelpPlanBusinessSpecies(SaveHelpPlanBusinessSpeciesRequestDTO saveHelpPlanBusinessSpeciesRequestDTO, String loginEmployeeId) {
+
+        HelpPlanBusinessSpecies helpPlanBusinessSpecies =
+                helpMapper.findHelpPlanBusinessSpeciesByProjectIdAndBusinessFormIdAndBusinessSpeciesId(
+                        saveHelpPlanBusinessSpeciesRequestDTO.getProjectId(),
+                        saveHelpPlanBusinessSpeciesRequestDTO.getBusinessFormId(),
+                        saveHelpPlanBusinessSpeciesRequestDTO.getBusinessSpeciesId());
+
+        if (Objects.isNull(helpPlanBusinessSpecies)){
+
+            helpPlanBusinessSpecies =
+                    new HelpPlanBusinessSpecies()
+                            .setId(UuidUtil.randomUUID())
+                            .setProjectId(saveHelpPlanBusinessSpeciesRequestDTO.getProjectId())
+                            .setBusinessFormId(saveHelpPlanBusinessSpeciesRequestDTO.getBusinessFormId())
+                            .setBusinessSpeciesId(saveHelpPlanBusinessSpeciesRequestDTO.getBusinessSpeciesId())
+                            .setCreateUser(loginEmployeeId)
+                            .setModifyUser(loginEmployeeId)
+                            .setModifyTime(LocalDateTime.now())
+                            .setCreateTime(LocalDateTime.now());
+        }
+
+        if (saveHelpPlanBusinessSpeciesRequestDTO.getType().equals("yx")){
+
+            helpPlanBusinessSpecies.setYxHelpContext(
+                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+        }else if (saveHelpPlanBusinessSpeciesRequestDTO.getType().equals("lh")){
+
+            helpPlanBusinessSpecies.setLhHelpContext(
+                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+        }else if (saveHelpPlanBusinessSpeciesRequestDTO.getType().equals("ts")){
+
+            helpPlanBusinessSpecies.setTsHelpContext(
+                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+        }else if (saveHelpPlanBusinessSpeciesRequestDTO.getType().equals("hl")){
+
+            helpPlanBusinessSpecies.setHlHelpContext(
+                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+        }else if (saveHelpPlanBusinessSpeciesRequestDTO.getType().equals("ks")){
+
+            helpPlanBusinessSpecies.setKsHelpContext(
+                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+        }
+
+        if (helpMapper.countHelpPlanBusinessSpeciesByProjectIdAndBusinessFormIdAndBusinessSpeciesId(saveHelpPlanBusinessSpeciesRequestDTO.getProjectId(), saveHelpPlanBusinessSpeciesRequestDTO.getBusinessFormId(), saveHelpPlanBusinessSpeciesRequestDTO.getBusinessSpeciesId())==0){
+
+            helpMapper.saveHelpPlanBusinessSpecies(Stream.of(helpPlanBusinessSpecies).collect(Collectors.toList()));
+        }else {
+
+            helpMapper.editHelpPlanBusinessSpecies(helpPlanBusinessSpecies.setModifyUser(loginEmployeeId).setModifyTime(LocalDateTime.now()));
+        }
     }
 }
