@@ -503,3 +503,162 @@ CREATE TABLE IF NOT EXISTS `yhcc_help_business_species`(
   `modify_user` VARCHAR (100),
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 创建三角理论表
+CREATE TABLE IF NOT EXISTS `yhcc_triangle`(
+  `id` VARCHAR (50) NOT NULL,
+  `contract_id` VARCHAR (50),
+  `rent`decimal(18,2),
+  `property_fee` decimal(18,2),
+  `staff_emp` decimal(18,2),
+  `fitment` decimal(18,2),
+  `agency_fee` decimal(18,2),
+  `profit` decimal(18,2),
+  `guest_flow` int(11),
+   `sale` decimal(18,2),
+   `fitted` int(11),
+   `status` VARCHAR (4),
+  `create_time` DATETIME,
+  `modify_time` DATETIME,
+  `create_user` VARCHAR (100),
+  `modify_user` VARCHAR (100),
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- 创建每日溢租率表
+CREATE TABLE IF NOT EXISTS `yhcc_day_rent`(
+  `id` VARCHAR (50) NOT NULL,
+  `contract_id` VARCHAR (50),
+   `moonRentid` VARCHAR (50),
+  `rent`decimal(18,2),
+  `property_fee` decimal(18,2),
+  `staff_emp` decimal(18,2),
+  `fitment` decimal(18,2),
+  `agency_fee` decimal(18,2),
+  `profit` decimal(18,2),
+  `status` VARCHAR (4),
+  `create_time` DATETIME,
+  `modify_time` DATETIME,
+  `create_user` VARCHAR (100),
+  `modify_user` VARCHAR (100),
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- 创建每月溢租率表
+CREATE TABLE IF NOT EXISTS `yhcc_moon_rent`(
+  `id` VARCHAR (50) NOT NULL,
+  `contract_id` VARCHAR (50),
+  `rent_verssion_id` VARCHAR (50),
+  `rent` decimal(18,2),
+  `property_fee` decimal(18,2),
+  `staff_emp` decimal(18,2),
+  `fitment` decimal(18,2),
+  `agency_fee` decimal(18,2),
+  `profit` decimal(18,2),
+  `create_time` DATETIME,
+  `modify_time` DATETIME,
+  `create_user` VARCHAR (100),
+  `modify_user` VARCHAR (100),
+  `status` VARCHAR (4),
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 创建版本溢租率导入表
+CREATE TABLE IF NOT EXISTS `yhcc_rent_verssion`(
+  `id` VARCHAR (50) NOT NULL,
+  `rent_verssion_name` VARCHAR (50) ,
+  `sum_target` int(11),
+  `targetcount` int(11),
+  `untargetcount` int(11),
+   `create_time` DATETIME,
+  `modify_time` DATETIME,
+  `create_user` VARCHAR (100),
+  `modify_user` VARCHAR (100),
+  `status` VARCHAR (4),
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- 创建版本适配值导入表
+CREATE TABLE IF NOT EXISTS `yhcc_fitted_verssion`(
+  `id` VARCHAR (50) NOT NULL,
+  `fitted_verssion_name` VARCHAR (50) ,
+   `temp_id` VARCHAR (50) ,
+  `sum_target` int(11),
+  `targetcount` int(11),
+  `untargetcount` int(11),
+   `create_time` DATETIME,
+  `modify_time` DATETIME,
+  `create_user` VARCHAR (100),
+  `modify_user` VARCHAR (100),
+  `status` VARCHAR (4),
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 创建季度适配值表
+CREATE TABLE IF NOT EXISTS `yhcc_quarter_fitted`(
+  `id` VARCHAR (50) NOT NULL,
+  `contract_id` VARCHAR (50),
+  `fitted_verssion_id` VARCHAR (50) ,
+  `contract_name` VARCHAR (50),
+  `project_name` VARCHAR (50),
+  `floor_name` VARCHAR (50),
+  `room_name` VARCHAR (50),
+  `condition_name` VARCHAR (50),
+  `majo_name` VARCHAR (50),
+  `contract_status` VARCHAR (50),
+  `market_position` int(5),
+  `brand_position` int(5),
+  `brand_image` int(5),
+  `rental_rate` decimal(18,2),
+  `chain_degree`  decimal(18,2),
+  `complaint_degree`decimal(18,2),
+  `layout_degree` decimal(18,2),
+   `create_time` DATETIME,
+   `start_time` DATETIME,
+   `end_time` DATETIME,
+  `modify_time` DATETIME,
+  `create_user` VARCHAR (100),
+  `modify_user` VARCHAR (100),
+  `status` VARCHAR (4),
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 创建版本客销度导入表
+CREATE TABLE IF NOT EXISTS `yhcc_guest_verssion`(
+  `id` VARCHAR (50) NOT NULL,
+  `guest_verssion_name` VARCHAR (50),
+  `sum_target` int(11),
+  `targetcount` int(11),
+  `untargetcount` int(11),
+   `create_time` DATETIME,
+  `modify_time` DATETIME,
+  `create_user` VARCHAR (100),
+  `modify_user` VARCHAR (100),
+  `status` VARCHAR (4),
+  `different` VARCHAR (4),
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- 创建每日客销度表
+CREATE TABLE IF NOT EXISTS `yhcc_day_guest`(
+   `id` VARCHAR (50) NOT NULL,
+   `guest_verssion_id` VARCHAR (50),
+   `contract_id` VARCHAR (50),
+   `project_name` VARCHAR (50),
+   `floor_name` VARCHAR (50),
+   `room_name` VARCHAR (50),
+   `contract_name` VARCHAR (50),
+   `condition_name` VARCHAR (50),
+   `majo_name` VARCHAR (50),
+  `passenger_flow`  decimal(18,2),
+  `saleroom`  decimal(18,2),
+  `profits`  decimal(18,2),
+   `create_time` DATETIME,
+  `modify_time` DATETIME,
+  `create_user` VARCHAR (100),
+  `modify_user` VARCHAR (100),
+  `status` VARCHAR (4),
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
