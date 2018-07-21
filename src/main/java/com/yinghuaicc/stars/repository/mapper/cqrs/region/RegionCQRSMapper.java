@@ -36,7 +36,7 @@ public interface RegionCQRSMapper {
             "p.state as state " +
             "from yhcc_project as p " +
             "inner join yhcc_company as c on p.company_id = c.id " +
-            "inner join yhcc_area as a on c.area_id = a.id " +
+            "inner join yhcc_area as a on p.area_id = a.id " +
             "inner join yhcc_employee as e on e.id = p.project_head_id " +
             "inner join yhcc_employee as er on er.id = p.project_audit_id " +
             "<where> " +

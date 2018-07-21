@@ -189,6 +189,16 @@ public class RegionServiceImpl implements RegionService {
     }
 
     /**
+     *@Author:Fly Created in 2018/7/20 上午10:11
+     *@Description: 按照区域查询项目
+     */
+    @Override
+    public List<FindProjectByAreaIdResponseDTO> findProjectByAreaId(String areaId) {
+
+        return MapperFactoryUtil.mapperList(regionMapper.findProjectByAreaId(areaId), FindProjectByAreaIdResponseDTO.class);
+    }
+
+    /**
      *@Author:Fly Created in 2018/7/11 下午3:37
      *@Description: 添加层
      */

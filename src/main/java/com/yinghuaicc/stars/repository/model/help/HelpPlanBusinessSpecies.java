@@ -22,20 +22,20 @@ public class HelpPlanBusinessSpecies {
     //业种id
     private String businessSpeciesId;
 
-    //优秀帮扶内容id
-    private String yxHelpContextId;
+    //优秀帮扶内容
+    private String yxHelpContext;
 
-    //良好帮扶内容id
-    private String lhHelpContextId;
+    //良好帮扶内容
+    private String lhHelpContext;
 
-    //提升帮扶内容id
-    private String tsHelpContextId;
+    //提升帮扶内容
+    private String tsHelpContext;
 
-    //合理帮扶内容id
-    private String hlHelpContextId;
+    //合理帮扶内容
+    private String hlHelpContext;
 
-    //亏损帮扶内容id
-    private String ksHelpContextId;
+    //亏损帮扶内容
+    private String ksHelpContext;
 
     //创建时间
     private LocalDateTime createTime;
@@ -85,48 +85,48 @@ public class HelpPlanBusinessSpecies {
         return this;
     }
 
-    public String getYxHelpContextId() {
-        return yxHelpContextId;
+    public String getYxHelpContext() {
+        return yxHelpContext;
     }
 
-    public HelpPlanBusinessSpecies setYxHelpContextId(String yxHelpContextId) {
-        this.yxHelpContextId = yxHelpContextId;
+    public HelpPlanBusinessSpecies setYxHelpContext(String yxHelpContext) {
+        this.yxHelpContext = yxHelpContext;
         return this;
     }
 
-    public String getLhHelpContextId() {
-        return lhHelpContextId;
+    public String getLhHelpContext() {
+        return lhHelpContext;
     }
 
-    public HelpPlanBusinessSpecies setLhHelpContextId(String lhHelpContextId) {
-        this.lhHelpContextId = lhHelpContextId;
+    public HelpPlanBusinessSpecies setLhHelpContext(String lhHelpContext) {
+        this.lhHelpContext = lhHelpContext;
         return this;
     }
 
-    public String getTsHelpContextId() {
-        return tsHelpContextId;
+    public String getTsHelpContext() {
+        return tsHelpContext;
     }
 
-    public HelpPlanBusinessSpecies setTsHelpContextId(String tsHelpContextId) {
-        this.tsHelpContextId = tsHelpContextId;
+    public HelpPlanBusinessSpecies setTsHelpContext(String tsHelpContext) {
+        this.tsHelpContext = tsHelpContext;
         return this;
     }
 
-    public String getHlHelpContextId() {
-        return hlHelpContextId;
+    public String getHlHelpContext() {
+        return hlHelpContext;
     }
 
-    public HelpPlanBusinessSpecies setHlHelpContextId(String hlHelpContextId) {
-        this.hlHelpContextId = hlHelpContextId;
+    public HelpPlanBusinessSpecies setHlHelpContext(String hlHelpContext) {
+        this.hlHelpContext = hlHelpContext;
         return this;
     }
 
-    public String getKsHelpContextId() {
-        return ksHelpContextId;
+    public String getKsHelpContext() {
+        return ksHelpContext;
     }
 
-    public HelpPlanBusinessSpecies setKsHelpContextId(String ksHelpContextId) {
-        this.ksHelpContextId = ksHelpContextId;
+    public HelpPlanBusinessSpecies setKsHelpContext(String ksHelpContext) {
+        this.ksHelpContext = ksHelpContext;
         return this;
     }
 
