@@ -662,3 +662,238 @@ CREATE TABLE IF NOT EXISTS `yhcc_day_guest`(
   `status` VARCHAR (4),
     PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 创建项目客销度表
+CREATE TABLE IF NOT EXISTS `yhcc_project_guest`(
+   `id` VARCHAR (50) NOT NULL,
+   `guest_verssion_id` VARCHAR (50),
+   `contract_id` VARCHAR (50),
+   `project_id` VARCHAR (50),
+   `project_name` VARCHAR (50),
+  `passenger_flow`  decimal(18,2),
+   `create_time` DATETIME,
+  `modify_time` DATETIME,
+  `create_user` VARCHAR (100),
+  `modify_user` VARCHAR (100),
+  `status` VARCHAR (4),
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 创建楼层客销度表
+CREATE TABLE IF NOT EXISTS `yhcc_floor_guest`(
+   `id` VARCHAR (50) NOT NULL,
+   `guest_verssion_id` VARCHAR (50),
+   `contract_id` VARCHAR (50),
+   `project_id` VARCHAR (50),
+   `project_name` VARCHAR (50),
+    `floor_id` VARCHAR (50),
+   `floor_name` VARCHAR (50),
+  `passenger_flow`  decimal(18,2),
+   `create_time` DATETIME,
+  `modify_time` DATETIME,
+  `create_user` VARCHAR (100),
+  `modify_user` VARCHAR (100),
+  `status` VARCHAR (4),
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 创建项目客销度区间设置表
+CREATE TABLE IF NOT EXISTS `yhcc_project_guest_interval`(
+   `id` VARCHAR (50) NOT NULL,
+   `contract_id` VARCHAR (50),
+   `project_id` VARCHAR (50),
+   `project_name` VARCHAR (50),
+   `maxvalue` decimal(18,2),
+   `interval_rate` decimal(18,2),
+   `yx` int(11),
+   `lh` int(11),
+   `ts` int(11),
+   `hl` int(11),
+   `ks` int(11),
+   `create_time` DATETIME,
+   `modify_time` DATETIME,
+   `create_user` VARCHAR (100),
+   `modify_user` VARCHAR (100),
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- 创建楼层客销度区间设置表
+CREATE TABLE IF NOT EXISTS `yhcc_floor_guest_interval`(
+
+  `id` VARCHAR (50) NOT NULL,
+   `contract_id` VARCHAR (50),
+   `project_id` VARCHAR (50),
+   `project_name` VARCHAR (50),
+    `floor_id` VARCHAR (50),
+   `floor_name` VARCHAR (50),
+   `maxvalue` decimal(18,2),
+   `interval_rate` decimal(18,2),
+   `yx` int(11),
+   `lh` int(11),
+   `ts` int(11),
+   `hl` int(11),
+   `ks` int(11),
+   `create_time` DATETIME,
+   `modify_time` DATETIME,
+   `create_user` VARCHAR (100),
+   `modify_user` VARCHAR (100),
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 创建业态客销度区间设置表
+CREATE TABLE IF NOT EXISTS `yhcc_condition_guest_interval`(
+  `id` VARCHAR (50) NOT NULL,
+   `contract_id` VARCHAR (50),
+   `project_id` VARCHAR (50),
+   `project_name` VARCHAR (50),
+   `condition_id` VARCHAR (50),
+   `condition_name` VARCHAR (50),
+   `majo_id` VARCHAR (50),
+   `majo_name` VARCHAR (50),
+   `maxvalue` decimal(18,2),
+   `interval_rate` decimal(18,2),
+   `yx` int(11),
+   `lh` int(11),
+   `ts` int(11),
+   `hl` int(11),
+   `ks` int(11),
+   `create_time` DATETIME,
+   `modify_time` DATETIME,
+   `create_user` VARCHAR (100),
+   `modify_user` VARCHAR (100),
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 创建标准三角形项目溢租率设置表
+CREATE TABLE IF NOT EXISTS `yhcc_standard_project_rent`(
+  `id` VARCHAR (50) NOT NULL,
+   `standard_verssion_id` VARCHAR (50),
+   `standard_verssion_name` VARCHAR (50),
+   `project_id` VARCHAR (50),
+   `project_name` VARCHAR (50),
+   `rant` int (4),
+   `create_time` DATETIME,
+   `modify_time` DATETIME,
+   `create_user` VARCHAR (100),
+   `modify_user` VARCHAR (100),
+   `status` VARCHAR (4),
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- 创建标准三角形楼层溢租率设置表
+CREATE TABLE IF NOT EXISTS `yhcc_standard_floor_rent`(
+  `id` VARCHAR (50) NOT NULL,
+   `standard_verssion_id` VARCHAR (50),
+   `standard_verssion_name` VARCHAR (50),
+   `project_id` VARCHAR (50),
+   `project_name` VARCHAR (50),
+   `floor_id` VARCHAR (50),
+   `floor_name` VARCHAR (50),
+   `rant` int (4),
+   `create_time` DATETIME,
+   `modify_time` DATETIME,
+   `create_user` VARCHAR (100),
+   `modify_user` VARCHAR (100),
+     `status` VARCHAR (4),
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 创建标准三角形业态溢租率设置表
+CREATE TABLE IF NOT EXISTS `yhcc_standard_condition_rent`(
+  `id` VARCHAR (50) NOT NULL,
+   `standard_verssion_id` VARCHAR (50),
+   `standard_verssion_name` VARCHAR (50),
+   `project_id` VARCHAR (50),
+   `project_name` VARCHAR (50),
+   `condition_id` VARCHAR (50),
+   `condition_name` VARCHAR (50),
+   `majo_id` VARCHAR (50),
+   `majo_name` VARCHAR (50),
+   `rant` int (4),
+   `create_time` DATETIME,
+   `modify_time` DATETIME,
+   `create_user` VARCHAR (100),
+   `modify_user` VARCHAR (100),
+     `status` VARCHAR (4),
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 创建标准三角形项目适配值设置表
+CREATE TABLE IF NOT EXISTS `yhcc_standard_project_fitted`(
+  `id` VARCHAR (50) NOT NULL,
+   `standard_verssion_id` VARCHAR (50),
+   `standard_verssion_name` VARCHAR (50),
+   `project_id` VARCHAR (50),
+   `project_name` VARCHAR (50),
+   `fitted` int (4),
+   `create_time` DATETIME,
+   `modify_time` DATETIME,
+   `create_user` VARCHAR (100),
+   `modify_user` VARCHAR (100),
+   `status` VARCHAR (4),
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- 创建标准三角形楼层适配值设置表
+CREATE TABLE IF NOT EXISTS `yhcc_standard_floor_fitted`(
+  `id` VARCHAR (50) NOT NULL,
+   `standard_verssion_id` VARCHAR (50),
+   `standard_verssion_name` VARCHAR (50),
+   `project_id` VARCHAR (50),
+   `project_name` VARCHAR (50),
+   `floor_id` VARCHAR (50),
+   `floor_name` VARCHAR (50),
+   `fitted` int (4),
+   `create_time` DATETIME,
+   `modify_time` DATETIME,
+   `create_user` VARCHAR (100),
+   `modify_user` VARCHAR (100),
+     `status` VARCHAR (4),
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 创建标准三角形业态适配值设置表
+CREATE TABLE IF NOT EXISTS `yhcc_standard_condition_fitted`(
+  `id` VARCHAR (50) NOT NULL,
+   `standard_verssion_id` VARCHAR (50),
+   `standard_verssion_name` VARCHAR (50),
+   `project_id` VARCHAR (50),
+   `project_name` VARCHAR (50),
+   `condition_id` VARCHAR (50),
+   `condition_name` VARCHAR (50),
+   `majo_id` VARCHAR (50),
+   `majo_name` VARCHAR (50),
+   `fitted` int (4),
+   `create_time` DATETIME,
+   `modify_time` DATETIME,
+   `create_user` VARCHAR (100),
+   `modify_user` VARCHAR (100),
+     `status` VARCHAR (4),
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 创建标准三角形品牌客销度设置表
+CREATE TABLE IF NOT EXISTS `yhcc_standard_condition_sale`(
+  `id` VARCHAR (50) NOT NULL,
+  `sale_verssion_id` VARCHAR (50),
+   `sale_verssion_name` VARCHAR (50),
+   `contract_id` VARCHAR (50),
+   `project_id` VARCHAR (50),
+   `project_name` VARCHAR (50),
+   `contract_name` VARCHAR (50),
+   `condition_id` VARCHAR (50),
+   `condition_name` VARCHAR (50),
+   `majo_id` VARCHAR (50),
+   `majo_name` VARCHAR (50),
+   `gross_rate` int (4),
+   `per_sale` int (4),
+   `create_time` DATETIME,
+   `modify_time` DATETIME,
+   `create_user` VARCHAR (100),
+   `modify_user` VARCHAR (100),
+   `sign_status` VARCHAR (4),
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
