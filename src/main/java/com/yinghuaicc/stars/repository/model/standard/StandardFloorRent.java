@@ -1,5 +1,6 @@
 package com.yinghuaicc.stars.repository.model.standard;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -22,7 +23,7 @@ public class StandardFloorRent {
     //楼层名称
     private String floorName;
     //溢租率
-    private String rent;
+    private BigDecimal rent;
 
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
@@ -86,11 +87,11 @@ public class StandardFloorRent {
         this.floorName = floorName;
     }
 
-    public String getRent() {
+    public BigDecimal getRent() {
         return rent;
     }
 
-    public void setRent(String rent) {
+    public void setRent(BigDecimal rent) {
         this.rent = rent;
     }
 

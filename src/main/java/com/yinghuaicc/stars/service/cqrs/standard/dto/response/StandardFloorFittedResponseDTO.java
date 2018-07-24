@@ -1,5 +1,6 @@
 package com.yinghuaicc.stars.service.cqrs.standard.dto.response;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class StandardFloorFittedResponseDTO {
@@ -19,7 +20,7 @@ public class StandardFloorFittedResponseDTO {
     //楼层名称
     private String floorName;
     //适配值
-    private String fitted;
+    private BigDecimal fitted;
 
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
@@ -83,11 +84,11 @@ public class StandardFloorFittedResponseDTO {
         this.floorName = floorName;
     }
 
-    public String getFitted() {
+    public BigDecimal getFitted() {
         return fitted;
     }
 
-    public void setFitted(String fitted) {
+    public void setFitted(BigDecimal fitted) {
         this.fitted = fitted;
     }
 

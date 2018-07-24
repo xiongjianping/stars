@@ -1,5 +1,6 @@
 package com.yinghuaicc.stars.service.cqrs.standard.dto.response;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -24,8 +25,8 @@ public class StandardBrandSaleResponseDTO {
     //业种id
     private String majoId;
     private String majoName;
-    private Integer grossRate;
-    private Integer perSale;
+    private BigDecimal grossRate;
+    private BigDecimal perSale;
     private String signStatus;
 
     private LocalDateTime createTime;
@@ -33,12 +34,29 @@ public class StandardBrandSaleResponseDTO {
     private String createUser;
     private  String modifyUser;
 
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getSaleVessionId() {
+        return saleVessionId;
+    }
+
+    public void setSaleVessionId(String saleVessionId) {
+        this.saleVessionId = saleVessionId;
+    }
+
+    public String getSaleVessionName() {
+        return saleVessionName;
+    }
+
+    public void setSaleVessionName(String saleVessionName) {
+        this.saleVessionName = saleVessionName;
     }
 
     public String getContractId() {
@@ -105,19 +123,19 @@ public class StandardBrandSaleResponseDTO {
         this.majoName = majoName;
     }
 
-    public Integer getGrossRate() {
+    public BigDecimal getGrossRate() {
         return grossRate;
     }
 
-    public void setGrossRate(Integer grossRate) {
+    public void setGrossRate(BigDecimal grossRate) {
         this.grossRate = grossRate;
     }
 
-    public Integer getPerSale() {
+    public BigDecimal getPerSale() {
         return perSale;
     }
 
-    public void setPerSale(Integer perSale) {
+    public void setPerSale(BigDecimal perSale) {
         this.perSale = perSale;
     }
 

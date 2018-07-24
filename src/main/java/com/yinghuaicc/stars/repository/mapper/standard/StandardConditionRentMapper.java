@@ -32,4 +32,7 @@ public interface StandardConditionRentMapper {
             "</script>")
     List<StandardConditionRentResponseDTO> findStandardConditionRentByStandardConditionRentCQRS(@Param("search") StandardConditionRentRequestDTO standardConditionRentRequestDTO);
 
+
+
+
 }

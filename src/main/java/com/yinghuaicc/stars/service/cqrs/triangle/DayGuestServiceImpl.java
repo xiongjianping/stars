@@ -11,6 +11,7 @@ import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.DayGuestResponseD
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -18,6 +19,7 @@ public class DayGuestServiceImpl implements DayGuestService {
 
     @Autowired
     private DayGuestMapper dayGuestMapper;
+
 
     @Override
     public ResultPageList<DayGuestResponseDTO> findDayGuestByDayGuestCQRS(DayGuestRequestDTO dayGuestRequestDTO, PageParam pageParam) {
@@ -32,5 +34,11 @@ public class DayGuestServiceImpl implements DayGuestService {
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
     }
+
+    @Override
+    public DayGuestResponseDTO findDayGuestByDayGuestByContractId(String contractId, LocalDateTime time) {
+        return dayGuestMapper.findDayGuestByDayGuestByContractId(contractId,time);
+    }
+
 
 }

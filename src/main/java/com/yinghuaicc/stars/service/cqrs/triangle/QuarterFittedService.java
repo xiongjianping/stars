@@ -6,6 +6,8 @@ import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.QuarterFittedReque
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.QuarterFittedResponseDTO;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
+
 
 /**
  * 季度适配值
@@ -19,4 +21,12 @@ public interface QuarterFittedService {
      * @return
      */
     ResultPageList<QuarterFittedResponseDTO> findQuarterFittedCQRS(@Param("search") QuarterFittedRequestDTO quarterFittedRequestDTO, PageParam pageParam);
+
+    /**
+     * 通过签约id查询适配值
+     * @param contractId 与时间
+     * @return
+     */
+    QuarterFittedResponseDTO findQuarterFittedResponseDTOByContractId(String contractId,LocalDateTime time);
+
 }

@@ -1,5 +1,6 @@
 package com.yinghuaicc.stars.service.cqrs.standard.dto.response;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class StandardConditionRentResponseDTO {
@@ -23,7 +24,7 @@ public class StandardConditionRentResponseDTO {
     //业种名称
     private String majoName;
     //溢租率
-    private String rent;
+    private BigDecimal rent;
 
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
@@ -104,11 +105,11 @@ public class StandardConditionRentResponseDTO {
         this.majoName = majoName;
     }
 
-    public String getRent() {
+    public BigDecimal getRent() {
         return rent;
     }
 
-    public void setRent(String rent) {
+    public void setRent(BigDecimal rent) {
         this.rent = rent;
     }
 
