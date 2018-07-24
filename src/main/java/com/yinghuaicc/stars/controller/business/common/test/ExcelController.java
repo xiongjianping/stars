@@ -2,6 +2,7 @@ package com.yinghuaicc.stars.controller.business.common.test;
 
 import com.yinghuaicc.stars.common.utils.excel.ExcelImportUtil;
 import com.yinghuaicc.stars.config.response.JsonResult;
+import com.yinghuaicc.stars.controller.business.common.test.multi.ListTestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,5 +35,15 @@ public class ExcelController {
         List<TestDTO> result = excelImportUtil.getExcelDataToList(file, TestDTO.class);
 
         return JsonResult.success(result);
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/22 下午4:59
+     *@Description: 多Sheet导入
+     */
+    @PostMapping(value = "/excel/import/sheet")
+    public JsonResult excelImportSheet(@RequestParam("file")MultipartFile file){
+
+        return JsonResult.success(excelImportUtil.getExcelDataToListMultiSheet(file, ListTestDTO.class));
     }
 }
