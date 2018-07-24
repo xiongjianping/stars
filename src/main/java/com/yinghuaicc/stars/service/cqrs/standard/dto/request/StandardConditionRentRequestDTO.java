@@ -1,6 +1,7 @@
 package com.yinghuaicc.stars.service.cqrs.standard.dto.request;
 
 public class StandardConditionRentRequestDTO {
+    //项目id
     private  String projectId;
     //业态id
     private  String conditionId;

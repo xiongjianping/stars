@@ -3,6 +3,9 @@ package com.yinghuaicc.stars.service.cqrs.Intervalset.dto.response;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * 业态客销度区间
+ */
 public class ConditionGuestIntervalResponseDTO {
 
     //id

@@ -1,9 +1,10 @@
 package com.yinghuaicc.stars.repository.model.standard;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 品牌客销度
+ * 标准三角形-品牌客销度
  */
 public class StandardBrandSale {
     //id
@@ -24,8 +25,11 @@ public class StandardBrandSale {
     //业种id
     private String majoId;
     private String majoName;
-    private Integer grossRate;
-    private Integer perSale;
+    //毛利率
+    private BigDecimal grossRate;
+    //客单价
+    private BigDecimal perSale;
+    //签约状态
     private String signStatus;
 
     private LocalDateTime createTime;
@@ -121,19 +125,19 @@ public class StandardBrandSale {
         this.majoName = majoName;
     }
 
-    public Integer getGrossRate() {
+    public BigDecimal getGrossRate() {
         return grossRate;
     }
 
-    public void setGrossRate(Integer grossRate) {
+    public void setGrossRate(BigDecimal grossRate) {
         this.grossRate = grossRate;
     }
 
-    public Integer getPerSale() {
+    public BigDecimal getPerSale() {
         return perSale;
     }
 
-    public void setPerSale(Integer perSale) {
+    public void setPerSale(BigDecimal perSale) {
         this.perSale = perSale;
     }
 
