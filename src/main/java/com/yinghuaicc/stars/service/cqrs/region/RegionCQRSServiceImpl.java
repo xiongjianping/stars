@@ -50,12 +50,14 @@ public class RegionCQRSServiceImpl implements RegionCQRSService {
     @Override
     public ResultPageList<ProjectCQRSListResponseDTO> projectList(ProjectCQRSListRequestDTO projectCQRSListRequestDTO, AopResourceEmployeeBean aopResourceEmployeeBean, PageParam pageParam) {
 
-        Page page = PageHelper.startPage(pageParam.getP(), pageParam.getC());
+        Page page = null;
 
         List<ProjectCQRSListResponseDTO> result = new ArrayList<ProjectCQRSListResponseDTO>();
 
 
         if (Objects.nonNull(aopResourceEmployeeBean.getProjectIds())){
+
+            page = PageHelper.startPage(pageParam.getP(), pageParam.getC());
 
             result = regionCQRSMapper.findProjectCQRS(
                     aopResourceEmployeeBean.getProjectIds(), projectCQRSListRequestDTO);
@@ -65,8 +67,8 @@ public class RegionCQRSServiceImpl implements RegionCQRSService {
                 .setResultList(result)
                 .setPage(pageParam.getP())
                 .setSize(pageParam.getC())
-                .setCountPage(page.getPages())
-                .setCountSize(page.getTotal());
+                .setCountPage(Objects.isNull(page)?0:page.getPages())
+                .setCountSize(Objects.isNull(page)?0:page.getTotal());
 
     }
 
