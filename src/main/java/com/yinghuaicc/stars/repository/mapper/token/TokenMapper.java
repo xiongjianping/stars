@@ -75,7 +75,7 @@ public interface TokenMapper {
      *@Author:Fly Created in 2018/7/25 下午4:23
      *@Description: 按照员工id删除AppToken信息
      */
-    @Delete("delect from yhcc_app_token where employee_id = #{employeeId}")
+    @Delete("delete from yhcc_app_token where employee_id = #{employeeId}")
     void removeAppTokenByEmployeeId(String employeeId);
 
     /**
