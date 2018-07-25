@@ -8,7 +8,9 @@ import com.yinghuaicc.stars.controller.config.utils.EndecryptUtil;
 import com.yinghuaicc.stars.repository.mapper.tissue.TissueMapper;
 import com.yinghuaicc.stars.repository.mapper.token.TokenMapper;
 import com.yinghuaicc.stars.repository.model.tissue.Employee;
+import com.yinghuaicc.stars.repository.model.token.AppToken;
 import com.yinghuaicc.stars.repository.model.token.Token;
+import com.yinghuaicc.stars.service.sso.dto.request.AppSsoRequestDTO;
 import com.yinghuaicc.stars.service.sso.dto.request.SsoRequestDTO;
 import com.yinghuaicc.stars.service.tissue.dto.response.EmployeeLoginInfoResponseDTO;
 import com.yinghuaicc.stars.service.tissue.dto.response.EmployeeLoginTokenResponseDTO;
@@ -85,5 +87,49 @@ public class SsoServiceImpl implements SsoService{
                 .setRefreshToken(token.getRefreshToken())
                 .setEmployeeLoginInfoResponseDTO(
                         MapperFactoryUtil.mapperObject(employee, EmployeeLoginInfoResponseDTO.class));
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/25 下午5:01
+     *@Description: 移动端单点登录
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public EmployeeLoginTokenResponseDTO appSsoLogin(AppSsoRequestDTO appSsoRequestDTO) {
+
+        List<Employee> employees =
+                tissueMapper.findEmployeeByUserName(
+                        endecryptUtil.get3DESDecrypt(appSsoRequestDTO.getThirdUserName(),systemResource.getSsoPrivateKey()));
+
+        if (Objects.isNull(employees)||employees.size()==0){
+
+            throw exceptionUtil.throwCustomException("APP_SSO_LOGIN_002");
+        }
+
+        Employee employee = employees.get(0);
+
+        //清空此用户之前的Token
+        tokenMapper.removeAppTokenByEmployeeId(employee.getId());
+
+        List<String> uuids = UuidUtil.batchRandomUUID(3);
+
+        //生成新的Token信息
+        AppToken appToken = new AppToken()
+                .setId(uuids.get(0))
+                .setAccessToken(uuids.get(1))
+                .setRefreshToken(uuids.get(2))
+                .setEmployeeId(employee.getId())
+                .setCreateUser(employee.getId())
+                .setModifyUser(employee.getId())
+                .setCreateTime(LocalDateTime.now())
+                .setModifyTime(LocalDateTime.now());
+        tokenMapper.saveAppToken(appToken);
+
+        return new EmployeeLoginTokenResponseDTO()
+                .setAccessToken(appToken.getAccessToken())
+                .setRefreshToken(appToken.getRefreshToken())
+                .setEmployeeLoginInfoResponseDTO(
+                        MapperFactoryUtil.mapperObject(employee, EmployeeLoginInfoResponseDTO.class));
+
     }
 }

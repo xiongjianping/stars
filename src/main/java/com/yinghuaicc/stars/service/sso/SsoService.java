@@ -1,5 +1,6 @@
 package com.yinghuaicc.stars.service.sso;
 
+import com.yinghuaicc.stars.service.sso.dto.request.AppSsoRequestDTO;
 import com.yinghuaicc.stars.service.sso.dto.request.SsoRequestDTO;
 import com.yinghuaicc.stars.service.tissue.dto.response.EmployeeLoginTokenResponseDTO;
 
@@ -16,4 +17,10 @@ public interface SsoService {
      *@Description: 单点登录
      */
     EmployeeLoginTokenResponseDTO ssoLogin(SsoRequestDTO ssoRequestDTO);
+
+    /**
+     *@Author:Fly Created in 2018/7/25 下午5:00
+     *@Description: 移动端单点登录
+     */
+    EmployeeLoginTokenResponseDTO appSsoLogin(AppSsoRequestDTO appSsoRequestDTO);
 }

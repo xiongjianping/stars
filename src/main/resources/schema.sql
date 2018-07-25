@@ -115,6 +115,20 @@ CREATE TABLE IF NOT EXISTS `yhcc_token`(
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- 创建AppToken表
+CREATE TABLE IF NOT EXISTS `yhcc_app_token`(
+
+  `id` VARCHAR (50) NOT NULL,
+  `access_token` VARCHAR (50),
+  `refresh_token` VARCHAR (50),
+  `employee_id` VARCHAR (50),
+  `create_time` DATETIME,
+  `modify_time` DATETIME,
+  `create_user` VARCHAR (50),
+  `modify_user` VARCHAR (50),
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- 创建区域表
 CREATE TABLE IF NOT EXISTS `yhcc_area`(
 
