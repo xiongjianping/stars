@@ -17,6 +17,7 @@ import com.yinghuaicc.stars.service.cqrs.region.dto.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -51,9 +52,14 @@ public class RegionCQRSServiceImpl implements RegionCQRSService {
 
         Page page = PageHelper.startPage(pageParam.getP(), pageParam.getC());
 
-        List<ProjectCQRSListResponseDTO> result =
-                regionCQRSMapper.findProjectCQRS(
-                        aopResourceEmployeeBean.getProjectIds(), projectCQRSListRequestDTO);
+        List<ProjectCQRSListResponseDTO> result = new ArrayList<ProjectCQRSListResponseDTO>();
+
+
+        if (Objects.nonNull(aopResourceEmployeeBean.getProjectIds())){
+
+            result = regionCQRSMapper.findProjectCQRS(
+                    aopResourceEmployeeBean.getProjectIds(), projectCQRSListRequestDTO);
+        }
 
         return new ResultPageList<ProjectCQRSListResponseDTO>()
                 .setResultList(result)
