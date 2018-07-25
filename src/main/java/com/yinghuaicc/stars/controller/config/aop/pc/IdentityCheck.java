@@ -61,7 +61,8 @@ public class IdentityCheck {
      */
     @Around("execution(* com.yinghuaicc.stars.controller.business.pc..*.*(..)) " +
             "&& !execution(* com.yinghuaicc.stars.controller.business.pc.tissue.TissueController.employeeLogin(..)) " +
-            "&& !execution(* com.yinghuaicc.stars.controller.business.pc.token.TokenController.refreshToken(..))")
+            "&& !execution(* com.yinghuaicc.stars.controller.business.pc.token.TokenController.refreshToken(..))" +
+            "&& !execution(* com.yinghuaicc.stars.controller.business.pc.sso.SSOLoginController.ssoLogin(..))")
     public Object checkToken(ProceedingJoinPoint pro) throws Throwable {
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();

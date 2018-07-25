@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.common;
 import com.yinghuaicc.stars.StarsApplicationTests;
 import com.yinghuaicc.stars.common.utils.date.LocalDateTimeUtils;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
+import com.yinghuaicc.stars.controller.config.utils.EndecryptUtil;
 import org.apache.commons.jexl2.Expression;
 import org.apache.commons.jexl2.JexlContext;
 import org.apache.commons.jexl2.JexlEngine;
@@ -75,6 +76,23 @@ public class CommonTest extends StarsApplicationTests{
         Integer result = (Integer)e.evaluate(jc);
 
         System.out.println(result);
+    }
+
+    @Test
+    public void testSso(){
+
+        String privateKey = "GHOv2pXWBjYAXo13QZNd";//密钥
+        String userName = "guoxuepeng";//用户登录名
+        /**
+         * 加密方法
+         */
+        String userId = new EndecryptUtil().get3DESEncrypt(userName,privateKey);//加密后的登陆名
+        System.out.println(userId);
+        /**
+         *	解秘方法
+         */
+        String loginName = new EndecryptUtil().get3DESDecrypt(userId,privateKey);//解密后的登陆名
+        System.out.println(loginName);
     }
 
 }

@@ -53,6 +53,13 @@ public interface TissueMapper {
     Employee findEmployeeByUserNameAndPassword(@Param("userName") String userName, @Param("password") String password);
 
     /**
+     *@Author:Fly Created in 2018/7/24 下午4:59
+     *@Description: 根据用户名查询员工信息
+     */
+    @Select("select * from yhcc_employee where user_name = #{userName} ")
+    List<Employee> findEmployeeByUserName(String userName);
+
+    /**
      *@Author:Fly Created in 2018/7/3 上午10:15
      *@Description: 根据员工id查询员工信息
      */

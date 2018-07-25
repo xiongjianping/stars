@@ -38,6 +38,9 @@ public class SystemResource {
     @Value("${external.url}")
     private String externalUrl;
 
+    @Value("${sso.privateKey}")
+    private String ssoPrivateKey;
+
     public String getTokenAbleMinutes() {
         return tokenAbleMinutes;
     }
@@ -107,6 +110,15 @@ public class SystemResource {
 
     public SystemResource setExternalUrl(String externalUrl) {
         this.externalUrl = externalUrl;
+        return this;
+    }
+
+    public String getSsoPrivateKey() {
+        return ssoPrivateKey;
+    }
+
+    public SystemResource setSsoPrivateKey(String ssoPrivateKey) {
+        this.ssoPrivateKey = ssoPrivateKey;
         return this;
     }
 }
