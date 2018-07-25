@@ -1,6 +1,7 @@
 package com.yinghuaicc.stars.repository.mapper.contract;
 
 import com.yinghuaicc.stars.repository.model.contract.Contract;
+import com.yinghuaicc.stars.service.cqrs.contract.dto.response.ContractCQRSListResponseDTO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -55,4 +56,6 @@ public interface ContractMapper {
      */
     @Select("select * from yhcc_contract where id = #{id}")
     Contract findContractById(String id);
+
+
 }

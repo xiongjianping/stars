@@ -1,5 +1,6 @@
 package com.yinghuaicc.stars.service.cqrs.standard.dto.response;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class StandardConditionFittedResponseDTO {
@@ -23,7 +24,7 @@ public class StandardConditionFittedResponseDTO {
     //业种名称
     private String majoName;
     //适配值
-    private String fitted;
+    private BigDecimal fitted;
 
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
@@ -104,11 +105,11 @@ public class StandardConditionFittedResponseDTO {
         this.majoName = majoName;
     }
 
-    public String getFitted() {
+    public BigDecimal getFitted() {
         return fitted;
     }
 
-    public void setFitted(String fitted) {
+    public void setFitted(BigDecimal fitted) {
         this.fitted = fitted;
     }
 

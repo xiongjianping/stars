@@ -1,29 +1,34 @@
-package com.yinghuaicc.stars.service.cqrs.Intervalset.dto.request;
+package com.yinghuaicc.stars.service.cqrs.triangle.dto.request;
 
 /**
- * 区间设置品牌客销度参数类
+ * 三角理论展示参数DTO
  */
-public class ConditionGuestIntervalRequestDTO {
-
-    private String guestVerssionId;
-    private String projectId;
-    private String  projectName;
+public class BrandTriangleRequestDTO {
+    //品牌id
+    private String brandId;
+    //项目id
+    private String  projectId;
+    //项目名称
+    private String projectName;
+    //楼层id
+    private String floorId;
+    //楼层名称
+    private String floorName;
     //业态id
     private String conditionId;
     //业态名称
-    private String  conditionName;
+    private String conditionName;
     //业种id
     private String majoId;
     //业种名称
-    private String  majoName;
+    private String majoName;
 
-
-    public String getGuestVerssionId() {
-        return guestVerssionId;
+    public String getBrandId() {
+        return brandId;
     }
 
-    public void setGuestVerssionId(String guestVerssionId) {
-        this.guestVerssionId = guestVerssionId;
+    public void setBrandId(String brandId) {
+        this.brandId = brandId;
     }
 
     public String getProjectId() {
@@ -40,6 +45,22 @@ public class ConditionGuestIntervalRequestDTO {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public String getFloorId() {
+        return floorId;
+    }
+
+    public void setFloorId(String floorId) {
+        this.floorId = floorId;
+    }
+
+    public String getFloorName() {
+        return floorName;
+    }
+
+    public void setFloorName(String floorName) {
+        this.floorName = floorName;
     }
 
     public String getConditionId() {

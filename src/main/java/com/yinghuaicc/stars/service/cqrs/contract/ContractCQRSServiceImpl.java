@@ -6,7 +6,9 @@ import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.cqrs.contract.ContractCQRSMapper;
 import com.yinghuaicc.stars.service.cqrs.contract.dto.request.ContractCQRSListRequestDTO;
+import com.yinghuaicc.stars.service.cqrs.contract.dto.request.ContractTriangleCQRSListRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.contract.dto.response.ContractCQRSListResponseDTO;
+import com.yinghuaicc.stars.service.cqrs.contract.dto.response.ContractTriangleCQRSListResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,4 +45,13 @@ public class ContractCQRSServiceImpl implements ContractCQRSService{
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
     }
+
+    @Override
+    public List<ContractTriangleCQRSListResponseDTO> findContractTriangleCQRSListResponseDTO(ContractTriangleCQRSListRequestDTO contractTriangleCQRSListRequestDTO) {
+        List<ContractTriangleCQRSListResponseDTO> result =
+                contractCQRSMapper.findContractTriangleCQRSListResponseDTO(contractTriangleCQRSListRequestDTO);
+        return result;
+    }
+
+
 }

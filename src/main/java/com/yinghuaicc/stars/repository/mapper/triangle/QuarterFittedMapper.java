@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -27,5 +28,24 @@ public interface QuarterFittedMapper {
             "</where> " +
             "</script>")
     List<QuarterFittedResponseDTO> findQuarterFittedCQRS( @Param("search") QuarterFittedRequestDTO quarterFittedRequestDTO);
+
+
+    /**
+     * 通过签约id 查询适配值
+     * @param contractId
+     * @param time
+     * @return
+     */
+    @Select("<script>" +
+            "select * from yhcc_quarter_fitted" +
+            " <where> " +
+            "<bind name='contractId' value='contractId' /> " +
+            "<bind name='time' value='time' /> " +
+            "<if test='contractId!= null'>AND contract_id = #{contractId}</if> " +
+            "<if test='time != null'>AND startTime <= #{time}</if> " +
+            "<if test='time != null'>AND endTime >= #{time}</if> " +
+            "</where> " +
+            "</script>")
+    QuarterFittedResponseDTO findQuarterFittedResponseDTOByContractId(String contractId,LocalDateTime time );
 
 }

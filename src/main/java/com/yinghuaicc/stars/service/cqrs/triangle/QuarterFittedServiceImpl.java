@@ -11,6 +11,7 @@ import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.QuarterFittedResp
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -32,5 +33,10 @@ public class QuarterFittedServiceImpl implements  QuarterFittedService{
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
+    }
+
+    @Override
+    public QuarterFittedResponseDTO findQuarterFittedResponseDTOByContractId(String contractId, LocalDateTime time) {
+        return quarterFittedMapper.findQuarterFittedResponseDTOByContractId(contractId,time);
     }
 }

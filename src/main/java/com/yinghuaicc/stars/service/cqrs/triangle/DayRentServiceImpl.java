@@ -13,6 +13,7 @@ import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.DayRentResponseDT
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -32,6 +33,11 @@ public class DayRentServiceImpl implements DayRentService{
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
+    }
+
+    @Override
+    public DayRentResponseDTO findDayRentResponseDTOByContractId(String contractId, LocalDateTime time) {
+        return dayRentMapper.findDayRentResponseDTOByContractId(contractId,time);
     }
 
 

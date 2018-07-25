@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -23,4 +24,12 @@ public interface DayGuestMapper {
             "</script>")
     List<DayGuestResponseDTO> findDayGuestByDayGuestCQRS (@Param("search")DayGuestRequestDTO dayGuestRequestDTO);
 
+    /**
+     * 通过签约id与时间查询客销度
+     * @param contractId
+     * @param time
+     * @return
+     */
+    @Select("select * from yhcc_day_guest where contract_id = #{contractId} and create_time =#{createTime}")
+    DayGuestResponseDTO findDayGuestByDayGuestByContractId(String contractId, LocalDateTime time);
 }
