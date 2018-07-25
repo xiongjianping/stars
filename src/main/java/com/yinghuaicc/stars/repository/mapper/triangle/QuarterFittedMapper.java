@@ -42,8 +42,8 @@ public interface QuarterFittedMapper {
             "<bind name='contractId' value='contractId' /> " +
             "<bind name='time' value='time' /> " +
             "<if test='contractId!= null'>AND contract_id = #{contractId}</if> " +
-            "<if test='time != null'>AND startTime <= #{time}</if> " +
-            "<if test='time != null'>AND endTime >= #{time}</if> " +
+            "<if test='time != null'>AND startTime &lt;= #{time}</if> " +
+            "<if test='time != null'>AND endTime &gt;= #{time}</if> " +
             "</where> " +
             "</script>")
     QuarterFittedResponseDTO findQuarterFittedResponseDTOByContractId(String contractId,LocalDateTime time );
