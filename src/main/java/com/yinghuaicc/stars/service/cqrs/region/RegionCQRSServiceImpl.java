@@ -49,11 +49,6 @@ public class RegionCQRSServiceImpl implements RegionCQRSService {
     @Override
     public ResultPageList<ProjectCQRSListResponseDTO> projectList(ProjectCQRSListRequestDTO projectCQRSListRequestDTO, AopResourceEmployeeBean aopResourceEmployeeBean, PageParam pageParam) {
 
-        if (Objects.isNull(aopResourceEmployeeBean.getProjectIds())){
-
-            return null;
-        }
-
         Page page = PageHelper.startPage(pageParam.getP(), pageParam.getC());
 
         List<ProjectCQRSListResponseDTO> result =
