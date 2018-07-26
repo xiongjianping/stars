@@ -5,6 +5,7 @@ import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.ProjectGuestRespo
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -20,4 +21,7 @@ public interface ProjectGuestMapper {
             "</where> " +
             "</script>")
     List<ProjectGuestResponseDTO> findProjectGuestByProjectGuestCQRS (@Param("search")ProjectGuestRequestDTO projectGuestRequestDTO);
+
+    @Select("select * from yhcc_project_guest where project_id = #{projectId}")
+    ProjectGuestResponseDTO  findProjectGuestByProjectId(String projectId);
 }

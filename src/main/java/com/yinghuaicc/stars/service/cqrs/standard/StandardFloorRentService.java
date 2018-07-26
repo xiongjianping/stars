@@ -14,6 +14,6 @@ public interface StandardFloorRentService {
      * @param pageParam
      * @return
      */
-    ResultPageList<StandardFloorRentResponseDTO> findStandardFloorRentByStandardProjectRentCQRS(StandardFloorRentRequestDTO standardFloorRentRequestDTO, PageParam pageParam);
+    ResultPageList<StandardFloorRentResponseDTO> findStandardFloorRentByStandardFloorRentCQRS(StandardFloorRentRequestDTO standardFloorRentRequestDTO, PageParam pageParam);
 
 }

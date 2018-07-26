@@ -22,10 +22,10 @@ public class StandardFloorFittedServiceImpl implements StandardFloorFittedServic
     @Autowired
     private StandardFloorFittedMapper standardFloorFittedMapper;
     @Override
-    public ResultPageList<StandardFloorFittedResponseDTO> findStandardFloorFittedByStandardProjectFittedCQRS(StandardFloorFittedRequestDTO standardFloorFittedRequestDTO, PageParam pageParam) {
+    public ResultPageList<StandardFloorFittedResponseDTO> findStandardFloorFittedByStandardFloorFittedCQRS(StandardFloorFittedRequestDTO standardFloorFittedRequestDTO, PageParam pageParam) {
         Page page = PageHelper.startPage(pageParam.getP(), pageParam.getC());
 
-        List<StandardFloorFittedResponseDTO> result = MapperFactoryUtil.mapperList(standardFloorFittedMapper.findStandardProjectFittedByStandardProjectFittedCQRS(standardFloorFittedRequestDTO), StandardFloorFittedResponseDTO.class);
+        List<StandardFloorFittedResponseDTO> result = MapperFactoryUtil.mapperList(standardFloorFittedMapper.findStandardFloorFittedByStandardFloorFittedCQRS(standardFloorFittedRequestDTO), StandardFloorFittedResponseDTO.class);
 
         return new ResultPageList<StandardFloorFittedResponseDTO>()
                 .setResultList(result)

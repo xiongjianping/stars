@@ -14,4 +14,20 @@ public interface TriangleCQRSService {
      */
    BrandTriangleResponseDTO findBrandTriangleByBrandId(BrandTriangleRequestDTO brandTriangleRequestDTO);
 
+    /**
+     * 通过项目id查询项目三角形
+     * @param brandTriangleRequestDTO
+     * @return
+     */
+    BrandTriangleResponseDTO findBrandTriangleByProjectId(BrandTriangleRequestDTO brandTriangleRequestDTO);
+
+
+    /**
+     * 通过项目id，楼层id查询项目三角形
+     * @param brandTriangleRequestDTO
+     * @return
+     */
+    BrandTriangleResponseDTO findBrandTriangleByFloorId(BrandTriangleRequestDTO brandTriangleRequestDTO);
+
+
 }

@@ -3,6 +3,9 @@ package com.yinghuaicc.stars.service.cqrs.standard.dto.response;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * 标准三角形溢租率返回类
+ */
 public class StandardProjectRentResponseDTO {
     //id
     private  String id ;

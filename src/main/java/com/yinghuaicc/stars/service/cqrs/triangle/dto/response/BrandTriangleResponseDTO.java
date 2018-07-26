@@ -1,7 +1,6 @@
 package com.yinghuaicc.stars.service.cqrs.triangle.dto.response;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Map;
 
 /**

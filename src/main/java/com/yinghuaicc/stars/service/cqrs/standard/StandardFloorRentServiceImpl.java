@@ -25,10 +25,10 @@ public class StandardFloorRentServiceImpl implements StandardFloorRentService {
     @Autowired
     private StandardFloorRentMapper standardFloorRentMapper;
     @Override
-    public ResultPageList<StandardFloorRentResponseDTO> findStandardFloorRentByStandardProjectRentCQRS(StandardFloorRentRequestDTO standardFloorRentRequestDTO, PageParam pageParam) {
+    public ResultPageList<StandardFloorRentResponseDTO> findStandardFloorRentByStandardFloorRentCQRS(StandardFloorRentRequestDTO standardFloorRentRequestDTO, PageParam pageParam) {
         Page page = PageHelper.startPage(pageParam.getP(), pageParam.getC());
 
-        List<StandardFloorRentResponseDTO> result = MapperFactoryUtil.mapperList(standardFloorRentMapper.findStandardProjectRentByStandardProjectRentCQRS(standardFloorRentRequestDTO), StandardFloorRentResponseDTO.class);
+        List<StandardFloorRentResponseDTO> result = MapperFactoryUtil.mapperList(standardFloorRentMapper.findStandardFloorRentByStandardFloorRentCQRS(standardFloorRentRequestDTO), StandardFloorRentResponseDTO.class);
 
         return new ResultPageList<StandardFloorRentResponseDTO>()
                 .setResultList(result)

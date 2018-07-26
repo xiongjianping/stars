@@ -22,5 +22,11 @@ public interface ProjectGuestIntervalMapper {
             "</script>")
     List<ProjectGuestIntervalResponseDTO> findProjectGuestIntervalByProjectGuestIntervalCQRS (@Param("search")ProjectGuestIntervalRequestDTO projectGuestIntervalRequestDTO);
 
-
+    /**
+     * 通过项目id查询项目区间设置
+     * @param projectId
+     * @return
+     */
+    @Select("select * from yhcc_project_guest_interval where project_id = #{projectId}")
+    ProjectGuestIntervalResponseDTO findProjectGuestIntervalByProjectId(@Param("projectId")String projectId);
 }

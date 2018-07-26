@@ -14,6 +14,6 @@ public interface StandardFloorFittedService {
      * @param pageParam
      * @return
      */
-    ResultPageList<StandardFloorFittedResponseDTO> findStandardFloorFittedByStandardProjectFittedCQRS(StandardFloorFittedRequestDTO standardFloorFittedRequestDTO, PageParam pageParam);
+    ResultPageList<StandardFloorFittedResponseDTO> findStandardFloorFittedByStandardFloorFittedCQRS(StandardFloorFittedRequestDTO standardFloorFittedRequestDTO, PageParam pageParam);
 
 }

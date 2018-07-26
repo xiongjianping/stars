@@ -34,5 +34,5 @@ public interface DayRentMapper {
      * @return
      */
     @Select("select * from yhcc_day_rent where contract_id = #{contractId} and create_time =#{createTime}")
-    DayRentResponseDTO findDayRentResponseDTOByContractId(String contractId, LocalDateTime createTime);
+    DayRentResponseDTO findDayRentResponseDTOByContractId(@Param("contractId")String contractId,@Param("createTime") LocalDateTime createTime);
 }

@@ -1,11 +1,7 @@
 package com.yinghuaicc.stars.repository.mapper.standard;
 
-import com.yinghuaicc.stars.repository.model.standard.StandardFloorFitted;
-import com.yinghuaicc.stars.repository.model.standard.StandardProjectFitted;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardFloorFittedRequestDTO;
-import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardFloorRentRequestDTO;
-import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardProjectFittedResponseDTO;
-import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardProjectRentResponseDTO;
+import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardFloorFittedResponseDTO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -28,6 +24,15 @@ public interface StandardFloorFittedMapper {
             "<if test='search.floorName != null'>AND floor_name = #{search.floorName}</if> " +
             "</where> " +
             "</script>")
-    List<StandardProjectFittedResponseDTO> findStandardProjectFittedByStandardProjectFittedCQRS(@Param("search") StandardFloorFittedRequestDTO standardFloorFittedRequestDTO);
+    List<StandardFloorFittedResponseDTO> findStandardFloorFittedByStandardFloorFittedCQRS(@Param("search") StandardFloorFittedRequestDTO standardFloorFittedRequestDTO);
+
+    /**
+     * 通过项目id、楼层id 查询标准三角形楼层级适配值
+     * @param projectId
+     * @param floorId
+     * @return
+     */
+    @Select("select * from yhcc_standard_floor_Fitted where project_id = #{projectId} and floor_id = #{floorId}")
+    StandardFloorFittedResponseDTO findstandardFloorFittedByProjectIdAndFloorId(@Param("projectId")String projectId,@Param("floorId")String floorId);
 
 }

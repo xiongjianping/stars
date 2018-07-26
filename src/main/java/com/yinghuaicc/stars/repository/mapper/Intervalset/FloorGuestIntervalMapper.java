@@ -19,4 +19,13 @@ public interface FloorGuestIntervalMapper {
             "</script>")
     List<FloorGuestIntervalResponseDTO> findFloorGuestIntervalByFloorGuestIntervalCQRS (@Param("search")FloorGuestIntervalRequestDTO floorGuestIntervalRequestDTO);
 
+
+    /**
+     * 通过项目id、楼层id 查询楼层级客销度区间
+     * @param projectId
+     * @param floorId
+     * @return
+     */
+    @Select("select * from yhcc_floor_guest_interval where project_id = #{projectId} and floor_id = #{floorId}")
+    FloorGuestIntervalResponseDTO findFloorGuestIntervalByProjectIdAndFloorId(@Param("projectId") String projectId,@Param("floorId") String floorId);
 }

@@ -23,7 +23,7 @@ public class StandardFloorFittedController {
     public JsonResult findStandardProjectRentList(@RequestBody StandardFloorFittedRequestDTO standardFloorFittedRequestDTO, @ModelAttribute PageParam pageParam){
 
         return JsonResult.success(
-                standardFloorFittedService.findStandardFloorFittedByStandardProjectFittedCQRS(standardFloorFittedRequestDTO, pageParam));
+                standardFloorFittedService.findStandardFloorFittedByStandardFloorFittedCQRS(standardFloorFittedRequestDTO, pageParam));
     }
 
 }

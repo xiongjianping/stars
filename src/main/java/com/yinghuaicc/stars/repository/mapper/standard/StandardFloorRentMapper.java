@@ -1,7 +1,7 @@
 package com.yinghuaicc.stars.repository.mapper.standard;
 
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardFloorRentRequestDTO;
-import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardProjectRentResponseDTO;
+import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardFloorRentResponseDTO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -24,6 +24,15 @@ public interface StandardFloorRentMapper {
             "<if test='search.floorName != null'>AND floor_name = #{search.floorName}</if> " +
             "</where> " +
             "</script>")
-    List<StandardProjectRentResponseDTO> findStandardProjectRentByStandardProjectRentCQRS(@Param("search") StandardFloorRentRequestDTO standardFloorRentRequestDTO);
+    List<StandardFloorRentResponseDTO> findStandardFloorRentByStandardFloorRentCQRS(@Param("search") StandardFloorRentRequestDTO standardFloorRentRequestDTO);
+
+    /**
+     * 通过项目id、楼层id查询 标准三角形楼层溢租率
+     * @param projectId
+     * @param floorId
+     * @return
+     */
+    @Select("select * from yhcc_standard_floor_rent where project_id = #{projectId} and floor_id = #{floorId}")
+    StandardFloorRentResponseDTO findStandardFloorRentByProjectIdAndFloorId(@Param("projectId")String projectId,@Param("floorId")String floorId);
 
 }
