@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * @Modified:
  */
 @RestController
-@RequestMapping(value = "/triangle")
+@RequestMapping(value = "/apptriangle")
 public class TriangleController {
 
 
@@ -27,52 +27,46 @@ public class TriangleController {
     private TriangleCQRSService triangleCQRSService;
     /**
      * 通过项目id查询三角理论
-     * @param projectId
+     * @param brandTriangleRequestDTO
      * @return
      */
-/*    @GetMapping(value = "/find/triangleproject/by/{projectId}")
-    public JsonResult findProjectTriangleByProjectId(@PathVariable String projectId){
+    @GetMapping(value = "/find/triangleproject/byprojectId")
+    public JsonResult findProjectTriangleByProjectId(@RequestBody BrandTriangleRequestDTO brandTriangleRequestDTO){
 
-        return JsonResult.success(regionCQRSService.projectInfo(projectId));
-    }*/
+        return JsonResult.success(triangleCQRSService.findBrandTriangleByProjectId(brandTriangleRequestDTO));
+    }
 
     /**
      * 通过项目id、楼层id查询三角理论
-     * @param projectId
+     * @param brandTriangleRequestDTO
      * @return
      */
-/*    @GetMapping(value = "/find/trianglefloor/by/{projectId,floorId}")
-    public JsonResult findProjectTriangleByProjectId(@PathVariable String projectId){
+    @GetMapping(value = "/find/trianglefloor/byfloorId")
+    public JsonResult findProjectTriangleByFloorId(@RequestBody BrandTriangleRequestDTO brandTriangleRequestDTO){
 
-        return JsonResult.success(regionCQRSService.projectInfo(projectId));
-    }*/
+        return JsonResult.success(triangleCQRSService.findBrandTriangleByFloorId(brandTriangleRequestDTO));
+    }
 
 
 
     /**
      * 通过项目id、业态id、业种id查询三角理论
-     * @param projectCQRSListRequestDTO
-     * @param pageParam
+     * @param brandTriangleRequestDTO
      * @return
      */
-/*    @PostMapping(value = "/find/project/list")
-    public JsonResult findProjectList(@RequestBody ProjectCQRSListRequestDTO projectCQRSListRequestDTO, @ModelAttribute PageParam pageParam){
+   @PostMapping(value = "/find/trianglefloor/byconditionId")
+    public JsonResult findProjectTriangleByConditionId(@RequestBody BrandTriangleRequestDTO brandTriangleRequestDTO){
 
-        return JsonResult.success(
-                regionCQRSService.projectList(
-                        projectCQRSListRequestDTO,
-                        applicationContext.getBean(AopResourceEmployeeBean.class),
-                        pageParam));
-    }*/
+        return JsonResult.success(triangleCQRSService.findBrandTriangleByConditionId(brandTriangleRequestDTO));
+    }
 
     /**
      * 通过品牌id查询三角理论
      * @param brandTriangleRequestDTO
-     * @param pageParam
      * @return
      */
-    @PostMapping(value = "/find/brand/list")
-    public JsonResult findProjectList(@RequestBody BrandTriangleRequestDTO brandTriangleRequestDTO, @ModelAttribute PageParam pageParam){
+    @PostMapping(value = "/find/trianglefloor/byBrandId")
+    public JsonResult findProjectTriangleByBrandId(@RequestBody BrandTriangleRequestDTO brandTriangleRequestDTO){
 
         return JsonResult.success(triangleCQRSService.findBrandTriangleByBrandId(brandTriangleRequestDTO));
     }

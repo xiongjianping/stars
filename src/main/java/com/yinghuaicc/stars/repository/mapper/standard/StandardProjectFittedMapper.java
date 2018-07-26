@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * 标准三角形项目适配值
+ */
 @Repository
 public interface StandardProjectFittedMapper {
 
@@ -23,5 +26,13 @@ public interface StandardProjectFittedMapper {
             "</where> " +
             "</script>")
     List<StandardProjectFittedResponseDTO> findStandardProjectFittedByStandardProjectFittedCQRS(@Param("search") StandardProjectFittedRequestDTO standardProjectFittedRequestDTO);
+
+    /**
+     * 通过项目id查询标准三角形项目适配值
+     * @param projectId
+     * @return
+     */
+    @Select("select * from yhcc_standard_project_fitted where project_id = #{projectId}")
+    StandardProjectFittedResponseDTO findstandardProjectFittedByProjectId(@Param("projectId")String projectId);
 
 }

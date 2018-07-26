@@ -21,7 +21,7 @@ public class StandardFloorRentController {
     public JsonResult findStandardProjectRentList(@RequestBody StandardFloorRentRequestDTO standardFloorRentRequestDTO, @ModelAttribute PageParam pageParam){
 
         return JsonResult.success(
-                standardFloorRentService.findStandardFloorRentByStandardProjectRentCQRS(standardFloorRentRequestDTO, pageParam));
+                standardFloorRentService.findStandardFloorRentByStandardFloorRentCQRS(standardFloorRentRequestDTO, pageParam));
     }
 
 }

@@ -12,8 +12,11 @@ import java.util.List;
 public interface StandardProjectRentMapper {
 
 
-
-
+    /**
+     * 标准三角形通过项目id获取项目溢租率
+     * @param standardProjectRentRequestDTO
+     * @return
+     */
     @Select("<script>select * from yhcc_standard_project_rent " +
             " <where> " +
             "<bind name='search.projectId' value='search.projectId' /> " +
@@ -21,5 +24,14 @@ public interface StandardProjectRentMapper {
             "</where> " +
             "</script>")
     List<StandardProjectRentResponseDTO> findStandardProjectRentByStandardProjectRentCQRS (@Param("search")StandardProjectRentRequestDTO standardProjectRentRequestDTO);
+
+
+    /**
+     * 通过项目id查询标准三角形溢租率
+     * @param projectId
+     * @return
+     */
+    @Select("select * from yhcc_standard_project_rent where project_id = #{projectId}")
+    StandardProjectRentResponseDTO findStandardProjectRentByProjectId(@Param("projectId")String projectId);
 
 }

@@ -11,7 +11,8 @@ import java.util.List;
 @Repository
 public interface ConditionGuestIntervalMapper {
 
-    @Select("<script>select * from yhcc_floor_guest_interval " +
+
+    @Select("<script>select * from yhcc_condition_guest_interval " +
             " <where> " +
             "<bind name='search.guestVerssionId' value='search.guestVerssionId' /> " +
             "<bind name='search.projectId' value='search.projectId' /> " +
@@ -24,5 +25,7 @@ public interface ConditionGuestIntervalMapper {
             "</where> " +
             "</script>")
     List<ConditionGuestIntervalResponseDTO> findConditionGuestIntervalByConditionGuestIntervalCQRS (@Param("search")ConditionGuestIntervalRequestDTO conditionGuestIntervalRequestDTO);
+
+
 
 }
