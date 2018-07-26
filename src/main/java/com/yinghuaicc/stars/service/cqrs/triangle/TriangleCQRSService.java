@@ -30,4 +30,12 @@ public interface TriangleCQRSService {
     BrandTriangleResponseDTO findBrandTriangleByFloorId(BrandTriangleRequestDTO brandTriangleRequestDTO);
 
 
+    /**
+     * 业态级查询三角形
+     * @param brandTriangleRequestDTO
+     * @return
+     */
+    BrandTriangleResponseDTO findBrandTriangleByConditionId(BrandTriangleRequestDTO brandTriangleRequestDTO);
+
+
 }

@@ -12,7 +12,7 @@ import java.util.List;
 public interface ConditionGuestIntervalMapper {
 
 
-    @Select("<script>select * from yhcc_floor_guest_interval " +
+    @Select("<script>select * from yhcc_condition_guest_interval " +
             " <where> " +
             "<bind name='search.guestVerssionId' value='search.guestVerssionId' /> " +
             "<bind name='search.projectId' value='search.projectId' /> " +
