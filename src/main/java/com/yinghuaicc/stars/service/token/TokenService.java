@@ -1,5 +1,6 @@
 package com.yinghuaicc.stars.service.token;
 
+import com.yinghuaicc.stars.service.token.dto.response.RefreshAppTokenResponseDTO;
 import com.yinghuaicc.stars.service.token.dto.response.RefreshTokenResponseDTO;
 
 /**
@@ -16,5 +17,11 @@ public interface TokenService {
      */
     RefreshTokenResponseDTO refreshToken(String refreshToken);
 
+
+    /**
+     *@Author:Fly Created in 2018/7/25 下午4:44
+     *@Description: 刷新AppAccessToken
+     */
+    RefreshAppTokenResponseDTO refreshAppToken(String refreshToken);
 
 }

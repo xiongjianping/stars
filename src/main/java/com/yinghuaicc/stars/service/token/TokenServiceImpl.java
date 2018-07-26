@@ -4,7 +4,9 @@ import com.yinghuaicc.stars.common.utils.exception.ExceptionUtil;
 import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.repository.mapper.token.TokenMapper;
+import com.yinghuaicc.stars.repository.model.token.AppToken;
 import com.yinghuaicc.stars.repository.model.token.Token;
+import com.yinghuaicc.stars.service.token.dto.response.RefreshAppTokenResponseDTO;
 import com.yinghuaicc.stars.service.token.dto.response.RefreshTokenResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,5 +57,28 @@ public class TokenServiceImpl implements TokenService{
                 .setModifyTime(LocalDateTime.now()));
 
         return MapperFactoryUtil.mapperObject(token, RefreshTokenResponseDTO.class);
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/25 下午4:44
+     *@Description: 刷新AppAccessToken
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public RefreshAppTokenResponseDTO refreshAppToken(String refreshToken) {
+
+        //查询AppToken信息
+        AppToken appToken = tokenMapper.findByRefreshAppToken(refreshToken);
+
+        if (Objects.isNull(appToken)){
+
+            throw exceptionUtil.throwCustomException("APP_TOKEN_REFRESH_TOKEN_001");
+        }
+
+        tokenMapper.editTokenByRefreshAppToken(appToken
+                .setAccessToken(UuidUtil.randomUUID())
+                .setModifyTime(LocalDateTime.now()));
+
+        return MapperFactoryUtil.mapperObject(appToken, RefreshAppTokenResponseDTO.class);
     }
 }

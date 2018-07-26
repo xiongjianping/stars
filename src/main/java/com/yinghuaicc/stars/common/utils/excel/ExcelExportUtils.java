@@ -1,6 +1,7 @@
 package com.yinghuaicc.stars.common.utils.excel;
 
 
+import com.yinghuaicc.stars.controller.business.common.test.dept.Dept;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
@@ -9,6 +10,7 @@ import org.apache.poi.xssf.usermodel.*;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -178,6 +180,20 @@ public class ExcelExportUtils<E> {
         wb.write(out);
         out.close();
     }
+
+    /**
+     *@Author:Fly Created in 2018/7/23 下午6:32
+     *@Description: 导出多SheetExcel
+     */
+    public static <T> void getWorkBookSheet(T list, ExcelDataFormatter edf, String filePath)throws Exception {
+
+        // 创建并获取工作簿对象
+        Workbook wb = getWorkBookSheet(list, edf);
+        // 写入到文件
+        FileOutputStream out = new FileOutputStream(filePath);
+        wb.write(out);
+        out.close();
+    }
  
     /**
      * 获得Workbook对象
@@ -331,6 +347,43 @@ public class ExcelExportUtils<E> {
             rowIndex++;
         }
  
+        return wb;
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/23 下午6:34
+     *@Description: 导出多SheetExcel
+     */
+    public static <T> Workbook getWorkBookSheet(T list, ExcelDataFormatter edf) throws Exception {
+        // 创建工作簿
+        Workbook wb = new SXSSFWorkbook();
+
+        if (list == null)
+            return wb;
+
+
+        CreationHelper createHelper = wb.getCreationHelper();
+
+        Class<?> genericClazz = list.getClass();
+
+        Field[] fields = genericClazz.getDeclaredFields();
+
+        Arrays.stream(fields).forEach(ts -> {
+
+            // 创建一个工作表sheet
+            Sheet sheet = wb.createSheet();
+
+            // 申明行
+            Row row = sheet.createRow(0);
+            // 申明单元格
+
+            Cell cell = null;
+
+
+
+
+        });
+
         return wb;
     }
 

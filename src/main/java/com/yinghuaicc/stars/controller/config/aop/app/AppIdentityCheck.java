@@ -1,7 +1,8 @@
-package com.yinghuaicc.stars.controller.config.aop.pc;
+package com.yinghuaicc.stars.controller.config.aop.app;
 
 import com.yinghuaicc.stars.common.utils.date.LocalDateTimeUtils;
 import com.yinghuaicc.stars.common.utils.exception.ExceptionUtil;
+import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.controller.config.system.SystemResource;
 import com.yinghuaicc.stars.repository.mapper.region.RegionMapper;
 import com.yinghuaicc.stars.repository.mapper.tissue.TissueMapper;
@@ -9,6 +10,7 @@ import com.yinghuaicc.stars.repository.mapper.token.TokenMapper;
 import com.yinghuaicc.stars.repository.model.region.Project;
 import com.yinghuaicc.stars.repository.model.tissue.Employee;
 import com.yinghuaicc.stars.repository.model.tissue.EmployeeProjectData;
+import com.yinghuaicc.stars.repository.model.token.AppToken;
 import com.yinghuaicc.stars.repository.model.token.Token;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -30,12 +32,12 @@ import java.util.stream.Collectors;
 /**
  * @Author:Fly
  * @Date:Create in 2018/7/3 上午10:43
- * @Description:
+ * @Description: App用户权限获取
  * @Modified:
  */
 @Component
 @Aspect
-public class IdentityCheck {
+public class AppIdentityCheck {
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -59,10 +61,9 @@ public class IdentityCheck {
      *@Author:Fly Created in 2018/7/3 上午11:03
      *@Description: 设置切面：用户登录、刷新AccessToken无需进行AOP
      */
-    @Around("execution(* com.yinghuaicc.stars.controller.business.pc..*.*(..)) " +
-            "&& !execution(* com.yinghuaicc.stars.controller.business.pc.tissue.TissueController.employeeLogin(..)) " +
-            "&& !execution(* com.yinghuaicc.stars.controller.business.pc.token.TokenController.refreshToken(..))" +
-            "&& !execution(* com.yinghuaicc.stars.controller.business.pc.sso.SSOLoginController.ssoLogin(..))")
+    @Around("execution(* com.yinghuaicc.stars.controller.business.app..*.*(..)) " +
+            "&& !execution(* com.yinghuaicc.stars.controller.business.app.token.AppTokenController.refreshAppToken(..))" +
+            "&& !execution(* com.yinghuaicc.stars.controller.business.app.sso.AppOssLoginController.appSsoLogin(..))")
     public Object checkToken(ProceedingJoinPoint pro) throws Throwable {
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -71,23 +72,23 @@ public class IdentityCheck {
 
         if (StringUtils.isEmpty(accessToken)){
 
-            throw exceptionUtil.throwCustomException("AOP_CHECK_TOKEN_001");
+            throw exceptionUtil.throwCustomException("APP_AOP_CHECK_TOKEN_001");
         }
 
-        Token token = tokenMapper.findByAccessToken(accessToken);
+        AppToken appToken = tokenMapper.findByAppAccessToken(accessToken);
 
-        if (Objects.isNull(token)){
+        if (Objects.isNull(appToken)){
 
-            throw exceptionUtil.throwCustomException("AOP_CHECK_TOKEN_002");
+            throw exceptionUtil.throwCustomException("APP_AOP_CHECK_TOKEN_002");
         }
 
         //判断Token使用时间，Token失效后需要重新刷新，获取新的Token，
-        if (LocalDateTimeUtils.betweenTwoTime(token.getModifyTime(), LocalDateTime.now(), ChronoUnit.MINUTES) > Long.valueOf(systemResource.getTokenAbleMinutes())){
+        if (LocalDateTimeUtils.betweenTwoTime(appToken.getModifyTime(), LocalDateTime.now(), ChronoUnit.MINUTES) > Long.valueOf(systemResource.getTokenAbleMinutes())){
 
-            throw exceptionUtil.throwCustomException("AOP_CHECK_TOKEN_003");
+            throw exceptionUtil.throwCustomException("APP_AOP_CHECK_TOKEN_003");
         }
 
-        this.setAopResourceEmployeeBean(token.getEmployeeId());
+        this.setAopResourceEmployeeBean(appToken.getEmployeeId());
 
         Object proceed = pro.proceed();
 
@@ -100,12 +101,12 @@ public class IdentityCheck {
      */
     private void setAopResourceEmployeeBean(String employeeId){
 
-        AopResourceEmployeeBean aopResourceEmployeeBean =
-                applicationContext.getBean(AopResourceEmployeeBean.class);
+        AppAopResourceEmployeeBean appAopResourceEmployeeBean =
+                applicationContext.getBean(AppAopResourceEmployeeBean.class);
 
         Employee employee = tissueMapper.findEmployeeById(employeeId);
 
-        aopResourceEmployeeBean
+        appAopResourceEmployeeBean
                 .setId(employee.getId())
                 .setName(employee.getName())
                 .setNum(employee.getNum())
