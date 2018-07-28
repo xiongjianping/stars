@@ -156,7 +156,7 @@ public interface RegionCQRSMapper {
             "<bind name='projectName' value=\"'%' + projectName + '%'\" /> " +
             "<bind name='location' value='location' /> " +
             "<if test='areaId != null and areaId !=\"\" '>AND pr.area_id = #{areaId}</if> " +
-            "<if test='companyId != null and areaId !=\"\" '>AND fl.company_id = #{companyId}</if> " +
+            "<if test='companyId != null and companyId !=\"\" '>AND fl.company_id = #{companyId}</if> " +
             "<if test='projectName != null and projectName !=\"\" '>AND pr.name like #{projectName}</if> " +
             "<if test='location != null '>AND fl.location = #{location}</if> " +
             "order by fl.modify_time desc " +

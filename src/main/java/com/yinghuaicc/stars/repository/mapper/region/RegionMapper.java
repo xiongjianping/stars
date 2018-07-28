@@ -265,7 +265,7 @@ public interface RegionMapper {
      */
     @Update("update yhcc_floor set num = #{num}, company_id = #{companyId}, project_id = #{projectId}, building_id = #{buildingId}, name = #{name}, " +
             "location = #{location}, acreage = #{acreage}, state = #{state}, create_time = #{createTime}, modify_time = #{modifyTime}, " +
-            "create_user = #{createUser}, modify_user = #{modifyUser}")
+            "create_user = #{createUser}, modify_user = #{modifyUser} where id = #{id}")
     void editFloor(Floor floor);
 
     /**
