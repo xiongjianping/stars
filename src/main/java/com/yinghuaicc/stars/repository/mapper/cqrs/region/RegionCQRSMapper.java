@@ -80,6 +80,8 @@ public interface RegionCQRSMapper {
             "p.modify_time as modifyTime, " +
             "e.name as projectHeadName, " +
             "e.id as projectHeadId, " +
+            "d.id as deptId, " +
+            "d.name as deptName, " +
             "p.state as state, " +
             "err.name as modifyUserName, " +
             "p.acreage as acreage " +
@@ -88,7 +90,7 @@ public interface RegionCQRSMapper {
             "inner join yhcc_area as a on p.area_id = a.id " +
             "inner join yhcc_employee as e on e.id = p.project_head_id " +
             "inner join yhcc_employee as err on err.id = p.modify_user " +
-//            "inner join " +
+            "inner join yhcc_department as d on d.id = e.org_id " +
             "where p.id = #{projectId}")
     ProjectCQRSInfoByIdResponseDTO findProjectByIdCQRS(String projectId);
 

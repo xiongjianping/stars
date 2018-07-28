@@ -34,14 +34,14 @@ VALUES
   ('59b00750e02241f6b8760b29603591b4', '楼层帮扶', 0, 'db34210cc50041848195a0f7e052f9aa', 'TOW', '/evaluationTpl/evaluation/list', 2, NOW(), NOW(), 'system', 'system'),
   ('d8a27eb4345a47e8a14ff949c2ccf771', '业态帮扶', 0, 'db34210cc50041848195a0f7e052f9aa', 'TOW', '/evaluationTpl/yetaibangfu/list', 3, NOW(), NOW(), 'system', 'system'),
   ('e0c5732abc2f4b7bbe38fb3f64ebe0f6', '帮扶内容', 0, 'db34210cc50041848195a0f7e052f9aa', 'TOW', '/evaluationTpl/bangfuneirong/list', 4, NOW(), NOW(), 'system', 'system'),
-  ('6c2718fc72124c61a118f39553baf07b', '模板管理', 0, '97412ee91385480c97125dd9ff020007', 'TOW', '/organizationStructure/organization', 1, NOW(), NOW(), 'system', 'system'),
-  ('29280b8fd1424f838561384b36ba6b58', '业态管理', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '', 1, NOW(), NOW(), 'system', 'system'),
-  ('a0a59134ad2f46db9caa899223d1e660', '业种管理', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '', 2, NOW(), NOW(), 'system', 'system'),
-  ('ad7650125def45219731e3e96333e1c6', '适配值', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '', 3, NOW(), NOW(), 'system', 'system'),
-  ('88b932284366429db27ba95ece901b19', '区间公司', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '', 4, NOW(), NOW(), 'system', 'system'),
-  ('83d493362c4c408b809526ad2d54a4b2', '组织管理', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '', 5, NOW(), NOW(), 'system', 'system'),
-  ('53e40db2e67242ad8863afc4303426e4', '人员管理', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '', 6, NOW(), NOW(), 'system', 'system'),
-  ('a460c19404774f8a98af51a1af86ff4a', '角色管理', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '', 7, NOW(), NOW(), 'system', 'system');
+  ('6c2718fc72124c61a118f39553baf07b', '模板管理', 0, '97412ee91385480c97125dd9ff020007', 'TOW', '/organizationStructure/organization/list', 1, NOW(), NOW(), 'system', 'system'),
+  ('29280b8fd1424f838561384b36ba6b58', '业态管理', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '/dataDictionary/brand/list', 1, NOW(), NOW(), 'system', 'system'),
+  ('a0a59134ad2f46db9caa899223d1e660', '业种管理', 0, '44201603df904c3890932bda1863cfa1', 'TOW', ' /dataDictionary/formats/list', 2, NOW(), NOW(), 'system', 'system'),
+  ('ad7650125def45219731e3e96333e1c6', '适配值', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '/dataDictionary/megabite/list', 3, NOW(), NOW(), 'system', 'system'),
+  ('88b932284366429db27ba95ece901b19', '区间公司', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '/dataDictionary/qujiangongsi/list', 4, NOW(), NOW(), 'system', 'system'),
+  ('83d493362c4c408b809526ad2d54a4b2', '组织管理', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '/dataDictionary/zuzhiguanli/list', 5, NOW(), NOW(), 'system', 'system'),
+  ('53e40db2e67242ad8863afc4303426e4', '人员管理', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '/dataDictionary/renyuanguanli/list', 6, NOW(), NOW(), 'system', 'system'),
+  ('a460c19404774f8a98af51a1af86ff4a', '角色管理', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '/dataDictionary/jueseguanli/list', 7, NOW(), NOW(), 'system', 'system');
 
 -- 初始化角色菜单关系基础数据(切记，如果客户修改了默认的角色菜单关系，会导致的问题：项目重新启动时会将所有角色的菜单进行所有菜单补全，第一次以后的测试以及生产环境将这段脚本进行注释)
 INSERT IGNORE INTO

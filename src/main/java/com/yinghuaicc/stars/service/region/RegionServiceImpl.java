@@ -101,12 +101,12 @@ public class RegionServiceImpl implements RegionService {
     @Override
     public void editProject(EditProjectRequestDTO editProjectRequestDTO, String loginEmployeeId) {
 
-        List<String> employeeProjectRelationTeamIds = editProjectRequestDTO.getEmployeeProjectTeamId();
-
-        if (Objects.isNull(employeeProjectRelationTeamIds)||employeeProjectRelationTeamIds.size()==0){
-
-            throw exceptionUtil.throwCustomException("REGION_EDIT_PROJECT_006");
-        }
+//        List<String> employeeProjectRelationTeamIds = editProjectRequestDTO.getEmployeeProjectTeamId();
+//
+//        if (Objects.isNull(employeeProjectRelationTeamIds)||employeeProjectRelationTeamIds.size()==0){
+//
+//            throw exceptionUtil.throwCustomException("REGION_EDIT_PROJECT_006");
+//        }
 
         Project project = regionMapper.findProjectById(editProjectRequestDTO.getProjectId());
 
@@ -118,11 +118,10 @@ public class RegionServiceImpl implements RegionService {
         //修改项目
         regionMapper.editProject(
                 project
-                        .setName(editProjectRequestDTO.getName())
+                        .setName(editProjectRequestDTO.getProjectName())
                         .setCompanyId(editProjectRequestDTO.getCompanyId())
                         .setState(editProjectRequestDTO.isState())
                         .setProjectHeadId(editProjectRequestDTO.getProjectHeadId())
-                        .setProjectAuditId(editProjectRequestDTO.getProjectAuditId())
                         .setAcreage(editProjectRequestDTO.getAcreage())
                         .setModifyUser(loginEmployeeId)
                         .setModifyTime(LocalDateTime.now()));
