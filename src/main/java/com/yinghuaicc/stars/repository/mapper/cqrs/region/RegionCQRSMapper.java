@@ -32,13 +32,14 @@ public interface RegionCQRSMapper {
             "p.create_time as createTime, " +
             "p.modify_time as modifyTime, " +
             "e.name as projectHeadName, " +
-            "er.name as projectAuditName, " +
-            "p.state as state " +
+//            "er.name as projectAuditName, " +
+            "p.state as state, " +
+            "p.acreage as acreage " +
             "from yhcc_project as p " +
             "inner join yhcc_company as c on p.company_id = c.id " +
             "inner join yhcc_area as a on p.area_id = a.id " +
             "inner join yhcc_employee as e on e.id = p.project_head_id " +
-            "inner join yhcc_employee as er on er.id = p.project_audit_id " +
+//            "inner join yhcc_employee as er on er.id = p.project_audit_id " +
             "<where> " +
             "p.id in " +
             "<foreach item='item' collection='list' open='(' close=')' separator=','> " +
@@ -78,15 +79,16 @@ public interface RegionCQRSMapper {
             "p.create_time as createTime, " +
             "p.modify_time as modifyTime, " +
             "e.name as projectHeadName, " +
-            "er.name as projectAuditName, " +
+            "e.id as projectHeadId, " +
             "p.state as state, " +
-            "err.name as modifyUserName " +
+            "err.name as modifyUserName, " +
+            "p.acreage as acreage " +
             "from yhcc_project as p " +
             "inner join yhcc_company as c on p.company_id = c.id " +
             "inner join yhcc_area as a on p.area_id = a.id " +
             "inner join yhcc_employee as e on e.id = p.project_head_id " +
-            "inner join yhcc_employee as er on er.id = p.project_audit_id " +
             "inner join yhcc_employee as err on err.id = p.modify_user " +
+//            "inner join " +
             "where p.id = #{projectId}")
     ProjectCQRSInfoByIdResponseDTO findProjectByIdCQRS(String projectId);
 

@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `yhcc_menu`(
   `is_root` TINYINT (1),
   `parent_id` VARCHAR (50),
   `menu_type` VARCHAR (50),
-  `url` VARCHAR (50),
+  `url` VARCHAR (255),
   `sort` int(11),
   `create_time` DATETIME,
   `modify_time` DATETIME,

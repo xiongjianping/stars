@@ -10,6 +10,7 @@ import com.yinghuaicc.stars.service.cqrs.region.dto.request.ProjectCQRSListReque
 import com.yinghuaicc.stars.service.cqrs.region.dto.request.RoomCQRSListRequestDTO;
 import com.yinghuaicc.stars.service.region.RegionService;
 import com.yinghuaicc.stars.service.region.dto.request.*;
+import com.yinghuaicc.stars.service.tissue.TissueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.validation.annotation.Validated;
@@ -33,6 +34,9 @@ public class RegionController {
 
     @Autowired
     private RegionService regionService;
+
+    @Autowired
+    private TissueService tissueService;
 
     /**
      *@Author:Fly Created in 2018/7/3 下午8:13
@@ -337,5 +341,15 @@ public class RegionController {
     public JsonResult findOrgTree(){
 
         return JsonResult.success(regionService.orgTreeAll());
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/28 下午1:12
+     *@Description: 按照部门父id查询部门
+     */
+    @GetMapping(value = "/find/department/by/parent/{parentId}")
+    public JsonResult findDepartmentByParentId(@PathVariable String parentId){
+
+        return JsonResult.success(tissueService.findDepartmentByParentId(parentId));
     }
 }

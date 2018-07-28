@@ -218,10 +218,10 @@ public class TissueServiceImpl implements TissueService{
     @Override
     public void saveDepartment(SaveDepartmentRequestDTO saveDepartmentRequestDTO, String loginEmployeeId) {
 
-        if (Objects.isNull(tissueMapper.findDepartmentByParentId(saveDepartmentRequestDTO.getParentId()))){
-
-            throw exceptionUtil.throwCustomException("TISSUE_SAVE_DEPARTMENT_003");
-        }
+//        if (Objects.isNull(tissueMapper.findDepartmentByParentId(saveDepartmentRequestDTO.getParentId()))||tissueMapper.findDepartmentByParentId(saveDepartmentRequestDTO.getParentId()).size()==0){
+//
+//            throw exceptionUtil.throwCustomException("TISSUE_SAVE_DEPARTMENT_003");
+//        }
 
         tissueMapper.saveDepartment(
                 Stream.of(MapperFactoryUtil.mapperObject(saveDepartmentRequestDTO, Department.class)
@@ -297,6 +297,15 @@ public class TissueServiceImpl implements TissueService{
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/28 下午1:10
+     *@Description: 按照父id查询部门信息
+     */
+    public List<Department> findDepartmentByParentId(String parentId){
+
+        return tissueMapper.findDepartmentByParentId(parentId);
     }
 
     /**

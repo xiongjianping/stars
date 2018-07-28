@@ -35,14 +35,6 @@ public class SaveProjectRequestDTO {
     @NotEmpty(message = "REGION_SAVE_PROJECT_004")
     private String projectHeadId;
 
-    //项目运营人id
-    @NotEmpty(message = "REGION_SAVE_PROJECT_005")
-    private String projectAuditId;
-
-    //项目负责组员id
-    @NotNull(message = "REGION_SAVE_PROJECT_006")
-    private List<String> employeeProjectTeamId = new ArrayList<String>();
-
     //面积
     @NotNull(message = "REGION_SAVE_PROJECT_007")
     private BigDecimal acreage;
@@ -92,24 +84,6 @@ public class SaveProjectRequestDTO {
 
     public SaveProjectRequestDTO setProjectHeadId(String projectHeadId) {
         this.projectHeadId = projectHeadId;
-        return this;
-    }
-
-    public String getProjectAuditId() {
-        return projectAuditId;
-    }
-
-    public SaveProjectRequestDTO setProjectAuditId(String projectAuditId) {
-        this.projectAuditId = projectAuditId;
-        return this;
-    }
-
-    public List<String> getEmployeeProjectTeamId() {
-        return employeeProjectTeamId;
-    }
-
-    public SaveProjectRequestDTO setEmployeeProjectTeamId(List<String> employeeProjectTeamId) {
-        this.employeeProjectTeamId = employeeProjectTeamId;
         return this;
     }
 

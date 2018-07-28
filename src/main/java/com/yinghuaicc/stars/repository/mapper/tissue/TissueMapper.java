@@ -207,8 +207,8 @@ public interface TissueMapper {
      *@Author:Fly Created in 2018/7/18 上午10:31
      *@Description: 按照部门上级查询部门信息
      */
-    @Select("select * from yhcc_department where id = #{parentId}")
-    Department findDepartmentByParentId(String parentId);
+    @Select("select * from yhcc_department where parent_id = #{parentId}")
+    List<Department> findDepartmentByParentId(String parentId);
 
     /**
      *@Author:Fly Created in 2018/7/18 上午11:16
@@ -216,5 +216,12 @@ public interface TissueMapper {
      */
     @Select("select * from yhcc_department ")
     List<Department> findDepartmentAll();
+
+    /**
+     *@Author:Fly Created in 2018/7/28 下午12:34
+     *@Description: 按照公司查询员工
+     */
+    @Select("select * from yhcc_employee where org_id = #{companyId} ")
+    List<Employee> findEmployeeByCompanyId(String companyId);
 
 }

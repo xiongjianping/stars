@@ -5,6 +5,7 @@ import com.yinghuaicc.stars.config.response.JsonResult;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.service.cqrs.tissue.TissueCQRSService;
 import com.yinghuaicc.stars.service.cqrs.tissue.dto.request.EmployeeListCQRSRequestDTO;
+import com.yinghuaicc.stars.service.region.RegionService;
 import com.yinghuaicc.stars.service.tissue.TissueService;
 import com.yinghuaicc.stars.service.tissue.dto.request.EditDepartmentRequestDTO;
 import com.yinghuaicc.stars.service.tissue.dto.request.EditEmployeeProjectDataRequestDTO;
@@ -36,6 +37,9 @@ public class TissueController {
 
     @Autowired
     private TissueCQRSService tissueCQRSService;
+
+    @Autowired
+    private RegionService regionService;
 
     /**
      *@Author:Fly Created in 2018/7/2 上午3:53
@@ -163,5 +167,15 @@ public class TissueController {
 
         return JsonResult.success(
                 tissueCQRSService.findEmployeeListCQRS(employeeListCQRSRequestDTO, pageParam));
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/28 下午12:37
+     *@Description: 查询公司下的员工
+     */
+    @GetMapping(value = "/find/employee/by/company/{id}")
+    public JsonResult findEmployeeByCompanyId(@PathVariable String id){
+
+        return JsonResult.success(regionService.findEmployeeByCompanyId(id));
     }
 }

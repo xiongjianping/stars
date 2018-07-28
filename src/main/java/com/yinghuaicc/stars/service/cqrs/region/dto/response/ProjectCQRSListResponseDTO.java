@@ -1,5 +1,6 @@
 package com.yinghuaicc.stars.service.cqrs.region.dto.response;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -36,6 +37,9 @@ public class ProjectCQRSListResponseDTO {
 
     //状态，是否启用
     private boolean state;
+
+    //面积
+    private BigDecimal acreage;
 
     public String getProjectId() {
         return projectId;
@@ -115,6 +119,15 @@ public class ProjectCQRSListResponseDTO {
 
     public ProjectCQRSListResponseDTO setState(boolean state) {
         this.state = state;
+        return this;
+    }
+
+    public BigDecimal getAcreage() {
+        return acreage;
+    }
+
+    public ProjectCQRSListResponseDTO setAcreage(BigDecimal acreage) {
+        this.acreage = acreage;
         return this;
     }
 }

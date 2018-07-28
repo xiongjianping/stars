@@ -65,26 +65,30 @@ public class SsoServiceImpl implements SsoService{
 
         Employee employee = employees.get(0);
 
-        //清空此用户之前的Token
-        tokenMapper.removeTokenByEmployeeId(employee.getId());
+//        List<Token> tokens =
+//                tokenMapper.findTokenByEmployeeId(employee.getId());
 
-        List<String> uuids = UuidUtil.batchRandomUUID(3);
-
-        //生成新的Token信息
-        Token token = new Token()
-                .setId(uuids.get(0))
-                .setAccessToken(uuids.get(1))
-                .setRefreshToken(uuids.get(2))
-                .setEmployeeId(employee.getId())
-                .setCreateUser(employee.getId())
-                .setModifyUser(employee.getId())
-                .setCreateTime(LocalDateTime.now())
-                .setModifyTime(LocalDateTime.now());
-        tokenMapper.saveToken(token);
+//        Token token = null;
+//
+//        //修改用户的token信息
+//        if (Objects.nonNull(tokens)&&tokens.size()>0){
+//
+//            token = tokens.get(0);
+//
+//            List<String> uuids = UuidUtil.batchRandomUUID(2);
+//
+//            token.setAccessToken(uuids.get(0))
+//                    .setRefreshToken(uuids.get(1))
+//                    .setEmployeeId(employee.getId())
+//                    .setCreateUser(employee.getId())
+//                    .setModifyUser(employee.getId())
+//                    .setCreateTime(LocalDateTime.now())
+//                    .setModifyTime(LocalDateTime.now());
+//        }
 
         return new EmployeeLoginTokenResponseDTO()
-                .setAccessToken(token.getAccessToken())
-                .setRefreshToken(token.getRefreshToken())
+                .setAccessToken(endecryptUtil.get3DESEncrypt(employee.getUserName(),systemResource.getSsoPrivateKey()))
+//                .setRefreshToken(token.getRefreshToken())
                 .setEmployeeLoginInfoResponseDTO(
                         MapperFactoryUtil.mapperObject(employee, EmployeeLoginInfoResponseDTO.class));
     }
@@ -108,28 +112,32 @@ public class SsoServiceImpl implements SsoService{
 
         Employee employee = employees.get(0);
 
-        //清空此用户之前的Token
-        tokenMapper.removeAppTokenByEmployeeId(employee.getId());
-
-        List<String> uuids = UuidUtil.batchRandomUUID(3);
-
-        //生成新的Token信息
-        AppToken appToken = new AppToken()
-                .setId(uuids.get(0))
-                .setAccessToken(uuids.get(1))
-                .setRefreshToken(uuids.get(2))
-                .setEmployeeId(employee.getId())
-                .setCreateUser(employee.getId())
-                .setModifyUser(employee.getId())
-                .setCreateTime(LocalDateTime.now())
-                .setModifyTime(LocalDateTime.now());
-        tokenMapper.saveAppToken(appToken);
+//        List<Token> tokens =
+//                tokenMapper.findTokenByEmployeeId(employee.getId());
+//
+//        Token token = null;
+//
+//        //修改用户的token信息
+//        if (Objects.nonNull(tokens)&&tokens.size()==0){
+//
+//            token = tokens.get(0);
+//
+//            List<String> uuids = UuidUtil.batchRandomUUID(2);
+//
+//            token.setAccessToken(uuids.get(0))
+//                    .setRefreshToken(uuids.get(1))
+//                    .setEmployeeId(employee.getId())
+//                    .setCreateUser(employee.getId())
+//                    .setModifyUser(employee.getId())
+//                    .setCreateTime(LocalDateTime.now())
+//                    .setModifyTime(LocalDateTime.now());
+//        }
 
         return new EmployeeLoginTokenResponseDTO()
-                .setAccessToken(appToken.getAccessToken())
-                .setRefreshToken(appToken.getRefreshToken())
+                .setAccessToken(endecryptUtil.get3DESEncrypt(employee.getUserName(),systemResource.getSsoPrivateKey()))
+//                .setRefreshToken(token.getRefreshToken())
                 .setEmployeeLoginInfoResponseDTO(
-                        MapperFactoryUtil.mapperObject(employee, EmployeeLoginInfoResponseDTO.class));
+                        MapperFactoryUtil.mapperObject(employee.setUserName(endecryptUtil.get3DESEncrypt(employee.getUserName(),systemResource.getSsoPrivateKey())), EmployeeLoginInfoResponseDTO.class));
 
     }
 }

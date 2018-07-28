@@ -80,4 +80,10 @@ public interface TissueService {
      */
     ResultPageList<FindEmployeeByOrgIdResponseDTO> findEmployeeByOrgId(String orgId, PageParam pageParam);
 
+    /**
+     *@Author:Fly Created in 2018/7/28 下午1:09
+     *@Description: 按照父id查询部门信息
+     */
+    public List<Department> findDepartmentByParentId(String parentId);
+
 }
