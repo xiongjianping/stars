@@ -14,10 +14,7 @@ import com.yinghuaicc.stars.repository.model.base.BusinessSpecies;
 import com.yinghuaicc.stars.service.base.dto.request.EditBusinessFormRequestDTO;
 import com.yinghuaicc.stars.service.base.dto.request.EditBusinessSpeciesRequestDTO;
 import com.yinghuaicc.stars.service.base.dto.request.SaveBusinessSpeciesRequestDTO;
-import com.yinghuaicc.stars.service.base.dto.response.FindBusinessFormByIdResponseDTO;
-import com.yinghuaicc.stars.service.base.dto.response.FindBusinessFormListResponseDTO;
-import com.yinghuaicc.stars.service.base.dto.response.FindBusinessSpeciesByIdResponseDTO;
-import com.yinghuaicc.stars.service.base.dto.response.FindCityAllResponseDTO;
+import com.yinghuaicc.stars.service.base.dto.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -249,5 +246,25 @@ public class BaseServiceImpl implements BaseService{
         }
 
         return MapperFactoryUtil.mapperObject(businessSpecies, FindBusinessSpeciesByIdResponseDTO.class);
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/27 下午5:55
+     *@Description: 业态列表
+     */
+    @Override
+    public List<FindBusinessFormSelectResponseDTO> findFindBusinessFormSelect() {
+
+        return MapperFactoryUtil.mapperList(baseMapper.findBusinessFormList(), FindBusinessFormSelectResponseDTO.class);
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/27 下午5:55
+     *@Description: 业种列表
+     */
+    @Override
+    public List<FindBusinessSpeciesSelectResponseDTO> findBusinessSpeciesSelect(String businessFormId) {
+
+        return MapperFactoryUtil.mapperList(baseMapper.findBusinessSpeciesByBusinessFormId(businessFormId), FindBusinessSpeciesSelectResponseDTO.class);
     }
 }

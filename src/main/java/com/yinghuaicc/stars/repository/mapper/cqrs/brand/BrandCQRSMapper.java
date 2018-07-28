@@ -39,10 +39,12 @@ public interface BrandCQRSMapper {
             "<where> " +
             "<bind name='search.name' value=\"'%' + search.name + '%'\" /> " +
             "<bind name='search.businessFormId' value='search.businessFormId' /> " +
+            "<bind name='search.businessSpeciesId' value='search.businessSpeciesId' /> " +
             "<bind name='search.createTimeBegin' value='search.createTimeBegin' /> " +
             "<bind name='search.createTimeEnd' value='search.createTimeEnd' /> " +
             "<if test='search.name != null and search.name !=\"\" '>AND br.name like #{search.name}</if> " +
             "<if test='search.businessFormId != null and search.businessFormId !=\"\" '>AND br.business_form_id = #{search.businessFormId}</if> " +
+            "<if test='search.businessSpeciesId != null and search.businessSpeciesId !=\"\" '>AND bs.id = #{search.businessSpeciesId}</if> " +
             "<if test='search.createTimeBegin != null '>AND br.create_time &gt; #{search.createTimeBegin}</if> " +
             "<if test='search.createTimeEnd != null '>AND br.create_time &lt; #{search.createTimeEnd}</if> " +
             "</where> " +

@@ -5,10 +5,7 @@ import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.service.base.dto.request.EditBusinessFormRequestDTO;
 import com.yinghuaicc.stars.service.base.dto.request.EditBusinessSpeciesRequestDTO;
 import com.yinghuaicc.stars.service.base.dto.request.SaveBusinessSpeciesRequestDTO;
-import com.yinghuaicc.stars.service.base.dto.response.FindBusinessFormByIdResponseDTO;
-import com.yinghuaicc.stars.service.base.dto.response.FindBusinessFormListResponseDTO;
-import com.yinghuaicc.stars.service.base.dto.response.FindBusinessSpeciesByIdResponseDTO;
-import com.yinghuaicc.stars.service.base.dto.response.FindCityAllResponseDTO;
+import com.yinghuaicc.stars.service.base.dto.response.*;
 
 import java.util.List;
 
@@ -80,4 +77,16 @@ public interface BaseService {
      *@Description: 业种详情
      */
     FindBusinessSpeciesByIdResponseDTO findBusinessSpeciesById(String id);
+
+    /**
+     *@Author:Fly Created in 2018/7/27 下午5:54
+     *@Description: 业态下拉
+     */
+    List<FindBusinessFormSelectResponseDTO> findFindBusinessFormSelect();
+
+    /**
+     *@Author:Fly Created in 2018/7/27 下午5:54
+     *@Description: 业种下拉
+     */
+    List<FindBusinessSpeciesSelectResponseDTO> findBusinessSpeciesSelect(String businessFormId);
 }

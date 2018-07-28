@@ -14,6 +14,12 @@ public class FloorCQRSListResponseDTO {
     //id
     private String id;
 
+    //层名称
+    private String name;
+
+    //区域名称
+    private String areaName;
+
     //项目名称
     private String projectName;
 
@@ -104,6 +110,24 @@ public class FloorCQRSListResponseDTO {
 
     public FloorCQRSListResponseDTO setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
+        return this;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public FloorCQRSListResponseDTO setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public FloorCQRSListResponseDTO setAreaName(String areaName) {
+        this.areaName = areaName;
         return this;
     }
 }

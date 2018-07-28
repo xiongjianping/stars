@@ -12,36 +12,36 @@ VALUES
 INSERT IGNORE INTO
   `yhcc_menu`
 VALUES
-  ('ab554862cec74ce3bbdb209e067ee28c', '首页', 1, NULL , 'ONE', '', 1, NOW(), NOW(), 'system', 'system'),
-  ('ea78156548304912ba15866769f8232c', '项目管理', 1, NULL , 'ONE', '', 2, NOW(), NOW(), 'system', 'system'),
-  ('3ac1e9409a59421d8aab463b8042279a', '品牌管理', 1, NULL , 'ONE', '', 3, NOW(), NOW(), 'system', 'system'),
-  ('2fe2ed895194421a8abdb21c9a41ebfa', '签约管理', 1, NULL , 'ONE', '', 4, NOW(), NOW(), 'system', 'system'),
-  ('708f1224ef3c4c4d836321134cc071b1', '数据管理', 1, NULL , 'ONE', '', 5, NOW(), NOW(), 'system', 'system'),
-  ('db34210cc50041848195a0f7e052f9aa', '帮扶计划', 1, NULL , 'ONE', '', 6, NOW(), NOW(), 'system', 'system'),
-  ('97412ee91385480c97125dd9ff020007', '评估模板', 1, NULL , 'ONE', '', 7, NOW(), NOW(), 'system', 'system'),
-  ('44201603df904c3890932bda1863cfa1', '系统平台', 1, NULL , 'ONE', '', 8, NOW(), NOW(), 'system', 'system'),
-  ('b7b0bc87440d4a56858a9645ec619cea', '主数据', 1, NULL , 'ONE', '', 9, NOW(), NOW(), 'system', 'system'),
-  ('c640b2af028f430ca04f7ae5b0c821aa', '首页', 0, 'ab554862cec74ce3bbdb209e067ee28c', 'TOW', '', 1, NOW(), NOW(), 'system', 'system'),
-  ('64e85b403de347eeba2126c9e22aad14', '项目管理', 0, 'ea78156548304912ba15866769f8232c', 'TOW', '', 1, NOW(), NOW(), 'system', 'system'),
-  ('a5055ee8b4154c79bf889e024346a930', '楼层管理', 0, 'ea78156548304912ba15866769f8232c', 'TOW', '', 2, NOW(), NOW(), 'system', 'system'),
-  ('7988cfe210ff4959a3d0ec106e0eff87', '铺位管理', 0, 'ea78156548304912ba15866769f8232c', 'TOW', '', 3, NOW(), NOW(), 'system', 'system'),
-  ('3c575f3b36614496b52d714685e87929', '品牌管理', 0, '3ac1e9409a59421d8aab463b8042279a', 'TOW', '', 1, NOW(), NOW(), 'system', 'system'),
-  ('f7f3be432ac24846926805951d634cab', '签约管理', 0, '2fe2ed895194421a8abdb21c9a41ebfa', 'TOW', '', 1, NOW(), NOW(), 'system', 'system'),
-  ('7842e7a34c2443ceae25beb817b7339b', '三角理论', 0, '2fe2ed895194421a8abdb21c9a41ebfa', 'TOW', '', 2, NOW(), NOW(), 'system', 'system'),
-  ('6343dbdcc70041b1a909d73f76ec3d02', '动态三角形', 0, '708f1224ef3c4c4d836321134cc071b1', 'TOW', '', 1, NOW(), NOW(), 'system', 'system'),
-  ('6d020f29d8f5433a9a6da556c9602fba', '标准三角形', 0, '708f1224ef3c4c4d836321134cc071b1', 'TOW', '', 2, NOW(), NOW(), 'system', 'system'),
-  ('1be992713572491290b01405ac1109d0', '区间设置', 0, '708f1224ef3c4c4d836321134cc071b1', 'TOW', '', 3, NOW(), NOW(), 'system', 'system'),
-  ('b7bf1e92f22149c19f8ec08c9b90dbee', '数据维护', 0, '708f1224ef3c4c4d836321134cc071b1', 'TOW', '', 4, NOW(), NOW(), 'system', 'system'),
-  ('ea9b25a1cf364b7cb4d106baa5ecafcb', '帮扶计划', 0, 'db34210cc50041848195a0f7e052f9aa', 'TOW', '', 1, NOW(), NOW(), 'system', 'system'),
-  ('59b00750e02241f6b8760b29603591b4', '帮扶内容', 0, 'db34210cc50041848195a0f7e052f9aa', 'TOW', '', 2, NOW(), NOW(), 'system', 'system'),
-  ('6c2718fc72124c61a118f39553baf07b', '模板管理', 0, '97412ee91385480c97125dd9ff020007', 'TOW', '', 1, NOW(), NOW(), 'system', 'system'),
+  ('ab554862cec74ce3bbdb209e067ee28c', '首页', 1, NULL , 'ONE', '/index' , 1, NOW(), NOW(), 'system', 'system'),
+  ('ea78156548304912ba15866769f8232c', '项目管理', 1, NULL , 'ONE', '/projecManage' , 2, NOW(), NOW(), 'system', 'system'),
+  ('3ac1e9409a59421d8aab463b8042279a', '品牌管理', 1, NULL , 'ONE', '/indicatorsManage' , 3, NOW(), NOW(), 'system', 'system'),
+  ('2fe2ed895194421a8abdb21c9a41ebfa', '签约管理', 1, NULL , 'ONE', '/qianyue' , 4, NOW(), NOW(), 'system', 'system'),
+  ('708f1224ef3c4c4d836321134cc071b1', '数据管理', 1, NULL , 'ONE', '/dataManage' , 5, NOW(), NOW(), 'system', 'system'),
+  ('db34210cc50041848195a0f7e052f9aa', '帮扶计划', 1, NULL , 'ONE', '/evaluationTpl' , 6, NOW(), NOW(), 'system', 'system'),
+  ('97412ee91385480c97125dd9ff020007', '评估模板', 1, NULL , 'ONE', '/organizationStructure' , 7, NOW(), NOW(), 'system', 'system'),
+  ('44201603df904c3890932bda1863cfa1', '系统平台', 1, NULL , 'ONE', '/dataDictionary' , 8, NOW(), NOW(), 'system', 'system'),
+  ('64e85b403de347eeba2126c9e22aad14', '项目管理', 0, 'ea78156548304912ba15866769f8232c', 'TOW', '/projecManage/projec/list', 1, NOW(), NOW(), 'system', 'system'),
+  ('a5055ee8b4154c79bf889e024346a930', '楼层管理', 0, 'ea78156548304912ba15866769f8232c', 'TOW', '/projecManage/floor/list', 2, NOW(), NOW(), 'system', 'system'),
+  ('7988cfe210ff4959a3d0ec106e0eff87', '铺位管理', 0, 'ea78156548304912ba15866769f8232c', 'TOW', '/projecManage/store/list', 3, NOW(), NOW(), 'system', 'system'),
+  ('3c575f3b36614496b52d714685e87929', '品牌管理', 0, '3ac1e9409a59421d8aab463b8042279a', 'TOW', '/indicatorsManage/indicators/list', 1, NOW(), NOW(), 'system', 'system'),
+  ('f7f3be432ac24846926805951d634cab', '签约管理', 0, '2fe2ed895194421a8abdb21c9a41ebfa', 'TOW', '/qianyue/qianyue/list', 1, NOW(), NOW(), 'system', 'system'),
+  ('7842e7a34c2443ceae25beb817b7339b', '三角理论', 0, '2fe2ed895194421a8abdb21c9a41ebfa', 'TOW', '/qianyue/sanjiao/list', 2, NOW(), NOW(), 'system', 'system'),
+  ('6343dbdcc70041b1a909d73f76ec3d02', '动态三角形', 0, '708f1224ef3c4c4d836321134cc071b1', 'TOW', '/dataManage/dongtai/list', 1, NOW(), NOW(), 'system', 'system'),
+  ('6d020f29d8f5433a9a6da556c9602fba', '标准三角形', 0, '708f1224ef3c4c4d836321134cc071b1', 'TOW', '/dataManage/version/list', 2, NOW(), NOW(), 'system', 'system'),
+  ('1be992713572491290b01405ac1109d0', '区间设置', 0, '708f1224ef3c4c4d836321134cc071b1', 'TOW', '/dataManage/trigonometric/list', 3, NOW(), NOW(), 'system', 'system'),
+  ('b7bf1e92f22149c19f8ec08c9b90dbee', '数据维护', 0, '708f1224ef3c4c4d836321134cc071b1', 'TOW', '/dataManage/shuju/list', 4, NOW(), NOW(), 'system', 'system'),
+  ('ea9b25a1cf364b7cb4d106baa5ecafcb', '项目帮扶', 0, 'db34210cc50041848195a0f7e052f9aa', 'TOW', '/evaluationTpl/template/list', 1, NOW(), NOW(), 'system', 'system'),
+  ('59b00750e02241f6b8760b29603591b4', '楼层帮扶', 0, 'db34210cc50041848195a0f7e052f9aa', 'TOW', '/evaluationTpl/evaluation/list', 2, NOW(), NOW(), 'system', 'system'),
+  ('d8a27eb4345a47e8a14ff949c2ccf771', '业态帮扶', 0, 'db34210cc50041848195a0f7e052f9aa', 'TOW', '/evaluationTpl/yetaibangfu/list', 3, NOW(), NOW(), 'system', 'system'),
+  ('e0c5732abc2f4b7bbe38fb3f64ebe0f6', '帮扶内容', 0, 'db34210cc50041848195a0f7e052f9aa', 'TOW', '/evaluationTpl/bangfuneirong/list', 4, NOW(), NOW(), 'system', 'system'),
+  ('6c2718fc72124c61a118f39553baf07b', '模板管理', 0, '97412ee91385480c97125dd9ff020007', 'TOW', '/organizationStructure/organization', 1, NOW(), NOW(), 'system', 'system'),
   ('29280b8fd1424f838561384b36ba6b58', '业态管理', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '', 1, NOW(), NOW(), 'system', 'system'),
   ('a0a59134ad2f46db9caa899223d1e660', '业种管理', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '', 2, NOW(), NOW(), 'system', 'system'),
   ('ad7650125def45219731e3e96333e1c6', '适配值', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '', 3, NOW(), NOW(), 'system', 'system'),
   ('88b932284366429db27ba95ece901b19', '区间公司', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '', 4, NOW(), NOW(), 'system', 'system'),
-  ('83d493362c4c408b809526ad2d54a4b2', '组织管理', 0, 'b7b0bc87440d4a56858a9645ec619cea', 'TOW', '', 1, NOW(), NOW(), 'system', 'system'),
-  ('53e40db2e67242ad8863afc4303426e4', '人员管理', 0, 'b7b0bc87440d4a56858a9645ec619cea', 'TOW', '', 2, NOW(), NOW(), 'system', 'system'),
-  ('a460c19404774f8a98af51a1af86ff4a', '角色管理', 0, 'b7b0bc87440d4a56858a9645ec619cea', 'TOW', '', 3, NOW(), NOW(), 'system', 'system');
+  ('83d493362c4c408b809526ad2d54a4b2', '组织管理', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '', 5, NOW(), NOW(), 'system', 'system'),
+  ('53e40db2e67242ad8863afc4303426e4', '人员管理', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '', 6, NOW(), NOW(), 'system', 'system'),
+  ('a460c19404774f8a98af51a1af86ff4a', '角色管理', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '', 7, NOW(), NOW(), 'system', 'system');
 
 -- 初始化角色菜单关系基础数据(切记，如果客户修改了默认的角色菜单关系，会导致的问题：项目重新启动时会将所有角色的菜单进行所有菜单补全，第一次以后的测试以及生产环境将这段脚本进行注释)
 INSERT IGNORE INTO
@@ -56,7 +56,6 @@ VALUES
   ('fa1a49c857074113b33305af8b485093', 'e8314e6c86f946cb8b6afff421eaff6c', 'db34210cc50041848195a0f7e052f9aa', NOW(), NOW(), 'system', 'system'),
   ('b02dcd8a53d540bda0cde2a149771a76', 'e8314e6c86f946cb8b6afff421eaff6c', '97412ee91385480c97125dd9ff020007', NOW(), NOW(), 'system', 'system'),
   ('41ab244256984329992152f8cbeaba90', 'e8314e6c86f946cb8b6afff421eaff6c', '44201603df904c3890932bda1863cfa1', NOW(), NOW(), 'system', 'system'),
-  ('4dcf205f8c58487b84add9319b12826a', 'e8314e6c86f946cb8b6afff421eaff6c', 'b7b0bc87440d4a56858a9645ec619cea', NOW(), NOW(), 'system', 'system'),
 -- 副总角色菜单权限，默认拥有所有权限
   ('4b64e4cf240f48919f37b6557f72ab96', '0cf542a6cc4147c7b271eba9155bd4f1', 'ab554862cec74ce3bbdb209e067ee28c', NOW(), NOW(), 'system', 'system'),
   ('4255838017f24a1eba2375930d138faa', '0cf542a6cc4147c7b271eba9155bd4f1', 'ea78156548304912ba15866769f8232c', NOW(), NOW(), 'system', 'system'),
@@ -66,7 +65,6 @@ VALUES
   ('677b488a109b4bbd9e8823c04a100f71', '0cf542a6cc4147c7b271eba9155bd4f1', 'db34210cc50041848195a0f7e052f9aa', NOW(), NOW(), 'system', 'system'),
   ('e1d49480e3054e1b95a7f60aadcd7568', '0cf542a6cc4147c7b271eba9155bd4f1', '97412ee91385480c97125dd9ff020007', NOW(), NOW(), 'system', 'system'),
   ('26c1eb4dcf7349a8b20a56723cabdfe7', '0cf542a6cc4147c7b271eba9155bd4f1', '44201603df904c3890932bda1863cfa1', NOW(), NOW(), 'system', 'system'),
-  ('20d088f004e84870beb9af477deeda10', '0cf542a6cc4147c7b271eba9155bd4f1', 'b7b0bc87440d4a56858a9645ec619cea', NOW(), NOW(), 'system', 'system'),
 -- 运营总监角色菜单权限，默认拥有所有权限
   ('f729460e387142e68ed36d1c3b6617f6', 'd7d079a76ee34b7aa75da2822e5e8af7', 'ab554862cec74ce3bbdb209e067ee28c', NOW(), NOW(), 'system', 'system'),
   ('3ecb944d1f8b4f1c8d103d828802b45a', 'd7d079a76ee34b7aa75da2822e5e8af7', 'ea78156548304912ba15866769f8232c', NOW(), NOW(), 'system', 'system'),
@@ -76,7 +74,6 @@ VALUES
   ('f5366b41d7ce4ff8b32a23820d556710', 'd7d079a76ee34b7aa75da2822e5e8af7', 'db34210cc50041848195a0f7e052f9aa', NOW(), NOW(), 'system', 'system'),
   ('4de473b6d95549059d80d21a83ef21fe', 'd7d079a76ee34b7aa75da2822e5e8af7', '97412ee91385480c97125dd9ff020007', NOW(), NOW(), 'system', 'system'),
   ('728f4394067943c79689f1d5e50cadef', 'd7d079a76ee34b7aa75da2822e5e8af7', '44201603df904c3890932bda1863cfa1', NOW(), NOW(), 'system', 'system'),
-  ('40dfbd16ddbe4809ad706d0e65d822f4', 'd7d079a76ee34b7aa75da2822e5e8af7', 'b7b0bc87440d4a56858a9645ec619cea', NOW(), NOW(), 'system', 'system'),
 -- 运营经理角色菜单权限，默认拥有所有权限
   ('ae690721212c46d6ade8c9a3a7774d6e', '3efe2c6f9be1414abc0e8055e5f2f921', 'ab554862cec74ce3bbdb209e067ee28c', NOW(), NOW(), 'system', 'system'),
   ('f84686cf28844459ac0bcb4a2a3f716f', '3efe2c6f9be1414abc0e8055e5f2f921', 'ea78156548304912ba15866769f8232c', NOW(), NOW(), 'system', 'system'),
@@ -86,7 +83,6 @@ VALUES
   ('b50908e4a725444e9677516208db000e', '3efe2c6f9be1414abc0e8055e5f2f921', 'db34210cc50041848195a0f7e052f9aa', NOW(), NOW(), 'system', 'system'),
   ('416452871c4e4452a4266ef21e27db4c', '3efe2c6f9be1414abc0e8055e5f2f921', '97412ee91385480c97125dd9ff020007', NOW(), NOW(), 'system', 'system'),
   ('7349fa7e4f4b49359c31492e5480f988', '3efe2c6f9be1414abc0e8055e5f2f921', '44201603df904c3890932bda1863cfa1', NOW(), NOW(), 'system', 'system'),
-  ('1e56abefe93744269868bd2c98336c28', '3efe2c6f9be1414abc0e8055e5f2f921', 'b7b0bc87440d4a56858a9645ec619cea', NOW(), NOW(), 'system', 'system'),
 -- 主管角色菜单权限，默认拥有所有权限
   ('1f6dd72b317d4e27ba7171de0fbe24f4', 'f9b2507440754264885f99946bfde304', 'ab554862cec74ce3bbdb209e067ee28c', NOW(), NOW(), 'system', 'system'),
   ('497b33e0b68b4c04b7398cb2ced9aada', 'f9b2507440754264885f99946bfde304', 'ea78156548304912ba15866769f8232c', NOW(), NOW(), 'system', 'system'),
@@ -95,14 +91,13 @@ VALUES
   ('63087a797e1c41ac893d7b65190d9588', 'f9b2507440754264885f99946bfde304', '708f1224ef3c4c4d836321134cc071b1', NOW(), NOW(), 'system', 'system'),
   ('cde4b0f647934bf78bed5e6b567f3037', 'f9b2507440754264885f99946bfde304', 'db34210cc50041848195a0f7e052f9aa', NOW(), NOW(), 'system', 'system'),
   ('d9e4835ed7c44e20a77ec98b33a74590', 'f9b2507440754264885f99946bfde304', '97412ee91385480c97125dd9ff020007', NOW(), NOW(), 'system', 'system'),
-  ('aee432116bbe41d98e7027aa9a808474', 'f9b2507440754264885f99946bfde304', '44201603df904c3890932bda1863cfa1', NOW(), NOW(), 'system', 'system'),
-  ('6fc22b4730584910a2b1ff1529fc6f48', 'f9b2507440754264885f99946bfde304', 'b7b0bc87440d4a56858a9645ec619cea', NOW(), NOW(), 'system', 'system');
+  ('aee432116bbe41d98e7027aa9a808474', 'f9b2507440754264885f99946bfde304', '44201603df904c3890932bda1863cfa1', NOW(), NOW(), 'system', 'system');
 
 -- 初始化超级管理员数据
 INSERT IGNORE INTO
   `yhcc_employee`
 VALUES
-  ('1', 'YHCC_EMP_ADMIN', '超级管理员', '-----------' , '', 'admin', 'admin', 1, 1, '', NOW(), NOW(), 'system', 'system');
+  ('1', 'YHCC_EMP_ADMIN', '超级管理员', '-----------' , '', 'admincc', 'admincc', 1, 1, '', NOW(), NOW(), 'system', 'system');
 
 -- 初始化超级管理员角色数据
 INSERT IGNORE INTO

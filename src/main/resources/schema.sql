@@ -112,7 +112,8 @@ CREATE TABLE IF NOT EXISTS `yhcc_token`(
   `modify_time` DATETIME,
   `create_user` VARCHAR (50),
   `modify_user` VARCHAR (50),
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY (`employee_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 创建AppToken表

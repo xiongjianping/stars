@@ -172,6 +172,13 @@ public interface RegionMapper {
     List<Company> findCompanyByAreaId(String areaId);
 
     /**
+     *@Author:Fly Created in 2018/7/27 下午3:25
+     *@Description: 查询所有公司
+     */
+    @Select("select * from yhcc_company")
+    List<Company> findCompany();
+
+    /**
      *@Author:Fly Created in 2018/7/6 下午4:41
      *@Description: 按照公司id查询公司
      */

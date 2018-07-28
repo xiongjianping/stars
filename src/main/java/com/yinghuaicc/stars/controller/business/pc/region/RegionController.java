@@ -106,6 +106,18 @@ public class RegionController {
     }
 
     /**
+     *@Author:Fly Created in 2018/7/27 下午4:46
+     *@Description: 删除项目
+     */
+    @GetMapping(value = "/remove/project/{projectId}")
+    public JsonResult removeProject(@PathVariable String projectId){
+
+        regionService.removeProject(projectId);
+
+        return JsonResult.success("OK");
+    }
+
+    /**
      *@Author:Fly Created in 2018/7/4 下午4:46
      *@Description: 添加公司
      */
@@ -136,6 +148,16 @@ public class RegionController {
     public JsonResult findCompanyByAreaId(@PathVariable String areaId){
 
         return JsonResult.success(regionService.findCompanyByAreaId(areaId));
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/27 下午3:26
+     *@Description: 查询所有公司
+     */
+    @GetMapping(value = "/find/company/all")
+    public JsonResult findCompanyAll(){
+
+        return JsonResult.success(regionService.findCompanyAll());
     }
 
     /**

@@ -143,6 +143,7 @@ public interface TissueMapper {
      *@Author:Fly Created in 2018/7/11 下午5:39
      *@Description: 通过项目id删除员工项目数据权限
      */
+    @Delete("delete from yhcc_employee_project_data where project_id = #{projectId}")
     void removeEmployeeProjectDataByProjectId(String projectId);
 
     /**

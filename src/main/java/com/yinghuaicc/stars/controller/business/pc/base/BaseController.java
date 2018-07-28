@@ -159,4 +159,24 @@ public class BaseController {
 
         return JsonResult.success(baseService.findBusinessSpeciesById(id));
     }
+
+    /**
+     *@Author:Fly Created in 2018/7/27 下午5:50
+     *@Description: 业态下拉
+     */
+    @GetMapping(value = "/find/business/form/select")
+    public JsonResult findBusinessFormSelect(){
+
+        return JsonResult.success(baseService.findFindBusinessFormSelect());
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/27 下午5:59
+     *@Description: 业种下拉
+     */
+    @GetMapping(value = "/find/business/species/select/{businessFormId}")
+    public JsonResult findBusinessSpeciesSelect(@PathVariable String businessFormId){
+
+        return JsonResult.success(baseService.findBusinessSpeciesSelect(businessFormId));
+    }
 }

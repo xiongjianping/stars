@@ -20,6 +20,9 @@ public class BrandCQRSListRequestDTO {
     //业态id
     private String businessFormId = "";
 
+    //业种id
+    private String businessSpeciesId = "";
+
     //开始创建时间
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate createTimeBegin;
@@ -61,6 +64,15 @@ public class BrandCQRSListRequestDTO {
 
     public BrandCQRSListRequestDTO setCreateTimeEnd(LocalDate createTimeEnd) {
         this.createTimeEnd = createTimeEnd;
+        return this;
+    }
+
+    public String getBusinessSpeciesId() {
+        return businessSpeciesId;
+    }
+
+    public BrandCQRSListRequestDTO setBusinessSpeciesId(String businessSpeciesId) {
+        this.businessSpeciesId = businessSpeciesId;
         return this;
     }
 }

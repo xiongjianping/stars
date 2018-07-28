@@ -116,6 +116,12 @@ public interface RegionService {
     List<FindCompanyByAreaIdResponseDTO> findCompanyByAreaId(String areaId);
 
     /**
+     *@Author:Fly Created in 2018/7/27 下午3:23
+     *@Description: 查询所有公司
+     */
+    List<FindCompanyByAreaIdResponseDTO> findCompanyAll();
+
+    /**
      *@Author:Fly Created in 2018/7/5 下午3:15
      *@Description: 查询所有项目数据权限
      */

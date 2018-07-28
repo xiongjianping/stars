@@ -407,6 +407,16 @@ public class RegionServiceImpl implements RegionService {
     }
 
     /**
+     *@Author:Fly Created in 2018/7/27 下午3:24
+     *@Description: 查询所有公司
+     */
+    @Override
+    public List<FindCompanyByAreaIdResponseDTO> findCompanyAll() {
+
+        return MapperFactoryUtil.mapperList(regionMapper.findCompany(), FindCompanyByAreaIdResponseDTO.class);
+    }
+
+    /**
      *@Author:Fly Created in 2018/7/5 下午3:17
      *@Description: 查询所有项目数据权限
      */
