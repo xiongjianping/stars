@@ -1,7 +1,9 @@
 package com.yinghuaicc.stars.repository.mapper.standard;
 
+import com.yinghuaicc.stars.repository.model.standard.StandardFloorFitted;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardFloorFittedRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardFloorFittedResponseDTO;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -34,5 +36,16 @@ public interface StandardFloorFittedMapper {
      */
     @Select("select * from yhcc_standard_floor_Fitted where project_id = #{projectId} and floor_id = #{floorId}")
     StandardFloorFittedResponseDTO findstandardFloorFittedByProjectIdAndFloorId(@Param("projectId")String projectId,@Param("floorId")String floorId);
+
+
+    /**
+     * 添加楼层适配值
+     * @param standardFloorFitted
+     */
+    @Insert("insert into yhcc_standard_floor_Fitted " +
+            "values(#{id},#{standardVerssionId},#{standardVerssionName},#{projectId},#{projectName}," +
+            "#{floorId},#{floorName},#{fitted},#{createTime},#{createTime},#{modifyTime},#{createUser},#{modifyUser},#{status})")
+    void saveStandardFloorFitted(StandardFloorFitted standardFloorFitted);
+
 
 }

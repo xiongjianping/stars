@@ -7,6 +7,7 @@ import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.standard.StandardConditionFittedMapper;
 import com.yinghuaicc.stars.repository.mapper.standard.StandardConditionRentMapper;
+import com.yinghuaicc.stars.repository.model.standard.StandardConditionFitted;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardConditionFittedRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardConditionRentRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardConditionFittedResponseDTO;
@@ -37,6 +38,11 @@ public class StandardConditionFittedServiceImpl implements StandardConditionFitt
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
+    }
+
+    @Override
+    public void saveStandardConditionFitted(StandardConditionFitted standardConditionFitted) {
+        standardConditionFittedMapper.saveStandardConditionFitted(standardConditionFitted);
     }
 
 

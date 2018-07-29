@@ -6,6 +6,7 @@ import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.standard.StandardConditionRentMapper;
+import com.yinghuaicc.stars.repository.model.standard.StandardConditionRent;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardConditionRentRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardConditionRentResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,11 @@ public class StandardConditionRentServiceImpl implements StandardConditionRentSe
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
+    }
+
+    @Override
+    public void saveStandardConditionRent(StandardConditionRent standardConditionRent) {
+        standardConditionRentMapper.saveStandardConditionRent(standardConditionRent);
     }
 
 

@@ -6,6 +6,7 @@ import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.standard.StandardFloorFittedMapper;
+import com.yinghuaicc.stars.repository.model.standard.StandardFloorFitted;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardFloorFittedRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardFloorFittedResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,11 @@ public class StandardFloorFittedServiceImpl implements StandardFloorFittedServic
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
+    }
+
+    @Override
+    public void saveStandardFloorFitted(StandardFloorFitted standardFloorFitted) {
+        standardFloorFittedMapper.saveStandardFloorFitted(standardFloorFitted);
     }
 
 

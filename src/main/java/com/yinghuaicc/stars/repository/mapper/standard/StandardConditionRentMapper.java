@@ -1,9 +1,11 @@
 package com.yinghuaicc.stars.repository.mapper.standard;
 
+import com.yinghuaicc.stars.repository.model.standard.StandardConditionRent;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardConditionRentRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardFloorRentRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardConditionRentResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardProjectRentResponseDTO;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -32,7 +34,14 @@ public interface StandardConditionRentMapper {
             "</script>")
     List<StandardConditionRentResponseDTO> findStandardConditionRentByStandardConditionRentCQRS(@Param("search") StandardConditionRentRequestDTO standardConditionRentRequestDTO);
 
-
+    /**
+     * 新增标准三角形业态溢租率
+     * @param standardConditionRent
+     */
+    @Insert("insert into yhcc_standard_condition_rent " +
+            "values(#{id},#{standardVerssionId},#{standardVerssionName},#{projectId},#{projectName},#{conditionId}," +
+            "#{conditionName},#{majoId},#{majoName},#{rent},#{createTime},#{modifyTime},#{createUser},#{modifyUser},#{status})")
+    void saveStandardConditionRent(StandardConditionRent standardConditionRent);
 
 
 }

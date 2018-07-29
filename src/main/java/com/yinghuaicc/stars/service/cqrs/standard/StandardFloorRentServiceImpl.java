@@ -7,6 +7,7 @@ import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.standard.StandardFloorRentMapper;
 import com.yinghuaicc.stars.repository.mapper.standard.StandardProjectRentMapper;
+import com.yinghuaicc.stars.repository.model.standard.StandardFloorRent;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardFloorRentRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardProjectRentRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardFloorRentResponseDTO;
@@ -36,6 +37,11 @@ public class StandardFloorRentServiceImpl implements StandardFloorRentService {
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
+    }
+
+    @Override
+    public void saveStandardFloorRent(StandardFloorRent standardFloorRent) {
+        standardFloorRentMapper.saveStandardFloorRent(standardFloorRent);
     }
 
 
