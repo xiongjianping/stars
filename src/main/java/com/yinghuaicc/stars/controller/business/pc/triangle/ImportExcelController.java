@@ -5,7 +5,6 @@ import com.yinghuaicc.stars.common.utils.excel.ExcelImportUtil;
 import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.config.response.JsonResult;
-import com.yinghuaicc.stars.repository.model.standard.mult.*;
 import com.yinghuaicc.stars.repository.model.triangle.*;
 import com.yinghuaicc.stars.repository.model.triangle.mult.*;
 import com.yinghuaicc.stars.service.cqrs.triangle.*;
@@ -25,7 +24,6 @@ import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  *动态三角形数据导入

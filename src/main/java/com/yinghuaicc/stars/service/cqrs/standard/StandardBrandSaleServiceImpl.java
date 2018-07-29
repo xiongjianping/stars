@@ -6,6 +6,7 @@ import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.standard.StandardBrandSaleMapper;
+import com.yinghuaicc.stars.repository.model.standard.StandardBrandSale;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardBrandSaleRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardBrandSaleResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,4 +32,11 @@ public class StandardBrandSaleServiceImpl implements StandardBrandSaleService {
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
     }
+
+    @Override
+    public void saveStandardBrandSale(StandardBrandSale standardBrandSale) {
+        standardBrandSaleMapper.saveStandardBrandSale(standardBrandSale);
+    }
+
+
 }
