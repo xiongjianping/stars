@@ -4,6 +4,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -112,6 +113,24 @@ public final class LocalDateTimeUtils {
 
         return LocalDateTime.of(
                 localDate.getYear(),localDate.getMonth(),localDate.getDayOfMonth(),hour,minute,second);
+    }
+
+
+    /**
+     * 获取指定月份的天数
+     * Xiongjp
+     * @param year
+     * @param month
+     * @return
+     */
+    public static int getDaysByYearMonth(int year, int month) {
+        Calendar a = Calendar.getInstance();
+        a.set(Calendar.YEAR, year);
+        a.set(Calendar.MONTH, month - 1);
+        a.set(Calendar.DATE, 1);
+        a.roll(Calendar.DATE, -1);
+        int maxDate = a.get(Calendar.DATE);
+        return maxDate;
     }
 
 }

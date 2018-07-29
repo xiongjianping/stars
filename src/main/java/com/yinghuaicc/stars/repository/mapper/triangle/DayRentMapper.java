@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.repository.mapper.triangle;
 import com.yinghuaicc.stars.repository.model.triangle.DayRent;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.DayRentRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.DayRentResponseDTO;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -35,4 +36,13 @@ public interface DayRentMapper {
      */
     @Select("select * from yhcc_day_rent where contract_id = #{contractId} and create_time =#{createTime}")
     DayRentResponseDTO findDayRentResponseDTOByContractId(@Param("contractId")String contractId,@Param("createTime") LocalDateTime createTime);
+
+
+    /**
+     * 保存按天溢租率
+     * @param dayRent
+     */
+    @Insert("insert into yhcc_day_rent " +
+            "values( #{id},#{contractId},#{moonRentid},#{rent},#{propertyFee},#{staffEmp},#{fitment},#{agencyFee},#{profit},#{status},#{createTime},#{modifyTime},#{createUser},#{modifyUser})")
+    void saveDayRent(DayRent dayRent);
 }

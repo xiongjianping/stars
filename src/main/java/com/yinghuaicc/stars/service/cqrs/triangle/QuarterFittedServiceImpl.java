@@ -6,6 +6,7 @@ import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.triangle.QuarterFittedMapper;
+import com.yinghuaicc.stars.repository.model.triangle.QuarterFitted;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.QuarterFittedRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.QuarterFittedResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,15 @@ public class QuarterFittedServiceImpl implements  QuarterFittedService{
     @Override
     public QuarterFittedResponseDTO findQuarterFittedResponseDTOByContractId(String contractId, LocalDateTime time) {
         return quarterFittedMapper.findQuarterFittedResponseDTOByContractId(contractId,time);
+    }
+
+    @Override
+    public void saveQuarterFitted(QuarterFitted quarterFitted) {
+        quarterFittedMapper.saveQuarterFitted(quarterFitted);
+    }
+
+    @Override
+    public void editQuarterFitted(QuarterFitted quarterFitted) {
+        quarterFittedMapper.editQuarterFitted(quarterFitted);
     }
 }

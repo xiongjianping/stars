@@ -2,8 +2,10 @@ package com.yinghuaicc.stars.service.cqrs.triangle;
 
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
+import com.yinghuaicc.stars.repository.model.triangle.DayRent;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.DayRentRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.DayRentResponseDTO;
+import org.apache.ibatis.annotations.Insert;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +26,13 @@ public interface DayRentService {
      * @return
      */
     DayRentResponseDTO findDayRentResponseDTOByContractId(String contractId,LocalDateTime time);
+
+
+    /**
+     * 保存按天溢租率
+     * @param dayRent
+     */
+    void saveDayRent(DayRent dayRent);
 
 
 }

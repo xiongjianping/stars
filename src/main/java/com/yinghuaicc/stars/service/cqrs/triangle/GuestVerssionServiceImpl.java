@@ -6,6 +6,7 @@ import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.triangle.GuestVerssionMapper;
+import com.yinghuaicc.stars.repository.model.triangle.GuestVerssion;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.GuestVerssionRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.GuestVerssionResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,10 @@ public class GuestVerssionServiceImpl implements GuestVerssionService{
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
+    }
+
+    @Override
+    public void saveGuestVerssion(GuestVerssion guestVerssion) {
+        guestVerssionMapper.saveGuestVerssion(guestVerssion);
     }
 }

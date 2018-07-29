@@ -6,6 +6,7 @@ import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.triangle.FloorGuestMapper;
+import com.yinghuaicc.stars.repository.model.triangle.FloorGuest;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.FloorGuestRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.FloorGuestResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,10 @@ public class FloorGuestServiceImpl implements FloorGuestService {
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
+    }
+
+    @Override
+    public void saveFloorGuest(FloorGuest floorGuest) {
+        floorGuestMapper.saveFloorGuest(floorGuest);
     }
 }

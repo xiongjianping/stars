@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface StandardBrandSaleMapper {
 
-    @Select("<script>select * from yhcc_standard_brand_sale " +
+    @Select("<script>select * from yhcc_standard_condition_sale " +
             " <where> " +
             "<bind name='search.saleVessionName' value='search.saleVessionName' /> " +
             "<bind name='search.contractId' value='search.contractId' /> " +
@@ -22,5 +22,7 @@ public interface StandardBrandSaleMapper {
             "</where> " +
             "</script>")
     List<StandardBrandSaleResponseDTO> findStandardBrandSaleByStandardBrandSaleCQRS(@Param("search") StandardBrandSaleRequestDTO standardBrandSaleRequestDTO);
+
+
 
 }

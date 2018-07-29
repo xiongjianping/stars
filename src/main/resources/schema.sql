@@ -538,6 +538,7 @@ CREATE TABLE IF NOT EXISTS `yhcc_triangle`(
   `modify_user` VARCHAR (100),
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- 创建每日溢租率表
 CREATE TABLE IF NOT EXISTS `yhcc_day_rent`(
   `id` VARCHAR (50) NOT NULL,
@@ -569,6 +570,7 @@ CREATE TABLE IF NOT EXISTS `yhcc_moon_rent`(
   `fitment` decimal(18,2),
   `agency_fee` decimal(18,2),
   `profit` decimal(18,2),
+  `yearsmoon` DATETIME,
   `create_time` DATETIME,
   `modify_time` DATETIME,
   `create_user` VARCHAR (100),

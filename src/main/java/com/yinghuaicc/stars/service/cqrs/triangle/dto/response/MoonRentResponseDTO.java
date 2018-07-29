@@ -24,14 +24,15 @@ public class MoonRentResponseDTO {
     private BigDecimal  agencyFee;
     //净利润
     private BigDecimal profit;
-    //状态 1：未审核，2：审核成功，3：审核失败
-    private  String status;
 
+    //溢租率年月
+    private LocalDateTime yearsmoon;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
     private String createUser;
     private  String modifyUser;
-
+    //状态 1：未审核，2：审核成功，3：审核失败
+    private  String status;
     public String getId() {
         return id;
     }
@@ -142,5 +143,13 @@ public class MoonRentResponseDTO {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public LocalDateTime getYearsmoon() {
+        return yearsmoon;
+    }
+
+    public void setYearsmoon(LocalDateTime yearsmoon) {
+        this.yearsmoon = yearsmoon;
     }
 }
