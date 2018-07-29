@@ -7,6 +7,7 @@ import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.triangle.MoonRentMapper;
+import com.yinghuaicc.stars.repository.model.triangle.MoonRent;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.MoonRentRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.MoonRentResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,20 @@ public class MoonRentServiceImple implements MoonRentService {
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
 
+    }
+
+    @Override
+    public MoonRentResponseDTO findRentVerssionByContractId(MoonRentRequestDTO moonRentRequestDTO) {
+        return null;
+    }
+
+    @Override
+    public void saveMoonRent(MoonRent moonRent) {
+        moonRentMapper.saveMoonRent(moonRent);
+    }
+
+    @Override
+    public void editMoonRent(MoonRent moonRent) {
+        moonRentMapper.editMoonRent(moonRent);
     }
 }

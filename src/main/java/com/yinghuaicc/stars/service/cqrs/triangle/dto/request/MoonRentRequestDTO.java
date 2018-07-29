@@ -13,7 +13,6 @@ public class MoonRentRequestDTO {
     private String contractId;
     //版本id
     private String rentVerssionId;
-
     //租金
     private BigDecimal rant;
     //物业费

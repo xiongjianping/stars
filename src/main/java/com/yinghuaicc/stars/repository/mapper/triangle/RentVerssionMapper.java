@@ -3,10 +3,12 @@ package com.yinghuaicc.stars.repository.mapper.triangle;
 
 import com.yinghuaicc.stars.repository.model.triangle.RentVerssion;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.RentVerssionRequestDTO;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -33,5 +35,12 @@ public interface RentVerssionMapper {
     List<RentVerssion> findRentVerssionByRentVerssionCQRS(@Param("search")RentVerssionRequestDTO rentVerssionRequestDTO);
 
 
+    /**
+     * 保存溢租率版本信息
+     * @param rentVerssion
+     */
+    @Insert("Insert into yhcc_rent_verssion " +
+            "values(#{id},#{rentVerssionName},#{sumTarget},#{targetcount},#{untargetcount},#{createTime},#{modifyTime},#{createUser},#{modifyUser} )")
+    void saveRentVerssion(RentVerssion rentVerssion);
 
 }

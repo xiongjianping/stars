@@ -32,7 +32,6 @@ public class DayGuest {
     private BigDecimal saleroom;
     //净利润
     private BigDecimal profits;
-
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
     private String createUser;
