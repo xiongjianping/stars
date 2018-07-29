@@ -1,6 +1,8 @@
 package com.yinghuaicc.stars.repository.mapper.cqrs.brand;
 
+import com.yinghuaicc.stars.service.cqrs.brand.dto.request.AppBrandCQRSListRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.brand.dto.request.BrandCQRSListRequestDTO;
+import com.yinghuaicc.stars.service.cqrs.brand.dto.response.AppBrandCQRSListResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.brand.dto.response.BrandCQRSInfoResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.brand.dto.response.BrandCQRSListResponseDTO;
 import org.apache.ibatis.annotations.Param;
@@ -80,4 +82,27 @@ public interface BrandCQRSMapper {
             "where br.id = #{id}" +
             "</script> ")
     BrandCQRSInfoResponseDTO brandInfoCQRS(String id);
+
+
+    /**
+     * 通过项目id、楼层id、业态id查询品牌
+     * @param appBrandCQRSListRequestDTO
+     * @return
+     */
+    @Select("<script> " +
+            "SELECT b.`id` as 'brandId',b.`name` as 'brandName' FROM yhcc_contract a " +
+            "LEFT JOIN yhcc_brand b ON b.id = a.brand_id " +
+            "LEFT JOIN yhcc_floor c ON c.id = a.floor_id " +
+            "LEFT JOIN yhcc_project d ON a.project_id = d.id " +
+            "LEFT JOIN yhcc_business_form e on e.id =b.business_form_id " +
+            "<where> " +
+            "<bind name='search.projectId' value='search.projectId' /> " +
+            "<bind name='search.floorId' value='search.floorId' /> " +
+            "<bind name='search.floorId' value='search.floorId' /> " +
+            "<if test='search.projectId != null and search.projectId !=\"\"'>AND d.id = #{search.projectId}</if> " +
+            "<if test='search.floorId != null and search.floorId !=\"\"'>AND c.id = #{search.floorId}</if> " +
+            "<if test='search.businessFormId != null and search.businessFormId !=\"\"'>AND e.id floor_Id = #{search.businessFormId}</if> " +
+            "</where>" +
+            "</script>")
+    List<AppBrandCQRSListResponseDTO> appBrandListCQRS(@Param("search") AppBrandCQRSListRequestDTO appBrandCQRSListRequestDTO);
 }

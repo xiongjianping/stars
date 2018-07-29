@@ -2,9 +2,13 @@ package com.yinghuaicc.stars.service.cqrs.brand;
 
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
+import com.yinghuaicc.stars.service.cqrs.brand.dto.request.AppBrandCQRSListRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.brand.dto.request.BrandCQRSListRequestDTO;
+import com.yinghuaicc.stars.service.cqrs.brand.dto.response.AppBrandCQRSListResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.brand.dto.response.BrandCQRSInfoResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.brand.dto.response.BrandCQRSListResponseDTO;
+
+import java.util.List;
 
 
 /**
@@ -26,4 +30,10 @@ public interface BrandCQRSService {
      *@Description: 品牌详情
      */
     BrandCQRSInfoResponseDTO brandInfoCQRS(String id);
+
+    /**
+     *  通过项目id、楼层id、业态id查询品牌
+     * @return
+     */
+    List<AppBrandCQRSListResponseDTO> appBrandListCQRS(AppBrandCQRSListRequestDTO appBrandCQRSListRequestDTO);
 }

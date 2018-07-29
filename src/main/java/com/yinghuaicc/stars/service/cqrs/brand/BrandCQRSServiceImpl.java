@@ -6,7 +6,9 @@ import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.cqrs.brand.BrandCQRSMapper;
 import com.yinghuaicc.stars.service.cqrs.brand.BrandCQRSService;
+import com.yinghuaicc.stars.service.cqrs.brand.dto.request.AppBrandCQRSListRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.brand.dto.request.BrandCQRSListRequestDTO;
+import com.yinghuaicc.stars.service.cqrs.brand.dto.response.AppBrandCQRSListResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.brand.dto.response.BrandCQRSInfoResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.brand.dto.response.BrandCQRSListResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +55,10 @@ public class BrandCQRSServiceImpl implements BrandCQRSService{
     public BrandCQRSInfoResponseDTO brandInfoCQRS(String id) {
 
         return brandCQRSMapper.brandInfoCQRS(id);
+    }
+
+    @Override
+    public List<AppBrandCQRSListResponseDTO> appBrandListCQRS(AppBrandCQRSListRequestDTO appBrandCQRSListRequestDTO) {
+      return   brandCQRSMapper.appBrandListCQRS(appBrandCQRSListRequestDTO);
     }
 }
