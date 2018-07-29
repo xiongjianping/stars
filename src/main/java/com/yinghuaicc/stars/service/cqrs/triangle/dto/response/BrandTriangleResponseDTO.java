@@ -21,7 +21,7 @@ public class BrandTriangleResponseDTO {
     //标准三角形适配值
     private BigDecimal StandardFitted;
     //标准三角形客销度
-    private BigDecimal StandarGuest;
+    private BigDecimal StandardGuest;
     //区间设置溢租率
     private Map<String ,Integer> intervalRent;
     //区间设置适配值
@@ -75,35 +75,35 @@ public class BrandTriangleResponseDTO {
         StandardFitted = standardFitted;
     }
 
-    public BigDecimal getStandarGuest() {
-        return StandarGuest;
+    public BigDecimal getStandardGuest() {
+        return StandardGuest;
     }
 
-    public void setStandarGuest(BigDecimal standarGuest) {
-        StandarGuest = standarGuest;
+    public void setStandardGuest(BigDecimal standardGuest) {
+        StandardGuest = standardGuest;
     }
 
-    public Map getIntervalRent() {
+    public Map<String, Integer> getIntervalRent() {
         return intervalRent;
     }
 
-    public void setIntervalRent(Map intervalRent) {
+    public void setIntervalRent(Map<String, Integer> intervalRent) {
         this.intervalRent = intervalRent;
     }
 
-    public Map getIntervalFitted() {
+    public Map<String, Integer> getIntervalFitted() {
         return intervalFitted;
     }
 
-    public void setIntervalFitted(Map intervalFitted) {
+    public void setIntervalFitted(Map<String, Integer> intervalFitted) {
         this.intervalFitted = intervalFitted;
     }
 
-    public Map getIntervalGuest() {
+    public Map<String, Integer> getIntervalGuest() {
         return intervalGuest;
     }
 
-    public void setIntervalGuest(Map intervalGuest) {
+    public void setIntervalGuest(Map<String, Integer> intervalGuest) {
         this.intervalGuest = intervalGuest;
     }
 

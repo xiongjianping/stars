@@ -7,6 +7,7 @@ import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.triangle.DayRentMapper;
+import com.yinghuaicc.stars.repository.model.triangle.DayRent;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.DayRentRequestDTO;
 
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.DayRentResponseDTO;
@@ -38,6 +39,11 @@ public class DayRentServiceImpl implements DayRentService{
     @Override
     public DayRentResponseDTO findDayRentResponseDTOByContractId(String contractId, LocalDateTime time) {
         return dayRentMapper.findDayRentResponseDTOByContractId(contractId,time);
+    }
+
+    @Override
+    public void saveDayRent(DayRent dayRent) {
+        dayRentMapper.saveDayRent(dayRent);
     }
 
 

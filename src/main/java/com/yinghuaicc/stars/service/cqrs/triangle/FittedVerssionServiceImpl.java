@@ -6,6 +6,7 @@ import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.triangle.FittedVerssionMapper;
+import com.yinghuaicc.stars.repository.model.triangle.FittedVerssion;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.FittedVerssionRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.FittedVerssionResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,10 @@ public class FittedVerssionServiceImpl implements FittedVerssionService{
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
+    }
+
+    @Override
+    public void saveFittedVerssion(FittedVerssion fittedVerssion) {
+        fittedVerssionMapper.saveFittedVerssion(fittedVerssion);
     }
 }

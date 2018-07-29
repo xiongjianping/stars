@@ -2,6 +2,7 @@ package com.yinghuaicc.stars.repository.mapper.triangle;
 
 import com.yinghuaicc.stars.repository.model.triangle.FittedVerssion;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.FittedVerssionRequestDTO;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -26,4 +27,9 @@ public interface FittedVerssionMapper {
             "</where> " +
             "</script>")
     List<FittedVerssion> findFittedVerssionByFittedVerssionCQRS(@Param("search")FittedVerssionRequestDTO fittedVerssionRequestDTO);
+
+
+    @Insert("insert into yhcc_fitted_verssion " +
+            "values(#{id},#{fittedVerssionName},,#{tempId},#{sumTarget},#{targetcount},#{untargetcount},#{createTime},#{modifyTime},#{createUser},#{modifyUser},#{status} )")
+    void saveFittedVerssion(FittedVerssion fittedVerssion);
 }

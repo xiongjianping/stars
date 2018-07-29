@@ -6,6 +6,7 @@ import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.triangle.ProjectGuestMapper;
+import com.yinghuaicc.stars.repository.model.triangle.ProjectGuest;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.ProjectGuestRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.ProjectGuestResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,10 @@ public class ProjectGuestServiceImpl  implements ProjectGuestService{
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
+    }
+
+    @Override
+    public void saveProjectGuest(ProjectGuest projectGuest) {
+        projectGuestMapper.saveProjectGuest(projectGuest);
     }
 }

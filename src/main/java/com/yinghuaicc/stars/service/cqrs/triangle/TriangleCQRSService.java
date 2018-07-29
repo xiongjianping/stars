@@ -38,4 +38,6 @@ public interface TriangleCQRSService {
     BrandTriangleResponseDTO findBrandTriangleByConditionId(BrandTriangleRequestDTO brandTriangleRequestDTO);
 
 
+
+
 }

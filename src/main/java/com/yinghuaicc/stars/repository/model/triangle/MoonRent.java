@@ -14,7 +14,6 @@ public class MoonRent {
     private String contractId;
     //版本id
     private String rentVerssionId;
-
     //租金
     private BigDecimal rent;
     //物业费
@@ -27,7 +26,8 @@ public class MoonRent {
     private BigDecimal  agencyFee;
     //净利润
     private BigDecimal profit;
-
+    //溢租率年月
+    private LocalDateTime yearsmoon;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
     private String createUser;
@@ -145,5 +145,13 @@ public class MoonRent {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public LocalDateTime getYearsmoon() {
+        return yearsmoon;
+    }
+
+    public void setYearsmoon(LocalDateTime yearsmoon) {
+        this.yearsmoon = yearsmoon;
     }
 }

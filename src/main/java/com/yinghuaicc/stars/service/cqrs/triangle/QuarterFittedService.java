@@ -2,6 +2,7 @@ package com.yinghuaicc.stars.service.cqrs.triangle;
 
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
+import com.yinghuaicc.stars.repository.model.triangle.QuarterFitted;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.QuarterFittedRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.QuarterFittedResponseDTO;
 import org.apache.ibatis.annotations.Param;
@@ -28,5 +29,20 @@ public interface QuarterFittedService {
      * @return
      */
     QuarterFittedResponseDTO findQuarterFittedResponseDTOByContractId(String contractId,LocalDateTime time);
+
+
+    /**
+     * 保存动态三角形适配值
+     * @param quarterFitted
+     */
+   void  saveQuarterFitted(QuarterFitted quarterFitted);
+
+    /**
+     * 修改动态三角形适配值
+     * @param quarterFitted
+     */
+   void editQuarterFitted(QuarterFitted quarterFitted);
+
+
 
 }
