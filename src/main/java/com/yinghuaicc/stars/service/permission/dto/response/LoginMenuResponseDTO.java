@@ -14,7 +14,7 @@ import java.util.Objects;
  * @Description: 员工登录后返回的菜单
  * @Modified:
  */
-public class LoginMenuResponseDTO {
+public class LoginMenuResponseDTO implements Comparable<LoginMenuResponseDTO>{
 
     //id
     private String id;
@@ -175,5 +175,12 @@ public class LoginMenuResponseDTO {
     public LoginMenuResponseDTO setChildMenus(List<LoginMenuResponseDTO> childMenus) {
         this.childMenus = childMenus;
         return this;
+    }
+
+
+    @Override
+    public int compareTo(LoginMenuResponseDTO o) {
+
+        return o.getSort().compare(this.getSort(), o.sort);
     }
 }

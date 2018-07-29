@@ -46,8 +46,14 @@ public class ProjectCQRSInfoByIdResponseDTO {
     //项目负责人名称
     private String projectHeadName;
 
-    //项目运营人名称
-    private String projectAuditName;
+    //项目负责人id
+    private String projectHeadId;
+
+    //部门名称
+    private String deptName;
+
+    //部门id
+    private String deptId;
 
     //项目负责组员名称
     private List<ProjectCQRSInfoEmployeeResponseDTO> projectRelationTeamName = new ArrayList<ProjectCQRSInfoEmployeeResponseDTO>();
@@ -157,15 +163,6 @@ public class ProjectCQRSInfoByIdResponseDTO {
         return this;
     }
 
-    public String getProjectAuditName() {
-        return projectAuditName;
-    }
-
-    public ProjectCQRSInfoByIdResponseDTO setProjectAuditName(String projectAuditName) {
-        this.projectAuditName = projectAuditName;
-        return this;
-    }
-
     public List<ProjectCQRSInfoEmployeeResponseDTO> getProjectRelationTeamName() {
         return projectRelationTeamName;
     }
@@ -190,6 +187,33 @@ public class ProjectCQRSInfoByIdResponseDTO {
 
     public ProjectCQRSInfoByIdResponseDTO setAcreage(BigDecimal acreage) {
         this.acreage = acreage;
+        return this;
+    }
+
+    public String getProjectHeadId() {
+        return projectHeadId;
+    }
+
+    public ProjectCQRSInfoByIdResponseDTO setProjectHeadId(String projectHeadId) {
+        this.projectHeadId = projectHeadId;
+        return this;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public ProjectCQRSInfoByIdResponseDTO setDeptName(String deptName) {
+        this.deptName = deptName;
+        return this;
+    }
+
+    public String getDeptId() {
+        return deptId;
+    }
+
+    public ProjectCQRSInfoByIdResponseDTO setDeptId(String deptId) {
+        this.deptId = deptId;
         return this;
     }
 }

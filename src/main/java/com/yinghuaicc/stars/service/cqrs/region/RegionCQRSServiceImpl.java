@@ -86,12 +86,12 @@ public class RegionCQRSServiceImpl implements RegionCQRSService {
             throw exceptionUtil.throwCustomException("CQRS_PROJECT_PROJECT_INFO_001");
         }
 
-        result.setProjectRelationTeamName(
-                MapperFactoryUtil.mapperList(
-                        tissueMapper.findEmployeeListById(
-                                regionMapper.findEmployeeProjectRelationTeamByProjectId(projectId)
-                                        .stream().map(employeeProjectRelationTeam -> employeeProjectRelationTeam.getEmployeeId()).collect(Collectors.toList())), ProjectCQRSInfoEmployeeResponseDTO.class))
-                .setProjectImages(regionMapper.findProjectImageByProjectId(projectId).stream().map(projectImage -> projectImage.getUrl()).collect(Collectors.toList()));
+//        result.setProjectRelationTeamName(
+//                MapperFactoryUtil.mapperList(
+//                        tissueMapper.findEmployeeListById(
+//                                regionMapper.findEmployeeProjectRelationTeamByProjectId(projectId)
+//                                        .stream().map(employeeProjectRelationTeam -> employeeProjectRelationTeam.getEmployeeId()).collect(Collectors.toList())), ProjectCQRSInfoEmployeeResponseDTO.class))
+//                .setProjectImages(regionMapper.findProjectImageByProjectId(projectId).stream().map(projectImage -> projectImage.getUrl()).collect(Collectors.toList()));
 
         return result;
     }

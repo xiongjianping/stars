@@ -25,7 +25,7 @@ public class EditProjectRequestDTO {
 
     //项目名称
     @NotEmpty(message = "REGION_EDIT_PROJECT_001")
-    private String name;
+    private String projectName;
 
     //城市公司id（区域公司）
     @NotEmpty(message = "REGION_EDIT_PROJECT_002")
@@ -39,13 +39,13 @@ public class EditProjectRequestDTO {
     @NotEmpty(message = "REGION_EDIT_PROJECT_004")
     private String projectHeadId;
 
-    //项目运营人id
-    @NotEmpty(message = "REGION_EDIT_PROJECT_005")
-    private String projectAuditId;
+//    //项目运营人id
+//    @NotEmpty(message = "REGION_EDIT_PROJECT_005")
+//    private String projectAuditId;
 
-    //项目负责组员id
-    @NotNull(message = "REGION_EDIT_PROJECT_006")
-    private List<String> employeeProjectTeamId = new ArrayList<String>();
+//    //项目负责组员id
+//    @NotNull(message = "REGION_EDIT_PROJECT_006")
+//    private List<String> employeeProjectTeamId = new ArrayList<String>();
 
     //面积
     @NotNull(message = "REGION_EDIT_PROJECT_009")
@@ -69,15 +69,6 @@ public class EditProjectRequestDTO {
 
     public EditProjectRequestDTO setAreaId(String areaId) {
         this.areaId = areaId;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public EditProjectRequestDTO setName(String name) {
-        this.name = name;
         return this;
     }
 
@@ -108,24 +99,6 @@ public class EditProjectRequestDTO {
         return this;
     }
 
-    public String getProjectAuditId() {
-        return projectAuditId;
-    }
-
-    public EditProjectRequestDTO setProjectAuditId(String projectAuditId) {
-        this.projectAuditId = projectAuditId;
-        return this;
-    }
-
-    public List<String> getEmployeeProjectTeamId() {
-        return employeeProjectTeamId;
-    }
-
-    public EditProjectRequestDTO setEmployeeProjectTeamId(List<String> employeeProjectTeamId) {
-        this.employeeProjectTeamId = employeeProjectTeamId;
-        return this;
-    }
-
     public List<String> getProjectImages() {
         return projectImages;
     }
@@ -141,6 +114,15 @@ public class EditProjectRequestDTO {
 
     public EditProjectRequestDTO setAcreage(BigDecimal acreage) {
         this.acreage = acreage;
+        return this;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public EditProjectRequestDTO setProjectName(String projectName) {
+        this.projectName = projectName;
         return this;
     }
 }

@@ -1,5 +1,6 @@
 package com.yinghuaicc.stars.service.region;
 
+import com.yinghuaicc.stars.repository.model.tissue.Employee;
 import com.yinghuaicc.stars.service.region.dto.request.*;
 import com.yinghuaicc.stars.service.region.dto.response.*;
 
@@ -116,6 +117,12 @@ public interface RegionService {
     List<FindCompanyByAreaIdResponseDTO> findCompanyByAreaId(String areaId);
 
     /**
+     *@Author:Fly Created in 2018/7/27 下午3:23
+     *@Description: 查询所有公司
+     */
+    List<FindCompanyByAreaIdResponseDTO> findCompanyAll();
+
+    /**
      *@Author:Fly Created in 2018/7/5 下午3:15
      *@Description: 查询所有项目数据权限
      */
@@ -126,5 +133,11 @@ public interface RegionService {
      *@Description: 所有组织机构树
      */
     List<FindCompanyTreeResponseDTO> orgTreeAll();
+
+    /**
+     *@Author:Fly Created in 2018/7/28 下午12:35
+     *@Description: 查询公司下员工
+     */
+    List<Employee> findEmployeeByCompanyId(String companyId);
 
 }

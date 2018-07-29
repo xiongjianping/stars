@@ -172,6 +172,13 @@ public interface RegionMapper {
     List<Company> findCompanyByAreaId(String areaId);
 
     /**
+     *@Author:Fly Created in 2018/7/27 下午3:25
+     *@Description: 查询所有公司
+     */
+    @Select("select * from yhcc_company")
+    List<Company> findCompany();
+
+    /**
      *@Author:Fly Created in 2018/7/6 下午4:41
      *@Description: 按照公司id查询公司
      */
@@ -258,7 +265,7 @@ public interface RegionMapper {
      */
     @Update("update yhcc_floor set num = #{num}, company_id = #{companyId}, project_id = #{projectId}, building_id = #{buildingId}, name = #{name}, " +
             "location = #{location}, acreage = #{acreage}, state = #{state}, create_time = #{createTime}, modify_time = #{modifyTime}, " +
-            "create_user = #{createUser}, modify_user = #{modifyUser}")
+            "create_user = #{createUser}, modify_user = #{modifyUser} where id = #{id}")
     void editFloor(Floor floor);
 
     /**

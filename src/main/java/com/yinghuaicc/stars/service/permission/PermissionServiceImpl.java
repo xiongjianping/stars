@@ -22,6 +22,7 @@ import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -89,7 +90,7 @@ public class PermissionServiceImpl implements PermissionService{
         //获取所有菜单
         List<Menu> menuAll = permissionMapper.findMenuAll();
 
-        return this.confMenus(PermissionMenus, menuAll);
+        return this.menuSort(this.confMenus(PermissionMenus, menuAll));
     }
 
     /**
@@ -150,7 +151,7 @@ public class PermissionServiceImpl implements PermissionService{
 
         });
 
-        return resultMenuTree;
+        return this.menuSort(resultMenuTree);
     }
 
     /**
@@ -181,6 +182,11 @@ public class PermissionServiceImpl implements PermissionService{
 
             result.add(roleAllMenuResponseDTO);
 
+        });
+
+        result.stream().forEach(roleAllMenuResponseDTO -> {
+
+            this.menuSort(roleAllMenuResponseDTO.getMenuTree());
         });
 
         return result;
@@ -464,6 +470,22 @@ public class PermissionServiceImpl implements PermissionService{
         });
 
         return result.stream().filter(menuResult -> StringUtils.isEmpty(menuResult.getParentId())).distinct().collect(Collectors.toList());
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/26 下午7:17
+     *@Description: 菜单排序
+     */
+    private List<LoginMenuResponseDTO> menuSort(List<LoginMenuResponseDTO> loginMenuResponseDTOS){
+
+        if (Objects.isNull(loginMenuResponseDTOS)||loginMenuResponseDTOS.size()==0){
+
+            return loginMenuResponseDTOS;
+        }
+
+        Collections.sort(loginMenuResponseDTOS);
+
+        return loginMenuResponseDTOS;
     }
 
 }

@@ -9,6 +9,7 @@ import com.yinghuaicc.stars.repository.mapper.region.RegionMapper;
 import com.yinghuaicc.stars.repository.mapper.tissue.TissueMapper;
 import com.yinghuaicc.stars.repository.model.region.*;
 import com.yinghuaicc.stars.repository.model.tissue.Department;
+import com.yinghuaicc.stars.repository.model.tissue.Employee;
 import com.yinghuaicc.stars.repository.model.tissue.EmployeeProjectRelationTeam;
 import com.yinghuaicc.stars.service.region.dto.request.*;
 import com.yinghuaicc.stars.service.region.dto.response.*;
@@ -51,13 +52,6 @@ public class RegionServiceImpl implements RegionService {
     @Override
     public void saveProject(SaveProjectRequestDTO saveProjectRequestDTO, String loginEmployeeId) {
 
-        List<String> employeeProjectRelationTeamIds = saveProjectRequestDTO.getEmployeeProjectTeamId();
-
-        if (Objects.isNull(employeeProjectRelationTeamIds)||employeeProjectRelationTeamIds.size()==0){
-
-            throw exceptionUtil.throwCustomException("REGION_SAVE_PROJECT_006");
-        }
-
         //添加项目
         Project project = MapperFactoryUtil.mapperObject(saveProjectRequestDTO, Project.class)
                 .setId(UuidUtil.randomUUID())
@@ -88,12 +82,12 @@ public class RegionServiceImpl implements RegionService {
         }
 
         //添加项目负责组员
-        this.saveEmployeeProjectRelationTeam(employeeProjectRelationTeamIds, project.getId(), loginEmployeeId);
+//        this.saveEmployeeProjectRelationTeam(employeeProjectRelationTeamIds, project.getId(), loginEmployeeId);
 
         //添加项目图片
         List<String> urls = saveProjectRequestDTO.getProjectImages();
 
-        if (Objects.nonNull(urls)||urls.size()>0){
+        if (Objects.nonNull(urls)&&urls.size()>0){
 
             this.saveProjectImages(urls, project.getId(), loginEmployeeId);
         }
@@ -107,12 +101,12 @@ public class RegionServiceImpl implements RegionService {
     @Override
     public void editProject(EditProjectRequestDTO editProjectRequestDTO, String loginEmployeeId) {
 
-        List<String> employeeProjectRelationTeamIds = editProjectRequestDTO.getEmployeeProjectTeamId();
-
-        if (Objects.isNull(employeeProjectRelationTeamIds)||employeeProjectRelationTeamIds.size()==0){
-
-            throw exceptionUtil.throwCustomException("REGION_EDIT_PROJECT_006");
-        }
+//        List<String> employeeProjectRelationTeamIds = editProjectRequestDTO.getEmployeeProjectTeamId();
+//
+//        if (Objects.isNull(employeeProjectRelationTeamIds)||employeeProjectRelationTeamIds.size()==0){
+//
+//            throw exceptionUtil.throwCustomException("REGION_EDIT_PROJECT_006");
+//        }
 
         Project project = regionMapper.findProjectById(editProjectRequestDTO.getProjectId());
 
@@ -124,11 +118,10 @@ public class RegionServiceImpl implements RegionService {
         //修改项目
         regionMapper.editProject(
                 project
-                        .setName(editProjectRequestDTO.getName())
+                        .setName(editProjectRequestDTO.getProjectName())
                         .setCompanyId(editProjectRequestDTO.getCompanyId())
                         .setState(editProjectRequestDTO.isState())
                         .setProjectHeadId(editProjectRequestDTO.getProjectHeadId())
-                        .setProjectAuditId(editProjectRequestDTO.getProjectAuditId())
                         .setAcreage(editProjectRequestDTO.getAcreage())
                         .setModifyUser(loginEmployeeId)
                         .setModifyTime(LocalDateTime.now()));
@@ -136,13 +129,13 @@ public class RegionServiceImpl implements RegionService {
         //删除原负责小组人员，添加新负责小组人员
         regionMapper.removeEmployeeProjectRelationTeam(project.getId());
 
-        this.saveEmployeeProjectRelationTeam(editProjectRequestDTO.getEmployeeProjectTeamId(), project.getId(), loginEmployeeId);
+//        this.saveEmployeeProjectRelationTeam(editProjectRequestDTO.getEmployeeProjectTeamId(), project.getId(), loginEmployeeId);
 
         //删除原项目图片，添加新的项目图片
         regionMapper.removeProjectImageByProjectId(project.getId());
 
         List<String> urls = editProjectRequestDTO.getProjectImages();
-        if (Objects.nonNull(urls)||urls.size()>0){
+        if (Objects.nonNull(urls)&&urls.size()>0){
 
             this.saveProjectImages(urls, project.getId(), loginEmployeeId);
         }
@@ -407,6 +400,16 @@ public class RegionServiceImpl implements RegionService {
     }
 
     /**
+     *@Author:Fly Created in 2018/7/27 下午3:24
+     *@Description: 查询所有公司
+     */
+    @Override
+    public List<FindCompanyByAreaIdResponseDTO> findCompanyAll() {
+
+        return MapperFactoryUtil.mapperList(regionMapper.findCompany(), FindCompanyByAreaIdResponseDTO.class);
+    }
+
+    /**
      *@Author:Fly Created in 2018/7/5 下午3:17
      *@Description: 查询所有项目数据权限
      */
@@ -464,6 +467,17 @@ public class RegionServiceImpl implements RegionService {
     }
 
     /**
+     *@Author:Fly Created in 2018/7/28 下午12:35
+     *@Description: 查询公司下员工
+     */
+    @Override
+    public List<Employee> findEmployeeByCompanyId(String companyId) {
+
+
+        return tissueMapper.findEmployeeByCompanyId(companyId);
+    }
+
+    /**
      *@Author:Fly Created in 2018/7/18 下午12:02
      *@Description: 组织机构树
      */
@@ -513,25 +527,25 @@ public class RegionServiceImpl implements RegionService {
      *@Author:Fly Created in 2018/7/4 下午3:31
      *@Description: 添加项目负责组员
      */
-    private void saveEmployeeProjectRelationTeam(List<String> employeeProjectRelationTeamIds, String projectId, String loginEmployeeId){
-
-        List<EmployeeProjectRelationTeam> employeeProjectRelationTeams = new ArrayList<EmployeeProjectRelationTeam>();
-
-        employeeProjectRelationTeamIds.stream().forEach(str -> {
-
-            employeeProjectRelationTeams.add(
-                    new EmployeeProjectRelationTeam()
-                            .setProjectId(projectId)
-                            .setEmployeeId(str)
-                            .setId(UuidUtil.randomUUID())
-                            .setCreateUser(loginEmployeeId)
-                            .setModifyUser(loginEmployeeId)
-                            .setModifyTime(LocalDateTime.now())
-                            .setCreateTime(LocalDateTime.now()));
-        });
-
-        regionMapper.saveEmployeeProjectRelationTeam(employeeProjectRelationTeams);
-    }
+//    private void saveEmployeeProjectRelationTeam(List<String> employeeProjectRelationTeamIds, String projectId, String loginEmployeeId){
+//
+//        List<EmployeeProjectRelationTeam> employeeProjectRelationTeams = new ArrayList<EmployeeProjectRelationTeam>();
+//
+//        employeeProjectRelationTeamIds.stream().forEach(str -> {
+//
+//            employeeProjectRelationTeams.add(
+//                    new EmployeeProjectRelationTeam()
+//                            .setProjectId(projectId)
+//                            .setEmployeeId(str)
+//                            .setId(UuidUtil.randomUUID())
+//                            .setCreateUser(loginEmployeeId)
+//                            .setModifyUser(loginEmployeeId)
+//                            .setModifyTime(LocalDateTime.now())
+//                            .setCreateTime(LocalDateTime.now()));
+//        });
+//
+//        regionMapper.saveEmployeeProjectRelationTeam(employeeProjectRelationTeams);
+//    }
 
     /**
      *@Author:Fly Created in 2018/7/4 下午3:33

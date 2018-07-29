@@ -32,13 +32,14 @@ public interface RegionCQRSMapper {
             "p.create_time as createTime, " +
             "p.modify_time as modifyTime, " +
             "e.name as projectHeadName, " +
-            "er.name as projectAuditName, " +
-            "p.state as state " +
+//            "er.name as projectAuditName, " +
+            "p.state as state, " +
+            "p.acreage as acreage " +
             "from yhcc_project as p " +
             "inner join yhcc_company as c on p.company_id = c.id " +
             "inner join yhcc_area as a on p.area_id = a.id " +
             "inner join yhcc_employee as e on e.id = p.project_head_id " +
-            "inner join yhcc_employee as er on er.id = p.project_audit_id " +
+//            "inner join yhcc_employee as er on er.id = p.project_audit_id " +
             "<where> " +
             "p.id in " +
             "<foreach item='item' collection='list' open='(' close=')' separator=','> " +
@@ -78,15 +79,18 @@ public interface RegionCQRSMapper {
             "p.create_time as createTime, " +
             "p.modify_time as modifyTime, " +
             "e.name as projectHeadName, " +
-            "er.name as projectAuditName, " +
+            "e.id as projectHeadId, " +
+            "d.id as deptId, " +
+            "d.name as deptName, " +
             "p.state as state, " +
-            "err.name as modifyUserName " +
+            "err.name as modifyUserName, " +
+            "p.acreage as acreage " +
             "from yhcc_project as p " +
             "inner join yhcc_company as c on p.company_id = c.id " +
-            "inner join yhcc_area as a on c.area_id = a.id " +
+            "inner join yhcc_area as a on p.area_id = a.id " +
             "inner join yhcc_employee as e on e.id = p.project_head_id " +
-            "inner join yhcc_employee as er on er.id = p.project_audit_id " +
             "inner join yhcc_employee as err on err.id = p.modify_user " +
+            "inner join yhcc_department as d on d.id = e.org_id " +
             "where p.id = #{projectId}")
     ProjectCQRSInfoByIdResponseDTO findProjectByIdCQRS(String projectId);
 
@@ -96,7 +100,7 @@ public interface RegionCQRSMapper {
      */
     @Select("select " +
             "fl.id as id, " +
-            "fl.area_id as areaId, " +
+            "pr.area_id as areaId, " +
             "ar.name as areaName, " +
             "fl.company_id as companyId, " +
             "co.name as companyName, " +
@@ -115,12 +119,12 @@ public interface RegionCQRSMapper {
             "em.name as createUserName, " +
             "emp.name as modifyUserName " +
             "from yhcc_floor as fl " +
-            "inner join yhcc_area as ar on fl.area_id = ar.id " +
             "inner join yhcc_company as co on fl.company_id = co.id " +
             "inner join yhcc_project as pr on fl.project_id = pr.id " +
             "inner join yhcc_building as bu on fl.building_id = bu.id " +
             "inner join yhcc_employee as em on fl.create_user = em.id " +
             "inner join yhcc_employee as emp on fl.modify_user = emp.id " +
+            "inner join yhcc_area as ar on pr.area_id = ar.id " +
             "where fl.id = #{floorId}")
     FloorCQRSInfoByIdResponseDTO findFloorByIdCQRS(String floorId);
 
@@ -134,6 +138,7 @@ public interface RegionCQRSMapper {
             "pr.name as projectName, " +
             "bu.name as buildingName, " +
             "fl.name as name, " +
+            "ar.name as areaName, " +
             "fl.location as location, " +
             "fl.acreage as acreage, " +
             "fl.state as state, " +
@@ -144,13 +149,14 @@ public interface RegionCQRSMapper {
             "from yhcc_floor as fl " +
             "inner join yhcc_project as pr on fl.project_id = pr.id " +
             "inner join yhcc_building as bu on fl.building_id = bu.id " +
+            "inner join yhcc_area as ar on pr.area_id = ar.id " +
             "<where> " +
             "<bind name='areaId' value='areaId' /> " +
             "<bind name='companyId' value='companyId' /> " +
             "<bind name='projectName' value=\"'%' + projectName + '%'\" /> " +
             "<bind name='location' value='location' /> " +
-            "<if test='areaId != null and areaId !=\"\" '>AND fl.area_id = #{areaId}</if> " +
-            "<if test='companyId != null and areaId !=\"\" '>AND fl.company_id = #{companyId}</if> " +
+            "<if test='areaId != null and areaId !=\"\" '>AND pr.area_id = #{areaId}</if> " +
+            "<if test='companyId != null and companyId !=\"\" '>AND fl.company_id = #{companyId}</if> " +
             "<if test='projectName != null and projectName !=\"\" '>AND pr.name like #{projectName}</if> " +
             "<if test='location != null '>AND fl.location = #{location}</if> " +
             "order by fl.modify_time desc " +
