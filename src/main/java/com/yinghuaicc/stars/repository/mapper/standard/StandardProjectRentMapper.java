@@ -1,7 +1,9 @@
 package com.yinghuaicc.stars.repository.mapper.standard;
 
+import com.yinghuaicc.stars.repository.model.standard.StandardProjectRent;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardProjectRentRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardProjectRentResponseDTO;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -33,5 +35,13 @@ public interface StandardProjectRentMapper {
      */
     @Select("select * from yhcc_standard_project_rent where project_id = #{projectId}")
     StandardProjectRentResponseDTO findStandardProjectRentByProjectId(@Param("projectId")String projectId);
+
+    /**
+     * 新增项目溢租率
+     * @param standardProjectRent
+     */
+    @Insert("insert into yhcc_standard_project_rent " +
+            "values(#{id},#{standardVerssionId}},#{standardVerssionName}},#{projectId}},#{projectName}},#{rent}},#{createTime}},#{modifyTime}},#{createUser}},#{modifyUser}},#{status})")
+    void saveStandardProjectRent(StandardProjectRent standardProjectRent);
 
 }

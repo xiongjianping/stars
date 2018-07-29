@@ -6,6 +6,7 @@ import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.standard.StandardProjectFittedMapper;
+import com.yinghuaicc.stars.repository.model.standard.StandardProjectFitted;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardProjectFittedRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardProjectFittedResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardProjectRentResponseDTO;
@@ -34,6 +35,11 @@ public class StandardProjectFittedServiceImpl implements StandardProjectFittedSe
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
+    }
+
+    @Override
+    public void saveStandardProjectFitted(StandardProjectFitted standardProjectFitted) {
+        standardProjectFittedMapper.saveStandardProjectFitted(standardProjectFitted);
     }
 
 

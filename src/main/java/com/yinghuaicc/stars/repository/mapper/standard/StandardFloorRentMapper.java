@@ -1,7 +1,9 @@
 package com.yinghuaicc.stars.repository.mapper.standard;
 
+import com.yinghuaicc.stars.repository.model.standard.StandardFloorRent;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardFloorRentRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardFloorRentResponseDTO;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -34,5 +36,13 @@ public interface StandardFloorRentMapper {
      */
     @Select("select * from yhcc_standard_floor_rent where project_id = #{projectId} and floor_id = #{floorId}")
     StandardFloorRentResponseDTO findStandardFloorRentByProjectIdAndFloorId(@Param("projectId")String projectId,@Param("floorId")String floorId);
+
+    /**
+     * 导入楼层溢租率
+     * @param standardFloorRent
+     */
+    @Insert("insert into  yhcc_standard_floor_rent" +
+            "values(#{id},#{standardVerssionId},#{standardVerssionName},#{projectId},#{projectName},#{floorId},#{floorName},#{rent},#{createTime},#{modifyTime},#{createUser},#{modifyUser},#{status})")
+    void saveStandardFloorRent(StandardFloorRent standardFloorRent);
 
 }

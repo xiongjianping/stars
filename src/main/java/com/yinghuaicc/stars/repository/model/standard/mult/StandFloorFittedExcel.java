@@ -6,7 +6,7 @@ import java.math.BigDecimal;
  * 导入Excel标准三角形楼层适配值
  */
 public class StandFloorFittedExcel {
-
+    //项目id
     private String projectId;
     //项目名称
     private String projectName;

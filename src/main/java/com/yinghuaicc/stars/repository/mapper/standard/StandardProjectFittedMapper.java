@@ -1,9 +1,11 @@
 package com.yinghuaicc.stars.repository.mapper.standard;
 
+import com.yinghuaicc.stars.repository.model.standard.StandardProjectFitted;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardProjectFittedRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardProjectRentRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardProjectFittedResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardProjectRentResponseDTO;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -34,5 +36,15 @@ public interface StandardProjectFittedMapper {
      */
     @Select("select * from yhcc_standard_project_fitted where project_id = #{projectId}")
     StandardProjectFittedResponseDTO findstandardProjectFittedByProjectId(@Param("projectId")String projectId);
+
+    /**
+     * 保存标准三角形项目适配度
+     * @param standardProjectFitted
+     */
+    @Insert("insert into yhcc_standard_project_fitted " +
+            "values(#{id},#{standardVerssionId},#{standardVerssionName},#{projectId},#{projectName},#{fitted},#{createTime},#{modifyTime},#{createUser},#{modifyUser},#{status})")
+    void saveStandardProjectFitted(StandardProjectFitted standardProjectFitted);
+
+
 
 }
