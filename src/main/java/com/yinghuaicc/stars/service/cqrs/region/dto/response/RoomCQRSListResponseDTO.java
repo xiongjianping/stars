@@ -17,6 +17,9 @@ public class RoomCQRSListResponseDTO {
     //铺位编号
     private String num;
 
+    //铺位名称
+    private String name;
+
     //区域名称
     private String areaName;
 
@@ -140,6 +143,15 @@ public class RoomCQRSListResponseDTO {
 
     public RoomCQRSListResponseDTO setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
+        return this;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public RoomCQRSListResponseDTO setName(String name) {
+        this.name = name;
         return this;
     }
 }

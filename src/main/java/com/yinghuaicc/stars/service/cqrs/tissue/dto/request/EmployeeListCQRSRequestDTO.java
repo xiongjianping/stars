@@ -12,7 +12,7 @@ public class EmployeeListCQRSRequestDTO {
     private String name = "";
 
     //用户名
-    private String userName;
+    private String userName = "";
 
     public String getName() {
         return name;

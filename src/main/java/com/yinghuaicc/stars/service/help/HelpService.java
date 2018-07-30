@@ -5,6 +5,8 @@ import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.service.help.dto.request.*;
 import com.yinghuaicc.stars.service.help.dto.response.FindHelpContextListResponseDTO;
 
+import java.util.List;
+
 
 /**
  * @Author:Fly
@@ -37,6 +39,12 @@ public interface HelpService {
      *@Description: 帮扶内容列表
      */
     ResultPageList<FindHelpContextListResponseDTO> findHelpContextList(PageParam pageParam, Integer type);
+
+    /**
+     *@Author:Fly Created in 2018/7/29 下午5:10
+     *@Description: 查询全部列表
+     */
+    List<FindHelpContextListResponseDTO> findHelpContextAll(Integer type);
 
     /**
      *@Author:Fly Created in 2018/7/20 下午3:19

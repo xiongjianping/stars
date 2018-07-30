@@ -135,6 +135,7 @@ public interface RegionCQRSMapper {
     @Select("<script> " +
             "select " +
             "fl.id as id, " +
+            "fl.name as name, " +
             "pr.name as projectName, " +
             "bu.name as buildingName, " +
             "fl.name as name, " +
@@ -172,7 +173,7 @@ public interface RegionCQRSMapper {
             "select " +
             "ro.id as id, " +
             "ro.name as name, " +
-            "ro.area_id as areaId, " +
+            "ar.id as areaId, " +
             "ar.name as areaName, " +
             "ro.company_id as companyId, " +
             "co.name as companyName, " +
@@ -191,9 +192,9 @@ public interface RegionCQRSMapper {
             "em.name as createUserName, " +
             "emp.name as modifyUserName " +
             "from yhcc_room as ro " +
-            "inner join yhcc_area as ar on ro.area_id = ar.id " +
             "inner join yhcc_company as co on ro.company_id = co.id " +
             "inner join yhcc_project as pr on ro.project_id = pr.id " +
+            "inner join yhcc_area as ar on pr.area_id = ar.id " +
             "inner join yhcc_building as bu on ro.building_id = bu.id " +
             "inner join yhcc_floor as fl on ro.floor_id = fl.id " +
             "inner join yhcc_employee as em on ro.create_user = em.id " +
@@ -221,9 +222,9 @@ public interface RegionCQRSMapper {
             "ro.create_time as createTime, " +
             "ro.modify_time as modifyTime " +
             "from yhcc_room as ro " +
-            "inner join yhcc_area as ar on ro.area_id = ar.id " +
             "inner join yhcc_company as co on ro.company_id = co.id " +
             "inner join yhcc_project as pr on ro.project_id = pr.id " +
+            "inner join yhcc_area as ar on pr.area_id = ar.id " +
             "inner join yhcc_building as bu on ro.building_id = bu.id " +
             "inner join yhcc_floor as fl on ro.floor_id = fl.id " +
             "inner join yhcc_employee as em on ro.create_user = em.id " +
@@ -236,7 +237,7 @@ public interface RegionCQRSMapper {
             "<bind name='search.state' value='search.state' /> " +
             "<bind name='search.createTimeBegin' value='search.createTimeBegin' /> " +
             "<bind name='search.createTimeEnd' value='search.createTimeEnd' /> " +
-            "<if test='search.areaId != null and search.areaId !=\"\" '>AND ro.area_id = #{search.areaId}</if> " +
+            "<if test='search.areaId != null and search.areaId !=\"\" '>AND pr.area_id = #{search.areaId}</if> " +
             "<if test='search.companyId != null and search.companyId !=\"\" '>AND ro.company_id = #{search.companyId}</if> " +
             "<if test='search.projectId != null and search.projectId !=\"\" '>AND ro.project_id = #{search.projectId}</if> " +
             "<if test='search.roomName != null and search.roomName !=\"\" '>AND ro.name like #{search.roomName}</if> " +

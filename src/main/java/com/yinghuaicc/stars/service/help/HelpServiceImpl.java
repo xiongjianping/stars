@@ -114,6 +114,17 @@ public class HelpServiceImpl implements HelpService {
     }
 
     /**
+     *@Author:Fly Created in 2018/7/29 下午5:11
+     *@Description: 全部帮扶内容
+     */
+    @Override
+    public List<FindHelpContextListResponseDTO> findHelpContextAll(Integer type) {
+
+        return MapperFactoryUtil.mapperList(helpMapper.findHelpContextList(type),
+                FindHelpContextListResponseDTO.class);
+    }
+
+    /**
      *@Author:Fly Created in 2018/7/20 下午3:24
      *@Description: 添加项目帮扶计划
      */

@@ -7,10 +7,7 @@ import com.yinghuaicc.stars.service.cqrs.tissue.TissueCQRSService;
 import com.yinghuaicc.stars.service.cqrs.tissue.dto.request.EmployeeListCQRSRequestDTO;
 import com.yinghuaicc.stars.service.region.RegionService;
 import com.yinghuaicc.stars.service.tissue.TissueService;
-import com.yinghuaicc.stars.service.tissue.dto.request.EditDepartmentRequestDTO;
-import com.yinghuaicc.stars.service.tissue.dto.request.EditEmployeeProjectDataRequestDTO;
-import com.yinghuaicc.stars.service.tissue.dto.request.EmployeeLoginRequestDTO;
-import com.yinghuaicc.stars.service.tissue.dto.request.SaveDepartmentRequestDTO;
+import com.yinghuaicc.stars.service.tissue.dto.request.*;
 import com.yinghuaicc.stars.service.tissue.dto.response.ConfEmployeeRoleRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -177,5 +174,18 @@ public class TissueController {
     public JsonResult findEmployeeByCompanyId(@PathVariable String id){
 
         return JsonResult.success(regionService.findEmployeeByCompanyId(id));
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/29 下午4:58
+     *@Description: 修改员工状态
+     */
+    @PostMapping(value = "/state/employee")
+    public JsonResult stateEmployee(@RequestBody StateEmployeeRequestDTO stateEmployeeRequestDTO){
+
+        tissueService.stateEmployee(stateEmployeeRequestDTO,
+                applicationContext.getBean(AopResourceEmployeeBean.class).getId());
+
+        return JsonResult.success("OK");
     }
 }

@@ -57,4 +57,10 @@ public interface PermissionService {
      *@Description: 添加角色信息
      */
     void saveRole(String roleName, String loginEmployeeId);
+
+    /**
+     *@Author:Fly Created in 2018/7/29 下午5:55
+     *@Description: 查询
+     */
+    List<RoleAllMenuResponseDTO> roleMenu(String id);
 }

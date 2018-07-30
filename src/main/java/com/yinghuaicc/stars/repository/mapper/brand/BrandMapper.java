@@ -37,7 +37,8 @@ public interface BrandMapper {
      */
     @Update("update yhcc_brand set " +
             "num = #{num}, name = #{name}, business_form_id = #{businessFormId}, business_species_id = #{businessSpeciesId}, " +
-            "brand_type = #{brandType}, state = #{state}, create_time = #{createTime}, modify_time = #{modifyTime}, create_user = #{createUser}, modify_user = #{modifyUser}")
+            "brand_type = #{brandType}, state = #{state}, create_time = #{createTime}, modify_time = #{modifyTime}, create_user = #{createUser}, modify_user = #{modifyUser} " +
+            "where id = {id}")
     void editBrand(Brand brand);
 
     /**

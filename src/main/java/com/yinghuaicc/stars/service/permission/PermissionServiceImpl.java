@@ -266,6 +266,16 @@ public class PermissionServiceImpl implements PermissionService{
     }
 
     /**
+     *@Author:Fly Created in 2018/7/29 下午5:57
+     *@Description: 某一角色菜单
+     */
+    @Override
+    public List<RoleAllMenuResponseDTO> roleMenu(String id) {
+
+        return this.roleAllMenu().stream().filter(roleAllMenuResponseDTO -> roleAllMenuResponseDTO.getRoleId().equals(id)).collect(Collectors.toList());
+    }
+
+    /**
      *@Author:Fly Created in 2018/6/28 上午12:22
      *@Description: 配置菜单，将获取的父级菜单进行子级菜单查询，并组装成树形结构
      */

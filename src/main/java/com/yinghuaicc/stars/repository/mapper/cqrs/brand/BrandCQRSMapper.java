@@ -63,6 +63,7 @@ public interface BrandCQRSMapper {
             "br.business_form_id as businessFormId, " +
             "bu.name as businessFormName, " +
             "br.business_species_id as businessFormName, " +
+            "bs.id as businessSpeciesId, " +
             "bs.name as businessSpeciesName, " +
             "br.brand_type as brandType, " +
             "br.state as state, " +

@@ -3,10 +3,7 @@ package com.yinghuaicc.stars.service.tissue;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.tissue.Department;
-import com.yinghuaicc.stars.service.tissue.dto.request.EditDepartmentRequestDTO;
-import com.yinghuaicc.stars.service.tissue.dto.request.EditEmployeeProjectDataRequestDTO;
-import com.yinghuaicc.stars.service.tissue.dto.request.EmployeeLoginRequestDTO;
-import com.yinghuaicc.stars.service.tissue.dto.request.SaveDepartmentRequestDTO;
+import com.yinghuaicc.stars.service.tissue.dto.request.*;
 import com.yinghuaicc.stars.service.tissue.dto.response.*;
 
 import java.util.List;
@@ -84,6 +81,12 @@ public interface TissueService {
      *@Author:Fly Created in 2018/7/28 下午1:09
      *@Description: 按照父id查询部门信息
      */
-    public List<Department> findDepartmentByParentId(String parentId);
+    List<Department> findDepartmentByParentId(String parentId);
+
+    /**
+     *@Author:Fly Created in 2018/7/29 下午4:44
+     *@Description: 与员工启用禁用
+     */
+    void stateEmployee(StateEmployeeRequestDTO stateEmployeeRequestDTO, String loginEmployeeId);
 
 }
