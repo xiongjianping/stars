@@ -35,7 +35,7 @@ public interface ContractCQRSMapper {
             "bf.name as businessFormName, " +
             "bs.name as businessSpeciesName, " +
             "ro.acreage as acreage, " +
-            "co.status as status " +
+            "co.status as state " +
             "from yhcc_contract as co " +
             "inner join yhcc_room as ro on co.room_id = ro.id " +
             "inner join yhcc_project as pr on co.project_id = pr.id " +
@@ -51,6 +51,7 @@ public interface ContractCQRSMapper {
             "<bind name='search.buildingId' value='search.buildingId' /> " +
             "<bind name='search.floorId' value='search.floorId' /> " +
             "<bind name='search.businessFormId' value='search.businessFormId' /> " +
+            "<bind name='search.businessSpeciesId' value='search.businessSpeciesId' /> " +
             "<bind name='search.brandId' value='search.brandId' /> " +
             "<bind name='search.name' value=\"'%' + search.name + '%'\" /> " +
             "<if test='search.areaId != null and search.areaId !=\"\" '>AND ar.id = #{search.areaId}</if> " +

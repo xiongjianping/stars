@@ -80,7 +80,7 @@ public class ContractServiceImpl implements ContractService{
                                     .setFloorId(saveContractRequestDTO.getFloorId())
                                     .setRoomId(str)
                                     .setBrandId(saveContractRequestDTO.getBrandId())
-                                    .setState(true)
+                                    .setStatus(true)
                                     .setCreateUser(loginEmployeeId)
                                     .setModifyUser(loginEmployeeId)
                                     .setModifyTime(LocalDateTime.now())
@@ -107,11 +107,11 @@ public class ContractServiceImpl implements ContractService{
 
         if (Objects.nonNull(contract)){
 
-            if (contract.isState()){
+            if (contract.isStatus()){
 
                 contractMapper.editContractById(
                         contract
-                                .setState(false)
+                                .setStatus(false)
                                 .setModifyTime(LocalDateTime.now())
                                 .setModifyUser(loginEmployeeId));
 
