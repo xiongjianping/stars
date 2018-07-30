@@ -1,5 +1,6 @@
 package com.yinghuaicc.stars.service.region;
 
+import com.yinghuaicc.stars.repository.model.region.Floor;
 import com.yinghuaicc.stars.repository.model.region.ProjectImage;
 import com.yinghuaicc.stars.repository.model.tissue.Employee;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.TriangeConditionRequestDTO;
@@ -154,5 +155,12 @@ public interface RegionService {
      * @return
      */
     List<TriangeConditionResponseDTO> findConditionlistByOtherId(TriangeConditionRequestDTO triangeConditionRequestDTO);
+
+    /**
+     * 通过项目id 查询楼层
+     * @param projectId
+     * @return
+     */
+    List<Floor> findFloorByProjectId(String  projectId);
 
 }
