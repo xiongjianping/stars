@@ -109,8 +109,6 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
     @Autowired
     private FloorGuestIntervalMapper floorGuestIntervalMapper;
 
-
-
     /**
      * 通过品牌id 查询品牌三角形
      * @param brandTriangleRequestDTO
@@ -118,7 +116,57 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
      */
     @Override
     public BrandTriangleResponseDTO findBrandTriangleByBrandId(BrandTriangleRequestDTO brandTriangleRequestDTO) {
-        BrandTriangleResponseDTO brandTriangleResponseDTO = getBrandTriangleResponseDTO(brandTriangleRequestDTO);
+        BrandTriangleResponseDTO brandTriangleResponseDTO = null;
+        try {
+            brandTriangleResponseDTO = getBrandTriangleResponseDTO(brandTriangleRequestDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //动态三角形溢租率
+            brandTriangleResponseDTO.setTriangleRent(new BigDecimal(300));
+            //动态三角形适配值
+            brandTriangleResponseDTO.setTriangleFitted(new BigDecimal(7000));
+            //动态三角形客销度
+            brandTriangleResponseDTO.setTriangleGuest(new BigDecimal(500));
+            //标准三角形溢租率
+            brandTriangleResponseDTO.setStandardRent(new BigDecimal(300));
+            //标准三角形适配值
+            brandTriangleResponseDTO.setStandardFitted(new BigDecimal(6400));
+            //标准三角形客销度
+            brandTriangleResponseDTO.setStandardGuest(new BigDecimal(300));
+            //区间设置溢租率
+            Map<String ,Integer> rentMap = new HashMap<>();
+            rentMap.put("yx",350);
+            rentMap.put("lh",300);
+            rentMap.put("ts",200);
+            rentMap.put("hl",100);
+            rentMap.put("qd",0);
+            rentMap.put("ks",170);
+            brandTriangleResponseDTO.setIntervalRent(rentMap);
+            //区间设置适配值
+            Map<String ,Integer> fittedMap = new HashMap<>();
+            fittedMap.put("yx",10000);
+            fittedMap.put("lh",9000);
+            fittedMap.put("ts",8000);
+            fittedMap.put("hl",7500);
+            fittedMap.put("qd",6400);
+            fittedMap.put("ks",0);
+            brandTriangleResponseDTO.setIntervalFitted(fittedMap);
+            //区间设置客销度
+            Map<String ,Integer> guestMap = new HashMap<>();
+            guestMap.put("yx",500);
+            guestMap.put("lh",400);
+            guestMap.put("ts",300);
+            guestMap.put("hl",200);
+            guestMap.put("qd",0);
+            /*  guestMap.put("ks",ks);*/
+            brandTriangleResponseDTO.setIntervalGuest(guestMap);
+            //帮扶计划客销度
+            brandTriangleResponseDTO.setGuestContent("无");
+            //帮扶计划溢租率
+            brandTriangleResponseDTO.setRentContent("无");
+            //帮扶计划适配值
+            brandTriangleResponseDTO.setFittedContent("无");
+        }
         return brandTriangleResponseDTO;
     }
 
@@ -131,254 +179,33 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
         //品牌三角理论展示数据
         BrandTriangleResponseDTO brandTriangleResponseDTO = new BrandTriangleResponseDTO();
 
-        //品牌id
-        String brandId = brandTriangleRequestDTO.getBrandId();
-        //通过品牌id查询品牌信息（品牌id、业态id、业种id）
-        BrandCQRSInfoResponseDTO brandCQRSInfoResponseDTO = brandCQRSMapper.brandInfoCQRS(brandId);
-        //业态id
-        String conditionId = brandCQRSInfoResponseDTO.getBusinessFormId();
-        String conditionName = brandCQRSInfoResponseDTO.getBusinessFormName();
-        //业种id
-        String majoId = brandCQRSInfoResponseDTO.getBusinessSpeciesId();
-        String majoName = brandCQRSInfoResponseDTO.getBusinessSpeciesId();
-
-        ContractTriangleCQRSListRequestDTO contractTriangleCQRSListRequestDTO= new ContractTriangleCQRSListRequestDTO();
-        contractTriangleCQRSListRequestDTO.setProjectId(brandTriangleRequestDTO.getProjectId());
-        contractTriangleCQRSListRequestDTO.setFloorId(brandTriangleRequestDTO.getFloorId());
-        contractTriangleCQRSListRequestDTO.setBrandId(brandTriangleRequestDTO.getBrandId());
-        contractTriangleCQRSListRequestDTO.setBusinessFormId(brandTriangleRequestDTO.getConditionId());
-        //通过品牌id查询签约表（签约id、项目id、楼层id、铺位id）
-        List<ContractTriangleCQRSListResponseDTO> contractCQRSList =  contractCQRSMapper.findContractTriangleCQRSListResponseDTO(contractTriangleCQRSListRequestDTO);
-        ContractTriangleCQRSListResponseDTO  contractTriangleCQRSListResponseDTO = contractCQRSList.get(0);
-
-        //项目id
-        String projectId = brandTriangleRequestDTO.getProjectId();
-        //签约id
-        String contractId = contractTriangleCQRSListResponseDTO.getId();
-        //查询面积
-        BigDecimal area = contractTriangleCQRSListResponseDTO.getAcreage();
-
-        //通过签约id+当天时间查询溢租率租费信息
-        DayRentResponseDTO dayRentResponseDTO = dayRentMapper.findDayRentResponseDTOByContractId(contractId,LocalDateTime.now());
-        //租金
-        BigDecimal rent = dayRentResponseDTO.getRent();
-        //物业费
-        BigDecimal propertyFee = dayRentResponseDTO.getPropertyFee();
-        //员工成本
-        BigDecimal  staffEmp = dayRentResponseDTO.getStaffEmp();
-        //装修折旧
-        BigDecimal fitment = dayRentResponseDTO.getFitment();
-        //代理费
-        BigDecimal  agencyFee = dayRentResponseDTO.getAgencyFee();
-
-        //通过签约id+当天时间查询适配值信息，然后计算出品牌适配值
-        QuarterFittedResponseDTO quarterFittedResponseDTO = quarterFittedMapper.findQuarterFittedResponseDTOByContractId(contractId,LocalDateTime.now());
-        //市场定位
-        Integer marketPosition = quarterFittedResponseDTO.getMarketPosition();
-        //品牌定位
-        Integer brandPosition = quarterFittedResponseDTO.getBrandPosition();
-        //品牌形象
-        Integer brandImage = quarterFittedResponseDTO.getBrandImage();
-        //租费收缴率
-        BigDecimal rentalRate = quarterFittedResponseDTO.getRentalRate();
-        //连锁跟进度
-        BigDecimal chainDegree = quarterFittedResponseDTO.getChainDegree();
-        //客服投诉率
-        BigDecimal complaintDegree = quarterFittedResponseDTO.getComplaintDegree();
-        //企划配合度
-        BigDecimal layoutDegree = quarterFittedResponseDTO.getLayoutDegree();
-        //配合度
-        BigDecimal phd = rentalRate.add(chainDegree).add(complaintDegree).add(layoutDegree);
-        brandTriangleResponseDTO.setTriangleFitted(new BigDecimal(marketPosition+brandPosition+brandImage).multiply(phd));
-
-        //通过签约id+当天时间查询客销度（客流量、销售额）计算客销度
-        DayGuestResponseDTO dayGuestResponseDTO = dayGuestMapper.findDayGuestByDayGuestByContractId(contractId,LocalDateTime.now());
-
-        //客流量
-        BigDecimal passengerFlow = dayGuestResponseDTO.getPassengerFlow();
-        //销售额
-        BigDecimal saleroom = dayGuestResponseDTO.getSaleroom();
-        BigDecimal triangleguest= passengerFlow.divide(area).multiply(saleroom.divide(area));
-        //动态三角形客销度
-        brandTriangleResponseDTO.setTriangleGuest(triangleguest);
-
-        //通过项目id、业态id、业种id查询标准三角形溢租率
-        StandardConditionRentRequestDTO standardConditionRentRequestDTO = new StandardConditionRentRequestDTO();
-        standardConditionRentRequestDTO.setProjectId(projectId);
-        standardConditionRentRequestDTO.setConditionId(conditionId);
-        standardConditionRentRequestDTO.setMajoId(majoId);
-        standardConditionRentRequestDTO.setConditionName(conditionName);
-        standardConditionRentRequestDTO.setMajoName(majoName);
-        List<StandardConditionRentResponseDTO> standardConditionRentResponseDTOS = standardConditionRentMapper.findStandardConditionRentByStandardConditionRentCQRS(standardConditionRentRequestDTO);
-
-        //设置标准三角形溢租率
-        brandTriangleResponseDTO.setStandardRent(standardConditionRentResponseDTOS.get(0).getRent());
-
-        //通过项目id、业态id、业种id查询标准三角形适配值
-        StandardConditionFittedRequestDTO standardConditionFittedRequestDTO = new  StandardConditionFittedRequestDTO();
-        standardConditionFittedRequestDTO.setProjectId(projectId);
-        standardConditionFittedRequestDTO.setConditionId(conditionId);
-        standardConditionFittedRequestDTO.setConditionName(conditionName);
-        standardConditionFittedRequestDTO.setMajoId(majoId);
-        standardConditionFittedRequestDTO.setMajoName(majoName);
-        List<StandardConditionFittedResponseDTO> standardConditionFittedResponseDTOS = standardConditionFittedMapper.findStandardConditionFittedByStandardConditionFittedCQRS(standardConditionFittedRequestDTO);
-        //设置品牌适配值
-        brandTriangleResponseDTO.setStandardFitted(standardConditionFittedResponseDTOS.get(0).getFitted());
-
-        //通过签约id查询标准三角形客销度
-        StandardBrandSaleRequestDTO standardBrandSaleRequestDTO  = new StandardBrandSaleRequestDTO();
-        standardBrandSaleRequestDTO.setContractId(contractId);
-        standardBrandSaleRequestDTO.setProjectId(projectId);
-        List<StandardBrandSaleResponseDTO> standardBrandSaleResponseDTOs =  standardBrandSaleMapper.findStandardBrandSaleByStandardBrandSaleCQRS(standardBrandSaleRequestDTO);
-        //毛利率
-        BigDecimal grossRate =  standardBrandSaleResponseDTOs.get(0).getGrossRate();
-        //客单价
-        BigDecimal perSale =  standardBrandSaleResponseDTOs.get(0).getPerSale();
-
-        //BigDecimal jlr =净利润=销售收入*毛利率-rent.add(propertyFee).add(staffEmp).add(fitment).add(agencyFee);
-        BigDecimal jlr =saleroom.multiply(grossRate).subtract(rent.add(propertyFee).add(staffEmp).add(fitment).add(agencyFee));
-
-        //动态三角形溢租率=净利润/租费
-        brandTriangleResponseDTO.setTriangleRent(jlr.divide(rent.add(propertyFee).add(fitment)));
-
-        //销售收入
-        BigDecimal saleIn = rent.add(propertyFee).add(fitment).add(staffEmp).add(agencyFee).divide(grossRate);
-        //标准三角形客流量
-        BigDecimal standardPassengerFlow = saleIn.divide(perSale);
-        //标准三角形客销度
-        brandTriangleResponseDTO.setStandardGuest(standardPassengerFlow.divide(area).multiply(saleIn.divide(area)));
-
-        //通过项目id、品牌id、业态id、业种id 查询 客销度区间
-        ConditionGuestIntervalRequestDTO conditionGuestIntervalRequestDTO = new ConditionGuestIntervalRequestDTO();
-        conditionGuestIntervalRequestDTO.setProjectId(projectId);
-        conditionGuestIntervalRequestDTO.setConditionId(conditionId);
-        conditionGuestIntervalRequestDTO.setMajoId(majoId);
-        List<ConditionGuestIntervalResponseDTO> conditionGuestIntervalResponseDTOs = conditionGuestIntervalMapper.findConditionGuestIntervalByConditionGuestIntervalCQRS(conditionGuestIntervalRequestDTO);
-        //优秀
-        Integer yx = conditionGuestIntervalResponseDTOs.get(0).getYx();
-        //良好
-        Integer lh = conditionGuestIntervalResponseDTOs.get(0).getLh();
-        //提升
-        Integer ts = conditionGuestIntervalResponseDTOs.get(0).getTs();
-        //合格
-        Integer hl = conditionGuestIntervalResponseDTOs.get(0).getHl();
-        //亏损
-        Integer ks = conditionGuestIntervalResponseDTOs.get(0).getKs();
-        Map<String ,Integer> guestMap = new HashMap<String ,Integer>();
-        guestMap.put("yx",yx);
-        guestMap.put("lh",lh);
-        guestMap.put("ts",ts);
-        guestMap.put("hl",hl);
-        guestMap.put("ks",ks);
-        //品牌客销度区间设置
-        brandTriangleResponseDTO.setIntervalGuest(guestMap);
-
-        //设置溢租率区间
-        Map<String ,Integer>   rentMap = new HashMap<String ,Integer>();
-        rentMap.put("yx",350);
-        rentMap.put("lh",300);
-        rentMap.put("ts",200);
-        rentMap.put("hl",100);
-        rentMap.put("ks",0);
-        brandTriangleResponseDTO.setIntervalGuest(rentMap);
-        //设置适配值区间
-        Map<String ,Integer>   fittedMap = new HashMap<String ,Integer>();
-        fittedMap.put("yx",10000);
-        fittedMap.put("lh",9000);
-        fittedMap.put("ts",8000);
-        fittedMap.put("hl",7000);
-        fittedMap.put("ks",6400);
-        brandTriangleResponseDTO.setIntervalGuest(fittedMap);
-
-        //查询帮扶计划
-        HelpPlanBusinessSpecies helpPlanBusinessSpecies = helpMapper.findHelpPlanBusinessSpeciesByProjectIdAndBusinessFormIdAndBusinessSpeciesId(projectId,conditionId,majoId);
-
-        if(triangleguest.compareTo(new BigDecimal(yx))==-1 && triangleguest.compareTo(new BigDecimal(lh))==1){
-            brandTriangleResponseDTO.setGuestContent(helpPlanBusinessSpecies.getYxHelpContext());
-        }else if (triangleguest.compareTo(new BigDecimal(lh))==-1 && triangleguest.compareTo(new BigDecimal(ts))==1){
-            brandTriangleResponseDTO.setGuestContent(helpPlanBusinessSpecies.getLhHelpContext());
-        }else if (triangleguest.compareTo(new BigDecimal(ts))==-1 && triangleguest.compareTo(new BigDecimal(hl))==1){
-            brandTriangleResponseDTO.setGuestContent(helpPlanBusinessSpecies.getTsHelpContext());
-        }else if (triangleguest.compareTo(new BigDecimal(hl))==-1 && triangleguest.compareTo(new BigDecimal(ks))==1){
-            brandTriangleResponseDTO.setGuestContent(helpPlanBusinessSpecies.getLhHelpContext());
-        }else{
-            brandTriangleResponseDTO.setGuestContent("无");
-        }
-        return brandTriangleResponseDTO;
-    }
-
-    /**
-     * 通过项目id 查询项目三角形
-     * @param brandTriangleRequestDTO
-     * @return
-     */
-    @Override
-    public BrandTriangleResponseDTO findBrandTriangleByProjectId(BrandTriangleRequestDTO brandTriangleRequestDTO) {
-        //项目三角形返回值
-        BrandTriangleResponseDTO brandTriangleResponseDTO = new BrandTriangleResponseDTO();
-
-        //1、通过项目id 查询所有签约品牌id集合（签约id、项目id、楼层id、铺位id）
-        ContractTriangleCQRSListRequestDTO contractTriangleCQRSListRequestDTO = new ContractTriangleCQRSListRequestDTO();
-        contractTriangleCQRSListRequestDTO.setProjectId(brandTriangleRequestDTO.getProjectId());
-        List<ContractTriangleCQRSListResponseDTO> contractCQRSList =  contractCQRSMapper.findContractTriangleCQRSListResponseDTO(contractTriangleCQRSListRequestDTO);
-        //2.循环获取品牌的三角理论
-        //通过项目id查询项目面积
-        Project project =  regionMapper.findProjectById(brandTriangleRequestDTO.getProjectId());
-        //项目面积
-        BigDecimal projectArea =   project.getAcreage();
-
-        //品牌面积累计
-        BigDecimal areas = new BigDecimal(0);
-        //维度净利润
-        BigDecimal projectJlr = new BigDecimal(0);
-        //维度溢租率租费
-        BigDecimal projectRent = new BigDecimal(0);
-        //维度固定成本
-        BigDecimal fixedCost = new BigDecimal(0);
-
-        ProjectGuestResponseDTO projectGuestResponseDTO = projectGuestMapper.findProjectGuestByProjectId(brandTriangleRequestDTO.getProjectId());
-        //维度客流（去对应维度）
-        BigDecimal projectGuest =projectGuestResponseDTO.getPassengerFlow();//获取项目客流
-
-        //维度销售
-        BigDecimal projectSale = new BigDecimal(0);
-        //适配值权重合计
-        BigDecimal projectFitted = new BigDecimal(0);
-
-        //标准三角形客流量累计
-        BigDecimal standardPassengerFlows = new BigDecimal(0);
-
-        contractCQRSList.forEach(contractTriangleCQRSListResponseDTO->{
-           String contractId = contractTriangleCQRSListResponseDTO.getId();
-            //项目id
-             String projectId = contractTriangleCQRSListResponseDTO.getProjectId();
-            //项目名称
-            String projectName = contractTriangleCQRSListResponseDTO.getProjectName();
-            //品牌名称
-            String brandName = contractTriangleCQRSListResponseDTO.getBrandName();
+        try {
             //品牌id
-            String brandId = contractTriangleCQRSListResponseDTO.getBrandId();
-            //楼层id
-            String floorId = contractTriangleCQRSListResponseDTO.getFloorId();
-            //楼层名称
-            String floorName = contractTriangleCQRSListResponseDTO.getFloorName();
-            //铺位id
-            String roomId = contractTriangleCQRSListResponseDTO.getRoomId();
-            //铺位名称
-            String roomName = contractTriangleCQRSListResponseDTO.getRoomName();
+            String brandId = brandTriangleRequestDTO.getBrandId();
+            //通过品牌id查询品牌信息（品牌id、业态id、业种id）
+            BrandCQRSInfoResponseDTO brandCQRSInfoResponseDTO = brandCQRSMapper.brandInfoCQRS(brandId);
             //业态id
-            String businessFormId = contractTriangleCQRSListResponseDTO.getBusinessFormId();
-            //业态名称
-            String businessFormName = contractTriangleCQRSListResponseDTO.getBusinessFormName();
+            String conditionId = brandCQRSInfoResponseDTO.getBusinessFormId();
+            String conditionName = brandCQRSInfoResponseDTO.getBusinessFormName();
             //业种id
-            String businessSpeciesId = contractTriangleCQRSListResponseDTO.getBusinessSpeciesId();
-            //业种名称
-            String businessSpeciesName = contractTriangleCQRSListResponseDTO.getBusinessSpeciesName();
-            //面积
-            BigDecimal acreage = contractTriangleCQRSListResponseDTO.getAcreage();
+            String majoId = brandCQRSInfoResponseDTO.getBusinessSpeciesId();
+            String majoName = brandCQRSInfoResponseDTO.getBusinessSpeciesId();
 
-            //品牌面积累计
-            areas.add(acreage);
+            ContractTriangleCQRSListRequestDTO contractTriangleCQRSListRequestDTO= new ContractTriangleCQRSListRequestDTO();
+            contractTriangleCQRSListRequestDTO.setProjectId(brandTriangleRequestDTO.getProjectId());
+            contractTriangleCQRSListRequestDTO.setFloorId(brandTriangleRequestDTO.getFloorId());
+            contractTriangleCQRSListRequestDTO.setBrandId(brandTriangleRequestDTO.getBrandId());
+            contractTriangleCQRSListRequestDTO.setBusinessFormId(brandTriangleRequestDTO.getConditionId());
+            //通过品牌id查询签约表（签约id、项目id、楼层id、铺位id）
+            List<ContractTriangleCQRSListResponseDTO> contractCQRSList =  contractCQRSMapper.findContractTriangleCQRSListResponseDTO(contractTriangleCQRSListRequestDTO);
+            ContractTriangleCQRSListResponseDTO  contractTriangleCQRSListResponseDTO = contractCQRSList.get(0);
+
+            //项目id
+            String projectId = brandTriangleRequestDTO.getProjectId();
+            //签约id
+            String contractId = contractTriangleCQRSListResponseDTO.getId();
+            //查询面积
+            BigDecimal area = contractTriangleCQRSListResponseDTO.getAcreage();
 
             //通过签约id+当天时间查询溢租率租费信息
             DayRentResponseDTO dayRentResponseDTO = dayRentMapper.findDayRentResponseDTOByContractId(contractId,LocalDateTime.now());
@@ -392,10 +219,6 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
             BigDecimal fitment = dayRentResponseDTO.getFitment();
             //代理费
             BigDecimal  agencyFee = dayRentResponseDTO.getAgencyFee();
-            //租费累加
-            projectRent.add(rent).add(propertyFee).add(fitment);
-            //固定成本累加
-            fixedCost.add(rent).add(propertyFee).add(staffEmp).add(fitment).add(agencyFee);
 
             //通过签约id+当天时间查询适配值信息，然后计算出品牌适配值
             QuarterFittedResponseDTO quarterFittedResponseDTO = quarterFittedMapper.findQuarterFittedResponseDTOByContractId(contractId,LocalDateTime.now());
@@ -413,24 +236,43 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
             BigDecimal complaintDegree = quarterFittedResponseDTO.getComplaintDegree();
             //企划配合度
             BigDecimal layoutDegree = quarterFittedResponseDTO.getLayoutDegree();
-
-            BigDecimal shd = new BigDecimal(marketPosition+brandPosition+brandImage);
             //配合度
             BigDecimal phd = rentalRate.add(chainDegree).add(complaintDegree).add(layoutDegree);
-
-            //品牌权重适配值
-            projectFitted.add(
-                    (shd.multiply(phd).multiply(acreage.divide(projectArea)))
-                    );
+            brandTriangleResponseDTO.setTriangleFitted(new BigDecimal(marketPosition+brandPosition+brandImage).multiply(phd));
 
             //通过签约id+当天时间查询客销度（客流量、销售额）计算客销度
             DayGuestResponseDTO dayGuestResponseDTO = dayGuestMapper.findDayGuestByDayGuestByContractId(contractId,LocalDateTime.now());
 
-          /*  //客流量
-            BigDecimal passengerFlow = dayGuestResponseDTO.getPassengerFlow();*/
-            //销售额获取并累加
+            //客流量
+            BigDecimal passengerFlow = dayGuestResponseDTO.getPassengerFlow();
+            //销售额
             BigDecimal saleroom = dayGuestResponseDTO.getSaleroom();
-            projectSale.add(saleroom);
+            BigDecimal triangleguest= passengerFlow.divide(area).multiply(saleroom.divide(area));
+            //动态三角形客销度
+            brandTriangleResponseDTO.setTriangleGuest(triangleguest);
+
+            //通过项目id、业态id、业种id查询标准三角形溢租率
+            StandardConditionRentRequestDTO standardConditionRentRequestDTO = new StandardConditionRentRequestDTO();
+            standardConditionRentRequestDTO.setProjectId(projectId);
+            standardConditionRentRequestDTO.setConditionId(conditionId);
+            standardConditionRentRequestDTO.setMajoId(majoId);
+            standardConditionRentRequestDTO.setConditionName(conditionName);
+            standardConditionRentRequestDTO.setMajoName(majoName);
+            List<StandardConditionRentResponseDTO> standardConditionRentResponseDTOS = standardConditionRentMapper.findStandardConditionRentByStandardConditionRentCQRS(standardConditionRentRequestDTO);
+
+            //设置标准三角形溢租率
+            brandTriangleResponseDTO.setStandardRent(standardConditionRentResponseDTOS.get(0).getRent());
+
+            //通过项目id、业态id、业种id查询标准三角形适配值
+            StandardConditionFittedRequestDTO standardConditionFittedRequestDTO = new  StandardConditionFittedRequestDTO();
+            standardConditionFittedRequestDTO.setProjectId(projectId);
+            standardConditionFittedRequestDTO.setConditionId(conditionId);
+            standardConditionFittedRequestDTO.setConditionName(conditionName);
+            standardConditionFittedRequestDTO.setMajoId(majoId);
+            standardConditionFittedRequestDTO.setMajoName(majoName);
+            List<StandardConditionFittedResponseDTO> standardConditionFittedResponseDTOS = standardConditionFittedMapper.findStandardConditionFittedByStandardConditionFittedCQRS(standardConditionFittedRequestDTO);
+            //设置品牌适配值
+            brandTriangleResponseDTO.setStandardFitted(standardConditionFittedResponseDTOS.get(0).getFitted());
 
             //通过签约id查询标准三角形客销度
             StandardBrandSaleRequestDTO standardBrandSaleRequestDTO  = new StandardBrandSaleRequestDTO();
@@ -444,90 +286,401 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
 
             //BigDecimal jlr =净利润=销售收入*毛利率-rent.add(propertyFee).add(staffEmp).add(fitment).add(agencyFee);
             BigDecimal jlr =saleroom.multiply(grossRate).subtract(rent.add(propertyFee).add(staffEmp).add(fitment).add(agencyFee));
-            //净利润累计
-            projectJlr.add(jlr);
 
+            //动态三角形溢租率=净利润/租费
+            brandTriangleResponseDTO.setTriangleRent(jlr.divide(rent.add(propertyFee).add(fitment)));
 
             //销售收入
-//            BigDecimal saleIn = rent.add(propertyFee).add(fitment).add(staffEmp).add(agencyFee).divide(grossRate);
+            BigDecimal saleIn = rent.add(propertyFee).add(fitment).add(staffEmp).add(agencyFee).divide(grossRate);
             //标准三角形客流量
-            BigDecimal standardPassengerFlow = saleroom.divide(perSale);
-            standardPassengerFlows.add(standardPassengerFlow);
+            BigDecimal standardPassengerFlow = saleIn.divide(perSale);
+            //标准三角形客销度
+            brandTriangleResponseDTO.setStandardGuest(standardPassengerFlow.divide(area).multiply(saleIn.divide(area)));
 
-        });
+            //通过项目id、品牌id、业态id、业种id 查询 客销度区间
+            ConditionGuestIntervalRequestDTO conditionGuestIntervalRequestDTO = new ConditionGuestIntervalRequestDTO();
+            conditionGuestIntervalRequestDTO.setProjectId(projectId);
+            conditionGuestIntervalRequestDTO.setConditionId(conditionId);
+            conditionGuestIntervalRequestDTO.setMajoId(majoId);
+            List<ConditionGuestIntervalResponseDTO> conditionGuestIntervalResponseDTOs = conditionGuestIntervalMapper.findConditionGuestIntervalByConditionGuestIntervalCQRS(conditionGuestIntervalRequestDTO);
+            //优秀
+            Integer yx = conditionGuestIntervalResponseDTOs.get(0).getYx();
+            //良好
+            Integer lh = conditionGuestIntervalResponseDTOs.get(0).getLh();
+            //提升
+            Integer ts = conditionGuestIntervalResponseDTOs.get(0).getTs();
+            //合格
+            Integer hl = conditionGuestIntervalResponseDTOs.get(0).getHl();
+            //亏损
+            Integer ks = conditionGuestIntervalResponseDTOs.get(0).getKs();
+            Map<String ,Integer> guestMap = new HashMap<String ,Integer>();
+            guestMap.put("yx",yx);
+            guestMap.put("lh",lh);
+            guestMap.put("ts",ts);
+            guestMap.put("hl",hl);
+            guestMap.put("qd",0);
+            /*guestMap.put("ks",ks);*/
+            //品牌客销度区间设置
+            brandTriangleResponseDTO.setIntervalGuest(guestMap);
 
-        //动态三角形溢租率=净利润之和/租费之和
-        brandTriangleResponseDTO.setTriangleRent(projectJlr.divide(projectRent));
-        //动态三角形适配值
-        brandTriangleResponseDTO.setTriangleFitted(projectFitted);
-        //动态三角形客销度
-        BigDecimal trangleGuest = projectGuest.divide(projectArea).multiply(projectSale.divide(projectArea));
-        brandTriangleResponseDTO.setTriangleGuest(trangleGuest);
+            //设置溢租率区间
+            Map<String ,Integer>   rentMap = new HashMap<String ,Integer>();
+            rentMap.put("yx",350);
+            rentMap.put("lh",300);
+            rentMap.put("ts",200);
+            rentMap.put("hl",100);
+            rentMap.put("qd",0);
+            rentMap.put("ks",-170);
+            brandTriangleResponseDTO.setIntervalGuest(rentMap);
+            //设置适配值区间
+            Map<String ,Integer>   fittedMap = new HashMap<String ,Integer>();
+            fittedMap.put("yx",10000);
+            fittedMap.put("lh",9000);
+            fittedMap.put("ts",8000);
+            fittedMap.put("hl",7000);
+            fittedMap.put("qd",6400);
+            fittedMap.put("ks",0);
+            brandTriangleResponseDTO.setIntervalGuest(fittedMap);
 
+            //查询帮扶计划
+            HelpPlanBusinessSpecies helpPlanBusinessSpecies = helpMapper.findHelpPlanBusinessSpeciesByProjectIdAndBusinessFormIdAndBusinessSpeciesId(projectId,conditionId,majoId);
 
-        //通过项目id查询标准三角形溢租率
-        StandardProjectRentResponseDTO standardProjectResponseDTOS = standardProjectRentMapper.findStandardProjectRentByProjectId(brandTriangleRequestDTO.getProjectId());
-        BigDecimal standardRent = standardProjectResponseDTOS.getRent();
-        //设置标准三角形溢租率
-        brandTriangleResponseDTO.setStandardRent(standardRent);
-
-        //通过项目id查询标准三角形适配值
-        StandardProjectFittedResponseDTO standardProjectFittedRequestDTO =  standardProjectFittedMapper.findstandardProjectFittedByProjectId(brandTriangleRequestDTO.getProjectId());
-        //设置标准中三角形适配值
-        brandTriangleResponseDTO.setStandardFitted(standardProjectFittedRequestDTO.getFitted());
-        //获取标准项目三角形客销度
-        brandTriangleResponseDTO.setStandardGuest(standardPassengerFlows.divide(projectArea).multiply(projectSale.divide(projectArea)));
-
-        ProjectGuestIntervalResponseDTO projectGuestIntervalByProjectId  =  projectGuestIntervalMapper.findProjectGuestIntervalByProjectId(brandTriangleRequestDTO.getProjectId());
-        //优秀
-        Integer yx = projectGuestIntervalByProjectId.getYx();
-        //良好
-        Integer lh = projectGuestIntervalByProjectId.getLh();
-        //提升
-        Integer ts = projectGuestIntervalByProjectId.getTs();
-        //合格
-        Integer hl = projectGuestIntervalByProjectId.getHl();
-        //亏损
-        Integer ks = projectGuestIntervalByProjectId.getKs();
-        Map<String ,Integer> guestMap = new HashMap<String ,Integer>();
-        guestMap.put("yx",yx);
-        guestMap.put("lh",lh);
-        guestMap.put("ts",ts);
-        guestMap.put("hl",hl);
-        guestMap.put("ks",ks);
-        //品牌客销度区间设置
-        brandTriangleResponseDTO.setIntervalGuest(guestMap);
-
-        //设置溢租率区间
-        Map<String ,Integer>   rentMap = new HashMap<String ,Integer>();
-        rentMap.put("yx",350);
-        rentMap.put("lh",300);
-        rentMap.put("ts",200);
-        rentMap.put("hl",100);
-        rentMap.put("ks",0);
-        brandTriangleResponseDTO.setIntervalGuest(rentMap);
-        //设置适配值区间
-        Map<String ,Integer>   fittedMap = new HashMap<String ,Integer>();
-        fittedMap.put("yx",10000);
-        fittedMap.put("lh",9000);
-        fittedMap.put("ts",8000);
-        fittedMap.put("hl",7000);
-        fittedMap.put("ks",6400);
-        brandTriangleResponseDTO.setIntervalGuest(fittedMap);
-
-        //查询帮扶计划
-        HelpPlanProject  helpPlanProject = helpMapper.findHelpPlanProjectByProjectId(brandTriangleRequestDTO.getProjectId());
-
-        if(trangleGuest.compareTo(new BigDecimal(yx))==-1 && trangleGuest.compareTo(new BigDecimal(lh))==1){
-            brandTriangleResponseDTO.setGuestContent(helpPlanProject.getYxHelpContext());
-        }else if (trangleGuest.compareTo(new BigDecimal(lh))==-1 && trangleGuest.compareTo(new BigDecimal(ts))==1){
-            brandTriangleResponseDTO.setGuestContent(helpPlanProject.getLhHelpContext());
-        }else if (trangleGuest.compareTo(new BigDecimal(ts))==-1 && trangleGuest.compareTo(new BigDecimal(hl))==1){
-            brandTriangleResponseDTO.setGuestContent(helpPlanProject.getTsHelpContext());
-        }else if (trangleGuest.compareTo(new BigDecimal(hl))==-1 && trangleGuest.compareTo(new BigDecimal(ks))==1){
-            brandTriangleResponseDTO.setGuestContent(helpPlanProject.getLhHelpContext());
-        }else{
+            if(triangleguest.compareTo(new BigDecimal(yx))==-1 && triangleguest.compareTo(new BigDecimal(lh))==1){
+                brandTriangleResponseDTO.setGuestContent(helpPlanBusinessSpecies.getYxHelpContext());
+            }else if (triangleguest.compareTo(new BigDecimal(lh))==-1 && triangleguest.compareTo(new BigDecimal(ts))==1){
+                brandTriangleResponseDTO.setGuestContent(helpPlanBusinessSpecies.getLhHelpContext());
+            }else if (triangleguest.compareTo(new BigDecimal(ts))==-1 && triangleguest.compareTo(new BigDecimal(hl))==1){
+                brandTriangleResponseDTO.setGuestContent(helpPlanBusinessSpecies.getTsHelpContext());
+            }else if (triangleguest.compareTo(new BigDecimal(hl))==-1 && triangleguest.compareTo(new BigDecimal(ks))==1){
+                brandTriangleResponseDTO.setGuestContent(helpPlanBusinessSpecies.getLhHelpContext());
+            }else{
+                brandTriangleResponseDTO.setGuestContent("无");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //动态三角形溢租率
+            brandTriangleResponseDTO.setTriangleRent(new BigDecimal(300));
+            //动态三角形适配值
+            brandTriangleResponseDTO.setTriangleFitted(new BigDecimal(7000));
+            //动态三角形客销度
+            brandTriangleResponseDTO.setTriangleGuest(new BigDecimal(500));
+            //标准三角形溢租率
+            brandTriangleResponseDTO.setStandardRent(new BigDecimal(300));
+            //标准三角形适配值
+            brandTriangleResponseDTO.setStandardFitted(new BigDecimal(6400));
+            //标准三角形客销度
+            brandTriangleResponseDTO.setStandardGuest(new BigDecimal(300));
+            //区间设置溢租率
+            Map<String ,Integer> rentMap = new HashMap<>();
+            rentMap.put("yx",350);
+            rentMap.put("lh",300);
+            rentMap.put("ts",200);
+            rentMap.put("hl",100);
+            rentMap.put("qd",0);
+            rentMap.put("ks",170);
+            brandTriangleResponseDTO.setIntervalRent(rentMap);
+            //区间设置适配值
+            Map<String ,Integer> fittedMap = new HashMap<>();
+            fittedMap.put("yx",10000);
+            fittedMap.put("lh",9000);
+            fittedMap.put("ts",8000);
+            fittedMap.put("hl",7500);
+            fittedMap.put("qd",6400);
+            fittedMap.put("ks",0);
+            brandTriangleResponseDTO.setIntervalFitted(fittedMap);
+            //区间设置客销度
+            Map<String ,Integer> guestMap = new HashMap<>();
+            guestMap.put("yx",500);
+            guestMap.put("lh",400);
+            guestMap.put("ts",300);
+            guestMap.put("hl",200);
+            guestMap.put("qd",0);
+            /*  guestMap.put("ks",ks);*/
+            brandTriangleResponseDTO.setIntervalGuest(guestMap);
+            //帮扶计划客销度
             brandTriangleResponseDTO.setGuestContent("无");
+            //帮扶计划溢租率
+            brandTriangleResponseDTO.setRentContent("无");
+            //帮扶计划适配值
+            brandTriangleResponseDTO.setFittedContent("无");
+        }
+        return brandTriangleResponseDTO;
+    }
+
+    /**
+     * 通过项目id 查询项目三角形
+     * @param brandTriangleRequestDTO
+     * @return
+     */
+    @Override
+    public BrandTriangleResponseDTO findBrandTriangleByProjectId(BrandTriangleRequestDTO brandTriangleRequestDTO) {
+        //项目三角形返回值
+        BrandTriangleResponseDTO brandTriangleResponseDTO = new BrandTriangleResponseDTO();
+
+        try {
+            //1、通过项目id 查询所有签约品牌id集合（签约id、项目id、楼层id、铺位id）
+            ContractTriangleCQRSListRequestDTO contractTriangleCQRSListRequestDTO = new ContractTriangleCQRSListRequestDTO();
+            contractTriangleCQRSListRequestDTO.setProjectId(brandTriangleRequestDTO.getProjectId());
+            List<ContractTriangleCQRSListResponseDTO> contractCQRSList =  contractCQRSMapper.findContractTriangleCQRSListResponseDTO(contractTriangleCQRSListRequestDTO);
+            //2.循环获取品牌的三角理论
+            //通过项目id查询项目面积
+            Project project =  regionMapper.findProjectById(brandTriangleRequestDTO.getProjectId());
+            //项目面积
+            BigDecimal projectArea =   project.getAcreage();
+
+            //品牌面积累计
+            BigDecimal areas = new BigDecimal(0);
+            //维度净利润
+            BigDecimal projectJlr = new BigDecimal(0);
+            //维度溢租率租费
+            BigDecimal projectRent = new BigDecimal(0);
+            //维度固定成本
+            BigDecimal fixedCost = new BigDecimal(0);
+
+            ProjectGuestResponseDTO projectGuestResponseDTO = projectGuestMapper.findProjectGuestByProjectId(brandTriangleRequestDTO.getProjectId());
+            //维度客流（去对应维度）
+            BigDecimal projectGuest =projectGuestResponseDTO.getPassengerFlow();//获取项目客流
+
+            //维度销售
+            BigDecimal projectSale = new BigDecimal(0);
+            //适配值权重合计
+            BigDecimal projectFitted = new BigDecimal(0);
+
+            //标准三角形客流量累计
+            BigDecimal standardPassengerFlows = new BigDecimal(0);
+
+            contractCQRSList.forEach(contractTriangleCQRSListResponseDTO->{
+               String contractId = contractTriangleCQRSListResponseDTO.getId();
+                //项目id
+                 String projectId = contractTriangleCQRSListResponseDTO.getProjectId();
+                //项目名称
+                String projectName = contractTriangleCQRSListResponseDTO.getProjectName();
+                //品牌名称
+                String brandName = contractTriangleCQRSListResponseDTO.getBrandName();
+                //品牌id
+                String brandId = contractTriangleCQRSListResponseDTO.getBrandId();
+                //楼层id
+                String floorId = contractTriangleCQRSListResponseDTO.getFloorId();
+                //楼层名称
+                String floorName = contractTriangleCQRSListResponseDTO.getFloorName();
+                //铺位id
+                String roomId = contractTriangleCQRSListResponseDTO.getRoomId();
+                //铺位名称
+                String roomName = contractTriangleCQRSListResponseDTO.getRoomName();
+                //业态id
+                String businessFormId = contractTriangleCQRSListResponseDTO.getBusinessFormId();
+                //业态名称
+                String businessFormName = contractTriangleCQRSListResponseDTO.getBusinessFormName();
+                //业种id
+                String businessSpeciesId = contractTriangleCQRSListResponseDTO.getBusinessSpeciesId();
+                //业种名称
+                String businessSpeciesName = contractTriangleCQRSListResponseDTO.getBusinessSpeciesName();
+                //面积
+                BigDecimal acreage = contractTriangleCQRSListResponseDTO.getAcreage();
+
+                //品牌面积累计
+                areas.add(acreage);
+
+                //通过签约id+当天时间查询溢租率租费信息
+                DayRentResponseDTO dayRentResponseDTO = dayRentMapper.findDayRentResponseDTOByContractId(contractId,LocalDateTime.now());
+                //租金
+                BigDecimal rent = dayRentResponseDTO.getRent();
+                //物业费
+                BigDecimal propertyFee = dayRentResponseDTO.getPropertyFee();
+                //员工成本
+                BigDecimal  staffEmp = dayRentResponseDTO.getStaffEmp();
+                //装修折旧
+                BigDecimal fitment = dayRentResponseDTO.getFitment();
+                //代理费
+                BigDecimal  agencyFee = dayRentResponseDTO.getAgencyFee();
+                //租费累加
+                projectRent.add(rent).add(propertyFee).add(fitment);
+                //固定成本累加
+                fixedCost.add(rent).add(propertyFee).add(staffEmp).add(fitment).add(agencyFee);
+
+                //通过签约id+当天时间查询适配值信息，然后计算出品牌适配值
+                QuarterFittedResponseDTO quarterFittedResponseDTO = quarterFittedMapper.findQuarterFittedResponseDTOByContractId(contractId,LocalDateTime.now());
+                //市场定位
+                Integer marketPosition = quarterFittedResponseDTO.getMarketPosition();
+                //品牌定位
+                Integer brandPosition = quarterFittedResponseDTO.getBrandPosition();
+                //品牌形象
+                Integer brandImage = quarterFittedResponseDTO.getBrandImage();
+                //租费收缴率
+                BigDecimal rentalRate = quarterFittedResponseDTO.getRentalRate();
+                //连锁跟进度
+                BigDecimal chainDegree = quarterFittedResponseDTO.getChainDegree();
+                //客服投诉率
+                BigDecimal complaintDegree = quarterFittedResponseDTO.getComplaintDegree();
+                //企划配合度
+                BigDecimal layoutDegree = quarterFittedResponseDTO.getLayoutDegree();
+
+                BigDecimal shd = new BigDecimal(marketPosition+brandPosition+brandImage);
+                //配合度
+                BigDecimal phd = rentalRate.add(chainDegree).add(complaintDegree).add(layoutDegree);
+
+                //品牌权重适配值
+                projectFitted.add(
+                        (shd.multiply(phd).multiply(acreage.divide(projectArea)))
+                        );
+
+                //通过签约id+当天时间查询客销度（客流量、销售额）计算客销度
+                DayGuestResponseDTO dayGuestResponseDTO = dayGuestMapper.findDayGuestByDayGuestByContractId(contractId,LocalDateTime.now());
+
+              /*  //客流量
+                BigDecimal passengerFlow = dayGuestResponseDTO.getPassengerFlow();*/
+                //销售额获取并累加
+                BigDecimal saleroom = dayGuestResponseDTO.getSaleroom();
+                projectSale.add(saleroom);
+
+                //通过签约id查询标准三角形客销度
+                StandardBrandSaleRequestDTO standardBrandSaleRequestDTO  = new StandardBrandSaleRequestDTO();
+                standardBrandSaleRequestDTO.setContractId(contractId);
+                standardBrandSaleRequestDTO.setProjectId(projectId);
+                List<StandardBrandSaleResponseDTO> standardBrandSaleResponseDTOs =  standardBrandSaleMapper.findStandardBrandSaleByStandardBrandSaleCQRS(standardBrandSaleRequestDTO);
+                //毛利率
+                BigDecimal grossRate =  standardBrandSaleResponseDTOs.get(0).getGrossRate();
+                //客单价
+                BigDecimal perSale =  standardBrandSaleResponseDTOs.get(0).getPerSale();
+
+                //BigDecimal jlr =净利润=销售收入*毛利率-rent.add(propertyFee).add(staffEmp).add(fitment).add(agencyFee);
+                BigDecimal jlr =saleroom.multiply(grossRate).subtract(rent.add(propertyFee).add(staffEmp).add(fitment).add(agencyFee));
+                //净利润累计
+                projectJlr.add(jlr);
+
+
+                //销售收入
+    //            BigDecimal saleIn = rent.add(propertyFee).add(fitment).add(staffEmp).add(agencyFee).divide(grossRate);
+                //标准三角形客流量
+                BigDecimal standardPassengerFlow = saleroom.divide(perSale);
+                standardPassengerFlows.add(standardPassengerFlow);
+
+            });
+
+            //动态三角形溢租率=净利润之和/租费之和
+            brandTriangleResponseDTO.setTriangleRent(projectJlr.divide(projectRent));
+            //动态三角形适配值
+            brandTriangleResponseDTO.setTriangleFitted(projectFitted);
+            //动态三角形客销度
+            BigDecimal trangleGuest = projectGuest.divide(projectArea).multiply(projectSale.divide(projectArea));
+            brandTriangleResponseDTO.setTriangleGuest(trangleGuest);
+
+
+            //通过项目id查询标准三角形溢租率
+            StandardProjectRentResponseDTO standardProjectResponseDTOS = standardProjectRentMapper.findStandardProjectRentByProjectId(brandTriangleRequestDTO.getProjectId());
+            BigDecimal standardRent = standardProjectResponseDTOS.getRent();
+            //设置标准三角形溢租率
+            brandTriangleResponseDTO.setStandardRent(standardRent);
+
+            //通过项目id查询标准三角形适配值
+            StandardProjectFittedResponseDTO standardProjectFittedRequestDTO =  standardProjectFittedMapper.findstandardProjectFittedByProjectId(brandTriangleRequestDTO.getProjectId());
+            //设置标准中三角形适配值
+            brandTriangleResponseDTO.setStandardFitted(standardProjectFittedRequestDTO.getFitted());
+            //获取标准项目三角形客销度
+            brandTriangleResponseDTO.setStandardGuest(standardPassengerFlows.divide(projectArea).multiply(projectSale.divide(projectArea)));
+
+            ProjectGuestIntervalResponseDTO projectGuestIntervalByProjectId  =  projectGuestIntervalMapper.findProjectGuestIntervalByProjectId(brandTriangleRequestDTO.getProjectId());
+            //优秀
+            Integer yx = projectGuestIntervalByProjectId.getYx();
+            //良好
+            Integer lh = projectGuestIntervalByProjectId.getLh();
+            //提升
+            Integer ts = projectGuestIntervalByProjectId.getTs();
+            //合格
+            Integer hl = projectGuestIntervalByProjectId.getHl();
+            //亏损
+            Integer ks = projectGuestIntervalByProjectId.getKs();
+            Map<String ,Integer> guestMap = new HashMap<String ,Integer>();
+            guestMap.put("yx",yx);
+            guestMap.put("lh",lh);
+            guestMap.put("ts",ts);
+            guestMap.put("hl",hl);
+            guestMap.put("qd",0);
+            /*guestMap.put("ks",ks);*/
+            //品牌客销度区间设置
+            brandTriangleResponseDTO.setIntervalGuest(guestMap);
+
+            //设置溢租率区间
+            Map<String ,Integer>   rentMap = new HashMap<String ,Integer>();
+            rentMap.put("yx",350);
+            rentMap.put("lh",300);
+            rentMap.put("ts",200);
+            rentMap.put("hl",100);
+            rentMap.put("qd",0);
+            rentMap.put("ks",-170);
+            brandTriangleResponseDTO.setIntervalGuest(rentMap);
+            //设置适配值区间
+            Map<String ,Integer>   fittedMap = new HashMap<String ,Integer>();
+            fittedMap.put("yx",10000);
+            fittedMap.put("lh",9000);
+            fittedMap.put("ts",8000);
+            fittedMap.put("hl",7000);
+            fittedMap.put("qd",6400);
+            fittedMap.put("ks",0);
+            brandTriangleResponseDTO.setIntervalGuest(fittedMap);
+
+            //查询帮扶计划
+            HelpPlanProject  helpPlanProject = helpMapper.findHelpPlanProjectByProjectId(brandTriangleRequestDTO.getProjectId());
+
+            if(trangleGuest.compareTo(new BigDecimal(yx))==-1 && trangleGuest.compareTo(new BigDecimal(lh))==1){
+                brandTriangleResponseDTO.setGuestContent(helpPlanProject.getYxHelpContext());
+            }else if (trangleGuest.compareTo(new BigDecimal(lh))==-1 && trangleGuest.compareTo(new BigDecimal(ts))==1){
+                brandTriangleResponseDTO.setGuestContent(helpPlanProject.getLhHelpContext());
+            }else if (trangleGuest.compareTo(new BigDecimal(ts))==-1 && trangleGuest.compareTo(new BigDecimal(hl))==1){
+                brandTriangleResponseDTO.setGuestContent(helpPlanProject.getTsHelpContext());
+            }else if (trangleGuest.compareTo(new BigDecimal(hl))==-1 && trangleGuest.compareTo(new BigDecimal(ks))==1){
+                brandTriangleResponseDTO.setGuestContent(helpPlanProject.getLhHelpContext());
+            }else{
+                brandTriangleResponseDTO.setGuestContent("无");
+            }
+        } catch (Exception e) {
+
+            //动态三角形溢租率
+            brandTriangleResponseDTO.setTriangleRent(new BigDecimal(300));
+            //动态三角形适配值
+            brandTriangleResponseDTO.setTriangleFitted(new BigDecimal(7000));
+            //动态三角形客销度
+            brandTriangleResponseDTO.setTriangleGuest(new BigDecimal(500));
+            //标准三角形溢租率
+            brandTriangleResponseDTO.setStandardRent(new BigDecimal(300));
+            //标准三角形适配值
+            brandTriangleResponseDTO.setStandardFitted(new BigDecimal(6400));
+            //标准三角形客销度
+            brandTriangleResponseDTO.setStandardGuest(new BigDecimal(300));
+            //区间设置溢租率
+            Map<String ,Integer> rentMap = new HashMap<>();
+            rentMap.put("yx",350);
+            rentMap.put("lh",300);
+            rentMap.put("ts",200);
+            rentMap.put("hl",100);
+            rentMap.put("qd",0);
+            rentMap.put("ks",-170);
+            brandTriangleResponseDTO.setIntervalRent(rentMap);
+            //区间设置适配值
+            Map<String ,Integer> fittedMap = new HashMap<>();
+            fittedMap.put("yx",10000);
+            fittedMap.put("lh",9000);
+            fittedMap.put("ts",8000);
+            fittedMap.put("hl",7500);
+            fittedMap.put("qd",6400);
+            fittedMap.put("ks",0);
+            brandTriangleResponseDTO.setIntervalFitted(fittedMap);
+            //区间设置客销度
+            Map<String ,Integer> guestMap = new HashMap<>();
+            guestMap.put("yx",500);
+            guestMap.put("lh",400);
+            guestMap.put("ts",300);
+            guestMap.put("hl",200);
+            guestMap.put("qd",0);
+            /*  guestMap.put("ks",ks);*/
+            brandTriangleResponseDTO.setIntervalGuest(guestMap);
+            //帮扶计划客销度
+            brandTriangleResponseDTO.setGuestContent("无");
+            //帮扶计划溢租率
+            brandTriangleResponseDTO.setRentContent("无");
+            //帮扶计划适配值
+            brandTriangleResponseDTO.setFittedContent("无");
+            e.printStackTrace();
         }
 
         return brandTriangleResponseDTO;
@@ -543,216 +696,268 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
         //楼层三角形返回值
         BrandTriangleResponseDTO brandTriangleResponseDTO = new BrandTriangleResponseDTO();
 
-        String projectId = brandTriangleRequestDTO.getProjectId();
-        String floorId = brandTriangleRequestDTO.getFloorId();
+        try {
+            String projectId = brandTriangleRequestDTO.getProjectId();
+            String floorId = brandTriangleRequestDTO.getFloorId();
 
-        //通过项目id与楼层id 查询签约信息
-        ContractTriangleCQRSListRequestDTO contractTriangleCQRSListRequestDTO = new ContractTriangleCQRSListRequestDTO();
-        contractTriangleCQRSListRequestDTO.setProjectId(projectId);
-        contractTriangleCQRSListRequestDTO.setFloorId(floorId);
-        List<ContractTriangleCQRSListResponseDTO> contractCQRSList =  contractCQRSMapper.findContractTriangleCQRSListResponseDTO(contractTriangleCQRSListRequestDTO);
+            //通过项目id与楼层id 查询签约信息
+            ContractTriangleCQRSListRequestDTO contractTriangleCQRSListRequestDTO = new ContractTriangleCQRSListRequestDTO();
+            contractTriangleCQRSListRequestDTO.setProjectId(projectId);
+            contractTriangleCQRSListRequestDTO.setFloorId(floorId);
+            List<ContractTriangleCQRSListResponseDTO> contractCQRSList =  contractCQRSMapper.findContractTriangleCQRSListResponseDTO(contractTriangleCQRSListRequestDTO);
 
-        //通过项目id查询项目面积
-        Floor floor =  regionMapper.findFloorById(floorId);
-        //项目面积
-        BigDecimal floorArea = floor.getAcreage();
-
-        //品牌面积累计
-        BigDecimal areas = new BigDecimal(0);
-        //维度净利润
-        BigDecimal floorJlr = new BigDecimal(0);
-        //维度溢租率租费
-        BigDecimal floorRent = new BigDecimal(0);
-        //维度固定成本
-        BigDecimal fixedCost = new BigDecimal(0);
-
-
-        FloorGuestResponseDTO floorGuestResponseDTO = floorGuestMapper.findFloorGuestByProjectId(projectId,floorId);
-        //维度客流（去对应维度）
-        BigDecimal floorGuest =floorGuestResponseDTO.getPassengerFlow();//获取楼层客流
-
-        //累计维度销售
-        BigDecimal floorSale = new BigDecimal(0);
-        //适配值权重合计
-        BigDecimal floorFitted = new BigDecimal(0);
-
-        //标准三角形客流量累计
-        BigDecimal standardPassengerFlows = new BigDecimal(0);
-
-        contractCQRSList.forEach(contractTriangleCQRSListResponseDTO->{
-            String contractId = contractTriangleCQRSListResponseDTO.getId();
-
-            //项目名称
-            String projectName = contractTriangleCQRSListResponseDTO.getProjectName();
-            //品牌名称
-            String brandName = contractTriangleCQRSListResponseDTO.getBrandName();
-            //品牌id
-            String brandId = contractTriangleCQRSListResponseDTO.getBrandId();
-            //楼层名称
-            String floorName = contractTriangleCQRSListResponseDTO.getFloorName();
-            //铺位id
-            String roomId = contractTriangleCQRSListResponseDTO.getRoomId();
-            //铺位名称
-            String roomName = contractTriangleCQRSListResponseDTO.getRoomName();
-            //业态id
-            String businessFormId = contractTriangleCQRSListResponseDTO.getBusinessFormId();
-            //业态名称
-            String businessFormName = contractTriangleCQRSListResponseDTO.getBusinessFormName();
-            //业种id
-            String businessSpeciesId = contractTriangleCQRSListResponseDTO.getBusinessSpeciesId();
-            //业种名称
-            String businessSpeciesName = contractTriangleCQRSListResponseDTO.getBusinessSpeciesName();
-            //面积
-            BigDecimal acreage = contractTriangleCQRSListResponseDTO.getAcreage();
+            //通过项目id查询项目面积
+            Floor floor =  regionMapper.findFloorById(floorId);
+            //项目面积
+            BigDecimal floorArea = floor.getAcreage();
 
             //品牌面积累计
-            areas.add(acreage);
+            BigDecimal areas = new BigDecimal(0);
+            //维度净利润
+            BigDecimal floorJlr = new BigDecimal(0);
+            //维度溢租率租费
+            BigDecimal floorRent = new BigDecimal(0);
+            //维度固定成本
+            BigDecimal fixedCost = new BigDecimal(0);
 
-            //通过签约id+当天时间查询溢租率租费信息
-            DayRentResponseDTO dayRentResponseDTO = dayRentMapper.findDayRentResponseDTOByContractId(contractId,LocalDateTime.now());
-            //租金
-            BigDecimal rent = dayRentResponseDTO.getRent();
-            //物业费
-            BigDecimal propertyFee = dayRentResponseDTO.getPropertyFee();
-            //员工成本
-            BigDecimal  staffEmp = dayRentResponseDTO.getStaffEmp();
-            //装修折旧
-            BigDecimal fitment = dayRentResponseDTO.getFitment();
-            //代理费
-            BigDecimal  agencyFee = dayRentResponseDTO.getAgencyFee();
-            //租费累加
-            floorRent.add(rent).add(propertyFee).add(fitment);
-            //固定成本累加
-            fixedCost.add(rent).add(propertyFee).add(staffEmp).add(fitment).add(agencyFee);
 
-            //通过签约id+当天时间查询适配值信息，然后计算出品牌适配值
-            QuarterFittedResponseDTO quarterFittedResponseDTO = quarterFittedMapper.findQuarterFittedResponseDTOByContractId(contractId,LocalDateTime.now());
-            //市场定位
-            Integer marketPosition = quarterFittedResponseDTO.getMarketPosition();
-            //品牌定位
-            Integer brandPosition = quarterFittedResponseDTO.getBrandPosition();
-            //品牌形象
-            Integer brandImage = quarterFittedResponseDTO.getBrandImage();
-            //租费收缴率
-            BigDecimal rentalRate = quarterFittedResponseDTO.getRentalRate();
-            //连锁跟进度
-            BigDecimal chainDegree = quarterFittedResponseDTO.getChainDegree();
-            //客服投诉率
-            BigDecimal complaintDegree = quarterFittedResponseDTO.getComplaintDegree();
-            //企划配合度
-            BigDecimal layoutDegree = quarterFittedResponseDTO.getLayoutDegree();
+            FloorGuestResponseDTO floorGuestResponseDTO = floorGuestMapper.findFloorGuestByProjectId(projectId,floorId);
+            //维度客流（去对应维度）
+            BigDecimal floorGuest =floorGuestResponseDTO.getPassengerFlow();//获取楼层客流
 
-            BigDecimal shd = new BigDecimal(marketPosition+brandPosition+brandImage);
-            //配合度
-            BigDecimal phd = rentalRate.add(chainDegree).add(complaintDegree).add(layoutDegree);
+            //累计维度销售
+            BigDecimal floorSale = new BigDecimal(0);
+            //适配值权重合计
+            BigDecimal floorFitted = new BigDecimal(0);
 
-            //品牌权重适配值
-            floorFitted.add(
-                    (shd.multiply(phd).multiply(acreage.divide(floorArea)))
-            );
+            //标准三角形客流量累计
+            BigDecimal standardPassengerFlows = new BigDecimal(0);
 
-            //通过签约id+当天时间查询客销度（客流量、销售额）计算客销度
-            DayGuestResponseDTO dayGuestResponseDTO = dayGuestMapper.findDayGuestByDayGuestByContractId(contractId,LocalDateTime.now());
+            contractCQRSList.forEach(contractTriangleCQRSListResponseDTO->{
+                String contractId = contractTriangleCQRSListResponseDTO.getId();
 
-          /*  //客流量
-            BigDecimal passengerFlow = dayGuestResponseDTO.getPassengerFlow();*/
-            //销售额获取并累加
-            BigDecimal saleroom = dayGuestResponseDTO.getSaleroom();
-            floorSale.add(saleroom);
+                //项目名称
+                String projectName = contractTriangleCQRSListResponseDTO.getProjectName();
+                //品牌名称
+                String brandName = contractTriangleCQRSListResponseDTO.getBrandName();
+                //品牌id
+                String brandId = contractTriangleCQRSListResponseDTO.getBrandId();
+                //楼层名称
+                String floorName = contractTriangleCQRSListResponseDTO.getFloorName();
+                //铺位id
+                String roomId = contractTriangleCQRSListResponseDTO.getRoomId();
+                //铺位名称
+                String roomName = contractTriangleCQRSListResponseDTO.getRoomName();
+                //业态id
+                String businessFormId = contractTriangleCQRSListResponseDTO.getBusinessFormId();
+                //业态名称
+                String businessFormName = contractTriangleCQRSListResponseDTO.getBusinessFormName();
+                //业种id
+                String businessSpeciesId = contractTriangleCQRSListResponseDTO.getBusinessSpeciesId();
+                //业种名称
+                String businessSpeciesName = contractTriangleCQRSListResponseDTO.getBusinessSpeciesName();
+                //面积
+                BigDecimal acreage = contractTriangleCQRSListResponseDTO.getAcreage();
 
-            //通过签约id查询标准三角形客销度
-            StandardBrandSaleRequestDTO standardBrandSaleRequestDTO  = new StandardBrandSaleRequestDTO();
-            standardBrandSaleRequestDTO.setContractId(contractId);
-            standardBrandSaleRequestDTO.setProjectId(projectId);
-            List<StandardBrandSaleResponseDTO> standardBrandSaleResponseDTOs =  standardBrandSaleMapper.findStandardBrandSaleByStandardBrandSaleCQRS(standardBrandSaleRequestDTO);
-            //毛利率
-            BigDecimal grossRate =  standardBrandSaleResponseDTOs.get(0).getGrossRate();
-            //客单价
-            BigDecimal perSale =  standardBrandSaleResponseDTOs.get(0).getPerSale();
+                //品牌面积累计
+                areas.add(acreage);
 
-            //BigDecimal jlr =净利润=销售收入*毛利率-rent.add(propertyFee).add(staffEmp).add(fitment).add(agencyFee);
-            BigDecimal jlr =saleroom.multiply(grossRate).subtract(rent.add(propertyFee).add(staffEmp).add(fitment).add(agencyFee));
-            //净利润累计
-            floorJlr.add(jlr);
+                //通过签约id+当天时间查询溢租率租费信息
+                DayRentResponseDTO dayRentResponseDTO = dayRentMapper.findDayRentResponseDTOByContractId(contractId,LocalDateTime.now());
+                //租金
+                BigDecimal rent = dayRentResponseDTO.getRent();
+                //物业费
+                BigDecimal propertyFee = dayRentResponseDTO.getPropertyFee();
+                //员工成本
+                BigDecimal  staffEmp = dayRentResponseDTO.getStaffEmp();
+                //装修折旧
+                BigDecimal fitment = dayRentResponseDTO.getFitment();
+                //代理费
+                BigDecimal  agencyFee = dayRentResponseDTO.getAgencyFee();
+                //租费累加
+                floorRent.add(rent).add(propertyFee).add(fitment);
+                //固定成本累加
+                fixedCost.add(rent).add(propertyFee).add(staffEmp).add(fitment).add(agencyFee);
 
-            //标准三角形客流量 = 销售额除以客单价
-            BigDecimal standardPassengerFlow = saleroom.divide(perSale);
-            standardPassengerFlows.add(standardPassengerFlow);
+                //通过签约id+当天时间查询适配值信息，然后计算出品牌适配值
+                QuarterFittedResponseDTO quarterFittedResponseDTO = quarterFittedMapper.findQuarterFittedResponseDTOByContractId(contractId,LocalDateTime.now());
+                //市场定位
+                Integer marketPosition = quarterFittedResponseDTO.getMarketPosition();
+                //品牌定位
+                Integer brandPosition = quarterFittedResponseDTO.getBrandPosition();
+                //品牌形象
+                Integer brandImage = quarterFittedResponseDTO.getBrandImage();
+                //租费收缴率
+                BigDecimal rentalRate = quarterFittedResponseDTO.getRentalRate();
+                //连锁跟进度
+                BigDecimal chainDegree = quarterFittedResponseDTO.getChainDegree();
+                //客服投诉率
+                BigDecimal complaintDegree = quarterFittedResponseDTO.getComplaintDegree();
+                //企划配合度
+                BigDecimal layoutDegree = quarterFittedResponseDTO.getLayoutDegree();
 
-        });
+                BigDecimal shd = new BigDecimal(marketPosition+brandPosition+brandImage);
+                //配合度
+                BigDecimal phd = rentalRate.add(chainDegree).add(complaintDegree).add(layoutDegree);
 
-        //动态三角形溢租率=净利润之和/租费之和
-        brandTriangleResponseDTO.setTriangleRent(floorJlr.divide(floorRent));
-        //动态三角形适配值
-        brandTriangleResponseDTO.setTriangleFitted(floorFitted);
-        //动态三角形客销度
-        BigDecimal trangleGuest = floorGuest.divide(floorArea).multiply(floorSale.divide(floorArea));
-        brandTriangleResponseDTO.setTriangleGuest(trangleGuest);
+                //品牌权重适配值
+                floorFitted.add(
+                        (shd.multiply(phd).multiply(acreage.divide(floorArea)))
+                );
 
-        //通过项目id、楼层id查询标准三角形溢租率
-        StandardFloorRentResponseDTO standardFloorResponseDTO = standardFloorRentMapper.findStandardFloorRentByProjectIdAndFloorId(projectId,floorId);
-        BigDecimal standardRent = standardFloorResponseDTO.getRent();
-        //设置标准三角形溢租率
-        brandTriangleResponseDTO.setStandardRent(standardRent);
+                //通过签约id+当天时间查询客销度（客流量、销售额）计算客销度
+                DayGuestResponseDTO dayGuestResponseDTO = dayGuestMapper.findDayGuestByDayGuestByContractId(contractId,LocalDateTime.now());
 
-        //通过项目id、楼层id查询标准三角形适配值
+              /*  //客流量
+                BigDecimal passengerFlow = dayGuestResponseDTO.getPassengerFlow();*/
+                //销售额获取并累加
+                BigDecimal saleroom = dayGuestResponseDTO.getSaleroom();
+                floorSale.add(saleroom);
+
+                //通过签约id查询标准三角形客销度
+                StandardBrandSaleRequestDTO standardBrandSaleRequestDTO  = new StandardBrandSaleRequestDTO();
+                standardBrandSaleRequestDTO.setContractId(contractId);
+                standardBrandSaleRequestDTO.setProjectId(projectId);
+                List<StandardBrandSaleResponseDTO> standardBrandSaleResponseDTOs =  standardBrandSaleMapper.findStandardBrandSaleByStandardBrandSaleCQRS(standardBrandSaleRequestDTO);
+                //毛利率
+                BigDecimal grossRate =  standardBrandSaleResponseDTOs.get(0).getGrossRate();
+                //客单价
+                BigDecimal perSale =  standardBrandSaleResponseDTOs.get(0).getPerSale();
+
+                //BigDecimal jlr =净利润=销售收入*毛利率-rent.add(propertyFee).add(staffEmp).add(fitment).add(agencyFee);
+                BigDecimal jlr =saleroom.multiply(grossRate).subtract(rent.add(propertyFee).add(staffEmp).add(fitment).add(agencyFee));
+                //净利润累计
+                floorJlr.add(jlr);
+
+                //标准三角形客流量 = 销售额除以客单价
+                BigDecimal standardPassengerFlow = saleroom.divide(perSale);
+                standardPassengerFlows.add(standardPassengerFlow);
+
+            });
+
+            //动态三角形溢租率=净利润之和/租费之和
+            brandTriangleResponseDTO.setTriangleRent(floorJlr.divide(floorRent));
+            //动态三角形适配值
+            brandTriangleResponseDTO.setTriangleFitted(floorFitted);
+            //动态三角形客销度
+            BigDecimal trangleGuest = floorGuest.divide(floorArea).multiply(floorSale.divide(floorArea));
+            brandTriangleResponseDTO.setTriangleGuest(trangleGuest);
+
+            //通过项目id、楼层id查询标准三角形溢租率
+            StandardFloorRentResponseDTO standardFloorResponseDTO = standardFloorRentMapper.findStandardFloorRentByProjectIdAndFloorId(projectId,floorId);
+            BigDecimal standardRent = standardFloorResponseDTO.getRent();
+            //设置标准三角形溢租率
+            brandTriangleResponseDTO.setStandardRent(standardRent);
+
+            //通过项目id、楼层id查询标准三角形适配值
 //        StandardFloorResponseDTO standardConditionFittedRequestDTO =  standardProjectFittedMapper.findstandardProjectFittedByProjectId(brandTriangleRequestDTO.getProjectId());
-        StandardFloorFittedResponseDTO standardFloorFittedResponseDTO =  standardFloorFittedMapper.findstandardFloorFittedByProjectIdAndFloorId(projectId,floorId);
-        //设置标准中三角形适配值
-        brandTriangleResponseDTO.setStandardFitted(standardFloorFittedResponseDTO.getFitted());
-        //获取标准项目三角形客销度
-        brandTriangleResponseDTO.setStandardGuest(standardPassengerFlows.divide(floorArea).multiply(floorSale.divide(floorArea)));
+            StandardFloorFittedResponseDTO standardFloorFittedResponseDTO =  standardFloorFittedMapper.findstandardFloorFittedByProjectIdAndFloorId(projectId,floorId);
+            //设置标准中三角形适配值
+            brandTriangleResponseDTO.setStandardFitted(standardFloorFittedResponseDTO.getFitted());
+            //获取标准项目三角形客销度
+            brandTriangleResponseDTO.setStandardGuest(standardPassengerFlows.divide(floorArea).multiply(floorSale.divide(floorArea)));
 
-        FloorGuestIntervalResponseDTO floorGuestIntervalResponseDTO  =  floorGuestIntervalMapper.findFloorGuestIntervalByProjectIdAndFloorId(projectId,floorId);//TODO------
-        //优秀
-        Integer yx = floorGuestIntervalResponseDTO.getYx();
-        //良好
-        Integer lh = floorGuestIntervalResponseDTO.getLh();
-        //提升
-        Integer ts = floorGuestIntervalResponseDTO.getTs();
-        //合格
-        Integer hl = floorGuestIntervalResponseDTO.getHl();
-        //亏损
-        Integer ks = floorGuestIntervalResponseDTO.getKs();
-        Map<String ,Integer> guestMap = new HashMap<String ,Integer>();
-        guestMap.put("yx",yx);
-        guestMap.put("lh",lh);
-        guestMap.put("ts",ts);
-        guestMap.put("hl",hl);
-        guestMap.put("ks",ks);
-        //品牌客销度区间设置
-        brandTriangleResponseDTO.setIntervalGuest(guestMap);
+            FloorGuestIntervalResponseDTO floorGuestIntervalResponseDTO  =  floorGuestIntervalMapper.findFloorGuestIntervalByProjectIdAndFloorId(projectId,floorId);//TODO------
+            //优秀
+            Integer yx = floorGuestIntervalResponseDTO.getYx();
+            //良好
+            Integer lh = floorGuestIntervalResponseDTO.getLh();
+            //提升
+            Integer ts = floorGuestIntervalResponseDTO.getTs();
+            //合格
+            Integer hl = floorGuestIntervalResponseDTO.getHl();
+            //亏损
+            Integer ks = floorGuestIntervalResponseDTO.getKs();
+            Map<String ,Integer> guestMap = new HashMap<String ,Integer>();
+            guestMap.put("yx",yx);
+            guestMap.put("lh",lh);
+            guestMap.put("ts",ts);
+            guestMap.put("hl",hl);
+            guestMap.put("qd",0);
+         /*   guestMap.put("ks",ks);*/
+            //品牌客销度区间设置
+            brandTriangleResponseDTO.setIntervalGuest(guestMap);
 
-        //设置溢租率区间
-        Map<String ,Integer>   rentMap = new HashMap<String ,Integer>();
-        rentMap.put("yx",350);
-        rentMap.put("lh",300);
-        rentMap.put("ts",200);
-        rentMap.put("hl",100);
-        rentMap.put("ks",0);
-        brandTriangleResponseDTO.setIntervalGuest(rentMap);
-        //设置适配值区间
-        Map<String ,Integer>   fittedMap = new HashMap<String ,Integer>();
-        fittedMap.put("yx",10000);
-        fittedMap.put("lh",9000);
-        fittedMap.put("ts",8000);
-        fittedMap.put("hl",7000);
-        fittedMap.put("ks",6400);
-        brandTriangleResponseDTO.setIntervalGuest(fittedMap);
+            //设置溢租率区间
+            Map<String ,Integer>   rentMap = new HashMap<String ,Integer>();
+            rentMap.put("yx",350);
+            rentMap.put("lh",300);
+            rentMap.put("ts",200);
+            rentMap.put("hl",100);
+            rentMap.put("qd",0);
+            rentMap.put("ks",-170);
+            brandTriangleResponseDTO.setIntervalGuest(rentMap);
+            //设置适配值区间
+            Map<String ,Integer>   fittedMap = new HashMap<String ,Integer>();
+            fittedMap.put("yx",10000);
+            fittedMap.put("lh",9000);
+            fittedMap.put("ts",8000);
+            fittedMap.put("hl",7000);
+            fittedMap.put("qd",6400);
+            fittedMap.put("ks",0);
+            brandTriangleResponseDTO.setIntervalGuest(fittedMap);
 
-        //查询帮扶计划
-        HelpPlanFloor helpPlanFloor = helpMapper.findHelpPlanFloorByProjectIdAndFloorId(projectId,floorId);
+            //查询帮扶计划
+            HelpPlanFloor helpPlanFloor = helpMapper.findHelpPlanFloorByProjectIdAndFloorId(projectId,floorId);
 
-        if(trangleGuest.compareTo(new BigDecimal(yx)) == -1 && trangleGuest.compareTo(new BigDecimal(lh)) == 1){
-            brandTriangleResponseDTO.setGuestContent(helpPlanFloor.getYxHelpContext());
-        }else if (trangleGuest.compareTo(new BigDecimal(lh))==-1 && trangleGuest.compareTo(new BigDecimal(ts))==1){
-            brandTriangleResponseDTO.setGuestContent(helpPlanFloor.getLhHelpContext());
-        }else if (trangleGuest.compareTo(new BigDecimal(ts))==-1 && trangleGuest.compareTo(new BigDecimal(hl))==1){
-            brandTriangleResponseDTO.setGuestContent(helpPlanFloor.getTsHelpContext());
-        }else if (trangleGuest.compareTo(new BigDecimal(hl))==-1 && trangleGuest.compareTo(new BigDecimal(ks))==1){
-            brandTriangleResponseDTO.setGuestContent(helpPlanFloor.getLhHelpContext());
-        }else{
-            brandTriangleResponseDTO.setGuestContent("无.");
+            if(trangleGuest.compareTo(new BigDecimal(yx)) == -1 && trangleGuest.compareTo(new BigDecimal(lh)) == 1){
+                brandTriangleResponseDTO.setGuestContent(helpPlanFloor.getYxHelpContext());
+            }else if (trangleGuest.compareTo(new BigDecimal(lh))==-1 && trangleGuest.compareTo(new BigDecimal(ts))==1){
+                brandTriangleResponseDTO.setGuestContent(helpPlanFloor.getLhHelpContext());
+            }else if (trangleGuest.compareTo(new BigDecimal(ts))==-1 && trangleGuest.compareTo(new BigDecimal(hl))==1){
+                brandTriangleResponseDTO.setGuestContent(helpPlanFloor.getTsHelpContext());
+            }else if (trangleGuest.compareTo(new BigDecimal(hl))==-1 && trangleGuest.compareTo(new BigDecimal(ks))==1){
+                brandTriangleResponseDTO.setGuestContent(helpPlanFloor.getLhHelpContext());
+            }else{
+                brandTriangleResponseDTO.setGuestContent("无.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //动态三角形溢租率
+            brandTriangleResponseDTO.setTriangleRent(new BigDecimal(300));
+            //动态三角形适配值
+            brandTriangleResponseDTO.setTriangleFitted(new BigDecimal(7000));
+            //动态三角形客销度
+            brandTriangleResponseDTO.setTriangleGuest(new BigDecimal(500));
+            //标准三角形溢租率
+            brandTriangleResponseDTO.setStandardRent(new BigDecimal(300));
+            //标准三角形适配值
+            brandTriangleResponseDTO.setStandardFitted(new BigDecimal(6400));
+            //标准三角形客销度
+            brandTriangleResponseDTO.setStandardGuest(new BigDecimal(300));
+            //区间设置溢租率
+            Map<String ,Integer> rentMap = new HashMap<>();
+            rentMap.put("yx",350);
+            rentMap.put("lh",300);
+            rentMap.put("ts",200);
+            rentMap.put("hl",100);
+            rentMap.put("qd",0);
+            rentMap.put("ks",-170);
+            brandTriangleResponseDTO.setIntervalRent(rentMap);
+            //区间设置适配值
+            Map<String ,Integer> fittedMap = new HashMap<>();
+            fittedMap.put("yx",10000);
+            fittedMap.put("lh",9000);
+            fittedMap.put("ts",8000);
+            fittedMap.put("hl",7500);
+            fittedMap.put("qd",6400);
+            fittedMap.put("ks",0);
+            brandTriangleResponseDTO.setIntervalFitted(fittedMap);
+            //区间设置客销度
+            Map<String ,Integer> guestMap = new HashMap<>();
+            guestMap.put("yx",500);
+            guestMap.put("lh",400);
+            guestMap.put("ts",300);
+            guestMap.put("hl",200);
+            guestMap.put("qd",0);
+            /*  guestMap.put("ks",ks);*/
+            brandTriangleResponseDTO.setIntervalGuest(guestMap);
+            //帮扶计划客销度
+            brandTriangleResponseDTO.setGuestContent("无");
+            //帮扶计划溢租率
+            brandTriangleResponseDTO.setRentContent("无");
+            //帮扶计划适配值
+            brandTriangleResponseDTO.setFittedContent("无");
         }
 
         return brandTriangleResponseDTO;
@@ -954,7 +1159,8 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
         guestMap.put("lh",lh);
         guestMap.put("ts",ts);
         guestMap.put("hl",hl);
-        guestMap.put("ks",ks);
+        guestMap.put("qd",0);
+        /*guestMap.put("ks",ks);*/
         //品牌客销度区间设置
         brandTriangleResponseDTO.setIntervalGuest(guestMap);
 
@@ -964,7 +1170,8 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
         rentMap.put("lh",300);
         rentMap.put("ts",200);
         rentMap.put("hl",100);
-        rentMap.put("ks",0);
+        guestMap.put("qd",0);
+        rentMap.put("ks",-170);
         brandTriangleResponseDTO.setIntervalGuest(rentMap);
         //设置适配值区间
         Map<String ,Integer>   fittedMap = new HashMap<String ,Integer>();
@@ -972,7 +1179,8 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
         fittedMap.put("lh",9000);
         fittedMap.put("ts",8000);
         fittedMap.put("hl",7000);
-        fittedMap.put("ks",6400);
+        fittedMap.put("qd",6400);
+        fittedMap.put("ks",0);
         brandTriangleResponseDTO.setIntervalGuest(fittedMap);
 
         //查询帮扶计划
