@@ -2,7 +2,10 @@ package com.yinghuaicc.stars.service.cqrs.triangle;
 
 
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.BrandTriangleRequestDTO;
+import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.AllSalePassengerFlowResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.BrandTriangleResponseDTO;
+
+import java.util.List;
 
 
 public interface TriangleCQRSService {
@@ -37,5 +40,11 @@ public interface TriangleCQRSService {
      */
     BrandTriangleResponseDTO findBrandTriangleByConditionId(BrandTriangleRequestDTO brandTriangleRequestDTO);
 
+
+    /**
+     * 统计全国区域下客流量、销售额
+     * @return
+     */
+    List<AllSalePassengerFlowResponseDTO> findSalePassengerFlowAll();
 
 }

@@ -27,4 +27,23 @@ public class DayGuestController {
                 dayGuestService.findDayGuestByDayGuestCQRS(dayGuestResponseDTO, pageParam));
     }
 
+    /**
+     * 查询全国客流量
+     * @return
+     */
+    @PostMapping(value = "/find/passengerflowall/list")
+    public JsonResult findPassengerFlowAll(){
+        return JsonResult.success(dayGuestService.findPassengerFlowAll());
+    }
+
+    /**
+     * 查询全国销售额
+     * @return
+     */
+    @PostMapping(value = "/find/saleroomall/list")
+    public JsonResult findSaleroomAll(){
+        return JsonResult.success(dayGuestService.findSaleroomAll());
+
+    }
+
 }

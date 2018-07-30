@@ -71,4 +71,13 @@ public class TriangleController {
         return JsonResult.success(triangleCQRSService.findBrandTriangleByBrandId(brandTriangleRequestDTO));
     }
 
+
+    /**
+     * 查询全国各区域客流量、销售量
+     */
+    @PostMapping(value = "/find/salepassengerflow/all")
+    public JsonResult findProjectTriangleByBrandId(){
+        return JsonResult.success(triangleCQRSService.findSalePassengerFlowAll());
+    }
+
 }

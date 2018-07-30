@@ -1,5 +1,6 @@
 package com.yinghuaicc.stars.repository.model.standard;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -17,7 +18,7 @@ public class StandardProjectFitted {
     //项目名称
     private String projectName;
     //适配值
-    private String fitted;
+    private BigDecimal fitted;
 
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
@@ -65,11 +66,11 @@ public class StandardProjectFitted {
         this.projectName = projectName;
     }
 
-    public String getFitted() {
+    public BigDecimal getFitted() {
         return fitted;
     }
 
-    public void setFitted(String fitted) {
+    public void setFitted(BigDecimal fitted) {
         this.fitted = fitted;
     }
 

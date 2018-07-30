@@ -246,7 +246,7 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
         //标准三角形客流量
         BigDecimal standardPassengerFlow = saleIn.divide(perSale);
         //标准三角形客销度
-        brandTriangleResponseDTO.setStandarGuest(standardPassengerFlow.divide(area).multiply(saleIn.divide(area)));
+        brandTriangleResponseDTO.setStandardGuest(standardPassengerFlow.divide(area).multiply(saleIn.divide(area)));
 
         //通过项目id、品牌id、业态id、业种id 查询 客销度区间
         ConditionGuestIntervalRequestDTO conditionGuestIntervalRequestDTO = new ConditionGuestIntervalRequestDTO();
@@ -476,7 +476,7 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
         //设置标准中三角形适配值
         brandTriangleResponseDTO.setStandardFitted(standardProjectFittedRequestDTO.getFitted());
         //获取标准项目三角形客销度
-        brandTriangleResponseDTO.setStandarGuest(standardPassengerFlows.divide(projectArea).multiply(projectSale.divide(projectArea)));
+        brandTriangleResponseDTO.setStandardGuest(standardPassengerFlows.divide(projectArea).multiply(projectSale.divide(projectArea)));
 
         ProjectGuestIntervalResponseDTO projectGuestIntervalByProjectId  =  projectGuestIntervalMapper.findProjectGuestIntervalByProjectId(brandTriangleRequestDTO.getProjectId());
         //优秀
@@ -701,9 +701,9 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
         //设置标准中三角形适配值
         brandTriangleResponseDTO.setStandardFitted(standardFloorFittedResponseDTO.getFitted());
         //获取标准项目三角形客销度
-        brandTriangleResponseDTO.setStandarGuest(standardPassengerFlows.divide(floorArea).multiply(floorSale.divide(floorArea)));
+        brandTriangleResponseDTO.setStandardGuest(standardPassengerFlows.divide(floorArea).multiply(floorSale.divide(floorArea)));
 
-        FloorGuestIntervalResponseDTO floorGuestIntervalResponseDTO  =  floorGuestIntervalMapper.findFloorGuestIntervalByProjectIdAndFloorId(projectId,floorId);
+        FloorGuestIntervalResponseDTO floorGuestIntervalResponseDTO  =  floorGuestIntervalMapper.findFloorGuestIntervalByProjectIdAndFloorId(projectId,floorId);//TODO------
         //优秀
         Integer yx = floorGuestIntervalResponseDTO.getYx();
         //良好
@@ -931,7 +931,7 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
         //设置标准中三角形适配值
         brandTriangleResponseDTO.setStandardFitted(standardConditionFittedResponseDTOs.get(0).getFitted());
         //获取标准项目三角形客销度
-        brandTriangleResponseDTO.setStandarGuest(standardPassengerFlows.divide(areas).multiply(conditionSale.divide(areas)));
+        brandTriangleResponseDTO.setStandardGuest(standardPassengerFlows.divide(areas).multiply(conditionSale.divide(areas)));
 
         //通过项目id、品牌id、业态id、业种id 查询 客销度区间
         ConditionGuestIntervalRequestDTO conditionGuestIntervalRequestDTO = new ConditionGuestIntervalRequestDTO();
@@ -990,5 +990,10 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
             brandTriangleResponseDTO.setGuestContent("无.");
         }
         return brandTriangleResponseDTO;
+    }
+
+    @Override
+    public List<AllSalePassengerFlowResponseDTO> findSalePassengerFlowAll() {
+        return dayGuestMapper.findSalePassengerFlowAll();
     }
 }

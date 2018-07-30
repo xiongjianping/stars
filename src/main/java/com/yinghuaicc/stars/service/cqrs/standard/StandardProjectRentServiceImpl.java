@@ -6,6 +6,7 @@ import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.standard.StandardProjectRentMapper;
+import com.yinghuaicc.stars.repository.model.standard.StandardProjectRent;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardProjectRentRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardProjectRentResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,11 @@ public class StandardProjectRentServiceImpl implements StandardProjectRentServic
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
+    }
+
+    @Override
+    public void saveStandardProjectRent(StandardProjectRent standardProjectRent) {
+        standardProjectRentMapper.saveStandardProjectRent(standardProjectRent);
     }
 
 

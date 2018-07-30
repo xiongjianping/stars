@@ -7,6 +7,7 @@ import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.triangle.RentVerssionMapper;
+import com.yinghuaicc.stars.repository.model.triangle.RentVerssion;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.RentVerssionRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.RentVerssionResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,10 @@ public class RentVerssionServiceImpl implements RentVerssionService {
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
 
+    }
+
+    @Override
+    public void saveRentVerssion(RentVerssion rentVerssion) {
+        rentVerssionMapper.saveRentVerssion(rentVerssion);
     }
 }
