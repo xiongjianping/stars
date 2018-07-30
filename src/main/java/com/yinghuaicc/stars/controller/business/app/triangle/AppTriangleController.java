@@ -2,12 +2,10 @@ package com.yinghuaicc.stars.controller.business.app.triangle;
 
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.response.JsonResult;
-import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.service.cqrs.brand.BrandCQRSService;
 import com.yinghuaicc.stars.service.cqrs.brand.dto.request.AppBrandCQRSListRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.brand.dto.request.BrandCQRSListRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.region.RegionCQRSService;
-import com.yinghuaicc.stars.service.cqrs.region.dto.request.ProjectCQRSListRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.TriangeConditionRequestDTO;
 import com.yinghuaicc.stars.service.region.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,17 +43,12 @@ public class AppTriangleController {
     }
 
     /**
-     *@Author:Fly Created in 2018/7/3 下午8:13
-     *@Description: 查询项目列表
+     *@Author:Fly Created in 2018/7/20 上午10:14
+     *@Description: 按照区域id查询项目
      */
-    @PostMapping(value = "/find/project/list")
-    public JsonResult findProjectList(@RequestBody ProjectCQRSListRequestDTO projectCQRSListRequestDTO, @ModelAttribute PageParam pageParam){
-
-        return JsonResult.success(
-                regionCQRSService.projectList(
-                        projectCQRSListRequestDTO,
-                        applicationContext.getBean(AopResourceEmployeeBean.class),
-                        pageParam));
+    @GetMapping(value = "/find/project/by/area/{areaId}")
+    public JsonResult findProjectByAreaId(@PathVariable String areaId){
+        return JsonResult.success(regionService.findProjectByAreaId(areaId));
     }
 
     /**
@@ -89,6 +82,15 @@ public class AppTriangleController {
         return JsonResult.success(regionService.findFloorByBuildingId(building));
     }
 
+    /**
+     *@Author:Fly Created in 2018/7/11 下午11:11
+     *@Description: 按照项目id查询层
+     */
+    @GetMapping(value = "/find/floor/by/project/{projectId}")
+    public JsonResult findFloorByProjectId(@PathVariable String projectId){
+        return JsonResult.success(regionService.findFloorByProjectId(projectId));
+    }
+
 
     /**
      * 根据项目id、楼层id查询项目下业态
@@ -110,6 +112,9 @@ public class AppTriangleController {
         return JsonResult.success(brandCQRSService.brandListCQRS(brandCQRSListRequestDTO, pageParam));
     }
 
+    /**
+     * 专用查询品牌列表
+     */
     @PostMapping(value = "/find/appbrand/list")
     public JsonResult findAppBrandList(@RequestBody AppBrandCQRSListRequestDTO appBrandCQRSListRequestDTO){
         return JsonResult.success(brandCQRSService.appBrandListCQRS(appBrandCQRSListRequestDTO));
