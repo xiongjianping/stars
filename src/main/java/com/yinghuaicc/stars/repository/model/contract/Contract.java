@@ -26,7 +26,7 @@ public class Contract {
     private String brandId;
 
     //状态(true:已签约，false：签约已解除)
-    private boolean state;
+    private boolean status;
 
     //创建时间
     private LocalDateTime createTime;
@@ -85,12 +85,12 @@ public class Contract {
         return this;
     }
 
-    public boolean isState() {
-        return state;
+    public boolean isStatus() {
+        return status;
     }
 
-    public Contract setState(boolean state) {
-        this.state = state;
+    public Contract setStatus(boolean status) {
+        this.status = status;
         return this;
     }
 

@@ -9,6 +9,7 @@ import com.yinghuaicc.stars.config.base.BusinessNum;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.base.BaseMapper;
+import com.yinghuaicc.stars.repository.mapper.brand.BrandMapper;
 import com.yinghuaicc.stars.repository.model.base.BusinessForm;
 import com.yinghuaicc.stars.repository.model.base.BusinessSpecies;
 import com.yinghuaicc.stars.service.base.dto.request.EditBusinessFormRequestDTO;
@@ -39,6 +40,9 @@ public class BaseServiceImpl implements BaseService{
 
     @Autowired
     private ExceptionUtil exceptionUtil;
+
+    @Autowired
+    private BrandMapper brandMapper;
 
     /**
      *@Author:Fly Created in 2018/7/5 上午10:47
@@ -227,6 +231,11 @@ public class BaseServiceImpl implements BaseService{
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void removeBusinessSpecies(String id) {
+
+        if (brandMapper.countBrandByBusinessSpeciesId(id)>0){
+
+            throw exceptionUtil.throwCustomException("REMOVE_BUSINSSSPECIES_001");
+        }
 
         baseMapper.removeBusinessSpecies(id);
     }

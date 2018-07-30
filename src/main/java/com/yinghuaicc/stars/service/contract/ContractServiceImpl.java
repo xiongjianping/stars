@@ -70,16 +70,23 @@ public class ContractServiceImpl implements ContractService{
                             .setModifyUser(loginEmployeeId));
         });
 
-        contractMapper.saveContract(
-                Stream.of(
-                        MapperFactoryUtil.mapperObject(saveContractRequestDTO, Contract.class)
-                                .setId(UuidUtil.randomUUID())
-                                .setState(true)
-                                .setCreateUser(loginEmployeeId)
-                                .setModifyUser(loginEmployeeId)
-                                .setModifyTime(LocalDateTime.now())
-                                .setCreateTime(LocalDateTime.now()))
-                        .collect(Collectors.toList()));
+        saveContractRequestDTO.getRoomId().stream().forEach(str -> {
+
+            contractMapper.saveContract(
+                    Stream.of(
+                            new Contract()
+                                    .setId(UuidUtil.randomUUID())
+                                    .setProjectId(saveContractRequestDTO.getProjectId())
+                                    .setFloorId(saveContractRequestDTO.getFloorId())
+                                    .setRoomId(str)
+                                    .setBrandId(saveContractRequestDTO.getBrandId())
+                                    .setStatus(true)
+                                    .setCreateUser(loginEmployeeId)
+                                    .setModifyUser(loginEmployeeId)
+                                    .setModifyTime(LocalDateTime.now())
+                                    .setCreateTime(LocalDateTime.now()))
+                            .collect(Collectors.toList()));
+        });
 
         brandMapper.editBrand(
                 brandMapper.findBrandById(saveContractRequestDTO.getBrandId())
@@ -100,11 +107,11 @@ public class ContractServiceImpl implements ContractService{
 
         if (Objects.nonNull(contract)){
 
-            if (contract.isState()){
+            if (contract.isStatus()){
 
                 contractMapper.editContractById(
                         contract
-                                .setState(false)
+                                .setStatus(false)
                                 .setModifyTime(LocalDateTime.now())
                                 .setModifyUser(loginEmployeeId));
 
