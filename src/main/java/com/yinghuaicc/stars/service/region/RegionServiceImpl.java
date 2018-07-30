@@ -326,7 +326,6 @@ public class RegionServiceImpl implements RegionService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void removeRoom(String id) {
-
         regionMapper.removeRoom(id);
     }
 
@@ -490,6 +489,11 @@ public class RegionServiceImpl implements RegionService {
     @Override
     public List<TriangeConditionResponseDTO> findConditionlistByOtherId(TriangeConditionRequestDTO triangeConditionRequestDTO) {
         return regionMapper.findConditionlistByOtherId(triangeConditionRequestDTO);
+    }
+
+    @Override
+    public List<Floor> findFloorByProjectId(String projectId) {
+        return regionMapper.findFloorByProjectId(projectId);
     }
 
     /**
