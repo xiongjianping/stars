@@ -30,7 +30,7 @@ public class TriangleController {
      * @param brandTriangleRequestDTO
      * @return
      */
-    @GetMapping(value = "/find/triangleproject/byprojectId")
+    @PostMapping(value = "/find/triangleproject/byprojectId")
     public JsonResult findProjectTriangleByProjectId(@RequestBody BrandTriangleRequestDTO brandTriangleRequestDTO){
 
         return JsonResult.success(triangleCQRSService.findBrandTriangleByProjectId(brandTriangleRequestDTO));
@@ -41,7 +41,7 @@ public class TriangleController {
      * @param brandTriangleRequestDTO
      * @return
      */
-    @GetMapping(value = "/find/trianglefloor/byfloorId")
+    @PostMapping(value = "/find/trianglefloor/byfloorId")
     public JsonResult findProjectTriangleByFloorId(@RequestBody BrandTriangleRequestDTO brandTriangleRequestDTO){
 
         return JsonResult.success(triangleCQRSService.findBrandTriangleByFloorId(brandTriangleRequestDTO));
