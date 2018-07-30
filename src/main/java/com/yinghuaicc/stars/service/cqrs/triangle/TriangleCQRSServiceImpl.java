@@ -991,4 +991,9 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
         }
         return brandTriangleResponseDTO;
     }
+
+    @Override
+    public List<AllSalePassengerFlowResponseDTO> findSalePassengerFlowAll() {
+        return dayGuestMapper.findSalePassengerFlowAll();
+    }
 }

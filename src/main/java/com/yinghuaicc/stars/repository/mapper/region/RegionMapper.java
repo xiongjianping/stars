@@ -4,6 +4,8 @@ import com.yinghuaicc.stars.repository.model.region.*;
 import com.yinghuaicc.stars.repository.model.tissue.Employee;
 import com.yinghuaicc.stars.repository.model.tissue.EmployeeProjectData;
 import com.yinghuaicc.stars.repository.model.tissue.EmployeeProjectRelationTeam;
+import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.TriangeConditionRequestDTO;
+import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.TriangeConditionResponseDTO;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -354,5 +356,27 @@ public interface RegionMapper {
      */
     @Select("select * from yhcc_room where floor_id = #{floorId}")
     List<Room> findRoomByFloorId(String floorId);
+
+    /**
+     * 通过条件查询业态list
+     * @param triangeConditionRequestDTO
+     * @return
+     */
+    @Select("<script> " +
+            " select e.id as conditionId,e.name as conditionName " +
+            " from yhcc_contract a " +
+            " LEFT JOIN yhcc_project b on a.project_id = b.id " +
+            " LEFT JOIN yhcc_floor c ON c.id = a.floor_id " +
+            " LEFT JOIN yhcc_brand d ON d.id = a.brand_id " +
+            " LEFT JOIN yhcc_business_form e ON e.id = d.business_form_id " +
+            " <where> "  +
+            "<bind name='search.projectId' value='search.projectId' /> " +
+            "<bind name='search.floorId' value='search.floorId' /> " +
+            "<if test='search.projectId != null and search.projectId !=\"\"'>AND a.project_id = #{search.projectId}</if> " +
+            "<if test='search.floorId != null and search.floorId !=\"\"'>AND a.floor_Id = #{search.floorId}</if> " +
+            " </where>" +
+            " GROUP BY e.id " +
+            "</script>")
+    List<TriangeConditionResponseDTO> findConditionlistByOtherId(@Param("search")TriangeConditionRequestDTO triangeConditionRequestDTO);
 
 }

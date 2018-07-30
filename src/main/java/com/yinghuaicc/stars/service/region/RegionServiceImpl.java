@@ -11,6 +11,8 @@ import com.yinghuaicc.stars.repository.model.region.*;
 import com.yinghuaicc.stars.repository.model.tissue.Department;
 import com.yinghuaicc.stars.repository.model.tissue.Employee;
 import com.yinghuaicc.stars.repository.model.tissue.EmployeeProjectRelationTeam;
+import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.TriangeConditionRequestDTO;
+import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.TriangeConditionResponseDTO;
 import com.yinghuaicc.stars.service.region.dto.request.*;
 import com.yinghuaicc.stars.service.region.dto.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -189,6 +191,14 @@ public class RegionServiceImpl implements RegionService {
     public List<FindProjectByAreaIdResponseDTO> findProjectByAreaId(String areaId) {
 
         return MapperFactoryUtil.mapperList(regionMapper.findProjectByAreaId(areaId), FindProjectByAreaIdResponseDTO.class);
+    }
+
+    /**
+     *@Description: 根据项目查询项目图片
+     */
+    @Override
+    public List<ProjectImage> findProjectImageByProjectId(String projectId) {
+        return regionMapper.findProjectImageByProjectId(projectId);
     }
 
     /**
@@ -475,6 +485,11 @@ public class RegionServiceImpl implements RegionService {
 
 
         return tissueMapper.findEmployeeByCompanyId(companyId);
+    }
+
+    @Override
+    public List<TriangeConditionResponseDTO> findConditionlistByOtherId(TriangeConditionRequestDTO triangeConditionRequestDTO) {
+        return regionMapper.findConditionlistByOtherId(triangeConditionRequestDTO);
     }
 
     /**

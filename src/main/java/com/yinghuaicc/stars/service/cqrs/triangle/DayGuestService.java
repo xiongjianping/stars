@@ -6,6 +6,7 @@ import com.yinghuaicc.stars.repository.model.triangle.DayGuest;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.DayGuestRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.DayGuestResponseDTO;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public interface DayGuestService {
@@ -30,4 +31,15 @@ public interface DayGuestService {
      * @param dayGuest
      */
     void saveDayGuest(DayGuest dayGuest);
+
+    /**
+     * 查询全国客流量
+     * @return
+     */
+    BigDecimal findPassengerFlowAll();
+    /**
+     * 查询全国销售额
+     * @return
+     */
+    BigDecimal findSaleroomAll();
 }
