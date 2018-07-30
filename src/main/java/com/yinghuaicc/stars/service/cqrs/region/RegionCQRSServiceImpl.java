@@ -55,7 +55,7 @@ public class RegionCQRSServiceImpl implements RegionCQRSService {
         List<ProjectCQRSListResponseDTO> result = new ArrayList<ProjectCQRSListResponseDTO>();
 
 
-        if (Objects.nonNull(aopResourceEmployeeBean.getProjectIds())){
+        if (Objects.nonNull(aopResourceEmployeeBean.getProjectIds())&&aopResourceEmployeeBean.getProjectIds().size()>0){
 
             page = PageHelper.startPage(pageParam.getP(), pageParam.getC());
 

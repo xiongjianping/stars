@@ -115,4 +115,14 @@ public class BrandServiceImpl implements BrandService{
 
         return MapperFactoryUtil.mapperList(brandMapper.findBrandAll(), BrandAllResponseDTO.class);
     }
+
+    /**
+     *@Author:Fly Created in 2018/7/30 下午12:56
+     *@Description: 根据业种查询品牌
+     */
+    @Override
+    public List<Brand> findBrandByBusinessSpeciesId(String businessSpeciesId) {
+
+        return brandMapper.findBrandByBusinessSpeciesId(businessSpeciesId);
+    }
 }

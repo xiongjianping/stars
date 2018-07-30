@@ -14,11 +14,17 @@ public class ContractCQRSListRequestDTO {
     //项目id
     private String projectId = "";
 
+    //楼栋id
+    private String buildingId = "";
+
     //层id
     private String floorId = "";
 
     //业态id
     private String businessFormId = "";
+
+    //业种id
+    private String businessSpeciesId = "";
 
     //品牌id
     private String brandId = "";
@@ -77,6 +83,24 @@ public class ContractCQRSListRequestDTO {
 
     public ContractCQRSListRequestDTO setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public String getBuildingId() {
+        return buildingId;
+    }
+
+    public ContractCQRSListRequestDTO setBuildingId(String buildingId) {
+        this.buildingId = buildingId;
+        return this;
+    }
+
+    public String getBusinessSpeciesId() {
+        return businessSpeciesId;
+    }
+
+    public ContractCQRSListRequestDTO setBusinessSpeciesId(String businessSpeciesId) {
+        this.businessSpeciesId = businessSpeciesId;
         return this;
     }
 }

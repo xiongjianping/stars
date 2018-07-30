@@ -99,4 +99,14 @@ public class BrandController {
 
         return JsonResult.success(brandService.brandAll());
     }
+
+    /**
+     *@Author:Fly Created in 2018/7/30 下午12:58
+     *@Description: 根据业种查询品牌
+     */
+    @GetMapping(value = "/find/brand/by/businessSpecies/{businessSpeciesId}")
+    public JsonResult findBrandByBusinessSpeciesId(@PathVariable String businessSpeciesId){
+
+        return JsonResult.success(brandService.findBrandByBusinessSpeciesId(businessSpeciesId));
+    }
 }

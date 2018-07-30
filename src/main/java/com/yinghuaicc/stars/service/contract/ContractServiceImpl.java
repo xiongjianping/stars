@@ -70,16 +70,23 @@ public class ContractServiceImpl implements ContractService{
                             .setModifyUser(loginEmployeeId));
         });
 
-        contractMapper.saveContract(
-                Stream.of(
-                        MapperFactoryUtil.mapperObject(saveContractRequestDTO, Contract.class)
-                                .setId(UuidUtil.randomUUID())
-                                .setState(true)
-                                .setCreateUser(loginEmployeeId)
-                                .setModifyUser(loginEmployeeId)
-                                .setModifyTime(LocalDateTime.now())
-                                .setCreateTime(LocalDateTime.now()))
-                        .collect(Collectors.toList()));
+        saveContractRequestDTO.getRoomId().stream().forEach(str -> {
+
+            contractMapper.saveContract(
+                    Stream.of(
+                            new Contract()
+                                    .setId(UuidUtil.randomUUID())
+                                    .setProjectId(saveContractRequestDTO.getProjectId())
+                                    .setFloorId(saveContractRequestDTO.getFloorId())
+                                    .setRoomId(str)
+                                    .setBrandId(saveContractRequestDTO.getBrandId())
+                                    .setState(true)
+                                    .setCreateUser(loginEmployeeId)
+                                    .setModifyUser(loginEmployeeId)
+                                    .setModifyTime(LocalDateTime.now())
+                                    .setCreateTime(LocalDateTime.now()))
+                            .collect(Collectors.toList()));
+        });
 
         brandMapper.editBrand(
                 brandMapper.findBrandById(saveContractRequestDTO.getBrandId())
