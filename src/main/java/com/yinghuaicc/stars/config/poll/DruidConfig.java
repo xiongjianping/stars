@@ -1,8 +1,11 @@
 package com.yinghuaicc.stars.config.poll;
 
+import com.alibaba.druid.filter.Filter;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import com.alibaba.druid.wall.WallConfig;
+import com.alibaba.druid.wall.WallFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +18,8 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author:Fly
@@ -118,6 +123,16 @@ private Logger logger = LoggerFactory.getLogger(DruidConfig.class);
         } catch (SQLException e) {
             logger.error("druid configuration initialization filter", e);
         }
+
+//        WallConfig wallConfig = new WallConfig();
+//        wallConfig.setMultiStatementAllow(true);
+//        wallConfig.setNoneBaseStatementAllow(true);
+//        WallFilter wallFilter = new WallFilter();
+//        wallFilter.setConfig(wallConfig);
+//        List<Filter> filters = new ArrayList<>();
+//        filters.add(wallFilter);
+//        datasource.setProxyFilters(filters);
         return datasource;
     }
+
 }
