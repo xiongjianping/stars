@@ -10,6 +10,7 @@ import org.apache.commons.jexl2.JexlEngine;
 import org.apache.commons.jexl2.MapContext;
 import org.junit.Test;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -82,7 +83,7 @@ public class CommonTest extends StarsApplicationTests{
     public void testSso(){
 
         String privateKey = "tje1QgPaUbUWqNY41PKd";//密钥
-        String userName = "admincc";//用户登录名
+        String userName = "dingguanghuai";//用户登录名
         /**
          * 加密方法
          */
@@ -91,7 +92,12 @@ public class CommonTest extends StarsApplicationTests{
         /**
          *	解秘方法
          */
-        String loginName = new EndecryptUtil().get3DESDecrypt(userId,privateKey);//解密后的登陆名
+        String loginName = null;//解密后的登陆名
+        try {
+            loginName = new EndecryptUtil().get3DESDecrypt(new String(userId.getBytes(),"GBK"),privateKey);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         System.out.println(loginName);
     }
 
