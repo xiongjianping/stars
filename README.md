@@ -68,3 +68,21 @@
             "</script>")
     List<ProjectCQRSListResponseDTO> findProjectCQRS(@Param("list") List<String> projectIds, @Param("search") ProjectCQRSListRequestDTO projectCQRSListRequestDTO);
 ```
+
+## 关于列表搜索使用时间进行搜索的注意事项
+
+**实例：**
+
+1.前端传入的查询日期只到'日'
+
+![时间搜索](image/search_date.png)
+
+2.后端接收时使用'@JsonFormat(pattern = "yyyy-MM-dd")'注解，将接收的日期类型自动转换为LocalDate类型
+
+![时间搜索](image/search_date_dto.png)
+
+3.数据库检索日期时间段的搜索逻辑为开始日期的最小时间（这一天的初始时间：24：00：00）至结束日期的最终时间（23：59：59），
+我们需要将接收的LocalDate类型改为LocalDateTime类型，使用工具类改写DTO时间字段的get方法，将时、分、秒进行自动拼接
+
+![时间搜索](image/search_date_dto_get.png)
+
