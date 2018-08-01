@@ -32,7 +32,7 @@ VALUES
   ('b7bf1e92f22149c19f8ec08c9b90dbee', '数据维护', 0, '708f1224ef3c4c4d836321134cc071b1', 'TOW', '/dataManage/shuju/list', 4, NOW(), NOW(), 'system', 'system'),
   ('ea9b25a1cf364b7cb4d106baa5ecafcb', '项目帮扶', 0, 'db34210cc50041848195a0f7e052f9aa', 'TOW', '/evaluationTpl/template/list', 1, NOW(), NOW(), 'system', 'system'),
   ('59b00750e02241f6b8760b29603591b4', '楼层帮扶', 0, 'db34210cc50041848195a0f7e052f9aa', 'TOW', '/evaluationTpl/evaluation/list', 2, NOW(), NOW(), 'system', 'system'),
-  ('d8a27eb4345a47e8a14ff949c2ccf771', '业态帮扶', 0, 'db34210cc50041848195a0f7e052f9aa', 'TOW', '/evaluationTpl/yetaibangfu/list', 3, NOW(), NOW(), 'system', 'system'),
+  ('d8a27eb4345a47e8a14ff949c2ccf771', '业种帮扶', 0, 'db34210cc50041848195a0f7e052f9aa', 'TOW', '/evaluationTpl/yetaibangfu/list', 3, NOW(), NOW(), 'system', 'system'),
   ('e0c5732abc2f4b7bbe38fb3f64ebe0f6', '帮扶内容', 0, 'db34210cc50041848195a0f7e052f9aa', 'TOW', '/evaluationTpl/bangfuneirong/list', 4, NOW(), NOW(), 'system', 'system'),
   ('6c2718fc72124c61a118f39553baf07b', '模板管理', 0, '97412ee91385480c97125dd9ff020007', 'TOW', '/organizationStructure/organization/list', 1, NOW(), NOW(), 'system', 'system'),
   ('29280b8fd1424f838561384b36ba6b58', '业态管理', 0, '44201603df904c3890932bda1863cfa1', 'TOW', '/dataDictionary/brand/list', 1, NOW(), NOW(), 'system', 'system'),

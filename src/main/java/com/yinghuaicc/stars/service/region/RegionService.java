@@ -1,6 +1,10 @@
 package com.yinghuaicc.stars.service.region;
 
+import com.yinghuaicc.stars.repository.model.region.Floor;
+import com.yinghuaicc.stars.repository.model.region.ProjectImage;
 import com.yinghuaicc.stars.repository.model.tissue.Employee;
+import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.TriangeConditionRequestDTO;
+import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.TriangeConditionResponseDTO;
 import com.yinghuaicc.stars.service.region.dto.request.*;
 import com.yinghuaicc.stars.service.region.dto.response.*;
 
@@ -43,6 +47,11 @@ public interface RegionService {
      *@Description: 按照区域查询项目
      */
     List<FindProjectByAreaIdResponseDTO> findProjectByAreaId(String areaId);
+
+    /**
+     *@Description: 根据项目查询项目图片
+     */
+    List<ProjectImage> findProjectImageByProjectId(String projectId);
 
     /**
      *@Author:Fly Created in 2018/7/11 下午3:19
@@ -139,5 +148,19 @@ public interface RegionService {
      *@Description: 查询公司下员工
      */
     List<Employee> findEmployeeByCompanyId(String companyId);
+
+    /**
+     * 通过条件查询业态list
+     * @param triangeConditionRequestDTO
+     * @return
+     */
+    List<TriangeConditionResponseDTO> findConditionlistByOtherId(TriangeConditionRequestDTO triangeConditionRequestDTO);
+
+    /**
+     * 通过项目id 查询楼层
+     * @param projectId
+     * @return
+     */
+    List<Floor> findFloorByProjectId(String  projectId);
 
 }

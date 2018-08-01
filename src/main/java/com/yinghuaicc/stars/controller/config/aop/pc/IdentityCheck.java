@@ -11,9 +11,11 @@ import com.yinghuaicc.stars.repository.model.region.Project;
 import com.yinghuaicc.stars.repository.model.tissue.Employee;
 import com.yinghuaicc.stars.repository.model.tissue.EmployeeProjectData;
 import com.yinghuaicc.stars.repository.model.token.Token;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -63,11 +65,11 @@ public class IdentityCheck {
      *@Author:Fly Created in 2018/7/3 上午11:03
      *@Description: 设置切面：用户登录、刷新AccessToken无需进行AOP
      */
-    @Around("execution(* com.yinghuaicc.stars.controller.business.pc..*.*(..)) " +
+    @Before("execution(* com.yinghuaicc.stars.controller.business.pc..*.*(..)) " +
             "&& !execution(* com.yinghuaicc.stars.controller.business.pc.tissue.TissueController.employeeLogin(..)) " +
             "&& !execution(* com.yinghuaicc.stars.controller.business.pc.token.TokenController.refreshToken(..))" +
             "&& !execution(* com.yinghuaicc.stars.controller.business.pc.sso.SSOLoginController.ssoLogin(..))")
-    public Object checkToken(ProceedingJoinPoint pro) throws Throwable {
+    public void checkToken(JoinPoint pro) throws Throwable {
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
@@ -93,9 +95,9 @@ public class IdentityCheck {
 
         this.setAopResourceEmployeeBean(accessToken);
 
-        Object proceed = pro.proceed();
+//        Object proceed = pro.proceed();
 
-        return proceed;
+//        return proceed;
     }
 
     /**

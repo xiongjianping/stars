@@ -22,7 +22,7 @@ sourceCompatibility = 1.8
 ext{
 
 	druidVersion = "1.1.9"
-	orikaVersion = "1.4.2"
+	orikaVersion = "1.5.2"
 	mybatisVersion = "1.3.2"
 	jacksonVersion = "2.8.10"
 	gsonVersion = "2.8.4"
@@ -50,7 +50,7 @@ dependencies {
 	compile("com.fasterxml.jackson.module:jackson-module-parameter-names:$jacksonVersion")
 	compile("com.google.code.gson:gson:$gsonVersion")
 	compile("com.github.pagehelper:pagehelper-spring-boot-starter:$pagehelperVersion")
-	compile("org.apache.commons:commons-jexl:$jexlContextVersion")
+//	compile("org.apache.commons:commons-jexl:$jexlContextVersion")
 	compile("org.apache.poi:poi:$poiVersion")
 	compile("org.apache.poi:poi-ooxml:$poiVersion")
 }

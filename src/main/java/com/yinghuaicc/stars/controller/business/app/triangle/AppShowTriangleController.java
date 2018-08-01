@@ -1,24 +1,15 @@
-package com.yinghuaicc.stars.controller.business.pc.triangle;
+package com.yinghuaicc.stars.controller.business.app.triangle;
 
-
-import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.response.JsonResult;
-import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.service.cqrs.triangle.TriangleCQRSService;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.BrandTriangleRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * @Author:Fly
- * @Date:Create in 2018/7/19 上午10:30
- * @Description: 动态三角形
- * @Modified:
- */
 @RestController
-@RequestMapping(value = "/pctriangle")
-public class TriangleController {
+@RequestMapping(value="/showtriangle")
+public class AppShowTriangleController {
 
 
     @Autowired
@@ -54,7 +45,7 @@ public class TriangleController {
      * @param brandTriangleRequestDTO
      * @return
      */
-   @PostMapping(value = "/find/trianglecondition/byconditionId")
+    @PostMapping(value = "/find/trianglefloor/byconditionId")
     public JsonResult findProjectTriangleByConditionId(@RequestBody BrandTriangleRequestDTO brandTriangleRequestDTO){
 
         return JsonResult.success(triangleCQRSService.findBrandTriangleByConditionId(brandTriangleRequestDTO));
@@ -65,19 +56,11 @@ public class TriangleController {
      * @param brandTriangleRequestDTO
      * @return
      */
-    @PostMapping(value = "/find/trianglebrand/byBrandId")
+    @PostMapping(value = "/find/trianglefloor/byBrandId")
     public JsonResult findProjectTriangleByBrandId(@RequestBody BrandTriangleRequestDTO brandTriangleRequestDTO){
-
         return JsonResult.success(triangleCQRSService.findBrandTriangleByBrandId(brandTriangleRequestDTO));
     }
 
 
-    /**
-     * 查询全国各区域客流量、销售量
-     */
-    @GetMapping(value = "/find/salepassengerflow/all")
-    public JsonResult findProjectTriangleByBrandId(){
-        return JsonResult.success(triangleCQRSService.findSalePassengerFlowAll());
-    }
 
 }

@@ -113,6 +113,17 @@ public interface TissueMapper {
     void saveEmployeeByExternal(List<Employee> employees);
 
     /**
+     *@Author:Fly Created in 2018/7/29 下午4:49
+     *@Description: 编辑员工
+     */
+    @Update("update yhcc_employee set " +
+            "num = #{num}, name = #{name}, phone = #{phone}, email = #{email}, user_name = #{userName}, " +
+            "password = #{password}, state = #{state}, type = #{type}, org_id = #{orgId}, create_time = #{createTime}, " +
+            "modify_time = #{modifyTime}, create_user = #{createUser}, modify_user = #{modifyUser} " +
+            "where id = #{id}")
+    void editEmployeeById(Employee employee);
+
+    /**
      *@Author:Fly Created in 2018/7/18 下午2:15
      *@Description: 根据组织查询员工
      */

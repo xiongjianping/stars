@@ -11,6 +11,8 @@ import com.yinghuaicc.stars.repository.model.region.*;
 import com.yinghuaicc.stars.repository.model.tissue.Department;
 import com.yinghuaicc.stars.repository.model.tissue.Employee;
 import com.yinghuaicc.stars.repository.model.tissue.EmployeeProjectRelationTeam;
+import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.TriangeConditionRequestDTO;
+import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.TriangeConditionResponseDTO;
 import com.yinghuaicc.stars.service.region.dto.request.*;
 import com.yinghuaicc.stars.service.region.dto.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -192,6 +194,14 @@ public class RegionServiceImpl implements RegionService {
     }
 
     /**
+     *@Description: 根据项目查询项目图片
+     */
+    @Override
+    public List<ProjectImage> findProjectImageByProjectId(String projectId) {
+        return regionMapper.findProjectImageByProjectId(projectId);
+    }
+
+    /**
      *@Author:Fly Created in 2018/7/11 下午3:37
      *@Description: 添加层
      */
@@ -316,7 +326,6 @@ public class RegionServiceImpl implements RegionService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void removeRoom(String id) {
-
         regionMapper.removeRoom(id);
     }
 
@@ -475,6 +484,16 @@ public class RegionServiceImpl implements RegionService {
 
 
         return tissueMapper.findEmployeeByCompanyId(companyId);
+    }
+
+    @Override
+    public List<TriangeConditionResponseDTO> findConditionlistByOtherId(TriangeConditionRequestDTO triangeConditionRequestDTO) {
+        return regionMapper.findConditionlistByOtherId(triangeConditionRequestDTO);
+    }
+
+    @Override
+    public List<Floor> findFloorByProjectId(String projectId) {
+        return regionMapper.findFloorByProjectId(projectId);
     }
 
     /**

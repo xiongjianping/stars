@@ -18,10 +18,7 @@ import com.yinghuaicc.stars.repository.model.tissue.Employee;
 import com.yinghuaicc.stars.repository.model.tissue.EmployeeProjectData;
 import com.yinghuaicc.stars.repository.model.tissue.EmployeeRoleRelation;
 import com.yinghuaicc.stars.repository.model.token.Token;
-import com.yinghuaicc.stars.service.tissue.dto.request.EditDepartmentRequestDTO;
-import com.yinghuaicc.stars.service.tissue.dto.request.EditEmployeeProjectDataRequestDTO;
-import com.yinghuaicc.stars.service.tissue.dto.request.EmployeeLoginRequestDTO;
-import com.yinghuaicc.stars.service.tissue.dto.request.SaveDepartmentRequestDTO;
+import com.yinghuaicc.stars.service.tissue.dto.request.*;
 import com.yinghuaicc.stars.service.tissue.dto.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -306,6 +303,24 @@ public class TissueServiceImpl implements TissueService{
     public List<Department> findDepartmentByParentId(String parentId){
 
         return tissueMapper.findDepartmentByParentId(parentId);
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/29 下午4:45
+     *@Description:
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void stateEmployee(StateEmployeeRequestDTO stateEmployeeRequestDTO, String loginEmployeeId) {
+
+        Employee employee = tissueMapper.findEmployeeById(stateEmployeeRequestDTO.getId());
+
+        if (Objects.isNull(employee)){
+
+            throw exceptionUtil.throwCustomException("STATE_EMPLOYEE_003");
+        }
+
+        tissueMapper.editEmployeeById(employee.setState(stateEmployeeRequestDTO.isState()));
     }
 
     /**

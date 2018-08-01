@@ -41,6 +41,9 @@ public class ContractCQRSListResponseDTO {
     //面积
     private BigDecimal acreage;
 
+    //状态(true:已签约，false：签约已解除)
+    private boolean state;
+
     //创建时间
     private LocalDateTime createTime;
 
@@ -152,6 +155,15 @@ public class ContractCQRSListResponseDTO {
 
     public ContractCQRSListResponseDTO setBrandId(String brandId) {
         this.brandId = brandId;
+        return this;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public ContractCQRSListResponseDTO setState(boolean state) {
+        this.state = state;
         return this;
     }
 }

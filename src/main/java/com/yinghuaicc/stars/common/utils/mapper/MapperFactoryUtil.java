@@ -1,10 +1,12 @@
 package com.yinghuaicc.stars.common.utils.mapper;
 
-import com.yinghuaicc.stars.common.config.orika.LocalDateTimeConverter;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
+import ma.glasnost.orika.metadata.ClassMapBuilder;
+
+import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 /**
  * @Author:Fly
@@ -14,50 +16,67 @@ import java.util.Objects;
  */
 public class MapperFactoryUtil{
 
-    private static MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+    /**
+     * 构建一个Mapper工厂
+     */
+    private static final MapperFactory MAPPER_FACTORY = new DefaultMapperFactory.Builder().build();
 
     /**
-     *@Author:Fly Created in 2018/5/27 下午4:39
-     *@Description: 单一Object转换
+     * 将s属性映射到R的具体实例上
+     * @param s 已有的Bean,源Bean
+     * @param rClass
+     * @param <S>  sourceBean
+     * @param <R>  ReturnBean
+     * @return    R的实例
      */
-    public static <S, D> D mapperObject(S source, Class<D> target){
-
-        if (Objects.nonNull(source)){
-
-            getMapperFacade(source, target);
-
-            return mapperFactory.getMapperFacade().map(source, target);
-        }
-
-        return null;
+    public static <S, R> R mapperObject(S s, Class<R> rClass) {
+        return MAPPER_FACTORY.getMapperFacade().map(s, rClass);
     }
 
     /**
-     *@Author:Fly Created in 2018/5/28 下午11:18
-     *@Description: List转换
+     * 将s属性映射到R的具体实例上,如果转换的属性名不一样，可以传入Map进行说明
+     * @param s 已有的Bean,源Bean
+     * @param rClass
+     * @param <S>  sourceBean
+     * @param <R>  ReturnBean
+     * @return    R的实例
      */
-    public static  <S, D>List<D> mapperList(Iterable<S> source, Class<D> destinationClass){
-
-        if (Objects.nonNull(source)){
-
-            getMapperFacade(source, destinationClass);
-
-            return mapperFactory.getMapperFacade().mapAsList(source,destinationClass);
-        }
-
-        return null;
+    public static <S, R> R mapperBean(S s, Class<R> rClass, Map<String, String> diffFieldMap) {
+        ClassMapBuilder<?, R> classMap = MAPPER_FACTORY.classMap(s.getClass(), rClass);
+        diffFieldMap.forEach(classMap::field);
+        classMap.byDefault()
+                .register();
+        return MAPPER_FACTORY.getMapperFacade().map(s, rClass);
     }
 
     /**
-     *@Author:Fly Created in 2018/5/29 上午9:30
-     *@Description: 注册Orika MapperFacade
+     * 将s的集合射成R的集合
+     * @param sList 已有的Bean的集合
+     * @param rClass 要转换的类型
+     * @param <S>  sourceBean
+     * @param <R>  ReturnBean
+     * @return    R的实例
      */
-    private static MapperFactory getMapperFacade(Object source, Class target){
+    public static <S, R> List<R> mapperList(List<S> sList, Class<R> rClass) {
+        return MAPPER_FACTORY.getMapperFacade().mapAsList(sList, rClass);
+    }
 
-        mapperFactory.getConverterFactory().registerConverter(new LocalDateTimeConverter());
-
-        mapperFactory.classMap(source.getClass(),target).mapNulls(false).byDefault().register();
-
-        return mapperFactory;
+    /**
+     * 将s的集合射成R的集合,不同的属性通过Map<String, String> 传入
+     * @param sList 已有的Bean的集合
+     * @param rClass 要转换的类型
+     * @param <S>  sourceBean
+     * @param <R>  ReturnBean
+     * @return    R的实例
+     */
+    public static <S, R> List<R> mapperList(List<S> sList, Class<R> rClass, Map<String, String> diffFieldMap) {
+        if (sList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        ClassMapBuilder<?, R> classMap = MAPPER_FACTORY.classMap(sList.get(0).getClass(), rClass);
+        diffFieldMap.forEach(classMap::field);
+        classMap.byDefault()
+                .register();
+        return MAPPER_FACTORY.getMapperFacade().mapAsList(sList, rClass);
     }
 }

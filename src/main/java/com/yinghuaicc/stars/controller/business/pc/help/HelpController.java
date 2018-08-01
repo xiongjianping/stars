@@ -86,6 +86,17 @@ public class HelpController {
     }
 
     /**
+     *@Author:Fly Created in 2018/7/29 下午5:09
+     *@Description: 帮扶内容全部
+     */
+    @PostMapping(value = "/find/help/context/all")
+    public JsonResult findHelpContextAll(@RequestBody Map map){
+
+        return JsonResult.success(helpService.findHelpContextAll(
+                Objects.nonNull(map.get("type")) ? Integer.parseInt(map.get("type").toString()) : null));
+    }
+
+    /**
      *@Author:Fly Created in 2018/7/20 下午2:37
      *@Description: 添加项目帮扶计划
      */

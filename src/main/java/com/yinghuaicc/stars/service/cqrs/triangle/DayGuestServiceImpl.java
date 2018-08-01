@@ -12,6 +12,7 @@ import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.DayGuestResponseD
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -45,6 +46,16 @@ public class DayGuestServiceImpl implements DayGuestService {
     @Override
     public void saveDayGuest(DayGuest dayGuest) {
         dayGuestMapper.saveDayGuest(dayGuest);
+    }
+
+    @Override
+    public BigDecimal findPassengerFlowAll() {
+        return dayGuestMapper.findPassengerFlowAll();
+    }
+
+    @Override
+    public BigDecimal findSaleroomAll() {
+        return dayGuestMapper.findSaleroomAll();
     }
 
 }

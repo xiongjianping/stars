@@ -54,6 +54,16 @@ public class PermissionController {
     }
 
     /**
+     *@Author:Fly Created in 2018/7/29 下午8:47
+     *@Description: 查询指定员工角色
+     */
+    @GetMapping(value = "/employee/role/by{id}")
+    public JsonResult employeeRoleBy(@PathVariable String id){
+
+        return JsonResult.success(permissionService.employeeRole(id));
+    }
+
+    /**
      *@Author:Fly Created in 2018/7/2 上午3:29
      *@Description: 查询所有角色
      */
@@ -107,6 +117,16 @@ public class PermissionController {
                 roleName, applicationContext.getBean(AopResourceEmployeeBean.class).getId());
 
         return JsonResult.success("OK");
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/29 下午6:01
+     *@Description: 某一角色菜单
+     */
+    @GetMapping(value = "/role/menu/{roleId}")
+    public JsonResult roleMenu(@PathVariable String roleId){
+
+        return JsonResult.success(permissionService.roleMenu(roleId));
     }
 
 }

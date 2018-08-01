@@ -35,10 +35,11 @@ public interface ContractCQRSMapper {
             "bf.name as businessFormName, " +
             "bs.name as businessSpeciesName, " +
             "ro.acreage as acreage, " +
-            "co.status as status " +
+            "co.status as state " +
             "from yhcc_contract as co " +
             "inner join yhcc_room as ro on co.room_id = ro.id " +
             "inner join yhcc_project as pr on co.project_id = pr.id " +
+            "inner join yhcc_building as bui on bui.project_id = pr.id " +
             "inner join yhcc_floor as fl on co.floor_id = fl.id " +
             "inner join yhcc_brand as br on co.brand_id = br.id " +
             "inner join yhcc_business_form as bf on br.business_form_id = bf.id " +
@@ -47,18 +48,22 @@ public interface ContractCQRSMapper {
             "<where> " +
             "<bind name='search.areaId' value='search.areaId' /> " +
             "<bind name='search.projectId' value='search.projectId' /> " +
+            "<bind name='search.buildingId' value='search.buildingId' /> " +
             "<bind name='search.floorId' value='search.floorId' /> " +
             "<bind name='search.businessFormId' value='search.businessFormId' /> " +
+            "<bind name='search.businessSpeciesId' value='search.businessSpeciesId' /> " +
             "<bind name='search.brandId' value='search.brandId' /> " +
             "<bind name='search.name' value=\"'%' + search.name + '%'\" /> " +
             "<if test='search.areaId != null and search.areaId !=\"\" '>AND ar.id = #{search.areaId}</if> " +
             "<if test='search.projectId != null and search.projectId !=\"\" '>AND pr.id = #{search.projectId}</if> " +
+            "<if test='search.buildingId != null and search.buildingId !=\"\" '>AND bui.id = #{search.buildingId}</if> " +
             "<if test='search.floorId != null and search.floorId !=\"\" '>AND fl.id = #{search.floorId}</if> " +
             "<if test='search.businessFormId != null and search.businessFormId !=\"\" '>AND bf.id = #{search.businessFormId}</if> " +
+            "<if test='search.businessSpeciesId != null and search.businessSpeciesId !=\"\" '>AND bs.id = #{search.businessSpeciesId}</if> " +
             "<if test='search.brandId != null and search.brandId !=\"\" '>AND br.id = #{search.brandId}</if> " +
             "<if test='search.name != null and search.name !=\"\" '>AND ro.name like #{search.name}</if> " +
-            "order by co.modify_time desc" +
             "</where> " +
+            "order by co.modify_time desc" +
             "</script>")
     List<ContractCQRSListResponseDTO> contractList(@Param("search") ContractCQRSListRequestDTO contractCQRSListRequestDTO);
 

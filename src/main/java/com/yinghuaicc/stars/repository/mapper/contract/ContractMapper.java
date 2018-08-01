@@ -25,8 +25,8 @@ public interface ContractMapper {
     @Insert("<script> " +
             "insert into yhcc_contract values " +
             "<foreach item = 'item' index = 'index' collection='list' separator=','> " +
-            "(#{item.id}, #{item.areaId}, #{item.projectId}, #{item.floorId}, #{item.roomId}, " +
-            "#{item.brandId}, #{item.state}, #{item.createTime}, #{item.modifyTime}, " +
+            "(#{item.id}, #{item.projectId}, #{item.floorId}, #{item.roomId}, " +
+            "#{item.brandId}, #{item.status}, #{item.createTime}, #{item.modifyTime}, " +
             "#{item.createUser}, #{item.modifyUser})" +
             "</foreach> " +
             "</script>")
