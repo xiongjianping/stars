@@ -17,6 +17,9 @@ public class FindHelpPlanFloorListCQRSRequestDTO {
     //层id
     private String floorId;
 
+    //帮扶类型(1:易租率、2：客销度、3：适配值)
+    private Integer helpType;
+
     public String getAreaId() {
         return areaId;
     }
@@ -41,6 +44,15 @@ public class FindHelpPlanFloorListCQRSRequestDTO {
 
     public FindHelpPlanFloorListCQRSRequestDTO setFloorId(String floorId) {
         this.floorId = floorId;
+        return this;
+    }
+
+    public Integer getHelpType() {
+        return helpType;
+    }
+
+    public FindHelpPlanFloorListCQRSRequestDTO setHelpType(Integer helpType) {
+        this.helpType = helpType;
         return this;
     }
 }

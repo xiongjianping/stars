@@ -32,5 +32,5 @@ public interface HelpCQRSService {
      *@Author:Fly Created in 2018/7/21 下午1:53
      *@Description: 业态帮扶计划
      */
-    ResultPageList<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> findHelpPlanBusinessSpeciesListCQRS(String projectId, PageParam pageParam);
+    ResultPageList<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> findHelpPlanBusinessSpeciesListCQRS(String projectId, Integer helpType, PageParam pageParam);
 }

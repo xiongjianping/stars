@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Author:Fly
@@ -76,12 +77,12 @@ public class HelpCQRSServiceImpl implements HelpCQRSService {
      *@Description: 业态帮扶计划列表
      */
     @Override
-    public ResultPageList<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> findHelpPlanBusinessSpeciesListCQRS(String projectId, PageParam pageParam) {
+    public ResultPageList<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> findHelpPlanBusinessSpeciesListCQRS(String projectId, Integer helpType, PageParam pageParam) {
 
         Page page = PageHelper.startPage(pageParam.getP(), pageParam.getC());
 
         List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> result =
-                helpCQRSMapper.findHelpPlanBusinessSpeciesCQRSList(projectId);
+                helpCQRSMapper.findHelpPlanBusinessSpeciesCQRSList(projectId, helpType);
 
         return new ResultPageList<FindHelpPlanBusinessSpeciesListCQRSResponseDTO>()
                 .setResultList(result)

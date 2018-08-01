@@ -31,6 +31,9 @@ public class HelpPlanProject {
     //亏损帮扶内容
     private String ksHelpContext;
 
+    //帮扶类型(1:易租率、2：客销度、3：适配值)
+    private Integer type;
+
     //创建时间
     private LocalDateTime createTime;
 
@@ -139,6 +142,15 @@ public class HelpPlanProject {
 
     public HelpPlanProject setModifyUser(String modifyUser) {
         this.modifyUser = modifyUser;
+        return this;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public HelpPlanProject setType(Integer type) {
+        this.type = type;
         return this;
     }
 }

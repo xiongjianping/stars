@@ -91,7 +91,8 @@ public interface HelpMapper {
             "#{item.lhHelpContext}, #{item.tsHelpContext}, " +
             "#{item.hlHelpContext}, #{item.ksHelpContext}, " +
             "#{item.createTime}, #{item.modifyTime}, " +
-            "#{item.createUser}, #{item.modifyUser} )" +
+            "#{item.createUser}, #{item.modifyUser}, " +
+            "#{item.type} )" +
             "</foreach> " +
             "</script> ")
     void saveHelpPlanProject(List<HelpPlanProject> helpPlanProjects);
@@ -102,7 +103,7 @@ public interface HelpMapper {
      */
     @Update("update yhcc_help_project set " +
             "project_id = #{projectId}, yx_help_context = #{yxHelpContext}, lh_help_context = #{lhHelpContext}, " +
-            "ts_help_context = #{tsHelpContext}, hl_help_context = #{hlHelpContext}, ks_help_context = #{ksHelpContext}, " +
+            "ts_help_context = #{tsHelpContext}, hl_help_context = #{hlHelpContext}, ks_help_context = #{ksHelpContext}, type = #{type}, " +
             "create_time = #{createTime}, modify_time = #{modifyTime}, create_user = #{createUser}, modify_user = #{modifyUser} " +
             "where project_id = #{projectId}")
     void updateHelpPlanProject(HelpPlanProject helpPlanProject);
@@ -139,7 +140,8 @@ public interface HelpMapper {
             "#{item.lhHelpContext}, #{item.tsHelpContext}, " +
             "#{item.hlHelpContext}, #{item.ksHelpContext}, " +
             "#{item.createTime}, #{item.modifyTime}, " +
-            "#{item.createUser}, #{item.modifyUser} )" +
+            "#{item.createUser}, #{item.modifyUser}, " +
+            "#{item.type} )" +
             "</foreach> " +
             "</script> ")
     void saveHelpPlanFloor(List<HelpPlanFloor> helpPlanFloors);
@@ -150,7 +152,7 @@ public interface HelpMapper {
      */
     @Update("update yhcc_help_floor set " +
             "project_id = #{projectId}, floor_id = #{floorId}, yx_help_context = #{yxHelpContext}, lh_help_context = #{lhHelpContext}, " +
-            "ts_help_context = #{tsHelpContext}, hl_help_context = #{hlHelpContext}, ks_help_context = #{ksHelpContext}, " +
+            "ts_help_context = #{tsHelpContext}, hl_help_context = #{hlHelpContext}, ks_help_context = #{ksHelpContext}, type=#{type}, " +
             "create_time = #{createTime}, modify_time = #{modifyTime}, create_user = #{createUser}, modify_user = #{modifyUser} " +
             "where project_id = #{projectId} and floor_id = #{floorId}")
     void editHelpPlanFloor(HelpPlanFloor helpPlanFloor);
@@ -187,7 +189,8 @@ public interface HelpMapper {
             "#{item.lhHelpContext}, #{item.tsHelpContext}, " +
             "#{item.hlHelpContext}, #{item.ksHelpContext}, " +
             "#{item.createTime}, #{item.modifyTime}, " +
-            "#{item.createUser}, #{item.modifyUser} )" +
+            "#{item.createUser}, #{item.modifyUser}, " +
+            "#{item.type} )" +
             "</foreach> " +
             "</script> ")
     void saveHelpPlanBusinessSpecies(List<HelpPlanBusinessSpecies> helpPlanBusinessSpecies);
@@ -198,7 +201,7 @@ public interface HelpMapper {
      */
     @Update("update yhcc_help_business_species set " +
             "project_id = #{projectId}, business_form_id = #{businessFormId}, business_species_id = #{businessSpeciesId}, yx_help_context = #{yxHelpContext}, lh_help_context = #{lhHelpContext}, " +
-            "ts_help_context = #{tsHelpContext}, hl_help_context = #{hlHelpContext}, ks_help_context = #{ksHelpContext}, " +
+            "ts_help_context = #{tsHelpContext}, hl_help_context = #{hlHelpContext}, ks_help_context = #{ksHelpContext}, type=#{type}, " +
             "create_time = #{createTime}, modify_time = #{modifyTime}, create_user = #{createUser}, modify_user = #{modifyUser} " +
             "where project_id = #{projectId} and business_form_id = #{businessFormId} and business_species_id = #{businessSpeciesId}")
     void editHelpPlanBusinessSpecies(HelpPlanBusinessSpecies helpPlanBusinessSpecies);
