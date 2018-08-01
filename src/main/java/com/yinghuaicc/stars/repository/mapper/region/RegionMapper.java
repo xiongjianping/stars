@@ -363,7 +363,7 @@ public interface RegionMapper {
      * @return
      */
     @Select("<script> " +
-            " select e.id as conditionId,e.name as conditionName " +
+            " select e.id as id,e.name as name " +
             " from yhcc_contract a " +
             " LEFT JOIN yhcc_project b on a.project_id = b.id " +
             " LEFT JOIN yhcc_floor c ON c.id = a.floor_id " +

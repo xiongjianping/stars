@@ -45,7 +45,7 @@ public class AppShowTriangleController {
      * @param brandTriangleRequestDTO
      * @return
      */
-    @PostMapping(value = "/find/trianglefloor/byconditionId")
+    @PostMapping(value = "/find/trianglecondition/byconditionId")
     public JsonResult findProjectTriangleByConditionId(@RequestBody BrandTriangleRequestDTO brandTriangleRequestDTO){
 
         return JsonResult.success(triangleCQRSService.findBrandTriangleByConditionId(brandTriangleRequestDTO));

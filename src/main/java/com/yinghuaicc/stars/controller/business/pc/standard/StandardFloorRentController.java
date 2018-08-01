@@ -17,6 +17,12 @@ public class StandardFloorRentController {
     @Autowired
     private StandardFloorRentService standardFloorRentService;
 
+    /**
+     * 标准三角形楼层溢租率
+     * @param standardFloorRentRequestDTO
+     * @param pageParam
+     * @return
+     */
     @PostMapping(value = "/find/standardfloorrent/list")
     public JsonResult findStandardProjectRentList(@RequestBody StandardFloorRentRequestDTO standardFloorRentRequestDTO, @ModelAttribute PageParam pageParam){
 

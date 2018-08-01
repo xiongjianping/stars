@@ -17,6 +17,12 @@ public class StandardProjectRentController {
     @Autowired
     private StandardProjectRentService standardProjectRentService;
 
+    /**
+     * 标准三角形项目溢租率
+     * @param standardProjectRentRequestDTO
+     * @param pageParam
+     * @return
+     */
     @PostMapping(value = "/find/standardprojectrent/list")
     public JsonResult findStandardProjectRentList(@RequestBody StandardProjectRentRequestDTO standardProjectRentRequestDTO, @ModelAttribute PageParam pageParam){
 

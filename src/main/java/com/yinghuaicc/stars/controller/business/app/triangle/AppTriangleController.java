@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.*;
 public class AppTriangleController {
 
 
-    @Autowired
-    private RegionCQRSService regionCQRSService;
 
     @Autowired
     ApplicationContext applicationContext;
@@ -59,16 +57,6 @@ public class AppTriangleController {
     public JsonResult findBuildingByProjectId(@PathVariable String projectId){
 
         return JsonResult.success(regionService.findBuildingByProjectId(projectId));
-    }
-
-    /**
-     * 根据项目id查询项目图片
-     * @param projectId
-     * @return
-     */
-    @GetMapping(value = "/find/projectimage/project/{projectId}")
-    public JsonResult findProjectImageByProjectId(@PathVariable String projectId){
-        return JsonResult.success(regionService.findProjectImageByProjectId(projectId));
     }
 
 

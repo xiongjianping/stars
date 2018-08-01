@@ -20,6 +20,12 @@ public class FittedVerssionController {
     @Autowired
     private FittedVerssionService fittedVerssionService;
 
+    /**
+     * 适配值版本列表
+     * @param fittedVerssionRequestDTO
+     * @param pageParam
+     * @return
+     */
     @PostMapping(value = "/find/fittedverssion/list")
     public JsonResult findMoonRantList(@RequestBody FittedVerssionRequestDTO fittedVerssionRequestDTO, @ModelAttribute PageParam pageParam){
 
