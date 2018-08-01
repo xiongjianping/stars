@@ -4,23 +4,25 @@ package com.yinghuaicc.stars.service.cqrs.triangle.dto.response;
  * 通过项目id、楼层id查询业态list--返回结果
  */
 public class TriangeConditionResponseDTO {
-
+/*
     private String conditionId;
-    private String conditionName;
+    private String conditionName;*/
+    private String id;
+    private String name;
 
-    public String getConditionId() {
-        return conditionId;
+    public String getId() {
+        return id;
     }
 
-    public void setConditionId(String conditionId) {
-        this.conditionId = conditionId;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getConditionName() {
-        return conditionName;
+    public String getName() {
+        return name;
     }
 
-    public void setConditionName(String conditionName) {
-        this.conditionName = conditionName;
+    public void setName(String name) {
+        this.name = name;
     }
 }

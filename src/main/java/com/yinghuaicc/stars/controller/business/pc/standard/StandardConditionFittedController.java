@@ -17,6 +17,12 @@ public class StandardConditionFittedController {
     @Autowired
     private StandardConditionFittedService standardConditionFittedService;
 
+    /**
+     * 标准三角形业态适配值
+     * @param standardConditionFittedRequestDTO
+     * @param pageParam
+     * @return
+     */
     @PostMapping(value = "/find/standardconditionrent/list")
     public JsonResult findStandardConditionFittedList(@RequestBody StandardConditionFittedRequestDTO standardConditionFittedRequestDTO, @ModelAttribute PageParam pageParam){
 

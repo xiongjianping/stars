@@ -19,6 +19,12 @@ public class StandardFloorFittedController {
     @Autowired
     private StandardFloorFittedService standardFloorFittedService;
 
+    /**
+     * 标准三角形楼层适配值
+     * @param standardFloorFittedRequestDTO
+     * @param pageParam
+     * @return
+     */
     @PostMapping(value = "/find/standardfloorfitted/list")
     public JsonResult findStandardProjectRentList(@RequestBody StandardFloorFittedRequestDTO standardFloorFittedRequestDTO, @ModelAttribute PageParam pageParam){
 
