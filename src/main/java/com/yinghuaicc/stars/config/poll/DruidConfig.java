@@ -124,14 +124,6 @@ private Logger logger = LoggerFactory.getLogger(DruidConfig.class);
             logger.error("druid configuration initialization filter", e);
         }
 
-//        WallConfig wallConfig = new WallConfig();
-//        wallConfig.setMultiStatementAllow(true);
-//        wallConfig.setNoneBaseStatementAllow(true);
-//        WallFilter wallFilter = new WallFilter();
-//        wallFilter.setConfig(wallConfig);
-//        List<Filter> filters = new ArrayList<>();
-//        filters.add(wallFilter);
-//        datasource.setProxyFilters(filters);
         return datasource;
     }
 
