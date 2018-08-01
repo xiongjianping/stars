@@ -295,7 +295,10 @@ public class PermissionServiceImpl implements PermissionService{
 
         child = child.stream().distinct().filter(menu -> !menu.isRoot()).collect(Collectors.toList());
 
-        parent.addAll(permissionMapper.findMenuByMenuId(child.stream().map(Menu::getParentId).collect(Collectors.toList())));
+        if (Objects.nonNull(child)&&child.size()>0){
+
+            parent.addAll(permissionMapper.findMenuByMenuId(child.stream().map(Menu::getParentId).collect(Collectors.toList())));
+        }
 
         return this.loginMenu(parent.stream().distinct().collect(Collectors.toList()), child);
     }

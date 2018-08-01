@@ -5,10 +5,7 @@ import com.yinghuaicc.stars.service.sso.SsoService;
 import com.yinghuaicc.stars.service.sso.dto.request.AppSsoRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author:Fly
@@ -27,8 +24,8 @@ public class AppOssLoginController {
      *@Author:Fly Created in 2018/7/25 下午5:05
      *@Description: app单点登录
      */
-    @GetMapping(value = "/login")
-    public JsonResult appSsoLogin(@Validated @ModelAttribute AppSsoRequestDTO appSsoRequestDTO){
+    @PostMapping(value = "/login")
+    public JsonResult appSsoLogin(@Validated @RequestBody AppSsoRequestDTO appSsoRequestDTO){
 
         return JsonResult.success(ssoService.appSsoLogin(appSsoRequestDTO));
     }
