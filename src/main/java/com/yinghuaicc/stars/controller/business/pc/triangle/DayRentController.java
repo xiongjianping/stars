@@ -18,6 +18,12 @@ public class DayRentController {
     @Autowired
     private DayRentService dayRentService;
 
+    /**
+     * 每日溢租率列表页
+     * @param dayRentRequestDTO
+     * @param pageParam
+     * @return
+     */
     @PostMapping(value = "/find/dayrent/list")
     public JsonResult findMoonRantList(@RequestBody DayRentRequestDTO dayRentRequestDTO, @ModelAttribute PageParam pageParam){
 

@@ -17,6 +17,12 @@ public class StandardConditionRentController {
     @Autowired
     private StandardConditionRentService standardConditionRentService;
 
+    /**
+     * 标准三角形业态溢租率
+     * @param standardConditionRentRequestDTO
+     * @param pageParam
+     * @return
+     */
     @PostMapping(value = "/find/standardconditionrent/list")
     public JsonResult findStandardConditionRentList(@RequestBody StandardConditionRentRequestDTO standardConditionRentRequestDTO, @ModelAttribute PageParam pageParam){
 

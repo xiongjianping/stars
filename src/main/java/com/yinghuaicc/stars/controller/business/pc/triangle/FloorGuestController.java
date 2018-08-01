@@ -20,6 +20,12 @@ public class FloorGuestController {
     @Autowired
     private FloorGuestService floorGuestService;
 
+    /**
+     * 楼层客销度列表
+     * @param floorGuestRequestDTO
+     * @param pageParam
+     * @return
+     */
     @PostMapping(value = "/find/floorguest/list")
     public JsonResult findFloorGuestList(@RequestBody FloorGuestRequestDTO floorGuestRequestDTO, @ModelAttribute PageParam pageParam){
 

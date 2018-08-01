@@ -276,7 +276,7 @@ public class ImportExcelController {
                             dayRent.setAgencyFee(day_labourRent);
                             //净利润
                             // BigDecimal profit;
-                            //dayRent.setProfit();
+                            //dayRent.setProfit();1
                             //状态 1：未审核，2：审核成功，3：审核失败
                             dayRent.setStatus(rentalRentExcels.get(j).getSignState());
                             LocalDateTime createTime = LocalDateTime.parse(df);

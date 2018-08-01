@@ -20,6 +20,12 @@ public class StandardProjectFittedController {
     @Autowired
     private StandardProjectFittedService standardProjectFittedService;
 
+    /**
+     * 标准三角形项目适配值
+     * @param standardProjectFittedRequestDTO
+     * @param pageParam
+     * @return
+     */
     @PostMapping(value = "/find/standardprojectfitted/list")
     public JsonResult findStandardProjectFittedList(@RequestBody StandardProjectFittedRequestDTO standardProjectFittedRequestDTO, @ModelAttribute PageParam pageParam){
 
