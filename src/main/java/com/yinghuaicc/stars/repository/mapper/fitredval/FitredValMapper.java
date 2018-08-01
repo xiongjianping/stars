@@ -40,7 +40,7 @@ public interface FitredValMapper {
 
 
     /**
-     * 查看列表
+     * 查看
      * @return
      */
     @Select("  select * from yhcc_fitred_val where id = #{values}")

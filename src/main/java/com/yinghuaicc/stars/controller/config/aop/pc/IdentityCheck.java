@@ -1,4 +1,3 @@
-/*
 package com.yinghuaicc.stars.controller.config.aop.pc;
 
 import com.yinghuaicc.stars.common.utils.date.LocalDateTimeUtils;
@@ -31,14 +30,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-*/
 /**
  * @Author:Fly
  * @Date:Create in 2018/7/3 上午10:43
  * @Description:
  * @Modified:
- *//*
-
+ */
 @Component
 @Aspect
 public class IdentityCheck {
@@ -64,12 +61,10 @@ public class IdentityCheck {
     @Autowired
     private EndecryptUtil endecryptUtil;
 
-    */
-/**
+    /**
      *@Author:Fly Created in 2018/7/3 上午11:03
      *@Description: 设置切面：用户登录、刷新AccessToken无需进行AOP
-     *//*
-
+     */
     @Before("execution(* com.yinghuaicc.stars.controller.business.pc..*.*(..)) " +
             "&& !execution(* com.yinghuaicc.stars.controller.business.pc.tissue.TissueController.employeeLogin(..)) " +
             "&& !execution(* com.yinghuaicc.stars.controller.business.pc.token.TokenController.refreshToken(..))" +
@@ -105,12 +100,10 @@ public class IdentityCheck {
 //        return proceed;
     }
 
-    */
-/**
+    /**
      *@Author:Fly Created in 2018/7/3 下午1:45
      *@Description: 将账户属性进行注入
-     *//*
-
+     */
     private void setAopResourceEmployeeBean(String employeeUserName){
 
         AopResourceEmployeeBean aopResourceEmployeeBean =
@@ -134,12 +127,10 @@ public class IdentityCheck {
                 .setProjectIds(this.getProjectIds(employee.getId()));
     }
 
-    */
-/**
+    /**
      *@Author:Fly Created in 2018/7/6 下午12:57
      *@Description: 获取数据权限
-     *//*
-
+     */
     private List<String> getProjectIds(String employeeId){
 
         //如果是超级管理员则获取全部数据权限
@@ -164,4 +155,3 @@ public class IdentityCheck {
                 employeeProjectData.stream().map(EmployeeProjectData::getProjectId).collect(Collectors.toList());
     }
 }
-*/

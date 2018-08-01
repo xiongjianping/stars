@@ -927,3 +927,26 @@ CREATE TABLE IF NOT EXISTS `yhcc_fitred_val` (
   `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+---创建模板
+CREATE  TABLE IF NOT EXISTS  `yhcc_assess_model` (
+  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `create_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `update_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `modify_time` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--模板关系
+CREATE TABLE IF NOT EXISTS `yhcc_assess_fitredval` (
+  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fitred_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `assess_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
