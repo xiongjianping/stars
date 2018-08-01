@@ -90,6 +90,6 @@
 
 **本地地址：localhost:8080/druid/**
 
-**本地地址：ip:8080/druid/**
+**服务器地址：ip:8080/druid/**
 
 ![链接池监控地址](image/druid_address.png)
