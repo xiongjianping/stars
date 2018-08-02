@@ -6,9 +6,8 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +15,13 @@ import java.util.List;
  * Created by 你看见过我吗？你想一想在回答。 on 2018/7/29.
  */
 public class ExcelZjj {
-    public static void exportExcel(HttpServletResponse response, String fileName, List<ExcelData> data) throws Exception {
+/*    public static void exportExcel(HttpServletResponse response, String fileName, List<ExcelData> data) throws Exception {
         // 告诉浏览器用什么软件可以打开此文件
         response.setHeader("content-Type", "application/vnd.ms-excel");
         // 下载文件的默认名称
         response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileName, "utf-8"));
         exportExcel(fileName,data, response.getOutputStream());
-    }
+    }*/
 
     public static void exportExcel(String filePath,List<ExcelData> data, OutputStream out) throws Exception {
 
@@ -38,7 +37,7 @@ public class ExcelZjj {
             }
 
             //如果需要页面下载需要注释掉
-           // out = new FileOutputStream(filePath);
+            out = new FileOutputStream(filePath);
 
             wb.write(out);
         } finally {
