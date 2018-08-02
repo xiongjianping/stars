@@ -2,6 +2,8 @@ package com.yinghuaicc.stars.service.cqrs.standard;
 
 import com.yinghuaicc.stars.common.utils.excel.ExcelData;
 import com.yinghuaicc.stars.common.utils.excel.ExcelZjj;
+import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
+import com.yinghuaicc.stars.controller.config.system.SystemResource;
 import com.yinghuaicc.stars.repository.mapper.standard.StandardExportMapper;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardExportDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class StandardExportServiceImpl implements StandardExportService {
     @Autowired
     StandardExportMapper standardExportMapper;
 
+    @Autowired
+    private SystemResource systemResource;
+
     /**
      * 标准三角形客销度
      * @param response
@@ -26,7 +31,7 @@ public class StandardExportServiceImpl implements StandardExportService {
      * @throws Exception
      */
     @Override
-    public void getStandardExportList(HttpServletResponse response,StandardExportDTO standardExportDTO) throws Exception {
+    public String getStandardExportList(HttpServletResponse response,StandardExportDTO standardExportDTO) throws Exception {
         List<ExcelData> list = new ArrayList<>();
         ExcelData data = new ExcelData();
         data.setName("品牌客销度");
@@ -55,15 +60,18 @@ public class StandardExportServiceImpl implements StandardExportService {
         });
         data.setRows(rows);
         list.add(data);
-        ExcelZjj excelZjj = new ExcelZjj();
-        excelZjj.exportExcel(response,"标准三角形客销度.xlsx",list);
+        String sjs = UuidUtil.randomUUID()+".xlsx";
+        String fileName = systemResource.getFileUploadExcelPathUrl()+ sjs;
+        ExcelZjj.exportExcel(fileName,list,null);
+        String c = systemResource.getFileExcelUrl()+sjs;
+        return c;
     }
 
     /**
      * 标准三角形_适配值
      */
     @Override
-    public void getStandardExportList1(HttpServletResponse response, StandardExportDTO standardExportDTO) throws Exception {
+    public String getStandardExportList1(HttpServletResponse response, StandardExportDTO standardExportDTO) throws Exception {
 
         //todo 下面这一大串可以优化，由于时间紧后期再做处理,zjj
 
@@ -127,8 +135,11 @@ public class StandardExportServiceImpl implements StandardExportService {
         data2.setRows(rows2);
         list.add(data2);
 
-        ExcelZjj excelZjj = new ExcelZjj();
-        excelZjj.exportExcel(response,"标准三角形适配值.xlsx",list);
+        String sjs = UuidUtil.randomUUID()+".xlsx";
+        String fileName = systemResource.getFileUploadExcelPathUrl()+ sjs;
+        ExcelZjj.exportExcel(fileName,list,null);
+        String c = systemResource.getFileExcelUrl()+sjs;
+        return c;
     }
 
     /**
@@ -138,7 +149,7 @@ public class StandardExportServiceImpl implements StandardExportService {
      * @throws Exception
      */
     @Override
-    public void getStandardyzlExportList(HttpServletResponse response, StandardExportDTO standardExportDTO) throws Exception {
+    public String getStandardyzlExportList(HttpServletResponse response, StandardExportDTO standardExportDTO) throws Exception {
         //todo 下面这一大串可以优化，由于时间紧后期再做处理,zjj
 
         List<ExcelData> list = new ArrayList<>();
@@ -201,8 +212,11 @@ public class StandardExportServiceImpl implements StandardExportService {
         data2.setRows(rows2);
         list.add(data2);
 
-        ExcelZjj excelZjj = new ExcelZjj();
-        excelZjj.exportExcel(response,"标准三角形溢租率.xlsx",list);
+        String sjs = UuidUtil.randomUUID()+".xlsx";
+        String fileName = systemResource.getFileUploadExcelPathUrl()+ sjs;
+        ExcelZjj.exportExcel(fileName,list,null);
+        String c = systemResource.getFileExcelUrl()+sjs;
+        return c;
     }
 
     /**
@@ -210,7 +224,7 @@ public class StandardExportServiceImpl implements StandardExportService {
      */
 
     @Override
-    public void getFittedExportList(HttpServletResponse response, StandardExportDTO standardExportDTO) throws Exception {
+    public String getFittedExportList(HttpServletResponse response, StandardExportDTO standardExportDTO) throws Exception {
         //todo 下面这一大串可以优化，由于时间紧后期再做处理,zjj
 
         List<ExcelData> list = new ArrayList<>();
@@ -280,8 +294,11 @@ public class StandardExportServiceImpl implements StandardExportService {
         data2.setRows(rows2);
         list.add(data2);
 
-        ExcelZjj excelZjj = new ExcelZjj();
-        excelZjj.exportExcel(response,"动态三角形客销度.xlsx",list);
+        String sjs = UuidUtil.randomUUID()+".xlsx";
+        String fileName = systemResource.getFileUploadExcelPathUrl()+ sjs;
+        ExcelZjj.exportExcel(fileName,list,null);
+        String c = systemResource.getFileExcelUrl()+sjs;
+        return c;
     }
 
     /**
@@ -291,7 +308,7 @@ public class StandardExportServiceImpl implements StandardExportService {
      * @throws Exception
      */
     @Override
-    public void getFittedExportList1(HttpServletResponse response, StandardExportDTO standardExportDTO) throws Exception {
+    public String getFittedExportList1(HttpServletResponse response, StandardExportDTO standardExportDTO) throws Exception {
         List<ExcelData> list = new ArrayList<>();
         ExcelData data = new ExcelData();
         data.setName("适配值");
@@ -326,8 +343,11 @@ public class StandardExportServiceImpl implements StandardExportService {
         data.setRows(rows);
         list.add(data);
 
-        ExcelZjj excelZjj = new ExcelZjj();
-        excelZjj.exportExcel(response,"动态三角形适配值.xlsx",list);
+        String sjs = UuidUtil.randomUUID()+".xlsx";
+        String fileName = systemResource.getFileUploadExcelPathUrl()+ sjs;
+        ExcelZjj.exportExcel(fileName,list,null);
+        String c = systemResource.getFileExcelUrl()+sjs;
+        return c;
     }
 
     /**
@@ -337,7 +357,7 @@ public class StandardExportServiceImpl implements StandardExportService {
      * @throws Exception
      */
     @Override
-    public void getFittedExportList2(HttpServletResponse response, StandardExportDTO standardExportDTO) throws Exception {
+    public String getFittedExportList2(HttpServletResponse response, StandardExportDTO standardExportDTO) throws Exception {
 
         List<ExcelData> list = new ArrayList<>();
         ExcelData data = new ExcelData();
@@ -397,8 +417,11 @@ public class StandardExportServiceImpl implements StandardExportService {
         data4.setRows(rows);
         list.add(data4);
 
-        ExcelZjj excelZjj = new ExcelZjj();
-        excelZjj.exportExcel(response,"动态三角形溢租率.xlsx",list);
+        String sjs = UuidUtil.randomUUID()+".xlsx";
+        String fileName = systemResource.getFileUploadExcelPathUrl()+ sjs;
+        ExcelZjj.exportExcel(fileName,list,null);
+        String c = systemResource.getFileExcelUrl()+sjs;
+        return c;
     }
 
     /**
@@ -408,7 +431,7 @@ public class StandardExportServiceImpl implements StandardExportService {
      * @throws Exception
      */
     @Override
-    public void getFittedExportList3(HttpServletResponse response, StandardExportDTO standardExportDTO) throws Exception {
+    public String getFittedExportList3(HttpServletResponse response, StandardExportDTO standardExportDTO) throws Exception {
         List<ExcelData> list = new ArrayList<>();
         ExcelData data = new ExcelData();
         data.setName("区间项目客销度");
@@ -470,8 +493,11 @@ public class StandardExportServiceImpl implements StandardExportService {
         data2.setRows(rows2);
         list.add(data2);
 
-        ExcelZjj excelZjj = new ExcelZjj();
-        excelZjj.exportExcel(response,"区间业态客销度.xlsx",list);
+        String sjs = UuidUtil.randomUUID()+".xlsx";
+        String fileName = systemResource.getFileUploadExcelPathUrl()+ sjs;
+        ExcelZjj.exportExcel(fileName,list,null);
+        String c = systemResource.getFileExcelUrl()+sjs;
+        return c;
     }
 
 }
