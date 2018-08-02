@@ -2,7 +2,6 @@ package com.yinghuaicc.stars.service.cqrs.standard.dto.request;
 
 public class StandardFloorFittedRequestDTO {
     private  String projectId;
-
     private String floorId;
     private String floorName;
 

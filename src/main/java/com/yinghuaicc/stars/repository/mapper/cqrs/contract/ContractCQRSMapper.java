@@ -1,5 +1,6 @@
 package com.yinghuaicc.stars.repository.mapper.cqrs.contract;
 
+import com.yinghuaicc.stars.repository.model.contract.Contract;
 import com.yinghuaicc.stars.service.cqrs.contract.dto.request.ContractCQRSListRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.contract.dto.request.ContractTriangleCQRSListRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.contract.dto.response.ContractCQRSListResponseDTO;
@@ -116,4 +117,12 @@ public interface ContractCQRSMapper {
             "</where> " +
             "</script>")
     List<ContractTriangleCQRSListResponseDTO> findContractTriangleCQRSListResponseDTO(@Param("search") ContractTriangleCQRSListRequestDTO contractTriangleCQRSListRequestDTO);
+
+    /**
+     * 通过签约id查询签约信息
+     * @param contractId
+     * @return
+     */
+    @Select("selct * from yhcc_contract where id = #{contractId}")
+    Contract findContractById(String contractId);
 }

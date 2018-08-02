@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.cqrs.contract.ContractCQRSMapper;
+import com.yinghuaicc.stars.repository.model.contract.Contract;
 import com.yinghuaicc.stars.service.cqrs.contract.dto.request.ContractCQRSListRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.contract.dto.request.ContractTriangleCQRSListRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.contract.dto.response.ContractCQRSListResponseDTO;
@@ -51,6 +52,11 @@ public class ContractCQRSServiceImpl implements ContractCQRSService{
         List<ContractTriangleCQRSListResponseDTO> result =
                 contractCQRSMapper.findContractTriangleCQRSListResponseDTO(contractTriangleCQRSListRequestDTO);
         return result;
+    }
+
+    @Override
+    public Contract findContractById(String contractId) {
+       return  contractCQRSMapper.findContractById(contractId);
     }
 
 

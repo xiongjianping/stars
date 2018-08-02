@@ -7,6 +7,7 @@ import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.service.cqrs.region.RegionCQRSService;
 import com.yinghuaicc.stars.service.cqrs.triangle.TriangleCQRSService;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.BrandTriangleRequestDTO;
+import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.TriangeConditionRequestDTO;
 import com.yinghuaicc.stars.service.region.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -33,6 +34,18 @@ public class TriangleController {
     @Autowired
     private RegionCQRSService regionCQRSService;
 
+
+    /**
+     * 根据项目id、楼层id查询项目下业态
+     * @param triangeConditionRequestDTO
+     * @return
+     */
+    @PostMapping(value = "/find/Conditionlist/project")
+    public  JsonResult findConditionlistByOtherId(@RequestBody TriangeConditionRequestDTO triangeConditionRequestDTO){
+        return   JsonResult.success(regionService.findConditionlistByOtherId(triangeConditionRequestDTO));
+    }
+
+
     /**
      * 通过项目id查询三角理论
      * @param brandTriangleRequestDTO
@@ -54,8 +67,6 @@ public class TriangleController {
 
         return JsonResult.success(triangleCQRSService.findBrandTriangleByFloorId(brandTriangleRequestDTO));
     }
-
-
 
     /**
      * 通过项目id、业态id、业种id查询三角理论
