@@ -2,6 +2,7 @@ package com.yinghuaicc.stars.common;
 
 import com.yinghuaicc.stars.StarsApplicationTests;
 import com.yinghuaicc.stars.common.utils.date.LocalDateTimeUtils;
+import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.controller.config.utils.EndecryptUtil;
 import org.apache.commons.jexl2.Expression;
@@ -16,7 +17,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -95,6 +98,27 @@ public class CommonTest extends StarsApplicationTests{
         String loginName = new EndecryptUtil().get3DESDecrypt(userId,privateKey);//解密后的登陆名
 
         System.out.println(loginName);
+    }
+
+    /**
+     *@Author:Fly Created in 2018/8/2 下午10:58
+     *@Description:
+     */
+    @Test
+    public void testOrika(){
+
+        TestA a = new TestA();
+
+        List<TestA> as = new ArrayList<TestA>();
+        as.add(a);
+
+        a.setAdate(LocalDateTime.now());
+
+        TestB b = MapperFactoryUtil.mapperObject(a, TestB.class);
+
+        List<TestB> bs = MapperFactoryUtil.mapperList(as, TestB.class);
+
+        System.out.println(b.getAdate());
     }
 
 }
