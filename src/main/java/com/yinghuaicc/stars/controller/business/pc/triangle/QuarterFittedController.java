@@ -18,7 +18,7 @@ public class QuarterFittedController {
     private QuarterFittedService quarterFittedService;
 
     @PostMapping(value = "/find/quarterfitted/list")
-    public JsonResult findMoonRantList(@RequestBody QuarterFittedRequestDTO quarterFittedRequestDTO, @ModelAttribute PageParam pageParam){
+    public JsonResult findQuarterFittedList(@RequestBody QuarterFittedRequestDTO quarterFittedRequestDTO, @ModelAttribute PageParam pageParam){
 
         return JsonResult.success(
                 quarterFittedService.findQuarterFittedCQRS(quarterFittedRequestDTO, pageParam));

@@ -2,6 +2,7 @@ package com.yinghuaicc.stars.service.cqrs.contract;
 
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
+import com.yinghuaicc.stars.repository.model.contract.Contract;
 import com.yinghuaicc.stars.service.cqrs.contract.dto.request.ContractCQRSListRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.contract.dto.request.ContractTriangleCQRSListRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.contract.dto.response.ContractCQRSListResponseDTO;
@@ -29,4 +30,10 @@ public interface ContractCQRSService {
      * @return
      */
     List<ContractTriangleCQRSListResponseDTO> findContractTriangleCQRSListResponseDTO(ContractTriangleCQRSListRequestDTO contractTriangleCQRSListRequestDTO);
+
+    /**
+     * 通过签约id查询签约信息
+     * @return
+     */
+    Contract findContractById(String contractId);
 }
