@@ -5,6 +5,7 @@ import com.yinghuaicc.stars.common.utils.excel.ExcelImportUtil;
 import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.config.response.JsonResult;
+import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.model.triangle.*;
 import com.yinghuaicc.stars.repository.model.triangle.mult.*;
 import com.yinghuaicc.stars.service.cqrs.triangle.*;
@@ -12,6 +13,7 @@ import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.GuestImportExcelR
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.QuarterFittedResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.RentImportExcelResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,13 +63,14 @@ public class ImportExcelController {
 
     @Autowired
     private DayGuestService dayGuestService;
+    @Autowired
+    private ApplicationContext applicationContext;
 
     /**
      *@Description: 动态三角形适配值导入
      */
     @PostMapping(value = "/excel/fittedimport/sheet")
     public JsonResult fittedExcelImportSheet(@RequestParam("file")MultipartFile file) {
-
         List<ConditionFittedExcel> conditionFittedExcels = excelImportUtil.getExcelDataToList(file,ConditionFittedExcel.class);
 
         //指标总数
@@ -112,7 +115,9 @@ public class ImportExcelController {
      */
     @PostMapping(value = "/excel/rentimport/sheet")
     public JsonResult rentExcelImportSheet(@RequestParam("file")MultipartFile file) {
-
+        AopResourceEmployeeBean aopResourceEmployeeBean = applicationContext.getBean(AopResourceEmployeeBean.class);
+        //当前用户
+        String userName = aopResourceEmployeeBean.getName();
         RentImportExcelResponseDTO rentImportExcelResponseDTO = excelImportUtil.getExcelDataToListMultiSheet(file, RentImportExcelResponseDTO.class);
 
         //分别按月保存
@@ -163,7 +168,7 @@ public class ImportExcelController {
                         LocalDateTime localDateTime2 = LocalDateTime.of(LocalDateTime.now().getYear(),1,1,0,0 );
                         moonRent.setYearsmoon(localDateTime2);
 
-                        //TODO----保存-----
+                        //TODO----保存-----缺校验
                         moonRentService.saveMoonRent(moonRent);
                         //TODO----再按天保存
 
@@ -208,8 +213,8 @@ public class ImportExcelController {
                             LocalDateTime createTime = LocalDateTime.parse(df);
                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
-                            // String createUser;
-                            //String modifyUser;
+                            dayRent.setCreateUser(userName);
+                            dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
@@ -282,8 +287,8 @@ public class ImportExcelController {
                             LocalDateTime createTime = LocalDateTime.parse(df);
                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
-                            // String createUser;
-                            //String modifyUser;
+                            dayRent.setCreateUser(userName);
+                            dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
@@ -355,8 +360,8 @@ public class ImportExcelController {
                             LocalDateTime createTime = LocalDateTime.parse(df);
                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
-                            // String createUser;
-                            //String modifyUser;
+                            dayRent.setCreateUser(userName);
+                            dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
@@ -429,8 +434,8 @@ public class ImportExcelController {
                             LocalDateTime createTime = LocalDateTime.parse(df);
                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
-                            // String createUser;
-                            //String modifyUser;
+                            dayRent.setCreateUser(userName);
+                            dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
@@ -502,8 +507,8 @@ public class ImportExcelController {
                             LocalDateTime createTime = LocalDateTime.parse(df);
                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
-                            // String createUser;
-                            //String modifyUser;
+                            dayRent.setCreateUser(userName);
+                            dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
@@ -575,8 +580,8 @@ public class ImportExcelController {
                             LocalDateTime createTime = LocalDateTime.parse(df);
                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
-                            // String createUser;
-                            //String modifyUser;
+                            dayRent.setCreateUser(userName);
+                            dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
@@ -648,8 +653,8 @@ public class ImportExcelController {
                             LocalDateTime createTime = LocalDateTime.parse(df);
                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
-                            // String createUser;
-                            //String modifyUser;
+                            dayRent.setCreateUser(userName);
+                            dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
@@ -721,8 +726,8 @@ public class ImportExcelController {
                             LocalDateTime createTime = LocalDateTime.parse(df);
                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
-                            // String createUser;
-                            //String modifyUser;
+                            dayRent.setCreateUser(userName);
+                            dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
@@ -794,8 +799,8 @@ public class ImportExcelController {
                             LocalDateTime createTime = LocalDateTime.parse(df);
                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
-                            // String createUser;
-                            //String modifyUser;
+                            dayRent.setCreateUser(userName);
+                            dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
@@ -867,8 +872,8 @@ public class ImportExcelController {
                             LocalDateTime createTime = LocalDateTime.parse(df);
                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
-                            // String createUser;
-                            //String modifyUser;
+                            dayRent.setCreateUser(userName);
+                            dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
@@ -940,8 +945,8 @@ public class ImportExcelController {
                             LocalDateTime createTime = LocalDateTime.parse(df);
                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
-                            // String createUser;
-                            //String modifyUser;
+                            dayRent.setCreateUser(userName);
+                            dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
@@ -1013,8 +1018,8 @@ public class ImportExcelController {
                             LocalDateTime createTime = LocalDateTime.parse(df);
                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
-                            // String createUser;
-                            //String modifyUser;
+                            dayRent.setCreateUser(userName);
+                            dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
                     };
@@ -1038,8 +1043,8 @@ public class ImportExcelController {
 
         rentVerssion.setModifyTime(LocalDateTime.now());
 
-//        rentVerssion.setCreateUser();
-//        rentVerssion.setModifyUser();
+        rentVerssion.setCreateUser(userName);
+        rentVerssion.setModifyUser(userName);
 
         //TODO  ---溢租率版本
         rentVerssionService.saveRentVerssion(rentVerssion);
@@ -1051,7 +1056,9 @@ public class ImportExcelController {
      */
     @PostMapping(value = "/excel/guestimport/sheet")
     public JsonResult guestExcelImportSheet(@RequestParam("file")MultipartFile file) {
-
+        AopResourceEmployeeBean aopResourceEmployeeBean = applicationContext.getBean(AopResourceEmployeeBean.class);
+        //当前用户
+        String userName = aopResourceEmployeeBean.getName();
 //        List<StandConditionGuestExcel> standConditionGuestExcels = excelImportUtil.getExcelDataToList(file, StandConditionGuestExcel.class);
 
         GuestImportExcelResponseDTO guestImportExcelResponseDTO = excelImportUtil.getExcelDataToListMultiSheet(file, GuestImportExcelResponseDTO.class);
@@ -1086,6 +1093,8 @@ public class ImportExcelController {
             projectGuest.setPassengerFlow(projectGuestExcel.getPassengerFlow());
             projectGuest.setGuestVerssionId(guestVerssionId);
             projectGuest.setCreateTime(LocalDateTime.now());
+            projectGuest.setCreateUser(userName);
+            projectGuest.setModifyUser(userName);
             try {
                 projectGuestService.saveProjectGuest(projectGuest);
             } catch (Exception e) {
@@ -1105,8 +1114,8 @@ public class ImportExcelController {
         guestVerssion.setUntargetcount(untargetcount);
         guestVerssion.setCreateTime(LocalDateTime.now());
         guestVerssion.setModifyTime(LocalDateTime.now());
-        //guestVerssion.setCreateUser("");
-        //guestVerssion.setModifyUser("");
+        guestVerssion.setCreateUser(userName);
+        guestVerssion.setModifyUser(userName);
         //状态 1：未审核，2：审核成功，3：审核失败
         guestVerssion.setStatus("1");
         //类别：1、项目 2、楼层、3、品牌
@@ -1130,7 +1139,8 @@ public class ImportExcelController {
             floorGuest.setPassengerFlow(floorGuestExcel.getPassengerFlow());
             floorGuest.setGuestVerssionId(guestVerssionId);
             floorGuest.setCreateTime(LocalDateTime.now());
-
+            floorGuest.setCreateUser(userName);
+            floorGuest.setModifyUser(userName);
             try {
                 floorGuestService.saveFloorGuest(floorGuest);
             } catch (Exception e) {
@@ -1150,8 +1160,8 @@ public class ImportExcelController {
         guestVerssionFloor.setUntargetcount(untargetcount);
         guestVerssionFloor.setCreateTime(LocalDateTime.now());
         guestVerssionFloor.setModifyTime(LocalDateTime.now());
-        //guestVerssion.setCreateUser("");
-        //guestVerssion.setModifyUser("");
+        guestVerssionFloor.setCreateUser(userName);
+        guestVerssionFloor.setModifyUser(userName);
         //状态 1：未审核，2：审核成功，3：审核失败
         guestVerssionFloor.setStatus("1");
         //类别：1、项目 2、楼层、3、品牌
@@ -1182,7 +1192,8 @@ public class ImportExcelController {
             dayGuest.setGuestVerssionId(guestVerssionId);
             dayGuest.setCreateTime(LocalDateTime.now());
             dayGuest.setStatus(conditionGuestExcel.getSignStatus());
-
+            dayGuest.setCreateUser(userName);
+            dayGuest.setModifyUser(userName);
             try {
                 dayGuestService.saveDayGuest(dayGuest);
             } catch (Exception e) {
@@ -1202,8 +1213,8 @@ public class ImportExcelController {
         guestVerssionDay.setUntargetcount(untargetcount);
         guestVerssionDay.setCreateTime(LocalDateTime.now());
         guestVerssionDay.setModifyTime(LocalDateTime.now());
-        //guestVerssion.setCreateUser("");
-        //guestVerssion.setModifyUser("");
+        guestVerssionDay.setCreateUser(userName);
+        guestVerssionDay.setModifyUser(userName);
         //状态 1：未审核，2：审核成功，3：审核失败
         guestVerssionDay.setStatus("1");
         //类别：1、项目 2、楼层、3、品牌

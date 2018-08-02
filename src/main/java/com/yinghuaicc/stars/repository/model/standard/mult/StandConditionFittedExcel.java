@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  */
 public class StandConditionFittedExcel {
 
-    private String projectId;
+    private String contractId;
     //项目名称
     private String projectName;
     //业态名称
@@ -18,12 +18,12 @@ public class StandConditionFittedExcel {
     //适配值
     private BigDecimal fitted;
 
-    public String getProjectId() {
-        return projectId;
+    public String getContractId() {
+        return contractId;
     }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
+    public void setContractId(String contractId) {
+        this.contractId = contractId;
     }
 
     public String getProjectName() {
