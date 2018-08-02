@@ -19,6 +19,12 @@ public class RentVerssionController {
     @Autowired
     private RentVerssionService rentVerssionService;
 
+    /**
+     * 每日溢租率版本列表接口
+     * @param rentVerssionRequestDTO
+     * @param pageParam
+     * @return
+     */
     @PostMapping(value = "/find/rantverssion/list")
     public JsonResult findRantVerssionList(@RequestBody RentVerssionRequestDTO rentVerssionRequestDTO, @ModelAttribute PageParam pageParam){
 

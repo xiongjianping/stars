@@ -55,8 +55,6 @@ public class TriangleController {
         return JsonResult.success(triangleCQRSService.findBrandTriangleByFloorId(brandTriangleRequestDTO));
     }
 
-
-
     /**
      * 通过项目id、业态id、业种id查询三角理论
      * @param brandTriangleRequestDTO

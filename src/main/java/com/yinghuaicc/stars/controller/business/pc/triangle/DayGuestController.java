@@ -20,6 +20,12 @@ public class DayGuestController {
     @Autowired
     private DayGuestService dayGuestService;
 
+    /**
+     * 动态三角形客销度
+     * @param dayGuestResponseDTO
+     * @param pageParam
+     * @return
+     */
     @PostMapping(value = "/find/dayguest/list")
     public JsonResult findMoonRantList(@RequestBody DayGuestRequestDTO dayGuestResponseDTO, @ModelAttribute PageParam pageParam){
 
