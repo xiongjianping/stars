@@ -63,6 +63,20 @@ public class FitredValServiceImpl implements FitredValService {
                 .setCountSize(page.getTotal());
     }
 
+    @Override
+    public ResultPageList<FitredValResponse> getFitrdeValListByStatus(GetFitredValDTO getFitredValDTO, PageParam pageParam) {
+        Page page = PageHelper.startPage(pageParam.getP(), pageParam.getC());
+
+        List<FitredValResponse> result = fitredValMapper.getFitrdeValListByStatus(getFitredValDTO);
+
+        return new ResultPageList<FitredValResponse>()
+                .setResultList(result)
+                .setPage(pageParam.getP())
+                .setSize(pageParam.getC())
+                .setCountPage(page.getPages())
+                .setCountSize(page.getTotal());
+    }
+
     /**
      * 根据ID查看
      * @param id

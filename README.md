@@ -94,4 +94,12 @@
 
 **登录名、密码就是数据库的用户名、密码**
 
-![链接池监控地址](image/druid_address.png)
+![连接池监控地址](image/druid_address.png)
+
+## 项目配置
+
+**系统配置文件：resources下的system.properties文件**
+
+**配置中包含Token的有效时间，文件的上传以及访问地址，对接外部系统的ip地址以及SSO的秘钥**
+
+**现在app和pc端的用户登录统一使用OA的SSO登录流程，Token机制暂时去掉，会话保持由OA系统进行控制**

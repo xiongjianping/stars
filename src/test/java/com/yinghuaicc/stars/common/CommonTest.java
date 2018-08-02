@@ -92,12 +92,8 @@ public class CommonTest extends StarsApplicationTests{
         /**
          *	解秘方法
          */
-        String loginName = null;//解密后的登陆名
-        try {
-            loginName = new EndecryptUtil().get3DESDecrypt(new String(userId.getBytes(),"GBK"),privateKey);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        String loginName = new EndecryptUtil().get3DESDecrypt(userId,privateKey);//解密后的登陆名
+
         System.out.println(loginName);
     }
 
