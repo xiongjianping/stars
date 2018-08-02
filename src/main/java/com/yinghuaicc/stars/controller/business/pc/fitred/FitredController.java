@@ -40,6 +40,17 @@ public class FitredController {
                 fitredValService.getFitredValList(getFitredValDTO, pageParam));
     }
 
+
+    /**
+     *@Description: 列表启用状态
+     */
+    @PostMapping(value = "/find/fitred/list/status")
+    public JsonResult getFitrdeValListByStatus(@RequestBody GetFitredValDTO getFitredValDTO, @ModelAttribute PageParam pageParam){
+
+        return JsonResult.success(
+                fitredValService.getFitrdeValListByStatus(getFitredValDTO, pageParam));
+    }
+
     /**
      *@Description: 详情
      */

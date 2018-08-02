@@ -65,4 +65,16 @@ public interface FitredValMapper {
             " where id = #{id}")
     void updateFitredStatus(UpdateStatusFitredValDTO updateStatusFitredValDTO);
 
+
+
+    /**
+     * 查看列表
+     * @return
+     */
+    @Select("<script>  select * from yhcc_fitred_val where status = 1 " +
+            "<if test='fitredType != null '>AND fitred_type = #{fitredType}</if> " +
+            "<if test='name != null '>AND name  like '%' + #{name} + '%'</if> " +
+            " </script> ")
+    List<FitredValResponse> getFitrdeValListByStatus(GetFitredValDTO getFitredValDTO);
+
 }
