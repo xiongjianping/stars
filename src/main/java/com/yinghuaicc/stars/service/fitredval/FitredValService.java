@@ -20,6 +20,8 @@ public interface FitredValService {
 
     ResultPageList<FitredValResponse> getFitredValList(GetFitredValDTO getFitredValDTO, PageParam pageParam);
 
+    ResultPageList<FitredValResponse> getFitrdeValListByStatus(GetFitredValDTO getFitredValDTO, PageParam pageParam);
+
     FitredValResponse getFitrdeValById(String id);
 
     void updateFitredVal(AddFitredValDTO addFitredValDTO);
