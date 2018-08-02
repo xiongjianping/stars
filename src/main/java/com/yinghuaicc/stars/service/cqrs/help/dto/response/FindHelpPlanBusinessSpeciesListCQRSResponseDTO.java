@@ -26,6 +26,9 @@ public class FindHelpPlanBusinessSpeciesListCQRSResponseDTO {
     //业种名称
     private String businessSpeciesName;
 
+    //帮扶类型(1:易租率、2：客销度、3：适配值)
+    private Integer helpType;
+
     //优秀
     private String yx;
 
@@ -137,6 +140,15 @@ public class FindHelpPlanBusinessSpeciesListCQRSResponseDTO {
 
     public FindHelpPlanBusinessSpeciesListCQRSResponseDTO setKs(String ks) {
         this.ks = ks;
+        return this;
+    }
+
+    public Integer getHelpType() {
+        return helpType;
+    }
+
+    public FindHelpPlanBusinessSpeciesListCQRSResponseDTO setHelpType(Integer helpType) {
+        this.helpType = helpType;
         return this;
     }
 }

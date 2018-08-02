@@ -28,6 +28,7 @@ public interface HelpCQRSMapper {
             "select " +
             "hp.project_id as projectId, " +
             "pr.name as projectName, " +
+            "hp.type as helpType, " +
             "hp.yx_help_context as yx, " +
             "hp.lh_help_context as lh, " +
             "hp.ts_help_context as ts, " +
@@ -39,8 +40,10 @@ public interface HelpCQRSMapper {
             "<where> " +
             "<bind name='search.areaId' value='search.areaId' /> " +
             "<bind name='search.projectId' value='search.projectId' /> " +
+            "<bind name='search.helpType' value='search.helpType' /> " +
             "<if test='search.areaId != null and search.areaId !=\"\" '>AND pr.area_id = #{search.areaId}</if> " +
             "<if test='search.projectId != null and search.projectId !=\"\" '>AND hp.project_id = #{search.projectId}</if> " +
+            "<if test='search.helpType != null and search.helpType !=\"\" '>AND hp.type = #{search.helpType}</if> " +
             "</where> " +
             "order by hp.modify_time desc " +
             "</script> ")
@@ -56,6 +59,7 @@ public interface HelpCQRSMapper {
             "pr.name as projectName, " +
             "fl.name as floorName, " +
             "hp.floor_id as floorId, " +
+            "hp.type as helpType, " +
             "hp.yx_help_context as yx, " +
             "hp.lh_help_context as lh, " +
             "hp.ts_help_context as ts, " +
@@ -69,9 +73,11 @@ public interface HelpCQRSMapper {
             "<bind name='search.areaId' value='search.areaId' /> " +
             "<bind name='search.projectId' value='search.projectId' /> " +
             "<bind name='search.floorId' value='search.floorId' /> " +
+            "<bind name='search.helpType' value='search.helpType' /> " +
             "<if test='search.areaId != null and search.areaId !=\"\" '>AND pr.area_id = #{search.areaId}</if> " +
             "<if test='search.projectId != null and search.projectId !=\"\" '>AND hp.project_id = #{search.projectId}</if> " +
             "<if test='search.floorId != null and search.floorId !=\"\" '>AND hp.floor_id = #{search.floorId}</if> " +
+            "<if test='search.helpType != null and search.helpType !=\"\" '>AND hp.type = #{search.helpType}</if> " +
             "</where> " +
             "order by hp.modify_time desc " +
             "</script> ")
@@ -89,6 +95,7 @@ public interface HelpCQRSMapper {
             "ar.name as businessFormName, " +
             "fl.id as businessSpeciesId, " +
             "fl.name as businessSpeciesName, " +
+            "hp.type as helpType, " +
             "hp.yx_help_context as yx, " +
             "hp.lh_help_context as lh, " +
             "hp.ts_help_context as ts, " +
@@ -100,9 +107,11 @@ public interface HelpCQRSMapper {
             "inner join yhcc_business_species as fl on hp.business_species_id = fl.id " +
             "<where> " +
             "<bind name='projectId' value='projectId' /> " +
+            "<bind name='helpType' value='helpType' /> " +
             "<if test='projectId != null and projectId !=\"\" '>AND hp.project_id = #{projectId}</if> " +
+            "<if test='helpType != null and helpType !=\"\" '>AND hp.type = #{helpType}</if> " +
             "</where> " +
             "order by hp.modify_time desc " +
             "</script> ")
-    List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> findHelpPlanBusinessSpeciesCQRSList(@Param("projectId") String projectId);
+    List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> findHelpPlanBusinessSpeciesCQRSList(@Param("projectId") String projectId, @Param("helpType") Integer helpType);
 }

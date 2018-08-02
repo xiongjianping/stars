@@ -145,26 +145,28 @@ public class HelpServiceImpl implements HelpService {
                     .setCreateTime(LocalDateTime.now());
         }
 
+        helpPlanProject.setType(saveHelpPlanProjectRequestDTO.getHelpType());
+
         if (saveHelpPlanProjectRequestDTO.getType().equals("yx")){
 
             helpPlanProject.setYxHelpContext(
-                    saveHelpPlanProjectRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+                    saveHelpPlanProjectRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }else if (saveHelpPlanProjectRequestDTO.getType().equals("lh")){
 
             helpPlanProject.setLhHelpContext(
-                    saveHelpPlanProjectRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+                    saveHelpPlanProjectRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }else if (saveHelpPlanProjectRequestDTO.getType().equals("ts")){
 
             helpPlanProject.setTsHelpContext(
-                    saveHelpPlanProjectRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+                    saveHelpPlanProjectRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }else if (saveHelpPlanProjectRequestDTO.getType().equals("hl")){
 
             helpPlanProject.setHlHelpContext(
-                    saveHelpPlanProjectRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+                    saveHelpPlanProjectRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }else if (saveHelpPlanProjectRequestDTO.getType().equals("ks")){
 
             helpPlanProject.setKsHelpContext(
-                    saveHelpPlanProjectRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+                    saveHelpPlanProjectRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }
 
         if (helpMapper.countHelpPlanProjectByProjectId(saveHelpPlanProjectRequestDTO.getProjectId())==0){
@@ -187,7 +189,6 @@ public class HelpServiceImpl implements HelpService {
         HelpPlanFloor helpPlanFloor =
                 helpMapper.findHelpPlanFloorByProjectIdAndFloorId(
                         saveHelpPlanFloorRequestDTO.getProjectId(), saveHelpPlanFloorRequestDTO.getFloorId());
-
         if (Objects.isNull(helpPlanFloor)){
 
             helpPlanFloor = new HelpPlanFloor()
@@ -200,26 +201,28 @@ public class HelpServiceImpl implements HelpService {
                     .setCreateTime(LocalDateTime.now());
         }
 
+        helpPlanFloor.setType(saveHelpPlanFloorRequestDTO.getHelpType());
+
         if (saveHelpPlanFloorRequestDTO.getType().equals("yx")){
 
             helpPlanFloor.setYxHelpContext(
-                    saveHelpPlanFloorRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+                    saveHelpPlanFloorRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }else if (saveHelpPlanFloorRequestDTO.getType().equals("lh")){
 
             helpPlanFloor.setLhHelpContext(
-                    saveHelpPlanFloorRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+                    saveHelpPlanFloorRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }else if (saveHelpPlanFloorRequestDTO.getType().equals("ts")){
 
             helpPlanFloor.setTsHelpContext(
-                    saveHelpPlanFloorRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+                    saveHelpPlanFloorRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }else if (saveHelpPlanFloorRequestDTO.getType().equals("hl")){
 
             helpPlanFloor.setHlHelpContext(
-                    saveHelpPlanFloorRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+                    saveHelpPlanFloorRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }else if (saveHelpPlanFloorRequestDTO.getType().equals("ks")){
 
             helpPlanFloor.setKsHelpContext(
-                    saveHelpPlanFloorRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+                    saveHelpPlanFloorRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }
 
         if (helpMapper.countHelpPlanFloorByProjectIdAndFloorId(saveHelpPlanFloorRequestDTO.getProjectId(), saveHelpPlanFloorRequestDTO.getFloorId())==0){
@@ -259,26 +262,28 @@ public class HelpServiceImpl implements HelpService {
                             .setCreateTime(LocalDateTime.now());
         }
 
+        helpPlanBusinessSpecies.setType(saveHelpPlanBusinessSpeciesRequestDTO.getHelpType());
+
         if (saveHelpPlanBusinessSpeciesRequestDTO.getType().equals("yx")){
 
             helpPlanBusinessSpecies.setYxHelpContext(
-                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }else if (saveHelpPlanBusinessSpeciesRequestDTO.getType().equals("lh")){
 
             helpPlanBusinessSpecies.setLhHelpContext(
-                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }else if (saveHelpPlanBusinessSpeciesRequestDTO.getType().equals("ts")){
 
             helpPlanBusinessSpecies.setTsHelpContext(
-                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }else if (saveHelpPlanBusinessSpeciesRequestDTO.getType().equals("hl")){
 
             helpPlanBusinessSpecies.setHlHelpContext(
-                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }else if (saveHelpPlanBusinessSpeciesRequestDTO.getType().equals("ks")){
 
             helpPlanBusinessSpecies.setKsHelpContext(
-                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("</br>")));
+                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }
 
         if (helpMapper.countHelpPlanBusinessSpeciesByProjectIdAndBusinessFormIdAndBusinessSpeciesId(saveHelpPlanBusinessSpeciesRequestDTO.getProjectId(), saveHelpPlanBusinessSpeciesRequestDTO.getBusinessFormId(), saveHelpPlanBusinessSpeciesRequestDTO.getBusinessSpeciesId())==0){

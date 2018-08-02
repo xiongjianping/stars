@@ -14,6 +14,9 @@ public class FindHelpPlanProjectListCQRSResponseDTO {
     //项目名称
     private String projectName;
 
+    //帮扶类型(1:易租率、2：客销度、3：适配值)
+    private Integer helpType;
+
     //优秀
     private String yx;
 
@@ -89,6 +92,15 @@ public class FindHelpPlanProjectListCQRSResponseDTO {
 
     public FindHelpPlanProjectListCQRSResponseDTO setKs(String ks) {
         this.ks = ks;
+        return this;
+    }
+
+    public Integer getHelpType() {
+        return helpType;
+    }
+
+    public FindHelpPlanProjectListCQRSResponseDTO setHelpType(Integer helpType) {
+        this.helpType = helpType;
         return this;
     }
 }

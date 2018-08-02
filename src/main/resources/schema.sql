@@ -470,15 +470,16 @@ CREATE TABLE IF NOT EXISTS `yhcc_help_project`(
 
   `id` VARCHAR (50) NOT NULL,
   `project_id` VARCHAR (50),
-  `yx_help_context` VARCHAR (50),
-  `lh_help_context` VARCHAR (50),
-  `ts_help_context` VARCHAR (50),
-  `hl_help_context` VARCHAR (50),
-  `ks_help_context` VARCHAR (50),
+  `yx_help_context` VARCHAR (2184),
+  `lh_help_context` VARCHAR (2184),
+  `ts_help_context` VARCHAR (2184),
+  `hl_help_context` VARCHAR (2184),
+  `ks_help_context` VARCHAR (2184),
   `create_time` DATETIME,
   `modify_time` DATETIME,
   `create_user` VARCHAR (100),
   `modify_user` VARCHAR (100),
+  `type` int(11),
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -488,15 +489,16 @@ CREATE TABLE IF NOT EXISTS `yhcc_help_floor`(
   `id` VARCHAR (50) NOT NULL,
   `project_id` VARCHAR (50),
   `floor_id` VARCHAR (50),
-  `yx_help_context` VARCHAR (50),
-  `lh_help_context` VARCHAR (50),
-  `ts_help_context` VARCHAR (50),
-  `hl_help_context` VARCHAR (50),
-  `ks_help_context` VARCHAR (50),
+  `yx_help_context` VARCHAR (2184),
+  `lh_help_context` VARCHAR (2184),
+  `ts_help_context` VARCHAR (2184),
+  `hl_help_context` VARCHAR (2184),
+  `ks_help_context` VARCHAR (2184),
   `create_time` DATETIME,
   `modify_time` DATETIME,
   `create_user` VARCHAR (100),
   `modify_user` VARCHAR (100),
+  `type` int(11),
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -507,15 +509,16 @@ CREATE TABLE IF NOT EXISTS `yhcc_help_business_species`(
   `project_id` VARCHAR (50),
   `business_form_id` VARCHAR (50),
   `business_species_id` VARCHAR (50),
-  `yx_help_context` VARCHAR (50),
-  `lh_help_context` VARCHAR (50),
-  `ts_help_context` VARCHAR (50),
-  `hl_help_context` VARCHAR (50),
-  `ks_help_context` VARCHAR (50),
+  `yx_help_context` VARCHAR (2184),
+  `lh_help_context` VARCHAR (2184),
+  `ts_help_context` VARCHAR (2184),
+  `hl_help_context` VARCHAR (2184),
+  `ks_help_context` VARCHAR (2184),
   `create_time` DATETIME,
   `modify_time` DATETIME,
   `create_user` VARCHAR (100),
   `modify_user` VARCHAR (100),
+  `type` int(11),
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

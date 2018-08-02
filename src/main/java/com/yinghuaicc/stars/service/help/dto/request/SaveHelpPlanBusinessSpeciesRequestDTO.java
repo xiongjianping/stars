@@ -33,6 +33,10 @@ public class SaveHelpPlanBusinessSpeciesRequestDTO {
     @NotNull(message = "HELP_BUSINESS_SPECIES_SAVE_005")
     List<String> helpContext;
 
+    @NotNull(message = "HELP_BUSINESS_SPECIES_SAVE_006")
+    //帮扶类型(1:易租率、2：客销度、3：适配值)
+    private Integer helpType;
+
     public String getProjectId() {
         return projectId;
     }
@@ -75,6 +79,15 @@ public class SaveHelpPlanBusinessSpeciesRequestDTO {
 
     public SaveHelpPlanBusinessSpeciesRequestDTO setHelpContext(List<String> helpContext) {
         this.helpContext = helpContext;
+        return this;
+    }
+
+    public Integer getHelpType() {
+        return helpType;
+    }
+
+    public SaveHelpPlanBusinessSpeciesRequestDTO setHelpType(Integer helpType) {
+        this.helpType = helpType;
         return this;
     }
 }

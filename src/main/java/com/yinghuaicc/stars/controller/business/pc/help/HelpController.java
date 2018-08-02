@@ -165,7 +165,8 @@ public class HelpController {
 
         return JsonResult.success(
                 helpCQRSService.findHelpPlanBusinessSpeciesListCQRS(
-                        Objects.nonNull(map.get("projectId")) ? map.get("projectId").toString() : null, pageParam));
+                        Objects.nonNull(map.get("projectId")) ? map.get("projectId").toString() : null,
+                        Objects.nonNull(map.get("helpType")) ? Integer.parseInt(map.get("helpType").toString()) : null, pageParam) );
     }
 
 }
