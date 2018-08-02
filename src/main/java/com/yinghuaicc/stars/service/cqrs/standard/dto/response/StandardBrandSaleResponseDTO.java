@@ -15,18 +15,25 @@ public class StandardBrandSaleResponseDTO {
     private String saleVessionName;
     //签约id
     private String contractId;
+    //项目id
     private String projectId;
+    //项目名称
     private String projectName;
     //品牌名称
     private String contractName;
     //业态id
     private String conditionId;
+    //业态名称
     private String conditionName;
     //业种id
     private String majoId;
+    //业种名称
     private String majoName;
+    //毛利率
     private BigDecimal grossRate;
+    //客单价
     private BigDecimal perSale;
+    //签约状态
     private String signStatus;
 
     private LocalDateTime createTime;

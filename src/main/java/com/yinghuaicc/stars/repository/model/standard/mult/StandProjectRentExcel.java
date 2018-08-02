@@ -6,20 +6,20 @@ import java.math.BigDecimal;
  * 导入Excel标准三角形项目溢租率
  */
 public class StandProjectRentExcel {
-
-    private String projectId;
+    //签约id
+    private String contractId;
     //项目名称
     private String projectName;
     //溢租率
     private BigDecimal rent;
 
 
-    public String getProjectId() {
-        return projectId;
+    public String getContractId() {
+        return contractId;
     }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
+    public void setContractId(String contractId) {
+        this.contractId = contractId;
     }
 
     public String getProjectName() {

@@ -16,7 +16,7 @@ public interface StandardFloorFittedMapper {
 
 
 
-    @Select("<script>select * from yhcc_standard_floor_Fitted " +
+    @Select("<script>select * from yhcc_standard_floor_fitted " +
             " <where> " +
             "<bind name='search.projectId' value='search.projectId' /> " +
             "<bind name='search.floorId' value='search.floorId' /> " +
@@ -34,7 +34,7 @@ public interface StandardFloorFittedMapper {
      * @param floorId
      * @return
      */
-    @Select("select * from yhcc_standard_floor_Fitted where project_id = #{projectId} and floor_id = #{floorId}")
+    @Select("select * from yhcc_standard_floor_fitted where project_id = #{projectId} and floor_id = #{floorId}")
     StandardFloorFittedResponseDTO findstandardFloorFittedByProjectIdAndFloorId(@Param("projectId")String projectId,@Param("floorId")String floorId);
 
 
@@ -42,7 +42,7 @@ public interface StandardFloorFittedMapper {
      * 添加楼层适配值
      * @param standardFloorFitted
      */
-    @Insert("insert into yhcc_standard_floor_Fitted " +
+    @Insert("insert into yhcc_standard_floor_fitted " +
             "values(#{id},#{standardVerssionId},#{standardVerssionName},#{projectId},#{projectName}," +
             "#{floorId},#{floorName},#{fitted},#{createTime},#{createTime},#{modifyTime},#{createUser},#{modifyUser},#{status})")
     void saveStandardFloorFitted(StandardFloorFitted standardFloorFitted);

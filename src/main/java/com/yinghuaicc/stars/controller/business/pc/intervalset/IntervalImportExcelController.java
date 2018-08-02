@@ -60,7 +60,6 @@ public class IntervalImportExcelController {
              BigDecimal maxvalue;
             //区间增长百分比
              BigDecimal intervalRate;
-
             if(projectGuestInterval!=null){
                 projectGuestIntervalService.editProject(projectGuestInterval);
             }else{

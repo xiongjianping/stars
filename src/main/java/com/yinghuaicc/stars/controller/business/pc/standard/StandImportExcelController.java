@@ -3,12 +3,18 @@ package com.yinghuaicc.stars.controller.business.pc.standard;
 import com.yinghuaicc.stars.common.utils.excel.ExcelImportUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.config.response.JsonResult;
+import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
+import com.yinghuaicc.stars.repository.model.contract.Contract;
 import com.yinghuaicc.stars.repository.model.standard.*;
 import com.yinghuaicc.stars.repository.model.standard.mult.*;
+import com.yinghuaicc.stars.service.cqrs.brand.BrandCQRSService;
+import com.yinghuaicc.stars.service.cqrs.brand.dto.response.BrandCQRSInfoResponseDTO;
+import com.yinghuaicc.stars.service.cqrs.contract.ContractCQRSService;
 import com.yinghuaicc.stars.service.cqrs.standard.*;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardFittedImportExcelResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardRentImportExcelResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,14 +53,24 @@ public class StandImportExcelController {
 
     @Autowired
     private StandardBrandSaleService standardBrandSaleService;
+
+    @Autowired
+    private ApplicationContext applicationContext;
+    @Autowired
+    private ContractCQRSService contractCQRSService;
+    @Autowired
+    private BrandCQRSService brandCQRSService;
     /**
      *@Description: 标准三角形适配值多Sheet导入
      */
     @PostMapping(value = "/excel/standfittedimport/sheet")
     public JsonResult standFittedExcelImportSheet(@RequestParam("file")MultipartFile file) {
-
+        AopResourceEmployeeBean aopResourceEmployeeBean = applicationContext.getBean(AopResourceEmployeeBean.class);
+        //当前用户
+        String userName = aopResourceEmployeeBean.getName();
         StandardFittedImportExcelResponseDTO standardFittedImportExcelResponseDTO = excelImportUtil.getExcelDataToListMultiSheet(file, StandardFittedImportExcelResponseDTO.class);
         //TODO---新增项目记录
+        String setStandardVerssionId = UuidUtil.randomUUID();
         //项目适配值
         List<StandProjectFittedExcel> standardProjectFitteds = standardFittedImportExcelResponseDTO.getStandardProjectFitteds();
         for(StandProjectFittedExcel standProjectFittedExcel :standardProjectFitteds){
@@ -63,11 +79,13 @@ public class StandImportExcelController {
             //id
             standardProjectFitted.setId(UuidUtil.randomUUID());
             //版本id
-            standardProjectFitted.setStandardVerssionId(UuidUtil.randomUUID());
+            standardProjectFitted.setStandardVerssionId(setStandardVerssionId);
             //版本名称
             standardProjectFitted.setStandardVerssionName(LocalDateTime.now()+"项目适配值");
+            //通过签约id查询项目id 、楼层id
+            Contract contract = contractCQRSService.findContractById(standProjectFittedExcel.getContractId());
             //项目id
-            standardProjectFitted.setProjectId(standProjectFittedExcel.getProjectId());
+            standardProjectFitted.setProjectId(contract.getProjectId());
             //项目名称
             standardProjectFitted.setProjectName(standProjectFittedExcel.getProjectName());
             //适配值
@@ -75,8 +93,8 @@ public class StandImportExcelController {
 
             standardProjectFitted.setCreateTime(LocalDateTime.now());
             standardProjectFitted.setModifyTime(LocalDateTime.now());
-            /*standardProjectFitted.setCreateUser();
-            standardProjectFitted.setModifyUser();*/
+            standardProjectFitted.setCreateUser(userName);
+            standardProjectFitted.setModifyUser(userName);
             standardProjectFitted.setStatus("启用");
 
             standardProjectFittedService.saveStandardProjectFitted(standardProjectFitted);
@@ -93,15 +111,17 @@ public class StandImportExcelController {
             //id
             standardFloorFitted.setId(UuidUtil.randomUUID());
             //版本id
-            standardFloorFitted.setStandardVerssionId(UuidUtil.randomUUID());
+            standardFloorFitted.setStandardVerssionId(setStandardVerssionId);
             //版本名称
             standardFloorFitted.setStandardVerssionName(LocalDateTime.now()+"项目适配值");
+            //通过签约id查询项目id 、楼层id
+            Contract contract = contractCQRSService.findContractById(standFloorFittedExcel.getContractId());
             //项目id
-            standardFloorFitted.setProjectId(standFloorFittedExcel.getProjectId());
+            standardFloorFitted.setProjectId(contract.getProjectId());
             //项目名称
             standardFloorFitted.setProjectName(standFloorFittedExcel.getProjectName());
-           /* //楼层id
-            standardFloorFitted.setFloorId(standFloorFittedExcel.get);*/
+            //楼层id
+            standardFloorFitted.setFloorId(contract.getFloorId());
             //楼层名称
             standardFloorFitted.setFloorName(standFloorFittedExcel.getFloorName());
             //适配值
@@ -109,8 +129,8 @@ public class StandImportExcelController {
 
             standardFloorFitted.setCreateTime(LocalDateTime.now());
             standardFloorFitted.setModifyTime(LocalDateTime.now());
-            /*standardProjectFitted.setCreateUser();
-            standardProjectFitted.setModifyUser();*/
+            standardFloorFitted.setCreateUser(userName);
+            standardFloorFitted.setModifyUser(userName);
             standardFloorFitted.setStatus("启用");
             standardFloorFittedService.saveStandardFloorFitted(standardFloorFitted);
 
@@ -125,32 +145,40 @@ public class StandImportExcelController {
             //id
             standardConditionFitted.setId(UuidUtil.randomUUID());
             //版本id
-            standardConditionFitted.setStandardVerssionId(UuidUtil.randomUUID());
+            standardConditionFitted.setStandardVerssionId(setStandardVerssionId);
             //版本名称
             standardConditionFitted.setStandardVerssionName(LocalDateTime.now()+"项目适配值");
+            //通过签约id查询项目id 、楼层id
+            Contract contract = contractCQRSService.findContractById(standConditionFittedExcel.getContractId());
+            //查询品牌id
+            String brandId = contract.getBrandId();
+            //TODO---通过品牌id查询业态/业种
+            BrandCQRSInfoResponseDTO brandCQRSInfoResponseDTO = brandCQRSService.brandInfoCQRS(brandId);
+
             //项目id
-            standardConditionFitted.setProjectId(standConditionFittedExcel.getProjectId());
+            standardConditionFitted.setProjectId(contract.getProjectId());
             //项目名称
             standardConditionFitted.setProjectName(standConditionFittedExcel.getProjectName());
            //业态id
-            /*standardConditionFitted.setConditionId(standConditionFittedExcel.getConditionName());*/
+            standardConditionFitted.setConditionId(brandCQRSInfoResponseDTO.getBusinessFormId());
 
             //业态名称
-            standardConditionFitted.setConditionId(standConditionFittedExcel.getConditionName());
+            standardConditionFitted.setConditionId(brandCQRSInfoResponseDTO.getBusinessFormName());
 
             //业种名称
-            /*standardConditionFitted.setMajoId(standConditionFittedExcel.getMajoId());*/
+            standardConditionFitted.setMajoId(brandCQRSInfoResponseDTO.getBusinessSpeciesId());
             //业种名称
-            standardConditionFitted.setMajoName(standConditionFittedExcel.getMajoName());
+            standardConditionFitted.setMajoName(brandCQRSInfoResponseDTO.getBusinessSpeciesName());
 
             //适配值
             standardConditionFitted.setFitted(standConditionFittedExcel.getFitted());
 
             standardConditionFitted.setCreateTime(LocalDateTime.now());
             standardConditionFitted.setModifyTime(LocalDateTime.now());
-            /*standardProjectFitted.setCreateUser();
-            standardProjectFitted.setModifyUser();*/
+            standardConditionFitted.setCreateUser(userName);
+            standardConditionFitted.setModifyUser(userName);
             standardConditionFitted.setStatus("启用");
+            //TODO---校验
             standardConditionFittedService.saveStandardConditionFitted(standardConditionFitted);
 
         }
@@ -164,7 +192,10 @@ public class StandImportExcelController {
      */
     @PostMapping(value = "/excel/standrentimport/sheet")
     public JsonResult standRentExcelImportSheet(@RequestParam("file")MultipartFile file) {
-
+        AopResourceEmployeeBean aopResourceEmployeeBean = applicationContext.getBean(AopResourceEmployeeBean.class);
+        //当前用户
+        String userName = aopResourceEmployeeBean.getName();
+        String standardVerssionId = UuidUtil.randomUUID();
         StandardRentImportExcelResponseDTO standardRentImportExcelResponseDTO = excelImportUtil.getExcelDataToListMultiSheet(file, StandardRentImportExcelResponseDTO.class);
         //项目溢租率
         List<StandProjectRentExcel> standardProjectFitteds = standardRentImportExcelResponseDTO.getStandProjectRentExcels();
@@ -174,19 +205,21 @@ public class StandImportExcelController {
             //id
             standardProjectRent.setId(UuidUtil.randomUUID()) ;
             //版本id
-            standardProjectRent.setStandardVerssionId(UuidUtil.randomUUID());
+            standardProjectRent.setStandardVerssionId(standardVerssionId);
             //版本名称
             standardProjectRent.setStandardVerssionName(LocalDateTime.now()+"项目溢租率");
+            //通过签约id查询项目id 、楼层id
+            Contract contract = contractCQRSService.findContractById(standProjectRentExcel.getContractId());
             //项目id
-            standardProjectRent.setProjectId(standProjectRentExcel.getProjectId());
+            standardProjectRent.setProjectId(contract.getProjectId());
             //项目名称
             standardProjectRent.setProjectName(standProjectRentExcel.getProjectName());
             //溢租率
             standardProjectRent.setRent(standProjectRentExcel.getRent());
             standardProjectRent.setCreateTime(LocalDateTime.now());
             standardProjectRent.setModifyTime(LocalDateTime.now());
-           /* standardProjectRent.setCreateUser();
-            standardProjectRent.setModifyUser();*/
+            standardProjectRent.setCreateUser(userName);
+            standardProjectRent.setModifyUser(userName);
             standardProjectRent.setStatus("已启用");
 
             standardProjectRentService.saveStandardProjectRent(standardProjectRent);
@@ -201,27 +234,27 @@ public class StandImportExcelController {
             //id
             standardFloorRent.setId(UuidUtil.randomUUID()) ;
             //版本id
-            standardFloorRent.setStandardVerssionId(UuidUtil.randomUUID());
+            standardFloorRent.setStandardVerssionId(standardVerssionId);
             //版本名称
             standardFloorRent.setStandardVerssionName(LocalDateTime.now()+"项目溢租率");
+            //通过签约id查询项目id 、楼层id
+            Contract contract = contractCQRSService.findContractById(standFloorRentExcel.getContractId());
             //项目id
-            standardFloorRent.setProjectId(standFloorRentExcel.getProjectId());
+            standardFloorRent.setProjectId(contract.getProjectId());
             //项目名称
             standardFloorRent.setProjectName(standFloorRentExcel.getProjectName());
-            /*standardFloorRent.setFloorId();*/
+            standardFloorRent.setFloorId(contract.getFloorId());
             //楼层名称
             standardFloorRent.setFloorName(standFloorRentExcel.getFloorName());
             //溢租率
             standardFloorRent.setRent(standFloorRentExcel.getRent());
             standardFloorRent.setCreateTime(LocalDateTime.now());
             standardFloorRent.setModifyTime(LocalDateTime.now());
-           /* standardProjectRent.setCreateUser();
-            standardProjectRent.setModifyUser();*/
+           standardFloorRent.setCreateUser(userName);
+            standardFloorRent.setModifyUser(userName);
             standardFloorRent.setStatus("已启用");
-
             standardFloorRentService.saveStandardFloorRent(standardFloorRent);
         }
-
 
 
         //业态溢租率
@@ -233,27 +266,33 @@ public class StandImportExcelController {
             //id
             standardConditionRent.setId(UuidUtil.randomUUID()) ;
             //版本id
-            standardConditionRent.setStandardVerssionId(UuidUtil.randomUUID());
+            standardConditionRent.setStandardVerssionId(standardVerssionId);
             //版本名称
             standardConditionRent.setStandardVerssionName(LocalDateTime.now()+"项目溢租率");
+
+            //通过签约id查询项目id 、楼层id
+            Contract contract = contractCQRSService.findContractById(standConditionRentExcel.getContractId());
+            //查询品牌id
+            String brandId = contract.getBrandId();
+            //TODO---通过品牌id查询业态/业种
+            BrandCQRSInfoResponseDTO brandCQRSInfoResponseDTO = brandCQRSService.brandInfoCQRS(brandId);
+
             //项目id
-            standardConditionRent.setProjectId(standConditionRentExcel.getProjectId());
+            standardConditionRent.setProjectId(contract.getProjectId());
             //项目名称
             standardConditionRent.setProjectName(standConditionRentExcel.getProjectName());
-            /*standardFloorRent.setFloorId();*/
-         /*   //楼层名称
-            standardConditionRent.setFloorName(standConditionRentExcel.getFloorName());*/
-
+            standardConditionRent.setConditionId(brandCQRSInfoResponseDTO.getBusinessFormId());
             //业态名称
-            standardConditionRent.setConditionName(standConditionRentExcel.getConditionName());
+            standardConditionRent.setConditionName(brandCQRSInfoResponseDTO.getBusinessFormName());
+            standardConditionRent.setMajoId(brandCQRSInfoResponseDTO.getBusinessSpeciesId());
             //业种名称
-            standardConditionRent.setMajoName(standConditionRentExcel.getMajoName());
+            standardConditionRent.setMajoName(brandCQRSInfoResponseDTO.getBusinessSpeciesName());
             //溢租率
             standardConditionRent.setRent(standConditionRentExcel.getRent());
             standardConditionRent.setCreateTime(LocalDateTime.now());
             standardConditionRent.setModifyTime(LocalDateTime.now());
-           /* standardProjectRent.setCreateUser();
-            standardProjectRent.setModifyUser();*/
+            standardConditionRent.setCreateUser(userName);
+            standardConditionRent.setModifyUser(userName);
             standardConditionRent.setStatus("已启用");
 
             standardConditionRentService.saveStandardConditionRent(standardConditionRent);
@@ -267,28 +306,38 @@ public class StandImportExcelController {
      */
     @PostMapping(value = "/excel/standguestimport/sheet")
     public JsonResult standGuestExcelImportSheet(@RequestParam("file")MultipartFile file) {
-
+        AopResourceEmployeeBean aopResourceEmployeeBean = applicationContext.getBean(AopResourceEmployeeBean.class);
+        //当前用户
+        String userName = aopResourceEmployeeBean.getName();
         List<StandConditionGuestExcel> standConditionGuestExcels = excelImportUtil.getExcelDataToList(file, StandConditionGuestExcel.class);
-
+        String saleVessionId = UuidUtil.randomUUID();
         for (StandConditionGuestExcel standConditionGuestExcel :standConditionGuestExcels){
             StandardBrandSale standardBrandSale= new StandardBrandSale();
             //id
             standardBrandSale.setId(UuidUtil.randomUUID());
-            //版本名称
-            standardBrandSale.setSaleVessionId(UuidUtil.randomUUID());
+            //版本id
+            standardBrandSale.setSaleVessionId(saleVessionId);
             //版本名称
             standardBrandSale.setSaleVessionName(LocalDateTime.now()+"业态客销度");
             //签约id
             standardBrandSale.setContractId(standConditionGuestExcel.getConstractId());
-            /*standardBrandSale.setProjectId();*/
+
+            //通过签约id查询项目id 、楼层id
+            Contract contract = contractCQRSService.findContractById(standConditionGuestExcel.getConstractId());
+            //查询品牌id
+            String brandId = contract.getBrandId();
+            //TODO---通过品牌id查询业态/业种
+            BrandCQRSInfoResponseDTO brandCQRSInfoResponseDTO = brandCQRSService.brandInfoCQRS(brandId);
+
+            standardBrandSale.setProjectId(contract.getProjectId());
             standardBrandSale.setProjectName(standConditionGuestExcel.getProjectName());
             //品牌名称
             standardBrandSale.setContractName(standConditionGuestExcel.getBrandName());
             //业态id
-//            standardBrandSale.setConditionId();
+           standardBrandSale.setConditionId(brandCQRSInfoResponseDTO.getBusinessFormId());
             standardBrandSale.setConditionName(standConditionGuestExcel.getConditionName());
             //业种id
-           /* standardBrandSale.setMajoId();*/
+           standardBrandSale.setMajoId(brandCQRSInfoResponseDTO.getBusinessSpeciesId());
             standardBrandSale.setMajoName(standConditionGuestExcel.getMajoName());
             //毛利率
             standardBrandSale.setGrossRate(standConditionGuestExcel.getGrossRate());
@@ -298,15 +347,11 @@ public class StandImportExcelController {
             standardBrandSale.setSignStatus(standConditionGuestExcel.getSignStatus());
             standardBrandSale.setCreateTime(LocalDateTime.now());
             standardBrandSale.setModifyTime(LocalDateTime.now());
-         /*   standardBrandSale.setCreateUser();
-            standardBrandSale.setModifyUser();*/
+            standardBrandSale.setCreateUser(userName);
+            standardBrandSale.setModifyUser(userName);
+            //TODO----校验
             standardBrandSaleService.saveStandardBrandSale(standardBrandSale);
         }
-            //TODO---新增标准三角形客销度记录
-
-
-        //TODO---新增客销度版本记录
-
         return JsonResult.success("success");
     }
 

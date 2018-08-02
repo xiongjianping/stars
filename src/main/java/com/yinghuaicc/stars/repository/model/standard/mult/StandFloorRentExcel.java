@@ -7,7 +7,8 @@ import java.math.BigDecimal;
  */
 public class StandFloorRentExcel {
 
-    private String projectId;
+    //签约id
+    private String contractId;
     //项目名称
     private String projectName;
     //楼层名称
@@ -15,12 +16,12 @@ public class StandFloorRentExcel {
     //适配值
     private BigDecimal rent;
 
-    public String getProjectId() {
-        return projectId;
+    public String getContractId() {
+        return contractId;
     }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
+    public void setContractId(String contractId) {
+        this.contractId = contractId;
     }
 
     public String getProjectName() {
