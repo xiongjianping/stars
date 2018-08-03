@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface StandardExportService {
 
-    void getStandardExportList(HttpServletResponse response,StandardExportDTO standardExportDTO) throws Exception;
-    void getStandardExportList1(HttpServletResponse response,StandardExportDTO standardExportDTO) throws Exception;
-    void getStandardyzlExportList(HttpServletResponse response,StandardExportDTO standardExportDTO) throws Exception;
-    void getFittedExportList(HttpServletResponse response,StandardExportDTO standardExportDTO) throws Exception;
-    void getFittedExportList1(HttpServletResponse response,StandardExportDTO standardExportDTO) throws Exception;
-    void getFittedExportList2(HttpServletResponse response,StandardExportDTO standardExportDTO) throws Exception;
-    void getFittedExportList3(HttpServletResponse response,StandardExportDTO standardExportDTO) throws Exception;
+    String getStandardExportList(HttpServletResponse response,StandardExportDTO standardExportDTO) throws Exception;
+    String getStandardExportList1(HttpServletResponse response,StandardExportDTO standardExportDTO) throws Exception;
+    String getStandardyzlExportList(HttpServletResponse response,StandardExportDTO standardExportDTO) throws Exception;
+    String getFittedExportList(HttpServletResponse response,StandardExportDTO standardExportDTO) throws Exception;
+    String getFittedExportList1(HttpServletResponse response,StandardExportDTO standardExportDTO) throws Exception;
+    String getFittedExportList2(HttpServletResponse response,StandardExportDTO standardExportDTO) throws Exception;
+    String getFittedExportList3(HttpServletResponse response,StandardExportDTO standardExportDTO) throws Exception;
 }

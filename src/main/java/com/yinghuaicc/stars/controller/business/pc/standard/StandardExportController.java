@@ -31,8 +31,8 @@ public class StandardExportController {
      */
     @RequestMapping(value = "/excel", method = RequestMethod.POST)
     public JsonResult excel(@RequestBody StandardExportDTO standardExportDTO, HttpServletResponse response) throws Exception {
-        standardExportService.getStandardExportList(response,standardExportDTO);
-        return JsonResult.success("OK");
+
+        return JsonResult.success( standardExportService.getStandardExportList(response,standardExportDTO));
     }
 
 
@@ -46,8 +46,8 @@ public class StandardExportController {
      */
     @RequestMapping(value = "/excel/spz", method = RequestMethod.POST)
     public JsonResult excel1(@RequestBody StandardExportDTO standardExportDTO, HttpServletResponse response) throws Exception {
-        standardExportService.getStandardExportList1(response,standardExportDTO);
-        return JsonResult.success("OK");
+
+        return JsonResult.success(standardExportService.getStandardExportList1(response,standardExportDTO));
     }
 
 
@@ -61,8 +61,8 @@ public class StandardExportController {
      */
     @RequestMapping(value = "/excel/yzl", method = RequestMethod.POST)
     public JsonResult excel2(@RequestBody StandardExportDTO standardExportDTO,HttpServletResponse response) throws Exception {
-        standardExportService.getStandardyzlExportList(response,standardExportDTO);
-        return JsonResult.success("OK");
+
+        return JsonResult.success(standardExportService.getStandardyzlExportList(response,standardExportDTO));
     }
 
     /**
@@ -75,8 +75,8 @@ public class StandardExportController {
      */
     @RequestMapping(value = "/excel/dtkxd", method = RequestMethod.POST)
     public JsonResult excel3(@RequestBody StandardExportDTO standardExportDTO,HttpServletResponse response) throws Exception {
-        standardExportService.getFittedExportList(response,standardExportDTO);
-        return JsonResult.success("OK");
+
+        return JsonResult.success(standardExportService.getFittedExportList(response,standardExportDTO));
     }
 
 
@@ -90,8 +90,7 @@ public class StandardExportController {
      */
     @RequestMapping(value = "/excel/dtspz", method = RequestMethod.POST)
     public JsonResult excel4(@RequestBody StandardExportDTO standardExportDTO,HttpServletResponse response) throws Exception {
-        standardExportService.getFittedExportList1(response,standardExportDTO);
-        return JsonResult.success("OK");
+        return JsonResult.success(standardExportService.getFittedExportList1(response,standardExportDTO));
     }
 
 
@@ -104,8 +103,7 @@ public class StandardExportController {
      */
     @RequestMapping(value = "/excel/dtyzl", method = RequestMethod.POST)
     public JsonResult excel5(@RequestBody StandardExportDTO standardExportDTO,HttpServletResponse response) throws Exception {
-        standardExportService.getFittedExportList2(response,standardExportDTO);
-        return JsonResult.success("OK");
+        return JsonResult.success(standardExportService.getFittedExportList2(response,standardExportDTO));
     }
 
 
@@ -118,7 +116,6 @@ public class StandardExportController {
      */
     @RequestMapping(value = "/excel/qjszkxd", method = RequestMethod.POST)
     public JsonResult excel6(@RequestBody StandardExportDTO standardExportDTO,HttpServletResponse response) throws Exception {
-        standardExportService.getFittedExportList3(response,standardExportDTO);
-        return JsonResult.success("OK");
+        return JsonResult.success(standardExportService.getFittedExportList3(response,standardExportDTO));
     }
 }

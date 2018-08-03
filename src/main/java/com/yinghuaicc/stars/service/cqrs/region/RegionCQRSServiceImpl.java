@@ -91,7 +91,7 @@ public class RegionCQRSServiceImpl implements RegionCQRSService {
 //                        tissueMapper.findEmployeeListById(
 //                                regionMapper.findEmployeeProjectRelationTeamByProjectId(projectId)
 //                                        .stream().map(employeeProjectRelationTeam -> employeeProjectRelationTeam.getEmployeeId()).collect(Collectors.toList())), ProjectCQRSInfoEmployeeResponseDTO.class))
-//                .setProjectImages(regionMapper.findProjectImageByProjectId(projectId).stream().map(projectImage -> projectImage.getUrl()).collect(Collectors.toList()));
+        result.setProjectImages(regionMapper.findProjectImageByProjectId(projectId).stream().map(projectImage -> projectImage.getUrl()).collect(Collectors.toList()));
 
         return result;
     }
