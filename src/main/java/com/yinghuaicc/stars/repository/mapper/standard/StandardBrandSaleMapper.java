@@ -18,9 +18,9 @@ public interface StandardBrandSaleMapper {
             "<bind name='search.saleVessionName' value='search.saleVessionName' /> " +
             "<bind name='search.contractId' value='search.contractId' /> " +
             "<bind name='search.projectId' value='search.projectId' /> " +
-            "<if test='search.saleVessionName != null'>AND sale_vession_name = #{search.saleVessionName}</if> " +
-            "<if test='search.contractId != null'>AND contract_id = #{search.contractId}</if> " +
-            "<if test='search.conditionName != null'>AND project_id = #{search.projectId}</if> " +
+            "<if test='search.saleVessionName != null and search.saleVessionName !=\"\"'>AND sale_vession_name = #{search.saleVessionName}</if> " +
+            "<if test='search.contractId != null and search.contractId !=\"\"'>AND contract_id = #{search.contractId}</if> " +
+            "<if test='search.projectId != null and search.projectId !=\"\"'>AND project_id = #{search.projectId}</if> " +
             "</where> " +
             "</script>")
     List<StandardBrandSaleResponseDTO> findStandardBrandSaleByStandardBrandSaleCQRS(@Param("search") StandardBrandSaleRequestDTO standardBrandSaleRequestDTO);
@@ -33,8 +33,6 @@ public interface StandardBrandSaleMapper {
             "values(#{id}),#{saleVessionId},#{saleVessionName},#{contractId},#{projectId},#{projectName}," +
             "#{contractName},#{conditionId},#{conditionName},#{majoId},#{majoName},#{grossRate},#{perSale},#{signStatus},#{createTime},#{modifyTime},#{createUser},#{modifyUser}")
     void saveStandardBrandSale(StandardBrandSale standardBrandSale);
-
-
 
 
 }

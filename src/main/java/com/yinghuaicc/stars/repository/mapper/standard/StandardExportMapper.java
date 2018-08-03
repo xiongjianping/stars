@@ -33,8 +33,8 @@ public interface StandardExportMapper {
             "LEFT JOIN yhcc_brand e on e.id = a.brand_id " +
             "LEFT JOIN yhcc_business_form f on f.id = e.business_form_id " +
             " <where> 1=1 " +
-            "<if test='projectId != null'> AND a.project_id = #{projectId }</if> " +
-            "<if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
+            "<if test='projectId != null and projectId !=\"\"'> AND a.project_id = #{projectId }</if> " +
+            "<if test='floorId != null and floorId !=\"\"'> AND a.floor_id = #{floorId} </if> " +
             "</where> " +
             "</script>")
     List<StandardExportResponseDTO> getStandardExportList(StandardExportDTO standardExportDTO);
@@ -50,8 +50,8 @@ public interface StandardExportMapper {
             " from yhcc_contract a " +
             " LEFT JOIN yhcc_project b on a.project_id = b.id " +
             " <where> 1=1 " +
-            " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
-            " <if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
+            " <if test='projectId != null and projectId !=\"\"'> AND a.project_id = #{projectId} </if> " +
+            " <if test='floorId != null and floorId !=\"\"'> AND a.floor_id = #{floorId} </if> " +
             " </where> " +
             " </script> ")
     List<StandardFittedExportResponseDTO> getStandardExportList1(StandardExportDTO standardExportDTO);
@@ -64,8 +64,8 @@ public interface StandardExportMapper {
             " LEFT JOIN yhcc_project b on a.project_id = b.id " +
             " LEFT JOIN yhcc_floor c on c.id = a.floor_id " +
             " <where> 1=1 " +
-            "<if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
-            "<if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
+            "<if test='projectId != null and projectId !=\"\"'> AND a.project_id = #{projectId} </if> " +
+            "<if test='floorId != null and floorId !=\"\"'> AND a.floor_id = #{floorId} </if> " +
             "</where> " +
             "</script>")
     List<StandardFittedExportResponseDTO> getStandardExportList2(StandardExportDTO standardExportDTO);
@@ -79,8 +79,8 @@ public interface StandardExportMapper {
             " LEFT JOIN yhcc_business_form d on d.id = c.business_form_id " +
             " LEFT JOIN yhcc_business_species e on e.id = c.business_species_id " +
             " <where> 1=1 " +
-            "<if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
-            "<if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
+            "<if test='projectId != null and projectId !=\"\"'> AND a.project_id = #{projectId} </if> " +
+            "<if test='floorId != null and floorId !=\"\"'> AND a.floor_id = #{floorId} </if> " +
             "</where> " +
             "</script>")
     List<StandardFittedExportResponseDTO> getStandardExportList3(StandardExportDTO standardExportDTO);
@@ -95,8 +95,8 @@ public interface StandardExportMapper {
     @Select("<script>" +
             " select a.id as id ,b.name as projectName from yhcc_contract a LEFT JOIN yhcc_project b on a.project_id = b.id " +
             " <where> 1=1 " +
-            "<if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
-            "<if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
+            "<if test='projectId != null and projectId !=\"\"'> AND a.project_id = #{projectId} </if> " +
+            "<if test='floorId != null and floorId !=\"\"'> AND a.floor_id = #{floorId} </if> " +
             "</where> " +
             "</script>")
     List<FittedExportResponseDTO> getFittedExportList(StandardExportDTO standardExportDTO);
@@ -106,8 +106,8 @@ public interface StandardExportMapper {
     @Select("<script>" +
             " select a.id as id ,b.name as projectName,c.name as floorName from yhcc_contract a LEFT JOIN yhcc_project b on a.project_id = b.id LEFT JOIN yhcc_floor c on c.id = a.floor_id " +
             " <where> 1=1 " +
-            "<if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
-            "<if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
+            "<if test='projectId != null and projectId !=\"\"'> AND a.project_id = #{projectId} </if> " +
+            "<if test='floorId != null and floorId !=\"\"'> AND a.floor_id = #{floorId} </if> " +
             "</where> " +
             "</script>")
     List<FittedExportResponseDTO> getFittedExportList1(StandardExportDTO standardExportDTO);
@@ -125,8 +125,8 @@ public interface StandardExportMapper {
             " LEFT JOIN yhcc_brand e on e.id = a.brand_id " +
             " LEFT JOIN yhcc_business_form f on f.id = e.business_form_id " +
             " <where> 1=1 " +
-            "<if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
-            "<if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
+            "<if test='projectId != null and projectId !=\"\"'> AND a.project_id = #{projectId} </if> " +
+            "<if test='floorId != null and floorId !=\"\"'> AND a.floor_id = #{floorId} </if> " +
             "</where> " +
             "</script>")
     List<FittedExportResponseDTO> getFittedExportList2(StandardExportDTO standardExportDTO);
