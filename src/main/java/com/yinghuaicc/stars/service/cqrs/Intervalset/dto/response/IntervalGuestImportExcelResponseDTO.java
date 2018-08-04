@@ -4,6 +4,7 @@ import com.yinghuaicc.stars.repository.model.Intervalset.mult.IntervalConditionG
 import com.yinghuaicc.stars.repository.model.Intervalset.mult.IntervalFloorGuestImportExcel;
 import com.yinghuaicc.stars.repository.model.Intervalset.mult.IntervalProjectGuestImportExcel;
 
+
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public class IntervalGuestImportExcelResponseDTO {
 
-    List<IntervalProjectGuestImportExcel> intervalProjectGuestImportExcelList;
+    List<IntervalProjectGuestImportExcel> intervalProjectGuestImportExcelList ;
 
     List<IntervalFloorGuestImportExcel> intervalFloorGuestImportExcelList;
 

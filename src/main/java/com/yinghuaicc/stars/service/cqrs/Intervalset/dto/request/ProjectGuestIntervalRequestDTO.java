@@ -1,13 +1,14 @@
 package com.yinghuaicc.stars.service.cqrs.Intervalset.dto.request;
 
 public class ProjectGuestIntervalRequestDTO {
-    private  String  guestVerssionId;
+    /*private  String  guestVerssionId;*/
+    private String projectId;
 
-    public String getGuestVerssionId() {
-        return guestVerssionId;
+    public String getProjectId() {
+        return projectId;
     }
 
-    public void setGuestVerssionId(String guestVerssionId) {
-        this.guestVerssionId = guestVerssionId;
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 }

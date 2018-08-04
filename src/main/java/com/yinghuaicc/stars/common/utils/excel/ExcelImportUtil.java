@@ -208,6 +208,7 @@ public class ExcelImportUtil {
                 Map <String, Object> map = new HashMap<String, Object>();
 
                 for (int y = row.getFirstCellNum(); y < row.getLastCellNum(); y++) {
+//                for (int y = 0; y < row.getLastCellNum(); y++) {
 
                     cell = row.getCell(y);
 

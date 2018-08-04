@@ -22,9 +22,9 @@ public interface GuestVerssionMapper {
             "<bind name='search.createTimeBegin' value='search.createTimeBegin ' /> " +
             "<bind name='search.createTimeEnd' value='search.createTimeEnd ' /> " +
             "<if test='search.guestVerssionName != null and search.guestVerssionName !=\"\" '>AND guest_verssion_name like #{search.guestVerssionName}</if> " +
-            "<if test='search.different != null and search.guestVerssionName !=\"\" '>AND different like #{search.different}</if> " +
-            "<if test='search.createTimeBegin != null'>AND create_time &gt; #{search.createTimeBegin}</if> " +
-            "<if test='search.createTimeEnd != null'>AND create_time &lt; #{search.createTimeEnd}</if> " +
+            "<if test='search.different != null and search.different !=\"\"'>AND different like #{search.different}</if> " +
+            "<if test='search.createTimeBegin != null and search.createTimeBegin !=\"\"'>AND create_time &gt; #{search.createTimeBegin}</if> " +
+            "<if test='search.createTimeEnd != null and search.createTimeEnd !=\"\"'>AND create_time &lt; #{search.createTimeEnd}</if> " +
             "</where> " +
             "</script>")
     List<GuestVerssionResponseDTO> findGuestVerssionByGuestVerssionCQRS(@Param("search")GuestVerssionRequestDTO guestVerssionRequestDTO);
@@ -37,7 +37,7 @@ public interface GuestVerssionMapper {
      *   //类别：1、项目 2、楼层、3、品牌
      *   different;
      */
-    @Insert("insert into yhcc_guest_verssion values(#{id},#{guestVerssionName},#{sumTarget},#{targetcount},#{untargetcount},#{createTime},#{modifyTime},#{createUser},#{modifyUser},#{different})")
+    @Insert("insert into yhcc_guest_verssion values(#{id},#{guestVerssionName},#{sumTarget},#{targetcount},#{untargetcount},#{createTime},#{modifyTime},#{createUser},#{modifyUser},#{status},#{different})")
     void saveGuestVerssion(GuestVerssion guestVerssion);
 
 

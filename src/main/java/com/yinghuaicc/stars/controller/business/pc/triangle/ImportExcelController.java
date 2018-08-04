@@ -107,7 +107,8 @@ public class ImportExcelController {
         //TODO---新增适配值版本记录
         fittedVerssionService.saveFittedVerssion(fittedVerssion);
 
-        return JsonResult.success(conditionFittedExcels);
+//        return JsonResult.success(conditionFittedExcels);
+        return JsonResult.success("success");
     }
 
     /**

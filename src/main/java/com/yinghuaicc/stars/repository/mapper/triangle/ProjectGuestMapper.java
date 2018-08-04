@@ -27,8 +27,9 @@ public interface ProjectGuestMapper {
     @Select("select * from yhcc_project_guest where project_id = #{projectId}")
     ProjectGuestResponseDTO  findProjectGuestByProjectId(String projectId);
 
+    /*"values(#{id},#{contractId},#{projectId},#{projectName},#{contractStatus},#{guestVerssionId},#{passengerFlow},#{createTime},#{modifyTime},#{createUser},#{modifyUser},#{status})")*/
     @Insert("insert into yhcc_project_guest " +
-            "values(#{id},#{contractId},#{projectId},#{projectName},#{contractStatus},#{guestVerssionId},#{passengerFlow},#{createTime},#{modifyTime},#{createUser},#{modifyUser},#{status})")
+            "values(#{id},#{guestVerssionId}, #{contractId}, #{projectId}, #{projectName},#{passengerFlow},#{createTime},#{modifyTime}, #{createUser},#{modifyUser},#{status})")
     void saveProjectGuest(ProjectGuest projectGuest);
 
 

@@ -4,10 +4,12 @@ package com.yinghuaicc.stars.controller.business.pc.triangle;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.response.JsonResult;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
+import com.yinghuaicc.stars.repository.mapper.triangle.TriangleMapper;
 import com.yinghuaicc.stars.service.cqrs.region.RegionCQRSService;
 import com.yinghuaicc.stars.service.cqrs.triangle.TriangleCQRSService;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.BrandTriangleRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.TriangeConditionRequestDTO;
+import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.TriangleCQRSRequestDTO;
 import com.yinghuaicc.stars.service.region.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -33,6 +35,7 @@ public class TriangleController {
     private RegionService regionService;
     @Autowired
     private RegionCQRSService regionCQRSService;
+
 
 
     /**
@@ -117,5 +120,13 @@ public class TriangleController {
 
         return JsonResult.success(
                 regionCQRSService.projectInfo(projectId));
+    }
+
+    /**
+     *@Description: 三角理论列表
+     */
+    @PostMapping(value = "/find/findTriangle/byCQRS")
+    public JsonResult findTriangleByCQRS(@RequestBody  TriangleCQRSRequestDTO triangleCQRSRequestDTO){
+        return JsonResult.success(triangleCQRSService.findTriangleCQRSByCQRS(triangleCQRSRequestDTO));
     }
 }

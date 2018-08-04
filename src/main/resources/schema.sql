@@ -951,5 +951,30 @@ CREATE TABLE IF NOT EXISTS `yhcc_assess_fitredval` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+--三角理论结果值表
+CREATE TABLE IF NOT EXISTS `yhcc_trianglecqrs` (
+  `id` VARCHAR (50) NOT NULL,
+  `rent`  decimal(18,2),
+  `guest`  decimal(18,2),
+  `fitted`  decimal(18,2),
+   `contract_id` VARCHAR (50),
+   `area` VARCHAR (50),
+   `project_id` VARCHAR (50),
+   `project_name` VARCHAR (50),
+    `floor_id` VARCHAR (50),
+   `floor_name` VARCHAR (50),
+    `brand_id` VARCHAR (50),
+   `brand_name` VARCHAR (50),
+   `condition_id` VARCHAR (50),
+   `condition_name` VARCHAR (50),
+   `majo_id` VARCHAR (50),
+   `majo_name` VARCHAR (50),
+    `room_id` VARCHAR (50),
+   `room_name` VARCHAR (50),
+   `create_time` DATETIME,
+   `modify_time` DATETIME,
+   `create_user` VARCHAR (100),
+   `modify_user` VARCHAR (100)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

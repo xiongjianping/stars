@@ -86,7 +86,7 @@ public class CommonTest extends StarsApplicationTests{
     public void testSso(){
 
         String privateKey = "tje1QgPaUbUWqNY41PKd";//密钥
-        String userName = "dingguanghuai";//用户登录名
+        String userName = "guoxuepeng";//用户登录名
         /**
          * 加密方法
          */

@@ -28,8 +28,8 @@ public interface RentVerssionMapper {
             "<bind name='search.createTimeBegin' value='search.createTimeBegin ' /> " +
             "<bind name='search.createTimeEnd' value='search.createTimeEnd ' /> " +
             "<if test='search.rentVerssionName != null and search.rentVerssionName !=\"\" '>AND rent_verssion_name like #{search.rentVerssionName}</if> " +
-            "<if test='search.createTimeBegin != null'>AND create_time &gt; #{search.createTimeBegin}</if> " +
-            "<if test='search.createTimeEnd != null'>AND create_time &lt; #{search.createTimeEnd}</if> " +
+            "<if test='search.createTimeBegin != null and search.createTimeBegin !=\"\"'>AND create_time &gt; #{search.createTimeBegin}</if> " +
+            "<if test='search.createTimeEnd != null and search.createTimeEnd !=\"\"'>AND create_time &lt; #{search.createTimeEnd}</if> " +
             "</where> " +
             "</script>")
     List<RentVerssion> findRentVerssionByRentVerssionCQRS(@Param("search")RentVerssionRequestDTO rentVerssionRequestDTO);
