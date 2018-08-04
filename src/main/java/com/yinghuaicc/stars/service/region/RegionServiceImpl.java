@@ -530,7 +530,7 @@ public class RegionServiceImpl implements RegionService {
 
             if (child.stream().anyMatch(c -> childOrg.getId().equals(c.getParentId()))){
 
-                this.searchChild(childOrg.getId(), child);
+                childOrg.setChildTree(this.searchChild(childOrg.getId(), child));
             }
         });
 

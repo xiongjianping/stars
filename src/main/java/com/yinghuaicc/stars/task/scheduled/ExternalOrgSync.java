@@ -58,10 +58,10 @@ public class ExternalOrgSync {
 
     /**
      *@Author:Fly Created in 2018/7/15 下午6:17
-     *@Description: 获取外部系统组织机构数据,每天晚上11点59分执行
+     *@Description: 获取外部系统组织机构数据,每天晚上1点30分执行
      */
 //    @Scheduled(fixedRate = 200000)
-    @Scheduled(cron = "0 59 23 ? * *")
+    @Scheduled(cron = "0 30 01 ? * *")
     @Transactional(rollbackFor = Exception.class)
     public void getOrg(){
 
