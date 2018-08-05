@@ -8,7 +8,6 @@ import java.util.Map;
  */
 public class BrandTriangleResponseDTO {
 
-    //品牌名称
 
     //动态三角形溢租率
     private BigDecimal triangleRent;
