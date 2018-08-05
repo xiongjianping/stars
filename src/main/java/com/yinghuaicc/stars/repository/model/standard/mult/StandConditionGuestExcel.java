@@ -19,8 +19,7 @@ public class StandConditionGuestExcel {
     private String brandName;
     //业态名称
     private String conditionName;
-    //业种名称
-    private String majoName;
+
     //签约状态
     private String signStatus;
     //毛利率
@@ -76,13 +75,6 @@ public class StandConditionGuestExcel {
         this.conditionName = conditionName;
     }
 
-    public String getMajoName() {
-        return majoName;
-    }
-
-    public void setMajoName(String majoName) {
-        this.majoName = majoName;
-    }
 
     public String getSignStatus() {
         return signStatus;
@@ -107,4 +99,6 @@ public class StandConditionGuestExcel {
     public void setPerSale(BigDecimal perSale) {
         this.perSale = perSale;
     }
+
+
 }

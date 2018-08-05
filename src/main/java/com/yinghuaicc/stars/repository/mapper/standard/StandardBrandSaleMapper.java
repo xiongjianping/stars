@@ -31,8 +31,8 @@ public interface StandardBrandSaleMapper {
      * @param standardBrandSale
      */
     @Insert("insert into yhcc_standard_condition_sale " +
-            "values(#{id}),#{saleVessionId},#{saleVessionName},#{contractId},#{projectId},#{projectName}," +
-            "#{contractName},#{conditionId},#{conditionName},#{majoId},#{majoName},#{grossRate},#{perSale},#{signStatus},#{createTime},#{modifyTime},#{createUser},#{modifyUser}")
+            "values(#{id},#{saleVessionId},#{saleVessionName},#{contractId},#{projectId},#{projectName}," +
+            "#{contractName},#{conditionId},#{conditionName},#{majoId},#{majoName},#{grossRate},#{perSale},#{signStatus},#{createTime},#{modifyTime},#{createUser},#{modifyUser})")
     void saveStandardBrandSale(StandardBrandSale standardBrandSale);
 
 
