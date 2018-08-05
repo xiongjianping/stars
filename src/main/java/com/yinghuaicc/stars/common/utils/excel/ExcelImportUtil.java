@@ -1,5 +1,6 @@
 package com.yinghuaicc.stars.common.utils.excel;
 
+import com.yinghuaicc.stars.common.utils.BeanUtils;
 import com.yinghuaicc.stars.common.utils.exception.ExceptionUtil;
 import com.yinghuaicc.stars.common.utils.json.GsonUtil;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
@@ -40,9 +41,9 @@ public class ExcelImportUtil {
     @Autowired
     private GsonUtil gsonUtil;
 
-    public <D> D getExcelDataToList(MultipartFile file, Class<?> target){
+    public <D> List<D> getExcelDataToList(MultipartFile file, Class<?> target){
 
-        D result = null;
+        List<D> result = null;
 
         try {
 
@@ -84,7 +85,7 @@ public class ExcelImportUtil {
      *@Author:Fly Created in 2018/7/13 上午11:05
      *@Description: 获取流中的数据（所有sheet页数据存储在一个泛型中）
      */
-    public <D> D getExcelDataToList(InputStream in,String fileSuffix, Class<?> target){
+    public <D> List<D> getExcelDataToList(InputStream in,String fileSuffix, Class<?> target){
 
         List<Map<String, Object>> resultListMap = new ArrayList<Map<String, Object>>();
 
@@ -157,7 +158,9 @@ public class ExcelImportUtil {
             e.printStackTrace();
         }
 
-        return gsonUtil.toCollection(gsonUtil.toJson(resultListMap), target);
+//        return gsonUtil.toCollection(gsonUtil.toJson(resultListMap), target);
+
+        return new BeanUtils().ListMap2JavaBean(resultListMap, target);
     }
 
     /**
