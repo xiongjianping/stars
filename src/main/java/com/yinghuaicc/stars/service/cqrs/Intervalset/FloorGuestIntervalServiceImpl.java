@@ -88,6 +88,11 @@ public class FloorGuestIntervalServiceImpl implements FloorGuestIntervalService 
         return   MapperFactoryUtil.mapperObject(floorGuestIntervalResponseDTO,FloorGuestInterval.class) ;
     }
 
+    @Override
+    public FloorGuestInterval findFloorGuestIntervalByProjectIdAndFloorId(String projectId, String floorId) {
+        return MapperFactoryUtil.mapperObject(floorGuestIntervalMapper.findFloorGuestIntervalByProjectIdAndFloorId(projectId,floorId),FloorGuestInterval.class);
+    }
+
 
     @Override
     public void editFloorGuestInterval(FloorGuestInterval floorGuestInterval) {

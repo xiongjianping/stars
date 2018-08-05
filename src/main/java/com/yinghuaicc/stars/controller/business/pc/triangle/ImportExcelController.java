@@ -143,9 +143,7 @@ public class ImportExcelController {
         //导入版本id
         String rentVerssionId = UuidUtil.randomUUID();
             for(int j = 0;j<sizes;j++){
-                System.out.println("===jjjjjjjjjjjjj================"+j);
                 for(int i=0 ;i<12;i++){
-                    System.out.println("===iiiiiii================"+i);
                 MoonRent moonRent = new MoonRent();
                 String moonRentId = UuidUtil.randomUUID();
                 moonRent.setId(moonRentId);

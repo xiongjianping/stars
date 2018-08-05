@@ -41,5 +41,13 @@ public interface FloorGuestIntervalService {
      * @param contractId
      * @return
      */
-    FloorGuestInterval findFloorGuestIntervalBycontractId(@Param("id") String contractId);
+    FloorGuestInterval findFloorGuestIntervalBycontractId( String contractId);
+
+    /**
+     * 通过项目id 楼层id查询区间
+     * @param projectId
+     * @param floorId
+     * @return
+     */
+    FloorGuestInterval findFloorGuestIntervalByProjectIdAndFloorId(String projectId,String floorId);
 }

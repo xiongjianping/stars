@@ -36,11 +36,12 @@ public interface ProjectGuestIntervalMapper {
     /**
      *@Description: 添加客销度项目区间设置
      */
+
     @Insert("insert into yhcc_project_guest_interval " +
             "values(#{id}, #{contractId}, #{projectId}, #{projectName}, " +
             "#{maxvalue}, #{intervalRate}, #{yx}, " +
-            "#{lh}, #{ts}, #{hl}, #{ks} #{createTime}, #{modifyTime}, " +
-            "#{createUser}, #{modifyUser})")
+            "#{lh}, #{ts}, #{hl}, #{ks} ,#{createTime}, #{modifyTime}, " +
+            " #{createUser}, #{modifyUser} )")
     void saveProject(ProjectGuestInterval projectGuestInterval);
 
     /**
