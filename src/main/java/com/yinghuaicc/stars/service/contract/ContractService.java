@@ -1,6 +1,9 @@
 package com.yinghuaicc.stars.service.contract;
 
+import com.yinghuaicc.stars.repository.model.contract.Contract;
 import com.yinghuaicc.stars.service.contract.dto.request.SaveContractRequestDTO;
+
+import java.util.List;
 
 /**
  * @Author:Fly
@@ -21,4 +24,10 @@ public interface ContractService {
      *@Description: 解约
      */
     void dispelContract(String id, String loginEmployeeId);
+
+    /**
+     * 查询所有签约信息
+     * @return
+     */
+    List<Contract> getContractAllBy();
 }

@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -34,5 +35,14 @@ public interface StandardBrandSaleMapper {
             "#{contractName},#{conditionId},#{conditionName},#{majoId},#{majoName},#{grossRate},#{perSale},#{signStatus},#{createTime},#{modifyTime},#{createUser},#{modifyUser}")
     void saveStandardBrandSale(StandardBrandSale standardBrandSale);
 
+
+    /**
+     * 通过签约id、创建时间查询品牌客销度
+     * @param contractId
+     * @param createTime
+     * @return
+     */
+    @Select("select * from yhcc_standard_condition_sale where contract_id = #{contractId},create_time = #{createTime}")
+    List<StandardBrandSale> findStandardBrandSaleByContractId(String contractId, LocalDateTime createTime);
 
 }

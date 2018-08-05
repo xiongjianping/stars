@@ -5,15 +5,21 @@ import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.response.JsonResult;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.triangle.TriangleMapper;
+import com.yinghuaicc.stars.repository.model.triangle.TriangleCQRS;
+import com.yinghuaicc.stars.service.cqrs.brand.BrandCQRSService;
+import com.yinghuaicc.stars.service.cqrs.brand.dto.request.AppBrandCQRSListRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.region.RegionCQRSService;
 import com.yinghuaicc.stars.service.cqrs.triangle.TriangleCQRSService;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.BrandTriangleRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.TriangeConditionRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.TriangleCQRSRequestDTO;
+import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.BrandTriangleResponseDTO;
 import com.yinghuaicc.stars.service.region.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 /**
  * @Author:Fly
@@ -35,6 +41,9 @@ public class TriangleController {
     private RegionService regionService;
     @Autowired
     private RegionCQRSService regionCQRSService;
+
+    @Autowired
+    private BrandCQRSService brandCQRSService;
 
 
 
@@ -89,8 +98,10 @@ public class TriangleController {
      */
     @PostMapping(value = "/find/trianglebrand/byBrandId")
     public JsonResult findProjectTriangleByBrandId(@RequestBody BrandTriangleRequestDTO brandTriangleRequestDTO){
-
-        return JsonResult.success(triangleCQRSService.findBrandTriangleByBrandId(brandTriangleRequestDTO));
+        System.out.println("开始时间：" + LocalDateTime.now());
+        BrandTriangleResponseDTO brandTriangleResponseDTO = triangleCQRSService.findBrandTriangleByBrandId(brandTriangleRequestDTO);
+        System.out.println("结束时间：" + LocalDateTime.now());
+        return JsonResult.success(brandTriangleResponseDTO);
     }
 
 
@@ -128,5 +139,26 @@ public class TriangleController {
     @PostMapping(value = "/find/findTriangle/byCQRS")
     public JsonResult findTriangleByCQRS(@RequestBody  TriangleCQRSRequestDTO triangleCQRSRequestDTO){
         return JsonResult.success(triangleCQRSService.findTriangleCQRSByCQRS(triangleCQRSRequestDTO));
+    }
+
+    /**
+     * 手动计算动态三角形
+     */
+    @GetMapping(value = "/save/triangletiming/all")
+    public JsonResult saveTimingTriangle(){
+        try {
+            triangleCQRSService.saveTimingTriangle();
+        } catch (Exception e) {
+            return JsonResult.success("error");
+        }
+        return JsonResult.success("success");
+    }
+
+    /**
+     * 专用查询品牌列表
+     */
+    @PostMapping(value = "/find/appbrand/list")
+    public JsonResult findAppBrandList(@RequestBody AppBrandCQRSListRequestDTO appBrandCQRSListRequestDTO){
+        return JsonResult.success(brandCQRSService.appBrandListCQRS(appBrandCQRSListRequestDTO));
     }
 }

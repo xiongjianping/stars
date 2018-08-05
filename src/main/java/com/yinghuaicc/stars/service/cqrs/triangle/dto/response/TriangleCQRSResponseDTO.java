@@ -31,6 +31,8 @@ public class TriangleCQRSResponseDTO {
     private String roomId;
     //铺位名称
     private String roomName;
+    //签约时间
+    private LocalDateTime contractTime;
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
     private String createUser;
@@ -210,5 +212,13 @@ public class TriangleCQRSResponseDTO {
 
     public void setModifyUser(String modifyUser) {
         this.modifyUser = modifyUser;
+    }
+
+    public LocalDateTime getContractTime() {
+        return contractTime;
+    }
+
+    public void setContractTime(LocalDateTime contractTime) {
+        this.contractTime = contractTime;
     }
 }

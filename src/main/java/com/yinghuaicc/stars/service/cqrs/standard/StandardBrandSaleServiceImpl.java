@@ -12,6 +12,7 @@ import com.yinghuaicc.stars.service.cqrs.standard.dto.response.StandardBrandSale
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -36,6 +37,16 @@ public class StandardBrandSaleServiceImpl implements StandardBrandSaleService {
     @Override
     public void saveStandardBrandSale(StandardBrandSale standardBrandSale) {
         standardBrandSaleMapper.saveStandardBrandSale(standardBrandSale);
+    }
+    /**
+     * 根据签约id查询标准品牌客销度
+     * @param contractId
+     * @param createTime
+     * @return
+     */
+    @Override
+    public List<StandardBrandSale> findStandardBrandSaleByContractId(String contractId, LocalDateTime createTime) {
+        return standardBrandSaleMapper.findStandardBrandSaleByContractId(contractId,createTime);
     }
 
 

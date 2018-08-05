@@ -209,9 +209,10 @@ public class StandImportExcelController {
             //版本名称
             standardProjectRent.setStandardVerssionName(LocalDateTime.now()+"项目溢租率");
             //通过签约id查询项目id 、楼层id
-            Contract contract = contractCQRSService.findContractById(standProjectRentExcel.getContractId());
+          //  Contract contract = contractCQRSService.findContractById(standProjectRentExcel.getContractId());
             //项目id
-            standardProjectRent.setProjectId(contract.getProjectId());
+//            standardProjectRent.setProjectId(contract.getProjectId());
+            standardProjectRent.setProjectId(standProjectRentExcel.getContractId());
             //项目名称
             standardProjectRent.setProjectName(standProjectRentExcel.getProjectName());
             //溢租率

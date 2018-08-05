@@ -58,4 +58,6 @@ public interface ContractMapper {
     Contract findContractById(String id);
 
 
+    @Select("selecct * from yhcc_contract")
+    List<Contract> getContractAllBy();
 }
