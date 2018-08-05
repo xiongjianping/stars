@@ -56,7 +56,7 @@ public class StandardExportController {
      * @param
      * @param response
      * @return
-     * 准三角形_溢租率
+     * 标准三角形_溢租率
      * @throws Exception
      */
     @RequestMapping(value = "/excel/yzl", method = RequestMethod.POST)

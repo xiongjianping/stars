@@ -20,7 +20,7 @@ public interface ProjectGuestIntervalMapper {
     @Select("<script>select * from yhcc_project_guest_interval " +
             " <where> " +
             "<bind name='search.guestVerssionId' value='search.guestVerssionId' /> " +
-            "<if test='search.guestVerssionId != null'>AND guest_verssion_id = #{search.guestVerssionId}</if> " +
+            "<if test='search.projectId != null and search.projectId !=\"\"'>AND project_id = #{search.projectId}</if> " +
             "</where> " +
             "</script>")
     List<ProjectGuestIntervalResponseDTO> findProjectGuestIntervalByProjectGuestIntervalCQRS (@Param("search")ProjectGuestIntervalRequestDTO projectGuestIntervalRequestDTO);

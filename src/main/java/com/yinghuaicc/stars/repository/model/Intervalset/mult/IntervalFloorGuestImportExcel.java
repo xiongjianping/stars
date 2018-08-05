@@ -11,7 +11,7 @@ public class IntervalFloorGuestImportExcel {
     //项目名称
     private String projcetName;
     //楼层名称
-    private String conditionName;
+    private String floorName;
     //区间最大值
     private BigDecimal maxvalue;
     //区间增长百分比
@@ -33,12 +33,12 @@ public class IntervalFloorGuestImportExcel {
         this.projcetName = projcetName;
     }
 
-    public String getConditionName() {
-        return conditionName;
+    public String getFloorName() {
+        return floorName;
     }
 
-    public void setConditionName(String conditionName) {
-        this.conditionName = conditionName;
+    public void setFloorName(String floorName) {
+        this.floorName = floorName;
     }
 
     public BigDecimal getMaxvalue() {

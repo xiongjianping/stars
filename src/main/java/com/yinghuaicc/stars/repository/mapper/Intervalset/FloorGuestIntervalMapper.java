@@ -16,8 +16,8 @@ public interface FloorGuestIntervalMapper {
 
     @Select("<script>select * from yhcc_floor_guest_interval " +
             " <where> " +
-            "<bind name='search.guestVerssionId' value='search.guestVerssionId' /> " +
-            "<if test='search.guestVerssionId != null'>AND guest_verssion_id = #{search.guestVerssionId}</if> " +
+            "<bind name='search.projectId' value='search.projectId' /> " +
+            "<if test='search.projectId != null and search.projectId !=\"\"'>AND project_id = #{search.projectId}</if> " +
             "</where> " +
             "</script>")
     List<FloorGuestIntervalResponseDTO> findFloorGuestIntervalByFloorGuestIntervalCQRS (@Param("search")FloorGuestIntervalRequestDTO floorGuestIntervalRequestDTO);

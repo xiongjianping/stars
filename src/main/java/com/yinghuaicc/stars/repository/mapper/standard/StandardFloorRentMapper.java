@@ -41,8 +41,21 @@ public interface StandardFloorRentMapper {
      * 导入楼层溢租率
      * @param standardFloorRent
      */
-    @Insert("insert into  yhcc_standard_floor_rent" +
-            "values(#{id},#{standardVerssionId},#{standardVerssionName},#{projectId},#{projectName},#{floorId},#{floorName},#{rent},#{createTime},#{modifyTime},#{createUser},#{modifyUser},#{status})")
+    @Insert("insert into yhcc_standard_floor_rent " +
+            "values( " +
+            "#{id}, " +
+            "#{standardVerssionId}, " +
+            "#{standardVerssionName}, " +
+            "#{projectId}, " +
+            "#{projectName}, " +
+            "#{floorId}, " +
+            "#{floorName}, " +
+            "#{rent}, " +
+            "#{createTime}, " +
+            "#{modifyTime}, " +
+            "#{createUser}, " +
+            "#{modifyUser}, " +
+            "#{status} )")
     void saveStandardFloorRent(StandardFloorRent standardFloorRent);
 
 }

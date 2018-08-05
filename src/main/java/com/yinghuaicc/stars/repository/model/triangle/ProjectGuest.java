@@ -16,8 +16,8 @@ public class ProjectGuest {
     private String projectId;
     //项目名称
     private String projectName;
-    //签约状态
-    private String  contractStatus;
+   /* //签约状态
+    private String  contractStatus;*/
     //客销度版本id
     private String guestVerssionId;
     //客流量
@@ -60,13 +60,13 @@ public class ProjectGuest {
         this.projectName = projectName;
     }
 
-    public String getContractStatus() {
+/*    public String getContractStatus() {
         return contractStatus;
     }
 
     public void setContractStatus(String contractStatus) {
         this.contractStatus = contractStatus;
-    }
+    }*/
 
     public String getGuestVerssionId() {
         return guestVerssionId;

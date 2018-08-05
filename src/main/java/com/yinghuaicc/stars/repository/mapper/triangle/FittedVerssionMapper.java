@@ -22,14 +22,14 @@ public interface FittedVerssionMapper {
             "<bind name='search.createTimeBegin' value='search.createTimeBegin ' /> " +
             "<bind name='search.createTimeEnd' value='search.createTimeEnd ' /> " +
             "<if test='search.fittedVerssionName != null and search.fittedVerssionName !=\"\" '>AND fitted_verssion_name like #{search.fittedVerssionName}</if> " +
-            "<if test='search.createTimeBegin != null'>AND create_time &gt; #{search.createTimeBegin}</if> " +
-            "<if test='search.createTimeEnd != null'>AND create_time &lt; #{search.createTimeEnd}</if> " +
+            "<if test='search.createTimeBegin != null  and search.createTimeBegin !=\"\"'>AND create_time &gt; #{search.createTimeBegin}</if> " +
+            "<if test='search.createTimeEnd != null  and search.createTimeEnd !=\"\"'>AND create_time &lt; #{search.createTimeEnd}</if> " +
             "</where> " +
             "</script>")
     List<FittedVerssion> findFittedVerssionByFittedVerssionCQRS(@Param("search")FittedVerssionRequestDTO fittedVerssionRequestDTO);
 
 
     @Insert("insert into yhcc_fitted_verssion " +
-            "values(#{id},#{fittedVerssionName},,#{tempId},#{sumTarget},#{targetcount},#{untargetcount},#{createTime},#{modifyTime},#{createUser},#{modifyUser},#{status} )")
+            "values(#{id},#{fittedVerssionName},#{tempId},#{sumTarget},#{targetcount},#{untargetcount},#{createTime},#{modifyTime},#{createUser},#{modifyUser},#{status} )")
     void saveFittedVerssion(FittedVerssion fittedVerssion);
 }

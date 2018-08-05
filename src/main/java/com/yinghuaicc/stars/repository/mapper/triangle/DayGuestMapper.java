@@ -72,4 +72,10 @@ public interface DayGuestMapper {
     List<AllSalePassengerFlowResponseDTO> findSalePassengerFlowAll();
 
 
+    /**
+     * 查询所有的日客销度-用于定时任务
+     * @return
+     */
+    @Select("select * from yhcc_day_guest")
+    List<DayGuest>  findDayGuestBynull();
 }

@@ -4,9 +4,11 @@ package com.yinghuaicc.stars.service.cqrs.Intervalset.dto.request;
  * 区间设置品牌客销度参数类
  */
 public class ConditionGuestIntervalRequestDTO {
-
+    //版本id
     private String guestVerssionId;
+    //项目id
     private String projectId;
+    //项目名称
     private String  projectName;
     //业态id
     private String conditionId;

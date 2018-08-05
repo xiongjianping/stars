@@ -123,6 +123,6 @@ public interface ContractCQRSMapper {
      * @param contractId
      * @return
      */
-    @Select("selct * from yhcc_contract where id = #{contractId}")
+    @Select("select * from yhcc_contract where id = #{contractId}")
     Contract findContractById(String contractId);
 }

@@ -41,7 +41,10 @@ public interface StandardProjectRentMapper {
      * @param standardProjectRent
      */
     @Insert("insert into yhcc_standard_project_rent " +
-            "values(#{id},#{standardVerssionId}},#{standardVerssionName}},#{projectId}},#{projectName}},#{rent}},#{createTime}},#{modifyTime}},#{createUser}},#{modifyUser}},#{status})")
+            "values(#{id},#{standardVerssionId}," +
+            "#{standardVerssionName}," +
+            "#{projectId},#{projectName},#{rent}," +
+            "#{createTime},#{modifyTime},#{createUser},#{modifyUser},#{status})")
     void saveStandardProjectRent(StandardProjectRent standardProjectRent);
 
 }

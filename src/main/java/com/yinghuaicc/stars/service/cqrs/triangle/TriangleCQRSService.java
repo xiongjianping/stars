@@ -1,9 +1,13 @@
 package com.yinghuaicc.stars.service.cqrs.triangle;
 
 
+import com.yinghuaicc.stars.repository.model.triangle.TriangleCQRS;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.BrandTriangleRequestDTO;
+import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.TriangleCQRSRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.AllSalePassengerFlowResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.BrandTriangleResponseDTO;
+import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.TimingByConditionResponseDTO;
+import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.TriangleCQRSResponseDTO;
 
 import java.util.List;
 
@@ -47,4 +51,22 @@ public interface TriangleCQRSService {
      */
     List<AllSalePassengerFlowResponseDTO> findSalePassengerFlowAll();
 
+    /**
+     * 通过条件查询三角理论列表
+     * @return
+     */
+    List<TriangleCQRSResponseDTO> findTriangleCQRSByCQRS(TriangleCQRSRequestDTO triangleCQRSRequestDTO);
+
+
+  /**
+   * 通过签约id查询项目、楼层、业态、业种、铺位、品牌id
+   * @param conditionId
+   * @return
+   */
+  List<TimingByConditionResponseDTO> findByConditionId(String conditionId);
+
+  /**
+   * 手动创建动态三角形
+   */
+  void saveTimingTriangle();
 }

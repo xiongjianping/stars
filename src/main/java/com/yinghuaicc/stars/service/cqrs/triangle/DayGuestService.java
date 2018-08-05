@@ -8,6 +8,7 @@ import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.DayGuestResponseD
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface DayGuestService {
     /**
@@ -42,4 +43,10 @@ public interface DayGuestService {
      * @return
      */
     BigDecimal findSaleroomAll();
+
+    /**
+     * 查询所有动态三角形日客销度用户定时接口
+     * @return
+     */
+    List<DayGuest>  findDayGuestBynull();
 }

@@ -58,4 +58,9 @@ public class DayGuestServiceImpl implements DayGuestService {
         return dayGuestMapper.findSaleroomAll();
     }
 
+    @Override
+    public List<DayGuest> findDayGuestBynull() {
+        return dayGuestMapper.findDayGuestBynull();
+    }
+
 }
