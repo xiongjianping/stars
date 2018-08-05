@@ -44,7 +44,7 @@ public interface StandardFloorFittedMapper {
      */
     @Insert("insert into yhcc_standard_floor_fitted " +
             "values(#{id},#{standardVerssionId},#{standardVerssionName},#{projectId},#{projectName}," +
-            "#{floorId},#{floorName},#{fitted},#{createTime},#{createTime},#{modifyTime},#{createUser},#{modifyUser},#{status})")
+            "#{floorId},#{floorName},#{fitted},#{createTime},#{modifyTime},#{createUser},#{modifyUser},#{status})")
     void saveStandardFloorFitted(StandardFloorFitted standardFloorFitted);
 
 

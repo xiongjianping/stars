@@ -83,9 +83,9 @@ public class StandImportExcelController {
             //版本名称
             standardProjectFitted.setStandardVerssionName(LocalDateTime.now()+"项目适配值");
             //通过签约id查询项目id 、楼层id
-            Contract contract = contractCQRSService.findContractById(standProjectFittedExcel.getContractId());
+          //  Contract contract = contractCQRSService.findContractById(standProjectFittedExcel.getContractId());
             //项目id
-            standardProjectFitted.setProjectId(contract.getProjectId());
+            standardProjectFitted.setProjectId(standProjectFittedExcel.getContractId());
             //项目名称
             standardProjectFitted.setProjectName(standProjectFittedExcel.getProjectName());
             //适配值
@@ -312,7 +312,9 @@ public class StandImportExcelController {
         String userName = aopResourceEmployeeBean.getName();
         List<StandConditionGuestExcel> standConditionGuestExcels = excelImportUtil.getExcelDataToList(file, StandConditionGuestExcel.class);
         String saleVessionId = UuidUtil.randomUUID();
-        for (StandConditionGuestExcel standConditionGuestExcel :standConditionGuestExcels){
+
+        standConditionGuestExcels.stream().forEach(standConditionGuestExcel -> {
+
             StandardBrandSale standardBrandSale= new StandardBrandSale();
             //id
             standardBrandSale.setId(UuidUtil.randomUUID());
@@ -335,11 +337,11 @@ public class StandImportExcelController {
             //品牌名称
             standardBrandSale.setContractName(standConditionGuestExcel.getBrandName());
             //业态id
-           standardBrandSale.setConditionId(brandCQRSInfoResponseDTO.getBusinessFormId());
+            standardBrandSale.setConditionId(brandCQRSInfoResponseDTO.getBusinessFormId());
             standardBrandSale.setConditionName(standConditionGuestExcel.getConditionName());
             //业种id
-           standardBrandSale.setMajoId(brandCQRSInfoResponseDTO.getBusinessSpeciesId());
-            standardBrandSale.setMajoName(standConditionGuestExcel.getMajoName());
+            standardBrandSale.setMajoId(brandCQRSInfoResponseDTO.getBusinessSpeciesId());
+            // standardBrandSale.setMajoName(standConditionGuestExcel.getMajoName());
             //毛利率
             standardBrandSale.setGrossRate(standConditionGuestExcel.getGrossRate());
             //客单价
@@ -352,7 +354,48 @@ public class StandImportExcelController {
             standardBrandSale.setModifyUser(userName);
             //TODO----校验
             standardBrandSaleService.saveStandardBrandSale(standardBrandSale);
-        }
+        });
+//        for (StandConditionGuestExcel standConditionGuestExcel : standConditionGuestExcels){
+//            StandardBrandSale standardBrandSale= new StandardBrandSale();
+//            //id
+//            standardBrandSale.setId(UuidUtil.randomUUID());
+//            //版本id
+//            standardBrandSale.setSaleVessionId(saleVessionId);
+//            //版本名称
+//            standardBrandSale.setSaleVessionName(LocalDateTime.now()+"业态客销度");
+//            //签约id
+//            standardBrandSale.setContractId(standConditionGuestExcel.getConstractId());
+//
+//            //通过签约id查询项目id 、楼层id
+//            Contract contract = contractCQRSService.findContractById(standConditionGuestExcel.getConstractId());
+//            //查询品牌id
+//            String brandId = contract.getBrandId();
+//            //TODO---通过品牌id查询业态/业种
+//            BrandCQRSInfoResponseDTO brandCQRSInfoResponseDTO = brandCQRSService.brandInfoCQRS(brandId);
+//
+//            standardBrandSale.setProjectId(contract.getProjectId());
+//            standardBrandSale.setProjectName(standConditionGuestExcel.getProjectName());
+//            //品牌名称
+//            standardBrandSale.setContractName(standConditionGuestExcel.getBrandName());
+//            //业态id
+//           standardBrandSale.setConditionId(brandCQRSInfoResponseDTO.getBusinessFormId());
+//            standardBrandSale.setConditionName(standConditionGuestExcel.getConditionName());
+//            //业种id
+//           standardBrandSale.setMajoId(brandCQRSInfoResponseDTO.getBusinessSpeciesId());
+//           // standardBrandSale.setMajoName(standConditionGuestExcel.getMajoName());
+//            //毛利率
+//            standardBrandSale.setGrossRate(standConditionGuestExcel.getGrossRate());
+//            //客单价
+//            standardBrandSale.setPerSale(standConditionGuestExcel.getPerSale());
+//            //签约状态
+//            standardBrandSale.setSignStatus(standConditionGuestExcel.getSignStatus());
+//            standardBrandSale.setCreateTime(LocalDateTime.now());
+//            standardBrandSale.setModifyTime(LocalDateTime.now());
+//            standardBrandSale.setCreateUser(userName);
+//            standardBrandSale.setModifyUser(userName);
+//            //TODO----校验
+//            standardBrandSaleService.saveStandardBrandSale(standardBrandSale);
+//        }
         return JsonResult.success("success");
     }
 
