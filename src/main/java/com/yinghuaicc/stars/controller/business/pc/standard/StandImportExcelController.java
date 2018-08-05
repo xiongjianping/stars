@@ -347,7 +347,15 @@ public class StandImportExcelController {
             //客单价
             standardBrandSale.setPerSale(standConditionGuestExcel.getPerSale());
             //签约状态
-            standardBrandSale.setSignStatus(standConditionGuestExcel.getSignStatus());
+            String signStatus = standConditionGuestExcel.getSignStatus();
+            if(signStatus=="已签约"){
+                signStatus = "1";
+            }else if (signStatus=="已解约"){
+                signStatus = "2";
+            }else {
+                signStatus = "3";
+            }
+            standardBrandSale.setSignStatus(signStatus);
             standardBrandSale.setCreateTime(LocalDateTime.now());
             standardBrandSale.setModifyTime(LocalDateTime.now());
             standardBrandSale.setCreateUser(userName);

@@ -93,5 +93,10 @@ public class ConditionGuestIntervalServiceImpl implements ConditionGuestInterval
         conditionGuestIntervalMapper.editConditionGuestInterval(conditionGuestInterval);
     }
 
+    @Override
+    public ConditionGuestInterval findConditionByContractId(String contractId) {
+        return conditionGuestIntervalMapper.findConditionByContractId(contractId);
+    }
+
 
 }

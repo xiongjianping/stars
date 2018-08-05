@@ -2,6 +2,7 @@ package com.yinghuaicc.stars.service.cqrs.Intervalset;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.yinghuaicc.stars.common.utils.date.LocalDateTimeUtils;
 import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -81,6 +83,8 @@ public class ProjectGuestIntervalServiceImpl  implements ProjectGuestIntervalSer
         projectGuestInterval.setLh(lh);
         projectGuestInterval.setTs(ts);
         projectGuestInterval.setHl(hl);
+        projectGuestInterval.setCreateTime(LocalDateTime.now());
+        projectGuestInterval.setModifyTime(LocalDateTime.now());
         //---------------------------------------------------------------
         projectGuestIntervalMapper.saveProject(projectGuestInterval);
     }

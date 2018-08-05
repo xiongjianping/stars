@@ -13,6 +13,7 @@ import com.yinghuaicc.stars.service.cqrs.Intervalset.dto.response.FloorGuestInte
 import com.yinghuaicc.stars.service.cqrs.triangle.TriangleCQRSService;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.BrandTriangleRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.BrandTriangleResponseDTO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -78,8 +79,15 @@ public class FloorGuestIntervalServiceImpl implements FloorGuestIntervalService 
 
     @Override
     public FloorGuestInterval findProjectByProjectId(String id) {
-       return   MapperFactoryUtil.mapperObject(floorGuestIntervalMapper.findFloorGuestIntervalById(id),FloorGuestInterval.class) ;
+        return   MapperFactoryUtil.mapperObject(floorGuestIntervalMapper.findFloorGuestIntervalById(id),FloorGuestInterval.class) ;
     }
+
+    @Override
+    public FloorGuestInterval findFloorGuestIntervalBycontractId(String contractId) {
+        FloorGuestIntervalResponseDTO floorGuestIntervalResponseDTO = floorGuestIntervalMapper.findFloorGuestIntervalBycontractId(contractId);
+        return   MapperFactoryUtil.mapperObject(floorGuestIntervalResponseDTO,FloorGuestInterval.class) ;
+    }
+
 
     @Override
     public void editFloorGuestInterval(FloorGuestInterval floorGuestInterval) {
