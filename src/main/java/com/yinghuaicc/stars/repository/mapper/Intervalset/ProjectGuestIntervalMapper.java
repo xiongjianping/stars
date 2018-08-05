@@ -53,10 +53,10 @@ public interface ProjectGuestIntervalMapper {
     /**
      * @Description: 通过项目id修改项目
      */
-    @Update("update yhcc_project_guest_interval set contract_Id = #{contractId}, project_Id = #{projectId}, project_name = #{projectName}, " +
-            "maxvalue = #{maxvalue}, interval_rate = #{intervalRate}, yx = #{yx}, " +
-            "lh = #{lh}, ts = #{ts}, hl = #{hl}, ks = #{ks}, " +
-            "create_user = #{createUser}, modify_user = #{modifyUser} " +
-            "where project_id = #{projectId}")
+    @Update("update yhcc_project_guest_interval set contract_Id = #{contractId}, project_Id = #{projectId} " +
+            ", project_name = #{projectName}, max_value = #{maxvalue}, interval_rate = #{intervalRate}, yx = #{yx}, " +
+            " lh = #{lh}, ts = #{ts}, hl = #{hl}, ks = #{ks}, " +
+            " create_user = #{createUser}, modify_user = #{modifyUser} " +
+            " where project_id = #{projectId} ")
     void editProject(ProjectGuestInterval projectGuestInterval);
 }

@@ -46,7 +46,7 @@ public interface FloorGuestIntervalMapper {
      * @param floorId
      * @return
      */
-    @Select("select * from yhcc_floor_guest_interval where project_id = #{projectId} , floor_id = #{floorId}")
+    @Select("select * from yhcc_floor_guest_interval where project_id = #{projectId} and  floor_id = #{floorId}")
     FloorGuestIntervalResponseDTO findFloorGuestIntervalByProjectIdAndFloorId(@Param("projectId") String projectId,@Param("floorId") String floorId);
 
     /**
@@ -54,7 +54,7 @@ public interface FloorGuestIntervalMapper {
      * @param floorGuestInterval
      */
     @Insert("insert into yhcc_floor_guest_interval " +
-            "values(#{id},#{contractId} ,#{projectId}  ,#{projectName} ,#{floorId}) ,#{floorName}  ,#{maxvalue} ,#{intervalRate} " +
+            "values(#{id},#{contractId} ,#{projectId}  ,#{projectName} ,#{floorId} ,#{floorName}  ,#{maxvalue} ,#{intervalRate} " +
             ",#{yx} ,#{lh} ,#{ts} ,#{hl} ,#{ks} ,#{createTime} ,#{modifyTime} ,#{createUser} ,#{modifyUser} )")
     void saveFloorGuestInterval(FloorGuestInterval floorGuestInterval);
 
@@ -62,11 +62,11 @@ public interface FloorGuestIntervalMapper {
     /**
      * @Description: 通过项目id、楼层id修改项目
      */
-    @Update("update yhcc_floor_guest_interval set contract_Id = #{contractId}, project_Id = #{projectId}, project_name = #{projectName}, floor_Id = #{floorId}, floor_name = #{floorName}" +
-            "maxvalue = #{maxvalue}, interval_rate = #{intervalRate}, yx = #{yx}, " +
+    @Update("update yhcc_floor_guest_interval set contract_Id = #{contractId}, project_Id = #{projectId}, project_name = #{projectName}, floor_Id = #{floorId}, floor_name = #{floorName}," +
+            "max_value = #{maxvalue}, interval_rate = #{intervalRate}, yx = #{yx}, " +
             "lh = #{lh}, ts = #{ts}, hl = #{hl}, ks = #{ks}, " +
             "create_user = #{createUser}, modify_user = #{modifyUser} " +
-            "where id = #{id}}")
+            "where id = #{id} or project_id =#{projectId}")
     void editFloorGuestInterval(FloorGuestInterval floorGuestInterval);
 
 }

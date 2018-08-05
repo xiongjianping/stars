@@ -60,7 +60,7 @@ public class ConditionGuestIntervalServiceImpl implements ConditionGuestInterval
         Integer hl = 0;
 
         //-- 通过id查询标准三角形该项目下所有品牌客销度之和
-        BrandTriangleRequestDTO brandTriangleRequestDTO = new BrandTriangleRequestDTO();
+      /*  BrandTriangleRequestDTO brandTriangleRequestDTO = new BrandTriangleRequestDTO();
         brandTriangleRequestDTO.setProjectId(conditionGuestInterval.getProjectId());
         brandTriangleRequestDTO.setConditionId(conditionGuestInterval.getConditionId());
         brandTriangleRequestDTO.setMajoId(conditionGuestInterval.getMajoId());
@@ -78,7 +78,7 @@ public class ConditionGuestIntervalServiceImpl implements ConditionGuestInterval
         conditionGuestInterval.setYx(yx);
         conditionGuestInterval.setLh(lh);
         conditionGuestInterval.setTs(ts);
-        conditionGuestInterval.setHl(hl);
+        conditionGuestInterval.setHl(hl);*/
 
         conditionGuestIntervalMapper.saveConditionGuestInterval(conditionGuestInterval);
     }

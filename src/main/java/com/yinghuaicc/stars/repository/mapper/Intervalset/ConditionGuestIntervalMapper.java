@@ -44,7 +44,7 @@ public interface ConditionGuestIntervalMapper {
      * @param conditionGuestInterval
      */
     @Insert("insert into yhcc_condition_guest_interval " +
-            "values(#{id},#{contractId} ,#{projectId}  ,#{projectName} ,#{conditionId}) ,#{conditionName}  ,#{majoId} ,#{majoName} ,#{maxvalue} ,#{intervalRate} " +
+            "values(#{id},#{contractId} ,#{projectId}  ,#{projectName} ,#{conditionId} ,#{conditionName}  ,#{majoId} ,#{majoName} ,#{maxvalue} ,#{intervalRate} " +
             ",#{yx} ,#{lh} ,#{ts} ,#{hl} ,#{ks} ,#{createTime} ,#{modifyTime} ,#{createUser} ,#{modifyUser} )")
     void saveConditionGuestInterval(ConditionGuestInterval conditionGuestInterval);
 

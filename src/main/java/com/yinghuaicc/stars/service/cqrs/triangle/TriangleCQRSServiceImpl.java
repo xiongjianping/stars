@@ -722,6 +722,9 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
             guestMap.put("ts",300);
             guestMap.put("hl",200);
             guestMap.put("qd",0);
+
+
+
             /*  guestMap.put("ks",ks);*/
             brandTriangleResponseDTO.setIntervalGuest(guestMap);
             //帮扶计划客销度

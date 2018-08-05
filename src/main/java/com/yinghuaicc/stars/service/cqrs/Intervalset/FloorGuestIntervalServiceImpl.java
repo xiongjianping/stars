@@ -55,7 +55,7 @@ public class FloorGuestIntervalServiceImpl implements FloorGuestIntervalService 
         Integer hl = 0;
 
         //-- 通过项目id查询标准三角形该项目下所有品牌客销度之和
-        BrandTriangleRequestDTO brandTriangleRequestDTO = new BrandTriangleRequestDTO();
+    /*    BrandTriangleRequestDTO brandTriangleRequestDTO = new BrandTriangleRequestDTO();
         brandTriangleRequestDTO.setProjectId(floorGuestInterval.getProjectId());
         brandTriangleRequestDTO.setFloorId(floorGuestInterval.getFloorId());
 
@@ -64,16 +64,16 @@ public class FloorGuestIntervalServiceImpl implements FloorGuestIntervalService 
         //区间最大值
         BigDecimal maxvalue = floorGuestInterval.getMaxvalue();
         //区间增长百分比
-        BigDecimal intervalRate = floorGuestInterval.getIntervalRate();
+        BigDecimal intervalRate = floorGuestInterval.getIntervalRate();*/
         // 标准三角形客销度为X，那么合理区间为（Z-X）*Y%,客销度只需要导入Z、Y；Z为区间最大值、Y为每个区间的百分比数值,每次增长10%
-        ts = maxvalue.subtract(standardGuest).multiply(intervalRate.add(new BigDecimal(0.1))).add(standardGuest).intValue();
+     /*   ts = maxvalue.subtract(standardGuest).multiply(intervalRate.add(new BigDecimal(0.1))).add(standardGuest).intValue();
         lh = maxvalue.subtract(standardGuest).multiply(intervalRate.add(new BigDecimal(0.2))).add(standardGuest).intValue();
         yx = maxvalue.subtract(standardGuest).multiply(intervalRate.add(new BigDecimal(0.3))).add(standardGuest).intValue();
         floorGuestInterval.setId(UuidUtil.randomUUID());//id
         floorGuestInterval.setYx(yx);
         floorGuestInterval.setLh(lh);
         floorGuestInterval.setTs(ts);
-        floorGuestInterval.setHl(hl);
+        floorGuestInterval.setHl(hl);*/
         floorGuestIntervalMapper.saveFloorGuestInterval(floorGuestInterval);
     }
 

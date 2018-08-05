@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.common.utils;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -61,9 +62,15 @@ public class BeanUtils <T>{
                                 field.set(t, new Long(o.toString()));
                             }
 
+                            if (field.getType().toString().endsWith("Float")){
+                                field.setAccessible(true);
+                                field.set(t, new Float(o.toString()));
+                            }
+
                             if (field.getType().toString().endsWith("Integer")){
                                 field.setAccessible(true);
-                                field.set(t, new Integer(o.toString()));
+
+                                field.set(t, Math.round(new Float(o.toString())));
                             }
 
                             if (field.getType().toString().endsWith("LocalDateTime")){
