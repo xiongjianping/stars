@@ -9,7 +9,9 @@ import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.model.triangle.*;
 import com.yinghuaicc.stars.repository.model.triangle.mult.*;
 import com.yinghuaicc.stars.service.cqrs.triangle.*;
+import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.MoonRentRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.GuestImportExcelResponseDTO;
+import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.MoonRentResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.QuarterFittedResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.RentImportExcelResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -138,9 +142,10 @@ public class ImportExcelController {
 
         //导入版本id
         String rentVerssionId = UuidUtil.randomUUID();
-
             for(int j = 0;j<sizes;j++){
+                System.out.println("===jjjjjjjjjjjjj================"+j);
                 for(int i=0 ;i<12;i++){
+                    System.out.println("===iiiiiii================"+i);
                 MoonRent moonRent = new MoonRent();
                 String moonRentId = UuidUtil.randomUUID();
                 moonRent.setId(moonRentId);
@@ -170,7 +175,15 @@ public class ImportExcelController {
                         moonRent.setYearsmoon(localDateTime2);
 
                         //TODO----保存-----缺校验
-                        moonRentService.saveMoonRent(moonRent);
+                        MoonRentRequestDTO moonRentRequestDTO = new MoonRentRequestDTO();
+                        moonRentRequestDTO.setId(moonRent.getId());
+                        moonRentRequestDTO.setContractId(moonRent.getContractId());
+                        MoonRentResponseDTO moonRentResponseDTO =  moonRentService.findRentVerssionByContractId(moonRentRequestDTO);
+                        if (moonRentResponseDTO==null){
+                            moonRentService.saveMoonRent(moonRent);
+                        }else{
+                            moonRentService.editMoonRent(moonRent);
+                        }
                         //TODO----再按天保存
 
                         Calendar cal = Calendar.getInstance();
@@ -178,16 +191,18 @@ public class ImportExcelController {
                         int dayNumOfMonth = LocalDateTimeUtils.getDaysByYearMonth(LocalDateTime.now().getYear(), 1);
                         cal.set(Calendar.DAY_OF_MONTH, 1);// 从一号开始
                         //每个月按30天计算
-                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30));
+                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
 
                         for (int t = 0; t < dayNumOfMonth; t++, cal.add(Calendar.DATE, 1)) {
                             Date d = cal.getTime();
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            String df = simpleDateFormat.format(d);
+                           /* SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            String df = simpleDateFormat.format(d);*/
+                            LocalDateTime createTime = LocalDateTimeUtils.date2LocalDateTime(d);
+
                             DayRent dayRent = new DayRent();
                             dayRent.setId(UuidUtil.randomUUID());
 
@@ -210,8 +225,9 @@ public class ImportExcelController {
                             // BigDecimal profit;
                             //dayRent.setProfit();
                             //状态 1：未审核，2：审核成功，3：审核失败
-                            dayRent.setStatus(rentalRentExcels.get(j).getSignState());
-                            LocalDateTime createTime = LocalDateTime.parse(df);
+                            String status = rentalRentExcels.get(j).getSignState();//未签约
+                            dayRent.setStatus("1");
+                           // LocalDateTime createTime = LocalDateTime.parse(df);
                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
                             dayRent.setCreateUser(userName);
@@ -220,9 +236,10 @@ public class ImportExcelController {
                         }
 
 
-                    };
+                    } continue;
                     case 1:{
                         //签约id
+                        moonRent.setId(UuidUtil.randomUUID());
                         signId = rentalRentExcels.get(j).getSignId();
                         moonRent.setContractId(signId);
                         //版本id
@@ -244,7 +261,16 @@ public class ImportExcelController {
                         moonRent.setYearsmoon(localDateTime2);
 
                         //TODO----保存-----
-                        moonRentService.saveMoonRent(moonRent);
+                        MoonRentRequestDTO moonRentRequestDTO = new MoonRentRequestDTO();
+                        moonRentRequestDTO.setId(moonRent.getId());
+                        moonRentRequestDTO.setContractId(moonRent.getContractId());
+                        MoonRentResponseDTO moonRentResponseDTO =  moonRentService.findRentVerssionByContractId(moonRentRequestDTO);
+                        if (moonRentResponseDTO==null){
+                            moonRentService.saveMoonRent(moonRent);
+                        }else{
+                            moonRentService.editMoonRent(moonRent);
+                        }
+
                         //TODO----再按天保存
 
                         Calendar cal = Calendar.getInstance();
@@ -252,16 +278,17 @@ public class ImportExcelController {
                         int dayNumOfMonth = LocalDateTimeUtils.getDaysByYearMonth(LocalDateTime.now().getYear(), 2);
                         cal.set(Calendar.DAY_OF_MONTH, 1);// 从一号开始
                         //每个月按30天计算
-                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30));
+                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
 
                         for (int t = 0; t < dayNumOfMonth; t++, cal.add(Calendar.DATE, 2)) {
                             Date d = cal.getTime();
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            String df = simpleDateFormat.format(d);
+                          /*  SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            String df = simpleDateFormat.format(d);*/
+                            LocalDateTime createTime = LocalDateTimeUtils.date2LocalDateTime(d);
                             DayRent dayRent = new DayRent();
                             dayRent.setId(UuidUtil.randomUUID());
 
@@ -284,17 +311,22 @@ public class ImportExcelController {
                             // BigDecimal profit;
                             //dayRent.setProfit();1
                             //状态 1：未审核，2：审核成功，3：审核失败
-                            dayRent.setStatus(rentalRentExcels.get(j).getSignState());
-                            LocalDateTime createTime = LocalDateTime.parse(df);
+                           /* dayRent.setStatus(rentalRentExcels.get(j).getSignState());*/
+                            String status = rentalRentExcels.get(j).getSignState();//未签约
+                            dayRent.setStatus("1");
+                           // LocalDateTime createTime = LocalDateTime.parse(df);
                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
+                     /*       dayRent.setCreateTime(LocalDateTime.now());
+                            dayRent.setModifyTime(LocalDateTime.now());*/
                             dayRent.setCreateUser(userName);
                             dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
-                    };
+                    } continue;
                     case 2:{
+                        moonRent.setId(UuidUtil.randomUUID());
                         //签约id
                         signId = rentalRentExcels.get(j).getSignId();
                         moonRent.setContractId(signId);
@@ -317,7 +349,15 @@ public class ImportExcelController {
                         moonRent.setYearsmoon(localDateTime2);
 
                         //TODO----保存-----
-                        moonRentService.saveMoonRent(moonRent);
+                        MoonRentRequestDTO moonRentRequestDTO = new MoonRentRequestDTO();
+                        moonRentRequestDTO.setId(moonRent.getId());
+                        moonRentRequestDTO.setContractId(moonRent.getContractId());
+                        MoonRentResponseDTO moonRentResponseDTO =  moonRentService.findRentVerssionByContractId(moonRentRequestDTO);
+                        if (moonRentResponseDTO==null){
+                            moonRentService.saveMoonRent(moonRent);
+                        }else{
+                            moonRentService.editMoonRent(moonRent);
+                        }
                         //TODO----再按天保存
 
                         Calendar cal = Calendar.getInstance();
@@ -325,16 +365,17 @@ public class ImportExcelController {
                         int dayNumOfMonth = LocalDateTimeUtils.getDaysByYearMonth(LocalDateTime.now().getYear(), 3);
                         cal.set(Calendar.DAY_OF_MONTH, 1);// 从一号开始
                         //每个月按30天计算
-                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30));
+                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
 
                         for (int t = 0; t < dayNumOfMonth; t++, cal.add(Calendar.DATE, 3)) {
                             Date d = cal.getTime();
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            String df = simpleDateFormat.format(d);
+                         /*   SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            String df = simpleDateFormat.format(d);*/
+                            LocalDateTime createTime = LocalDateTimeUtils.date2LocalDateTime(d);
                             DayRent dayRent = new DayRent();
                             dayRent.setId(UuidUtil.randomUUID());
 
@@ -357,18 +398,23 @@ public class ImportExcelController {
                             // BigDecimal profit;
                             //dayRent.setProfit();
                             //状态 1：未审核，2：审核成功，3：审核失败
-                            dayRent.setStatus(rentalRentExcels.get(j).getSignState());
-                            LocalDateTime createTime = LocalDateTime.parse(df);
-                            dayRent.setCreateTime(createTime);
+                            /*dayRent.setStatus(rentalRentExcels.get(j).getSignState());*/
+                            String status = rentalRentExcels.get(j).getSignState();//未签约
+                            dayRent.setStatus("1");
+                            //LocalDateTime createTime = LocalDateTime.parse(df);
+                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
+                          /*  dayRent.setCreateTime(LocalDateTime.now());
+                            dayRent.setModifyTime(LocalDateTime.now());*/
                             dayRent.setCreateUser(userName);
                             dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
 
-                    };
+                    } continue;
                     case 3:{
+                        moonRent.setId(UuidUtil.randomUUID());
                         //签约id
                         signId = rentalRentExcels.get(j).getSignId();
                         moonRent.setContractId(signId);
@@ -391,7 +437,15 @@ public class ImportExcelController {
                         moonRent.setYearsmoon(localDateTime2);
 
                         //TODO----保存-----
-                        moonRentService.saveMoonRent(moonRent);
+                        MoonRentRequestDTO moonRentRequestDTO = new MoonRentRequestDTO();
+                        moonRentRequestDTO.setId(moonRent.getId());
+                        moonRentRequestDTO.setContractId(moonRent.getContractId());
+                        MoonRentResponseDTO moonRentResponseDTO =  moonRentService.findRentVerssionByContractId(moonRentRequestDTO);
+                        if (moonRentResponseDTO==null){
+                            moonRentService.saveMoonRent(moonRent);
+                        }else{
+                            moonRentService.editMoonRent(moonRent);
+                        }
                         //TODO----再按天保存
 
                         Calendar cal = Calendar.getInstance();
@@ -399,16 +453,17 @@ public class ImportExcelController {
                         int dayNumOfMonth = LocalDateTimeUtils.getDaysByYearMonth(LocalDateTime.now().getYear(), 4);
                         cal.set(Calendar.DAY_OF_MONTH, 1);// 从一号开始
                         //每个月按30天计算
-                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30));
+                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
 
                         for (int t = 0; t < dayNumOfMonth; t++, cal.add(Calendar.DATE, 4)) {
                             Date d = cal.getTime();
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            String df = simpleDateFormat.format(d);
+                          /*  SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            String df = simpleDateFormat.format(d);*/
+                            LocalDateTime createTime = LocalDateTimeUtils.date2LocalDateTime(d);
                             DayRent dayRent = new DayRent();
                             dayRent.setId(UuidUtil.randomUUID());
 
@@ -431,17 +486,22 @@ public class ImportExcelController {
                             // BigDecimal profit;
                             //dayRent.setProfit();
                             //状态 1：未审核，2：审核成功，3：审核失败
-                            dayRent.setStatus(rentalRentExcels.get(j).getSignState());
-                            LocalDateTime createTime = LocalDateTime.parse(df);
-                            dayRent.setCreateTime(createTime);
+                            /*dayRent.setStatus(rentalRentExcels.get(j).getSignState());*/
+                            String status = rentalRentExcels.get(j).getSignState();//未签约
+                            dayRent.setStatus("1");
+                            //LocalDateTime createTime = LocalDateTime.parse(df);
+                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
+                           /* dayRent.setCreateTime(LocalDateTime.now());
+                            dayRent.setModifyTime(LocalDateTime.now());*/
                             dayRent.setCreateUser(userName);
                             dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
-                    };
+                    } continue;
                     case 4:{
+                        moonRent.setId(UuidUtil.randomUUID());
                         //签约id
                         signId = rentalRentExcels.get(j).getSignId();
                         moonRent.setContractId(signId);
@@ -464,7 +524,15 @@ public class ImportExcelController {
                         moonRent.setYearsmoon(localDateTime2);
 
                         //TODO----保存-----
-                        moonRentService.saveMoonRent(moonRent);
+                        MoonRentRequestDTO moonRentRequestDTO = new MoonRentRequestDTO();
+                        moonRentRequestDTO.setId(moonRent.getId());
+                        moonRentRequestDTO.setContractId(moonRent.getContractId());
+                        MoonRentResponseDTO moonRentResponseDTO =  moonRentService.findRentVerssionByContractId(moonRentRequestDTO);
+                        if (moonRentResponseDTO==null){
+                            moonRentService.saveMoonRent(moonRent);
+                        }else{
+                            moonRentService.editMoonRent(moonRent);
+                        }
                         //TODO----再按天保存
 
                         Calendar cal = Calendar.getInstance();
@@ -472,16 +540,17 @@ public class ImportExcelController {
                         int dayNumOfMonth = LocalDateTimeUtils.getDaysByYearMonth(LocalDateTime.now().getYear(), 5);
                         cal.set(Calendar.DAY_OF_MONTH, 1);// 从一号开始
                         //每个月按30天计算
-                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30));
+                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
 
                         for (int t = 0; t < dayNumOfMonth; t++, cal.add(Calendar.DATE, 5)) {
                             Date d = cal.getTime();
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            String df = simpleDateFormat.format(d);
+                           /* SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            String df = simpleDateFormat.format(d);*/
+                            LocalDateTime createTime = LocalDateTimeUtils.date2LocalDateTime(d);
                             DayRent dayRent = new DayRent();
                             dayRent.setId(UuidUtil.randomUUID());
 
@@ -504,17 +573,22 @@ public class ImportExcelController {
                             // BigDecimal profit;
                             //dayRent.setProfit();
                             //状态 1：未审核，2：审核成功，3：审核失败
-                            dayRent.setStatus(rentalRentExcels.get(j).getSignState());
-                            LocalDateTime createTime = LocalDateTime.parse(df);
+                            /*dayRent.setStatus(rentalRentExcels.get(j).getSignState());*/
+                            String status = rentalRentExcels.get(j).getSignState();//未签约
+                            dayRent.setStatus("1");
+                            //LocalDateTime createTime = LocalDateTime.parse(df);
                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
+                        /*    dayRent.setCreateTime(LocalDateTime.now());
+                            dayRent.setModifyTime(LocalDateTime.now());*/
                             dayRent.setCreateUser(userName);
                             dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
-                    };
+                    } continue;
                     case 5:{
+                        moonRent.setId(UuidUtil.randomUUID());
                         //签约id
                         signId = rentalRentExcels.get(j).getSignId();
                         moonRent.setContractId(signId);
@@ -537,7 +611,15 @@ public class ImportExcelController {
                         moonRent.setYearsmoon(localDateTime2);
 
                         //TODO----保存-----
-                        moonRentService.saveMoonRent(moonRent);
+                        MoonRentRequestDTO moonRentRequestDTO = new MoonRentRequestDTO();
+                        moonRentRequestDTO.setId(moonRent.getId());
+                        moonRentRequestDTO.setContractId(moonRent.getContractId());
+                        MoonRentResponseDTO moonRentResponseDTO =  moonRentService.findRentVerssionByContractId(moonRentRequestDTO);
+                        if (moonRentResponseDTO==null){
+                            moonRentService.saveMoonRent(moonRent);
+                        }else{
+                            moonRentService.editMoonRent(moonRent);
+                        }
                         //TODO----再按天保存
 
                         Calendar cal = Calendar.getInstance();
@@ -545,16 +627,17 @@ public class ImportExcelController {
                         int dayNumOfMonth = LocalDateTimeUtils.getDaysByYearMonth(LocalDateTime.now().getYear(), 6);
                         cal.set(Calendar.DAY_OF_MONTH, 1);// 从一号开始
                         //每个月按30天计算
-                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30));
+                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
 
                         for (int t = 0; t < dayNumOfMonth; t++, cal.add(Calendar.DATE, 6)){
                             Date d = cal.getTime();
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            String df = simpleDateFormat.format(d);
+                           /* SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            String df = simpleDateFormat.format(d);*/
+                            LocalDateTime createTime = LocalDateTimeUtils.date2LocalDateTime(d);
                             DayRent dayRent = new DayRent();
                             dayRent.setId(UuidUtil.randomUUID());
 
@@ -577,17 +660,22 @@ public class ImportExcelController {
                             // BigDecimal profit;
                             //dayRent.setProfit();
                             //状态 1：未审核，2：审核成功，3：审核失败
-                            dayRent.setStatus(rentalRentExcels.get(j).getSignState());
-                            LocalDateTime createTime = LocalDateTime.parse(df);
-                            dayRent.setCreateTime(createTime);
+                           /* dayRent.setStatus(rentalRentExcels.get(j).getSignState());*/
+                            String status = rentalRentExcels.get(j).getSignState();//未签约
+                            dayRent.setStatus("1");
+                            //LocalDateTime createTime = LocalDateTime.parse(df);
+                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
+                           /* dayRent.setCreateTime(LocalDateTime.now());
+                            dayRent.setModifyTime(LocalDateTime.now());*/
                             dayRent.setCreateUser(userName);
                             dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
-                    };
+                    } continue;
                     case 6:{
+                        moonRent.setId(UuidUtil.randomUUID());
                         //签约id
                         signId = rentalRentExcels.get(j).getSignId();
                         moonRent.setContractId(signId);
@@ -610,7 +698,15 @@ public class ImportExcelController {
                         moonRent.setYearsmoon(localDateTime2);
 
                         //TODO----保存-----
-                        moonRentService.saveMoonRent(moonRent);
+                        MoonRentRequestDTO moonRentRequestDTO = new MoonRentRequestDTO();
+                        moonRentRequestDTO.setId(moonRent.getId());
+                        moonRentRequestDTO.setContractId(moonRent.getContractId());
+                        MoonRentResponseDTO moonRentResponseDTO =  moonRentService.findRentVerssionByContractId(moonRentRequestDTO);
+                        if (moonRentResponseDTO==null){
+                            moonRentService.saveMoonRent(moonRent);
+                        }else{
+                            moonRentService.editMoonRent(moonRent);
+                        }
                         //TODO----再按天保存
 
                         Calendar cal = Calendar.getInstance();
@@ -618,16 +714,17 @@ public class ImportExcelController {
                         int dayNumOfMonth = LocalDateTimeUtils.getDaysByYearMonth(LocalDateTime.now().getYear(), 7);
                         cal.set(Calendar.DAY_OF_MONTH, 1);// 从一号开始
                         //每个月按30天计算
-                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30));
+                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
 
                         for (int t = 0; t < dayNumOfMonth; t++, cal.add(Calendar.DATE, 7)) {
                             Date d = cal.getTime();
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            String df = simpleDateFormat.format(d);
+                           /* SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            String df = simpleDateFormat.format(d);*/
+                            LocalDateTime createTime = LocalDateTimeUtils.date2LocalDateTime(d);
                             DayRent dayRent = new DayRent();
                             dayRent.setId(UuidUtil.randomUUID());
 
@@ -650,17 +747,22 @@ public class ImportExcelController {
                             // BigDecimal profit;
                             //dayRent.setProfit();
                             //状态 1：未审核，2：审核成功，3：审核失败
-                            dayRent.setStatus(rentalRentExcels.get(j).getSignState());
-                            LocalDateTime createTime = LocalDateTime.parse(df);
-                            dayRent.setCreateTime(createTime);
+                            /*dayRent.setStatus(rentalRentExcels.get(j).getSignState());*/
+                            String status = rentalRentExcels.get(j).getSignState();//未签约
+                            dayRent.setStatus("1");
+                           //LocalDateTime createTime = LocalDateTime.parse(df);
+                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
+                           /* dayRent.setCreateTime(LocalDateTime.now());
+                            dayRent.setModifyTime(LocalDateTime.now());*/
                             dayRent.setCreateUser(userName);
                             dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
-                    };
+                    } continue;
                     case 7:{
+                        moonRent.setId(UuidUtil.randomUUID());
                         //签约id
                         signId = rentalRentExcels.get(j).getSignId();
                         moonRent.setContractId(signId);
@@ -683,7 +785,15 @@ public class ImportExcelController {
                         moonRent.setYearsmoon(localDateTime2);
 
                         //TODO----保存-----
-                        moonRentService.saveMoonRent(moonRent);
+                        MoonRentRequestDTO moonRentRequestDTO = new MoonRentRequestDTO();
+                        moonRentRequestDTO.setId(moonRent.getId());
+                        moonRentRequestDTO.setContractId(moonRent.getContractId());
+                        MoonRentResponseDTO moonRentResponseDTO =  moonRentService.findRentVerssionByContractId(moonRentRequestDTO);
+                        if (moonRentResponseDTO==null){
+                            moonRentService.saveMoonRent(moonRent);
+                        }else{
+                            moonRentService.editMoonRent(moonRent);
+                        }
                         //TODO----再按天保存
 
                         Calendar cal = Calendar.getInstance();
@@ -691,16 +801,17 @@ public class ImportExcelController {
                         int dayNumOfMonth = LocalDateTimeUtils.getDaysByYearMonth(LocalDateTime.now().getYear(), 8);
                         cal.set(Calendar.DAY_OF_MONTH, 1);// 从一号开始
                         //每个月按30天计算
-                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30));
+                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
 
                         for (int t = 0; t < dayNumOfMonth; t++, cal.add(Calendar.DATE, 8)) {
                             Date d = cal.getTime();
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            String df = simpleDateFormat.format(d);
+                          /*  SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            String df = simpleDateFormat.format(d);*/
+                            LocalDateTime createTime = LocalDateTimeUtils.date2LocalDateTime(d);
                             DayRent dayRent = new DayRent();
                             dayRent.setId(UuidUtil.randomUUID());
 
@@ -723,17 +834,22 @@ public class ImportExcelController {
                             // BigDecimal profit;
                             //dayRent.setProfit();
                             //状态 1：未审核，2：审核成功，3：审核失败
-                            dayRent.setStatus(rentalRentExcels.get(j).getSignState());
-                            LocalDateTime createTime = LocalDateTime.parse(df);
-                            dayRent.setCreateTime(createTime);
+                            /*dayRent.setStatus(rentalRentExcels.get(j).getSignState());*/
+                            String status = rentalRentExcels.get(j).getSignState();//未签约
+                            dayRent.setStatus("1");
+                            //LocalDateTime createTime = LocalDateTime.parse(df);
+                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
+                        /*    dayRent.setCreateTime(LocalDateTime.now());
+                            dayRent.setModifyTime(LocalDateTime.now());*/
                             dayRent.setCreateUser(userName);
                             dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
-                    };
+                    } continue;
                     case 8:{
+                        moonRent.setId(UuidUtil.randomUUID());
                         //签约id
                         signId = rentalRentExcels.get(j).getSignId();
                         moonRent.setContractId(signId);
@@ -756,7 +872,15 @@ public class ImportExcelController {
                         moonRent.setYearsmoon(localDateTime2);
 
                         //TODO----保存-----
-                        moonRentService.saveMoonRent(moonRent);
+                        MoonRentRequestDTO moonRentRequestDTO = new MoonRentRequestDTO();
+                        moonRentRequestDTO.setId(moonRent.getId());
+                        moonRentRequestDTO.setContractId(moonRent.getContractId());
+                        MoonRentResponseDTO moonRentResponseDTO =  moonRentService.findRentVerssionByContractId(moonRentRequestDTO);
+                        if (moonRentResponseDTO==null){
+                            moonRentService.saveMoonRent(moonRent);
+                        }else{
+                            moonRentService.editMoonRent(moonRent);
+                        }
                         //TODO----再按天保存
 
                         Calendar cal = Calendar.getInstance();
@@ -764,16 +888,17 @@ public class ImportExcelController {
                         int dayNumOfMonth = LocalDateTimeUtils.getDaysByYearMonth(LocalDateTime.now().getYear(), 9);
                         cal.set(Calendar.DAY_OF_MONTH, 1);// 从一号开始
                         //每个月按30天计算
-                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30));
+                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
 
                         for (int t = 0; t < dayNumOfMonth; t++, cal.add(Calendar.DATE, 9)) {
                             Date d = cal.getTime();
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            String df = simpleDateFormat.format(d);
+                            /*SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            String df = simpleDateFormat.format(d);*/
+                            LocalDateTime createTime = LocalDateTimeUtils.date2LocalDateTime(d);
                             DayRent dayRent = new DayRent();
                             dayRent.setId(UuidUtil.randomUUID());
 
@@ -796,17 +921,22 @@ public class ImportExcelController {
                             // BigDecimal profit;
                             //dayRent.setProfit();
                             //状态 1：未审核，2：审核成功，3：审核失败
-                            dayRent.setStatus(rentalRentExcels.get(j).getSignState());
-                            LocalDateTime createTime = LocalDateTime.parse(df);
-                            dayRent.setCreateTime(createTime);
+                            /*dayRent.setStatus(rentalRentExcels.get(j).getSignState());*/
+                            String status = rentalRentExcels.get(j).getSignState();//未签约
+                            dayRent.setStatus("1");
+                           // LocalDateTime createTime = LocalDateTime.parse(df);
+                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
+                          /*  dayRent.setCreateTime(LocalDateTime.now());
+                            dayRent.setModifyTime(LocalDateTime.now());*/
                             dayRent.setCreateUser(userName);
                             dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
-                    };
+                    } continue;
                     case 9:{
+                        moonRent.setId(UuidUtil.randomUUID());
                         //签约id
                         signId = rentalRentExcels.get(j).getSignId();
                         moonRent.setContractId(signId);
@@ -829,7 +959,15 @@ public class ImportExcelController {
                         moonRent.setYearsmoon(localDateTime2);
 
                         //TODO----保存-----
-                        moonRentService.saveMoonRent(moonRent);
+                        MoonRentRequestDTO moonRentRequestDTO = new MoonRentRequestDTO();
+                        moonRentRequestDTO.setId(moonRent.getId());
+                        moonRentRequestDTO.setContractId(moonRent.getContractId());
+                        MoonRentResponseDTO moonRentResponseDTO =  moonRentService.findRentVerssionByContractId(moonRentRequestDTO);
+                        if (moonRentResponseDTO==null){
+                            moonRentService.saveMoonRent(moonRent);
+                        }else{
+                            moonRentService.editMoonRent(moonRent);
+                        }
                         //TODO----再按天保存
 
                         Calendar cal = Calendar.getInstance();
@@ -837,16 +975,17 @@ public class ImportExcelController {
                         int dayNumOfMonth = LocalDateTimeUtils.getDaysByYearMonth(LocalDateTime.now().getYear(), 10);
                         cal.set(Calendar.DAY_OF_MONTH, 1);// 从一号开始
                         //每个月按30天计算
-                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30));
+                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
 
                         for (int t = 0; t < dayNumOfMonth; t++, cal.add(Calendar.DATE, 10)) {
                             Date d = cal.getTime();
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            String df = simpleDateFormat.format(d);
+                        /*    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            String df = simpleDateFormat.format(d);*/
+                            LocalDateTime createTime = LocalDateTimeUtils.date2LocalDateTime(d);
                             DayRent dayRent = new DayRent();
                             dayRent.setId(UuidUtil.randomUUID());
 
@@ -869,17 +1008,22 @@ public class ImportExcelController {
                             // BigDecimal profit;
                             //dayRent.setProfit();
                             //状态 1：未审核，2：审核成功，3：审核失败
-                            dayRent.setStatus(rentalRentExcels.get(j).getSignState());
-                            LocalDateTime createTime = LocalDateTime.parse(df);
-                            dayRent.setCreateTime(createTime);
+                            /*dayRent.setStatus(rentalRentExcels.get(j).getSignState());*/
+                            String status = rentalRentExcels.get(j).getSignState();//未签约
+                            dayRent.setStatus("1");
+                            //LocalDateTime createTime = LocalDateTime.parse(df);
+                          dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
+                          /*  dayRent.setCreateTime(LocalDateTime.now());
+                            dayRent.setModifyTime(LocalDateTime.now());*/
                             dayRent.setCreateUser(userName);
                             dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
-                    };
+                    } continue;
                     case 10:{
+                        moonRent.setId(UuidUtil.randomUUID());
                         //签约id
                         signId = rentalRentExcels.get(j).getSignId();
                         moonRent.setContractId(signId);
@@ -902,7 +1046,15 @@ public class ImportExcelController {
                         moonRent.setYearsmoon(localDateTime2);
 
                         //TODO----保存-----
-                        moonRentService.saveMoonRent(moonRent);
+                        MoonRentRequestDTO moonRentRequestDTO = new MoonRentRequestDTO();
+                        moonRentRequestDTO.setId(moonRent.getId());
+                        moonRentRequestDTO.setContractId(moonRent.getContractId());
+                        MoonRentResponseDTO moonRentResponseDTO =  moonRentService.findRentVerssionByContractId(moonRentRequestDTO);
+                        if (moonRentResponseDTO==null){
+                            moonRentService.saveMoonRent(moonRent);
+                        }else{
+                            moonRentService.editMoonRent(moonRent);
+                        }
                         //TODO----再按天保存
 
                         Calendar cal = Calendar.getInstance();
@@ -910,16 +1062,17 @@ public class ImportExcelController {
                         int dayNumOfMonth = LocalDateTimeUtils.getDaysByYearMonth(LocalDateTime.now().getYear(), 11);
                         cal.set(Calendar.DAY_OF_MONTH, 1);// 从一号开始
                         //每个月按30天计算
-                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30));
+                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
 
                         for (int t = 0; t < dayNumOfMonth; t++, cal.add(Calendar.DATE, 11)) {
                             Date d = cal.getTime();
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            String df = simpleDateFormat.format(d);
+                            /*SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            String df = simpleDateFormat.format(d);*/
+                            LocalDateTime createTime = LocalDateTimeUtils.date2LocalDateTime(d);
                             DayRent dayRent = new DayRent();
                             dayRent.setId(UuidUtil.randomUUID());
 
@@ -942,17 +1095,22 @@ public class ImportExcelController {
                             // BigDecimal profit;
                             //dayRent.setProfit();
                             //状态 1：未审核，2：审核成功，3：审核失败
-                            dayRent.setStatus(rentalRentExcels.get(j).getSignState());
-                            LocalDateTime createTime = LocalDateTime.parse(df);
+//                            dayRent.setStatus(rentalRentExcels.get(j).getSignState());
+                            String status = rentalRentExcels.get(j).getSignState();//未签约
+                            dayRent.setStatus("1");
+                            //LocalDateTime createTime = LocalDateTime.parse(df);
                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
+                           /* dayRent.setCreateTime(LocalDateTime.now());
+                            dayRent.setModifyTime(LocalDateTime.now());*/
                             dayRent.setCreateUser(userName);
                             dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
 
-                    };
+                    } continue;
                     case 11:{
+                        moonRent.setId(UuidUtil.randomUUID());
                         //签约id
                         signId = rentalRentExcels.get(j).getSignId();
                         moonRent.setContractId(signId);
@@ -975,7 +1133,15 @@ public class ImportExcelController {
                         moonRent.setYearsmoon(localDateTime2);
 
                         //TODO----按月保存-----
-                        moonRentService.saveMoonRent(moonRent);
+                        MoonRentRequestDTO moonRentRequestDTO = new MoonRentRequestDTO();
+                        moonRentRequestDTO.setId(moonRent.getId());
+                        moonRentRequestDTO.setContractId(moonRent.getContractId());
+                        MoonRentResponseDTO moonRentResponseDTO =  moonRentService.findRentVerssionByContractId(moonRentRequestDTO);
+                        if (moonRentResponseDTO==null){
+                            moonRentService.saveMoonRent(moonRent);
+                        }else{
+                            moonRentService.editMoonRent(moonRent);
+                        }
                         //TODO----再按天保存
 
                         Calendar cal = Calendar.getInstance();
@@ -983,16 +1149,17 @@ public class ImportExcelController {
                         int dayNumOfMonth = LocalDateTimeUtils.getDaysByYearMonth(LocalDateTime.now().getYear(), 12);
                         cal.set(Calendar.DAY_OF_MONTH, 1);// 从一号开始
                         //每个月按30天计算
-                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30));
-                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30));
+                        BigDecimal day_rentalRent = rentalRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_propertyRent = propertyRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_agentRent = agentRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_decorateRent = decorateRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
+                        BigDecimal day_labourRent = labourRentExcels.get(j).getTwe().divide(new BigDecimal(30),2, BigDecimal.ROUND_HALF_UP);
 
                         for (int t = 0; t < dayNumOfMonth; t++, cal.add(Calendar.DATE, 12)) {
                             Date d = cal.getTime();
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            String df = simpleDateFormat.format(d);
+                           /* SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            String df = simpleDateFormat.format(d);*/
+                            LocalDateTime createTime = LocalDateTimeUtils.date2LocalDateTime(d);
                             DayRent dayRent = new DayRent();
                             dayRent.setId(UuidUtil.randomUUID());
 
@@ -1015,15 +1182,19 @@ public class ImportExcelController {
                             // BigDecimal profit;
                             //dayRent.setProfit();
                             //状态 1：未审核，2：审核成功，3：审核失败
-                            dayRent.setStatus(rentalRentExcels.get(j).getSignState());
-                            LocalDateTime createTime = LocalDateTime.parse(df);
-                            dayRent.setCreateTime(createTime);
+                            /*dayRent.setStatus(rentalRentExcels.get(j).getSignState());*/
+                            String status = rentalRentExcels.get(j).getSignState();//未签约
+                            dayRent.setStatus("1");
+                            //LocalDateTime createTime = LocalDateTime.parse(df);
+                             dayRent.setCreateTime(createTime);
                             dayRent.setModifyTime(createTime);
+                       /*     dayRent.setCreateTime(LocalDateTime.now());
+                            dayRent.setModifyTime(LocalDateTime.now());*/
                             dayRent.setCreateUser(userName);
                             dayRent.setModifyUser(userName);
                             dayRentService.saveDayRent(dayRent);
                         }
-                    };
+                    } continue;
                 }
 
             }

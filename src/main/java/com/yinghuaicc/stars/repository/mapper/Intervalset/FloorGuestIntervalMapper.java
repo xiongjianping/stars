@@ -31,6 +31,13 @@ public interface FloorGuestIntervalMapper {
     @Select("select * from yhcc_floor_guest_interval where id = #{id}")
     FloorGuestIntervalResponseDTO findFloorGuestIntervalById(@Param("id") String id);
 
+    /**
+     * 通过contractId查询楼层级客销度区间
+     * @param contractId
+     * @return
+     */
+    @Select("select * from yhcc_floor_guest_interval where contract_id = #{contractId}")
+    FloorGuestIntervalResponseDTO findFloorGuestIntervalBycontractId(@Param("id") String contractId);
 
 
     /**

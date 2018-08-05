@@ -40,6 +40,7 @@ public interface MoonRentMapper {
             "#{agencyFee},#{profit},#{yearsmoon},#{createTime},#{modifyTime},#{createUser},#{modifyUser},#{status})")
     void saveMoonRent(MoonRent moonRent);
 
-    @Update("update yhcc_moon_rent set rent")
+    @Update("update yhcc_moon_rent set  contract_id=#{contractId},rent_verssion_id=#{rentVerssionId}, rent=#{rent}, property_fee=#{propertyFee}, staff_emp=#{staffEmp}, " +
+            "fitment=#{fitment}, agency_Fee=#{agencyFee}, profit=#{profit}, yearsmoon=#{yearsmoon}, create_Time=#{createTime}, modify_Time=#{modifyTime}, create_User=#{createUser}, modify_User=#{modifyUser}, status=#{status} where id = #{id}")
     void editMoonRent(MoonRent moonRent);
 }

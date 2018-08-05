@@ -60,4 +60,11 @@ public interface ConditionGuestIntervalMapper {
             "where id = #{id}")
     void editConditionGuestInterval(ConditionGuestInterval conditionGuestInterval);
 
+    /**
+     * 通过签约id 查询业态级区间设置
+     * @param contractId
+     * @return
+     */
+    @Select("select * from yhcc_condition_guest_interval where contract_id = #{contractId}")
+    ConditionGuestInterval findConditionByContractId(String contractId);
 }

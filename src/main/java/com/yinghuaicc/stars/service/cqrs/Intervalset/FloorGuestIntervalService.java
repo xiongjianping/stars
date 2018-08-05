@@ -5,6 +5,7 @@ import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.Intervalset.FloorGuestInterval;
 import com.yinghuaicc.stars.service.cqrs.Intervalset.dto.request.FloorGuestIntervalRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.Intervalset.dto.response.FloorGuestIntervalResponseDTO;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 区间设置-楼层客销度
@@ -34,4 +35,11 @@ public interface FloorGuestIntervalService {
      * @Description: 通过项目id、楼层 id修改楼层
      */
     void editFloorGuestInterval(FloorGuestInterval floorGuestInterval);
+
+    /**
+     * 通过签约id 查询楼层区间
+     * @param contractId
+     * @return
+     */
+    FloorGuestInterval findFloorGuestIntervalBycontractId(@Param("id") String contractId);
 }

@@ -30,4 +30,6 @@ public interface ConditionGuestIntervalService {
      * @Description: 通过项目id、楼层 id修改楼层
      */
     void editConditionGuestInterval(ConditionGuestInterval conditionGuestInterval);
+
+    ConditionGuestInterval findConditionByContractId(String contractId);
 }
