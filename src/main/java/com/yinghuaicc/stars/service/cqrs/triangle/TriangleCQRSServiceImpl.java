@@ -235,7 +235,7 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
             String contractId = contractTriangleCQRSListResponseDTO.getId();
             //查询面积
             BigDecimal area = contractTriangleCQRSListResponseDTO.getAcreage();
-
+//TODO-----------------------------------------
            String time = "2018-07-20 19:50:12";
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
