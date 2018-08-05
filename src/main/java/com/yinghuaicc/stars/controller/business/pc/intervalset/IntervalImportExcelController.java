@@ -165,17 +165,20 @@ public class IntervalImportExcelController {
             Contract contract =  contractCQRSService.findContractById(constractId);
 
             FloorGuestInterval floorGuestInterval = floorGuestIntervalService.findFloorGuestIntervalByProjectIdAndFloorId(contract.getProjectId(),contract.getFloorId());
-            if(floorGuestInterval ==null ){
+    /*        if(floorGuestInterval ==null ){
                 floorGuestInterval = new FloorGuestInterval();
-            }
+            }*/
             //项目名称
             String projcetName = intervalFloorGuestImportExcel.getProjcetName();
-            floorGuestInterval.setProjectId(contract.getProjectId());
-            floorGuestInterval.setFloorId(contract.getFloorId());
             //区间最大值
             BigDecimal maxvalue = intervalFloorGuestImportExcel.getMaxvalue();
             //区间增长百分比
             BigDecimal intervalRate = intervalFloorGuestImportExcel.getIntervalRate();
+
+            if(floorGuestInterval!=null){
+            floorGuestInterval.setProjectId(contract.getProjectId());
+            floorGuestInterval.setFloorId(contract.getFloorId());
+
             floorGuestInterval.setProjectName(projcetName);
             floorGuestInterval.setMaxvalue(maxvalue);
             floorGuestInterval.setIntervalRate(intervalRate);
@@ -203,11 +206,40 @@ public class IntervalImportExcelController {
                             )).intValue());
             //亏损
             floorGuestInterval.setKs(0);
-
-
-            if(floorGuestInterval!=null){
                 floorGuestIntervalService.editFloorGuestInterval(floorGuestInterval);
             }else{
+                floorGuestInterval = new FloorGuestInterval();
+                floorGuestInterval.setProjectId(contract.getProjectId());
+                floorGuestInterval.setFloorId(contract.getFloorId());
+
+                floorGuestInterval.setProjectName(projcetName);
+                floorGuestInterval.setMaxvalue(maxvalue);
+                floorGuestInterval.setIntervalRate(intervalRate);
+
+
+                //优秀
+                floorGuestInterval.setYx(maxvalue.intValue());
+                //良好
+                floorGuestInterval.setLh(maxvalue.multiply(
+                        intervalRate.add(new BigDecimal(40))
+                                .divide(
+                                        new BigDecimal(100)
+                                )).intValue()
+                );
+                //提升
+                floorGuestInterval.setTs(maxvalue.multiply(
+                        intervalRate.add(new BigDecimal(25))
+                                .divide(
+                                        new BigDecimal(100)
+                                )).intValue());
+                //合格
+                floorGuestInterval.setHl(maxvalue.multiply(
+                        intervalRate.add(new BigDecimal(10))
+                                .divide(
+                                        new BigDecimal(100)
+                                )).intValue());
+                //亏损
+                floorGuestInterval.setKs(0);
                 floorGuestInterval.setId(UuidUtil.randomUUID());
                 floorGuestIntervalService.saveFloorGuestInterval(floorGuestInterval);
             }
@@ -233,41 +265,69 @@ public class IntervalImportExcelController {
             BigDecimal maxvalue = intervalConditionGuestImportExcelList.getMaxvalue();
             //区间增长百分比
             BigDecimal intervalRate = intervalConditionGuestImportExcelList.getIntervalRate();
-            conditionGuestInterval.setProjectId(conditionGuestInterval.getProjectId());
-            conditionGuestInterval.setProjectName(projcetName);
-            conditionGuestInterval.setConditionId(contractTriangleCQRSListResponseDTO.getBusinessFormId());
-            conditionGuestInterval.setConditionName(contractTriangleCQRSListResponseDTO.getBusinessFormName());
-            conditionGuestInterval.setMajoId(contractTriangleCQRSListResponseDTO.getBusinessSpeciesId());
-            conditionGuestInterval.setMajoName(contractTriangleCQRSListResponseDTO.getBusinessSpeciesName());
-            conditionGuestInterval.setMaxvalue(maxvalue);
-            conditionGuestInterval.setIntervalRate(intervalRate);
-            //优秀
-            conditionGuestInterval.setYx(maxvalue.intValue());
-            //良好
-            conditionGuestInterval.setLh(maxvalue.multiply(
-                    intervalRate.add(new BigDecimal(40))
-                            .divide(
-                                    new BigDecimal(100)
-                            )).intValue()
-            );
-            //提升
-            conditionGuestInterval.setTs(maxvalue.multiply(
-                    intervalRate.add(new BigDecimal(25))
-                            .divide(
-                                    new BigDecimal(100)
-                            )).intValue());
-            //合格
-            conditionGuestInterval.setHl(maxvalue.multiply(
-                    intervalRate.add(new BigDecimal(10))
-                            .divide(
-                                    new BigDecimal(100)
-                            )).intValue());
-            //亏损
-            conditionGuestInterval.setKs(0);
-            if(conditionGuestInterval!=null){
-                conditionGuestIntervalService.editConditionGuestInterval(conditionGuestInterval);
-            }else{
+            if(conditionGuestInterval==null){
+                conditionGuestInterval = new ConditionGuestInterval();
+                conditionGuestInterval.setProjectId(contract.getProjectId());
+                conditionGuestInterval.setProjectName(projcetName);
+                conditionGuestInterval.setConditionId(contractTriangleCQRSListResponseDTO.getBusinessFormId());
+                conditionGuestInterval.setConditionName(contractTriangleCQRSListResponseDTO.getBusinessFormName());
+                conditionGuestInterval.setMajoId(contractTriangleCQRSListResponseDTO.getBusinessSpeciesId());
+                conditionGuestInterval.setMajoName(contractTriangleCQRSListResponseDTO.getBusinessSpeciesName());
+                conditionGuestInterval.setMaxvalue(maxvalue);
+                conditionGuestInterval.setIntervalRate(intervalRate);
+                //优秀
+                conditionGuestInterval.setYx(maxvalue.intValue());
+                //良好
+                conditionGuestInterval.setLh(maxvalue.multiply(
+                        intervalRate.add(new BigDecimal(40))
+                                .divide(
+                                        new BigDecimal(100)
+                                )).intValue()
+                );
+                //提升
+                conditionGuestInterval.setTs(maxvalue.multiply(
+                        intervalRate.add(new BigDecimal(25))
+                                .divide(
+                                        new BigDecimal(100)
+                                )).intValue());
+                //合格
+                conditionGuestInterval.setHl(maxvalue.multiply(
+                        intervalRate.add(new BigDecimal(10))
+                                .divide(
+                                        new BigDecimal(100)
+                                )).intValue());
+                //亏损
+                conditionGuestInterval.setKs(0);
+                conditionGuestInterval.setId(UuidUtil.randomUUID());
                 conditionGuestIntervalService.saveConditionGuestInterval(conditionGuestInterval);
+            }else{
+
+                conditionGuestInterval.setMaxvalue(maxvalue);
+                conditionGuestInterval.setIntervalRate(intervalRate);
+                //优秀
+                conditionGuestInterval.setYx(maxvalue.intValue());
+                //良好
+                conditionGuestInterval.setLh(maxvalue.multiply(
+                        intervalRate.add(new BigDecimal(40))
+                                .divide(
+                                        new BigDecimal(100)
+                                )).intValue()
+                );
+                //提升
+                conditionGuestInterval.setTs(maxvalue.multiply(
+                        intervalRate.add(new BigDecimal(25))
+                                .divide(
+                                        new BigDecimal(100)
+                                )).intValue());
+                //合格
+                conditionGuestInterval.setHl(maxvalue.multiply(
+                        intervalRate.add(new BigDecimal(10))
+                                .divide(
+                                        new BigDecimal(100)
+                                )).intValue());
+                //亏损
+                conditionGuestInterval.setKs(0);
+                conditionGuestIntervalService.editConditionGuestInterval(conditionGuestInterval);
             }
         }
         return JsonResult.success("success");
