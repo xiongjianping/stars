@@ -438,17 +438,19 @@ CREATE TABLE IF NOT EXISTS `yhcc_external_employee`(
 
 -- 创建签约表
 CREATE TABLE IF NOT EXISTS `yhcc_contract`(
-
-  `id` VARCHAR (50) NOT NULL,
-  `project_id` VARCHAR (50),
-  `floor_id` VARCHAR (50),
-  `room_id` VARCHAR (50),
-  `brand_id` VARCHAR (50),
-  `status` TINYINT (1),
-  `create_time` DATETIME,
-  `modify_time` DATETIME,
-  `create_user` VARCHAR (100),
-  `modify_user` VARCHAR (100),
+  `id` varchar(50) NOT NULL,
+  `project_id` varchar(50) DEFAULT NULL,
+  `floor_id` varchar(50) DEFAULT NULL,
+  `room_id` varchar(50) DEFAULT NULL,
+  `brand_id` varchar(50) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `modify_time` datetime DEFAULT NULL,
+  `create_user` varchar(100) DEFAULT NULL,
+  `modify_user` varchar(100) DEFAULT NULL,
+  `effect_time` varchar(255) DEFAULT NULL,
+  `invalid_time` varchar(255) DEFAULT NULL,
+  `contract_id` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

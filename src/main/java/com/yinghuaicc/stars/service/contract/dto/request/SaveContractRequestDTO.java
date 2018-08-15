@@ -29,6 +29,17 @@ public class SaveContractRequestDTO {
     @NotEmpty(message = "CONTRACT_SAVE_CONTRACT_004")
     private String brandId;
 
+    @NotEmpty(message = "CONTRACT_SAVE_CONTRACT_008")
+    private String effectTime; //签约生效时间
+
+    public String getEffectTime() {
+        return effectTime;
+    }
+
+    public void setEffectTime(String effectTime) {
+        this.effectTime = effectTime;
+    }
+
     public String getProjectId() {
         return projectId;
     }
