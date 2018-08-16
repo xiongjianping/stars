@@ -2,6 +2,7 @@ package com.yinghuaicc.stars.repository.mapper.contract;
 
 import com.yinghuaicc.stars.repository.model.contract.Contract;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
@@ -74,7 +75,7 @@ public interface ContractMapper {
      *@Author:Fly Created in 2018/7/16 下午1:58
      *@Description: 查询品牌是否已经签约
      */
-    @Select("select contract_id from yhcc_contract where brand_id = #{brandId} and status = true group by contract_id ")
-    String countContractByBrandIdId(String brandId);
+    @Select("select contract_id from yhcc_contract where brand_id = #{brandId} and project_id = #{projectId} and status = true group by contract_id ")
+    String countContractByBrandIdId(@Param("brandId") String brandId,@Param("projectId") String projectId);
 
 }

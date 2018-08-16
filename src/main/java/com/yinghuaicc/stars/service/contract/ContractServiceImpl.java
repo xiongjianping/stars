@@ -72,7 +72,7 @@ public class ContractServiceImpl implements ContractService{
         });
 
         saveContractRequestDTO.getRoomId().stream().forEach(str -> {
-            String brandId = contractMapper.countContractByBrandIdId(saveContractRequestDTO.getBrandId());
+            String brandId = contractMapper.countContractByBrandIdId(saveContractRequestDTO.getBrandId(),saveContractRequestDTO.getProjectId());
             contractMapper.saveContract(
                     Stream.of(
                             new Contract()
