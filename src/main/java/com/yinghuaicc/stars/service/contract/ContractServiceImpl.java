@@ -1,11 +1,11 @@
 package com.yinghuaicc.stars.service.contract;
 
 import com.yinghuaicc.stars.common.utils.exception.ExceptionUtil;
-import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.repository.mapper.brand.BrandMapper;
 import com.yinghuaicc.stars.repository.mapper.contract.ContractMapper;
 import com.yinghuaicc.stars.repository.mapper.region.RegionMapper;
+import com.yinghuaicc.stars.repository.model.brand.Brand;
 import com.yinghuaicc.stars.repository.model.contract.Contract;
 import com.yinghuaicc.stars.service.contract.dto.request.SaveContractRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,10 +54,10 @@ public class ContractServiceImpl implements ContractService{
                 throw exceptionUtil.throwCustomException("CONTRACT_SAVE_CONTRACT_005");
             }
 
-            if (contractMapper.countContractByRoomId(roomId) > 0){
+      /*      if (contractMapper.countContractByRoomId(roomId) > 0){
 
                 throw exceptionUtil.throwCustomException("CONTRACT_SAVE_CONTRACT_006");
-            }
+            }*/
 
             if (2 == regionMapper.findRoomById(roomId).getState()){
 
@@ -72,7 +72,7 @@ public class ContractServiceImpl implements ContractService{
         });
 
         saveContractRequestDTO.getRoomId().stream().forEach(str -> {
-
+            String brandId = contractMapper.countContractByBrandIdId(saveContractRequestDTO.getBrandId(),saveContractRequestDTO.getProjectId());
             contractMapper.saveContract(
                     Stream.of(
                             new Contract()
@@ -85,15 +85,16 @@ public class ContractServiceImpl implements ContractService{
                                     .setCreateUser(loginEmployeeId)
                                     .setModifyUser(loginEmployeeId)
                                     .setModifyTime(LocalDateTime.now())
-                                    .setCreateTime(LocalDateTime.now()))
+                                    .setCreateTime(LocalDateTime.now()).setEffectTime(saveContractRequestDTO.getEffectTime()).setContractId(brandId == null ? UuidUtil.randomUUID() : brandId))
                             .collect(Collectors.toList()));
         });
 
-        brandMapper.editBrand(
-                brandMapper.findBrandById(saveContractRequestDTO.getBrandId())
-                        .setState(1)
-                        .setModifyTime(LocalDateTime.now())
-                        .setModifyUser(loginEmployeeId));
+        Brand brand = brandMapper.findBrandById(saveContractRequestDTO.getBrandId());
+        brand.setState(1);
+        brand.setModifyTime(LocalDateTime.now());
+        brand.setModifyUser(loginEmployeeId);
+        brandMapper.editBrand(brand);
+
     }
 
     /**
@@ -102,19 +103,17 @@ public class ContractServiceImpl implements ContractService{
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void dispelContract(String id, String loginEmployeeId) {
+    public void dispelContract(String id, String loginEmployeeId,String invalidTime) {
 
-        Contract contract = contractMapper.findContractById(id);
-
-        if (Objects.nonNull(contract)){
-
+        List<Contract> contracts = contractMapper.findContractByContractId(id);
+        contracts.forEach(contract->{
             if (contract.isStatus()){
 
                 contractMapper.editContractById(
                         contract
                                 .setStatus(false)
                                 .setModifyTime(LocalDateTime.now())
-                                .setModifyUser(loginEmployeeId));
+                                .setModifyUser(loginEmployeeId).setInvalidTime(invalidTime));
 
 
                 regionMapper.editRoom(
@@ -129,7 +128,7 @@ public class ContractServiceImpl implements ContractService{
                                 .setModifyTime(LocalDateTime.now())
                                 .setModifyUser(loginEmployeeId));
             }
-        }
+        });
     }
 
     @Override

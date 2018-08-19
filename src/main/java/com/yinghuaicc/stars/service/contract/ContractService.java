@@ -23,7 +23,7 @@ public interface ContractService {
      *@Author:Fly Created in 2018/7/16 下午4:32
      *@Description: 解约
      */
-    void dispelContract(String id, String loginEmployeeId);
+    void dispelContract(String id, String loginEmployeeId,String invalidTime);
 
     /**
      * 查询所有签约信息

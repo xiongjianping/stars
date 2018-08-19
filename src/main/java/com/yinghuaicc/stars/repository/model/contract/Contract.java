@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
  */
 public class Contract {
 
+    private String contractId; //签约ID
+
     //id
     private String id;
 
@@ -28,6 +30,10 @@ public class Contract {
     //状态(true:已签约，false：签约已解除)
     private boolean status;
 
+    private String effectTime; //签约生效时间
+
+    private String invalidTime; //签约失效时间
+
     //创建时间
     private LocalDateTime createTime;
 
@@ -39,6 +45,33 @@ public class Contract {
 
     //修改用户
     private String modifyUser;
+
+    public String getContractId() {
+        return contractId;
+    }
+
+    public Contract setContractId(String contractId) {
+        this.contractId = contractId;
+        return this;
+    }
+
+    public String getInvalidTime() {
+        return invalidTime;
+    }
+
+    public Contract setInvalidTime(String invalidTime) {
+        this.invalidTime = invalidTime;
+        return this;
+    }
+
+    public String getEffectTime() {
+        return effectTime;
+    }
+
+    public Contract setEffectTime(String effectTime) {
+        this.effectTime = effectTime;
+        return this;
+    }
 
     public String getId() {
         return id;

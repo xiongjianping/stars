@@ -47,10 +47,10 @@ public class ContractController {
      *@Author:Fly Created in 2018/7/30 上午11:21
      *@Description: 解约
      */
-    @GetMapping(value = "/dispel/contract/{id}")
-    public JsonResult dispelContract(@PathVariable String id){
+    @GetMapping(value = "/dispel/contract/{id}/{time}")
+    public JsonResult dispelContract(@PathVariable("id") String id,@PathVariable("time") String time){
 
-        contractService.dispelContract(id, applicationContext.getBean(AopResourceEmployeeBean.class).getId());
+        contractService.dispelContract(id, applicationContext.getBean(AopResourceEmployeeBean.class).getId(),time);
 
         return JsonResult.success("OK");
     }
