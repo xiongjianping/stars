@@ -78,4 +78,12 @@ public interface ContractMapper {
     @Select("select contract_id from yhcc_contract where brand_id = #{brandId} and project_id = #{projectId} and status = true group by contract_id ")
     String countContractByBrandIdId(@Param("brandId") String brandId,@Param("projectId") String projectId);
 
+    /**
+     *@Author:Fly Created in 2018/7/16 下午4:24
+     *@Description: 签约信息是否在生效日期内
+     */
+    @Select("select count(*) from yhcc_contract where contract_id = #{contractId} and left(effect_time,'7')  <= #{effectTime} and left((case when invalid_time is null then '9999-12-12' else invalid_time end),'7')  >=  #{effectTime} ")
+    Integer getContractByContractIdAndDate(@Param("contractId") String contractId,@Param("effectTime") String effectTime);
+
+
 }

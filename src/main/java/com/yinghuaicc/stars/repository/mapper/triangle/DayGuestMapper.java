@@ -66,8 +66,8 @@ public interface DayGuestMapper {
      * @return
      */
     @Select("SELECT b.name as 'areaName',SUM(d.passenger_flow) as 'passengerFlow',SUM(d.saleroom) as 'saleroom' FROM yhcc_project a LEFT JOIN yhcc_area b ON b.id = a.area_id" +
-            "LEFT JOIN yhcc_contract c ON c.project_id = a.id " +
-            "LEFT JOIN yhcc_day_guest d ON d.contract_id = c.id " +
+            " LEFT JOIN yhcc_contract c ON c.project_id = a.id " +
+            " LEFT JOIN yhcc_day_guest d ON d.contract_id = c.id " +
             "GROUP BY b.name")
     List<AllSalePassengerFlowResponseDTO> findSalePassengerFlowAll();
 
