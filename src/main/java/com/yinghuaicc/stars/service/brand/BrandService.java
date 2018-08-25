@@ -44,4 +44,10 @@ public interface BrandService {
      *@Description: 根据业种查询品牌
      */
     List<Brand> findBrandByBusinessSpeciesId(String businessSpeciesId);
+
+    /**
+     *@Author:Fly Created in 2018/7/30 下午12:55
+     *@Description: 根据业种查询品牌
+     */
+    List<Brand> findBrandByContractId(String businessSpeciesId);
 }

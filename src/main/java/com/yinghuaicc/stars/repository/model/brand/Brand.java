@@ -43,6 +43,16 @@ public class Brand {
     //修改人
     private String modifyUser;
 
+    private String contractId;
+
+    public String getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(String contractId) {
+        this.contractId = contractId;
+    }
+
     public String getId() {
         return id;
     }

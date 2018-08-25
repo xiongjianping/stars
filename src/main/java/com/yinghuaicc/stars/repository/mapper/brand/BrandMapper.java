@@ -75,4 +75,13 @@ public interface BrandMapper {
      */
     @Select("select count(*) from yhcc_brand where business_species_id = #{businessSpeciesId}")
     Integer countBrandByBusinessSpeciesId(String BusinessSpeciesId);
+
+
+    /**
+     *@Author:Fly Created in 2018/7/30 下午12:54
+     *@Description: 根据业种查询品牌
+     */
+    @Select(" select a.*,b.contract_id as contractId from yhcc_brand a inner JOIN yhcc_contract b on b.brand_id = a.id where b.status = true and a.business_species_id = #{businessSpeciesId} " +
+            " GROUP BY a.id ")
+    List<Brand> findBrandByContractId(String businessSpeciesId);
 }
