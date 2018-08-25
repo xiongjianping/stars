@@ -15,6 +15,10 @@ import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardBra
 import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardFloor;
 import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardForm;
 import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardProject;
+import com.yinghuaicc.stars.repository.model.section.SectionBrand;
+import com.yinghuaicc.stars.repository.model.section.SectionFloor;
+import com.yinghuaicc.stars.repository.model.section.SectionForm;
+import com.yinghuaicc.stars.repository.model.section.SectionProject;
 import com.yinghuaicc.stars.service.dynamic.brand.BrandRateService;
 import com.yinghuaicc.stars.service.dynamic.brand.dto.response.SyResponse;
 import com.yinghuaicc.stars.service.dynamic.fitted.FittedBrandService;
@@ -30,6 +34,11 @@ import com.yinghuaicc.stars.service.dynamic.standardproject.StandardBrandService
 import com.yinghuaicc.stars.service.dynamic.standardproject.StandardFloorService;
 import com.yinghuaicc.stars.service.dynamic.standardproject.StandardFormService;
 import com.yinghuaicc.stars.service.dynamic.standardproject.StandardProjectService;
+import com.yinghuaicc.stars.service.section.SectionBrandService;
+import com.yinghuaicc.stars.service.section.SectionFloorService;
+import com.yinghuaicc.stars.service.section.SectionFormService;
+import com.yinghuaicc.stars.service.section.SectionProjectService;
+import com.yinghuaicc.stars.service.section.dto.request.SectionBrandRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -88,7 +97,20 @@ public class SyController {
     @Autowired
     FittedBrandService fittedBrandService;//标准三角形适配值
 
+    @Autowired
     StandardGuestService standardGuestService; //标准三角形客销度
+
+    @Autowired
+    SectionProjectService sectionProjectService; //区间项目级别
+
+    @Autowired
+    SectionFloorService sectionFloorService; //区间楼层
+
+    @Autowired
+    SectionFormService sectionFormService; //区间业态
+
+    @Autowired
+    SectionBrandService sectionBrandService; //区间业种
 
     /**
      * 首页三角形项目级别
@@ -114,6 +136,22 @@ public class SyController {
         s.setBzyzl(projecbzyzl);
         s.setBzspz(projecbzspz);
         s.setBzkxd(projecbzkxd);
+
+        SectionProject sp = sectionProjectService.getSectionProjectListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandRequest.class));
+
+        BigDecimal expv = new BigDecimal(sp.getExcellentPgeVal()); //优秀百分比
+        s.setExcellentPgeVal(projecbzkxd.multiply(expv.add(new BigDecimal("1"))));
+
+        BigDecimal goodPgeVal = new BigDecimal(sp.getGoodPgeVal());//良好百分比
+        s.setGoodPgeVal(projecbzkxd.multiply(goodPgeVal.add(new BigDecimal("1"))));
+
+        BigDecimal promotePgeVal = new BigDecimal(sp.getPromotePgeVal());//提升百分比
+        s.setPromotePgeVal(projecbzkxd.multiply(promotePgeVal.add(new BigDecimal("1"))));
+
+        BigDecimal reasonablePgeVal = new BigDecimal(sp.getReasonablePgeVal());//合理百分比
+        s.setReasonablePgeVal(projecbzkxd.multiply(reasonablePgeVal.add(new BigDecimal("1"))));
+        s.setLossVal(projecbzkxd);
+
         return JsonResult.success(s);
     }
 
@@ -141,6 +179,23 @@ public class SyController {
         s.setBzyzl(floorbzyzl);
         s.setBzspz(floorbzspz);
         s.setBzkxd(floorbzkxd);
+
+
+        SectionFloor sp = sectionFloorService.getSectionFloorListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandRequest.class));
+
+        BigDecimal expv = new BigDecimal(sp.getExcellentPgeVal()); //优秀百分比
+        s.setExcellentPgeVal(floorbzkxd.multiply(expv.add(new BigDecimal("1"))));
+
+        BigDecimal goodPgeVal = new BigDecimal(sp.getGoodPgeVal());//良好百分比
+        s.setGoodPgeVal(floorbzkxd.multiply(goodPgeVal.add(new BigDecimal("1"))));
+
+        BigDecimal promotePgeVal = new BigDecimal(sp.getPromotePgeVal());//提升百分比
+        s.setPromotePgeVal(floorbzkxd.multiply(promotePgeVal.add(new BigDecimal("1"))));
+
+        BigDecimal reasonablePgeVal = new BigDecimal(sp.getReasonablePgeVal());//合理百分比
+        s.setReasonablePgeVal(floorbzkxd.multiply(reasonablePgeVal.add(new BigDecimal("1"))));
+
+        s.setLossVal(floorbzkxd);
         return JsonResult.success(s);
     }
 
@@ -169,6 +224,24 @@ public class SyController {
         s.setBzkxd(formbzkxd);
         s.setBzyzl(formbzyzl);
         s.setBzspz(formbzspz);
+
+
+        SectionForm sp = sectionFormService.getSectionFormListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandRequest.class));
+
+        BigDecimal expv = new BigDecimal(sp.getExcellentPgeVal()); //优秀百分比
+        s.setExcellentPgeVal(formbzkxd.multiply(expv.add(new BigDecimal("1"))));
+
+        BigDecimal goodPgeVal = new BigDecimal(sp.getGoodPgeVal());//良好百分比
+        s.setGoodPgeVal(formbzkxd.multiply(goodPgeVal.add(new BigDecimal("1"))));
+
+        BigDecimal promotePgeVal = new BigDecimal(sp.getPromotePgeVal());//提升百分比
+        s.setPromotePgeVal(formbzkxd.multiply(promotePgeVal.add(new BigDecimal("1"))));
+
+        BigDecimal reasonablePgeVal = new BigDecimal(sp.getReasonablePgeVal());//合理百分比
+        s.setReasonablePgeVal(formbzkxd.multiply(reasonablePgeVal.add(new BigDecimal("1"))));
+
+        s.setLossVal(formbzkxd);
+
         return JsonResult.success(s);
     }
 
@@ -198,6 +271,25 @@ public class SyController {
         s.setBzyzl(brandbzyzl);
         s.setBzspz(brandbzspz);
         s.setBzkxd(brandbzkxd);
+
+
+        SectionBrand sp = sectionBrandService.getSectionBrandListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandRequest.class));
+
+        BigDecimal expv = new BigDecimal(sp.getExcellentPgeVal()); //优秀百分比
+        s.setExcellentPgeVal(brandbzkxd.multiply(expv.add(new BigDecimal("1"))));
+
+        BigDecimal goodPgeVal = new BigDecimal(sp.getGoodPgeVal());//良好百分比
+        s.setGoodPgeVal(brandbzkxd.multiply(goodPgeVal.add(new BigDecimal("1"))));
+
+        BigDecimal promotePgeVal = new BigDecimal(sp.getPromotePgeVal());//提升百分比
+        s.setPromotePgeVal(brandbzkxd.multiply(promotePgeVal.add(new BigDecimal("1"))));
+
+        BigDecimal reasonablePgeVal = new BigDecimal(sp.getReasonablePgeVal());//合理百分比
+        s.setReasonablePgeVal(brandbzkxd.multiply(reasonablePgeVal.add(new BigDecimal("1"))));
+
+        s.setLossVal(brandbzkxd);
+
+
         return JsonResult.success(s);
     }
 

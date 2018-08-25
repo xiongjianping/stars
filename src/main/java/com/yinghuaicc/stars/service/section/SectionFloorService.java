@@ -18,4 +18,6 @@ public interface SectionFloorService {
     void deleteSectionFloor(String id);
 
     ResultPageList<SectionBrandResponse> getSectionFloorList(SectionBrandRequest sectionBrandRequest, PageParam pageParam);
+
+    SectionFloor getSectionFloorListById(SectionBrandRequest sectionBrandRequest);
 }

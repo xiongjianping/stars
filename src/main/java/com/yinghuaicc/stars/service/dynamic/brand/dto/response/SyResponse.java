@@ -14,6 +14,52 @@ public class SyResponse {
     BigDecimal bzspz;
     BigDecimal bzyzl;
 
+    BigDecimal excellentPgeVal;//优秀百分比
+    BigDecimal goodPgeVal;//良好百分比
+    BigDecimal promotePgeVal;//提升百分比
+    BigDecimal reasonablePgeVal;//合理百分比
+    BigDecimal lossVal;//合理百分比
+
+    public BigDecimal getExcellentPgeVal() {
+        return excellentPgeVal;
+    }
+
+    public void setExcellentPgeVal(BigDecimal excellentPgeVal) {
+        this.excellentPgeVal = excellentPgeVal;
+    }
+
+    public BigDecimal getGoodPgeVal() {
+        return goodPgeVal;
+    }
+
+    public void setGoodPgeVal(BigDecimal goodPgeVal) {
+        this.goodPgeVal = goodPgeVal;
+    }
+
+    public BigDecimal getPromotePgeVal() {
+        return promotePgeVal;
+    }
+
+    public void setPromotePgeVal(BigDecimal promotePgeVal) {
+        this.promotePgeVal = promotePgeVal;
+    }
+
+    public BigDecimal getReasonablePgeVal() {
+        return reasonablePgeVal;
+    }
+
+    public void setReasonablePgeVal(BigDecimal reasonablePgeVal) {
+        this.reasonablePgeVal = reasonablePgeVal;
+    }
+
+    public BigDecimal getLossVal() {
+        return lossVal;
+    }
+
+    public void setLossVal(BigDecimal lossVal) {
+        this.lossVal = lossVal;
+    }
+
     public BigDecimal getDtkxd() {
         return dtkxd;
     }

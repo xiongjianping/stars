@@ -63,4 +63,9 @@ public class SectionFormServiceImpl implements SectionFormService{
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
     }
+
+    @Override
+    public SectionForm getSectionFormListById(SectionBrandRequest sectionBrandRequest) {
+        return sectionFormMapper.getSectionFormListById(sectionBrandRequest);
+    }
 }

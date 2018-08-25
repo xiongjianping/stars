@@ -17,4 +17,6 @@ public interface SectionFormService {
     void deleteSectionForm(String id);
 
     ResultPageList<SectionBrandResponse> getSectionFormList(SectionBrandRequest sectionBrandRequest, PageParam pageParam);
+
+    SectionForm getSectionFormListById(SectionBrandRequest sectionBrandRequest);
 }

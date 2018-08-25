@@ -6,6 +6,7 @@ import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
+import com.yinghuaicc.stars.repository.mapper.dynamic.fitted.FittedBrandMapper;
 import com.yinghuaicc.stars.repository.mapper.section.SectionProjectMapper;
 import com.yinghuaicc.stars.repository.model.section.SectionProject;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandRequest;
@@ -29,6 +30,8 @@ public class SectionProjectServiceImpl implements SectionProjectService{
 
     @Autowired
     AopResourceEmployeeBean aopResourceEmployeeBean;
+
+
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -62,5 +65,10 @@ public class SectionProjectServiceImpl implements SectionProjectService{
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
+    }
+
+    @Override
+    public SectionProject getSectionProjectListById(SectionBrandRequest sectionBrandRequest) {
+        return sectionProjectMapper.getSectionProjectListById(sectionBrandRequest);
     }
 }

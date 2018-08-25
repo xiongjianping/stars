@@ -363,7 +363,7 @@ public class StandardGuestServiceImpl implements StandardGuestService {
         BigDecimal day = new BigDecimal(duration.toDays()); //时间差
         getStandardProjectGuestList.forEach(p->{
             standardGuest.setContractId(p.getContractId());
-            standardGuest.setBuildingId(p.getFormId());
+            standardGuest.setBusinessFormId(p.getFormId());
             RentingRateListResponse rentingRateListResponse = rentingRateMapper.getRentingRateByKxd(MapperFactoryUtil.mapperObject(standardGuest, getRentingRateListRequest.class));
             if(rentingRateListResponse == null) {
                 throw exceptionUtil.throwCustomException("RENTING_RATE_011");
