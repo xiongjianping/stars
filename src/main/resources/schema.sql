@@ -923,33 +923,33 @@ CREATE TABLE IF NOT EXISTS `yhcc_standard_condition_sale`(
 
 ---创建适配值
 CREATE TABLE IF NOT EXISTS `yhcc_fitred_val` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `fitred_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `fitred_type` varchar(255)  DEFAULT NULL,
+  `name` varchar(255)  DEFAULT NULL,
+  `val` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `status` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 ---创建模板
 CREATE  TABLE IF NOT EXISTS  `yhcc_assess_model` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `create_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `update_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `name` varchar(255)  DEFAULT NULL,
+  `number` varchar(255)  DEFAULT NULL,
+  `status` varchar(255)  DEFAULT NULL,
+  `create_name` varchar(255)  DEFAULT NULL,
+  `update_name` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --模板关系
 CREATE TABLE IF NOT EXISTS `yhcc_assess_fitredval` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `fitred_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `assess_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `id` varchar(255)  DEFAULT NULL,
+  `fitred_id` varchar(255)  DEFAULT NULL,
+  `assess_id` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -982,18 +982,18 @@ CREATE TABLE IF NOT EXISTS `yhcc_trianglecqrs` (
 
 -----------------------张嘉嘉，最新溢租率
 CREATE TABLE IF NOT EXISTS `yhcc_renting_rate` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `rent` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `propertyfee` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `depreciation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `agency_fee` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `labor_cost` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contract_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(50)  NOT NULL,
+  `rent` varchar(255)  DEFAULT NULL,
+  `propertyfee` varchar(255)  DEFAULT NULL,
+  `depreciation` varchar(255)  DEFAULT NULL,
+  `agency_fee` varchar(255)  DEFAULT NULL,
+  `labor_cost` varchar(255)  DEFAULT NULL,
+  `contract_id` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1001,219 +1001,219 @@ CREATE TABLE IF NOT EXISTS `yhcc_renting_rate` (
 -------------------------动态客销度 项目级
 
 CREATE TABLE IF NOT EXISTS `yhcc_project_rate` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `project_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `passenger_flow` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sales_volume` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `project_id` varchar(255)  DEFAULT NULL,
+  `passenger_flow` varchar(255)  DEFAULT NULL,
+  `sales_volume` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
 CREATE TABLE IF NOT EXISTS `yhcc_floor_rate` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `project_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `building_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `floor_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `passenger_flow` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sales_volume` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `project_id` varchar(255)  DEFAULT NULL,
+  `building_id` varchar(255)  DEFAULT NULL,
+  `floor_id` varchar(255)  DEFAULT NULL,
+  `passenger_flow` varchar(255)  DEFAULT NULL,
+  `sales_volume` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
 
 CREATE TABLE IF NOT EXISTS `yhcc_brand_rate` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `project_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `building_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `floor_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contract_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `passenger_flow` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sales_volume` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `project_id` varchar(255)  DEFAULT NULL,
+  `building_id` varchar(255)  DEFAULT NULL,
+  `floor_id` varchar(255)  DEFAULT NULL,
+  `contract_id` varchar(255)  DEFAULT NULL,
+  `passenger_flow` varchar(255)  DEFAULT NULL,
+  `sales_volume` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `form_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `species_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL,
+  `form_id` varchar(255)  DEFAULT NULL,
+  `species_id` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
 CREATE TABLE IF NOT EXISTS `yhcc_quarter_rate` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `project_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `building_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `floor_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contract_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `market_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `brand_positioning_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `brand_img_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `rent_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `chain_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `customer_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `enterprise_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `quarter_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `project_id` varchar(255)  DEFAULT NULL,
+  `building_id` varchar(255)  DEFAULT NULL,
+  `floor_id` varchar(255)  DEFAULT NULL,
+  `contract_id` varchar(255)  DEFAULT NULL,
+  `market_val` varchar(255)  DEFAULT NULL,
+  `brand_positioning_val` varchar(255)  DEFAULT NULL,
+  `brand_img_val` varchar(255)  DEFAULT NULL,
+  `rent_val` varchar(255)  DEFAULT NULL,
+  `chain_val` varchar(255)  DEFAULT NULL,
+  `customer_val` varchar(255)  DEFAULT NULL,
+  `enterprise_val` varchar(255)  DEFAULT NULL,
+  `quarter_val` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `form_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `species_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL,
+  `form_id` varchar(255)  DEFAULT NULL,
+  `species_id` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 --------------标准三角形
 CREATE TABLE IF NOT EXISTS `yhcc_project_standard` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `project_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `renting_rate_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `project_id` varchar(255)  DEFAULT NULL,
+  `renting_rate_val` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE IF NOT EXISTS `yhcc_floor_standard` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `project_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `building_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `floor_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `renting_rate_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `project_id` varchar(255)  DEFAULT NULL,
+  `building_id` varchar(255)  DEFAULT NULL,
+  `floor_id` varchar(255)  DEFAULT NULL,
+  `renting_rate_val` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
 
 CREATE TABLE IF NOT EXISTS `yhcc_form_standard` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `project_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `building_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `floor_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `renting_rate_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `project_id` varchar(255)  DEFAULT NULL,
+  `building_id` varchar(255)  DEFAULT NULL,
+  `floor_id` varchar(255)  DEFAULT NULL,
+  `renting_rate_val` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `form_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `species_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL,
+  `form_id` varchar(255)  DEFAULT NULL,
+  `species_id` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
 CREATE TABLE IF NOT EXISTS `yhcc_brand_standard` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `project_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `building_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `floor_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contract_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `renting_rate_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `project_id` varchar(255)  DEFAULT NULL,
+  `building_id` varchar(255)  DEFAULT NULL,
+  `floor_id` varchar(255)  DEFAULT NULL,
+  `contract_id` varchar(255)  DEFAULT NULL,
+  `renting_rate_val` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `form_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `species_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL,
+  `form_id` varchar(255)  DEFAULT NULL,
+  `species_id` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
 CREATE TABLE IF NOT EXISTS `yhcc_standard_guest` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `project_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `building_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `floor_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contract_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `interest_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `price_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `standard_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `project_id` varchar(255)  DEFAULT NULL,
+  `building_id` varchar(255)  DEFAULT NULL,
+  `floor_id` varchar(255)  DEFAULT NULL,
+  `contract_id` varchar(255)  DEFAULT NULL,
+  `interest_val` varchar(255)  DEFAULT NULL,
+  `price_val` varchar(255)  DEFAULT NULL,
+  `standard_val` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `form_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `species_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL,
+  `form_id` varchar(255)  DEFAULT NULL,
+  `species_id` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
 
 CREATE TABLE  IF NOT EXISTS `yhcc_brand_fitted` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `project_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `building_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `floor_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `form_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `species_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contract_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `fitted_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `project_id` varchar(255)  DEFAULT NULL,
+  `building_id` varchar(255)  DEFAULT NULL,
+  `floor_id` varchar(255)  DEFAULT NULL,
+  `form_id` varchar(255)  DEFAULT NULL,
+  `species_id` varchar(255)  DEFAULT NULL,
+  `contract_id` varchar(255)  DEFAULT NULL,
+  `fitted_val` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE  IF NOT EXISTS `yhcc_floor_fitted` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `project_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `building_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `floor_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `fitted_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `project_id` varchar(255)  DEFAULT NULL,
+  `building_id` varchar(255)  DEFAULT NULL,
+  `floor_id` varchar(255)  DEFAULT NULL,
+  `fitted_val` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE  IF NOT EXISTS `yhcc_form_fitted` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `project_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `form_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contract_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `fitted_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `project_id` varchar(255)  DEFAULT NULL,
+  `form_id` varchar(255)  DEFAULT NULL,
+  `contract_id` varchar(255)  DEFAULT NULL,
+  `fitted_val` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
 CREATE TABLE  IF NOT EXISTS `yhcc_project_fitted` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `project_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contract_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `fitted_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `project_id` varchar(255)  DEFAULT NULL,
+  `contract_id` varchar(255)  DEFAULT NULL,
+  `fitted_val` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
@@ -1221,90 +1221,90 @@ CREATE TABLE  IF NOT EXISTS `yhcc_project_fitted` (
 ----------------------区间
 
 CREATE TABLE  IF NOT EXISTS `yhcc_section_brand` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `project_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `building_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `floor_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `form_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `species_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contract_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `excellent_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `good_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `promote_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reasonable_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `loss_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `excellent_pge_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `good_pge_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `promote_pge_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reasonable_pge_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `project_id` varchar(255)  DEFAULT NULL,
+  `building_id` varchar(255)  DEFAULT NULL,
+  `floor_id` varchar(255)  DEFAULT NULL,
+  `form_id` varchar(255)  DEFAULT NULL,
+  `species_id` varchar(255)  DEFAULT NULL,
+  `contract_id` varchar(255)  DEFAULT NULL,
+  `excellent_val` varchar(255)  DEFAULT NULL,
+  `good_val` varchar(255)  DEFAULT NULL,
+  `promote_val` varchar(255)  DEFAULT NULL,
+  `reasonable_val` varchar(255)  DEFAULT NULL,
+  `loss_val` varchar(255)  DEFAULT NULL,
+  `excellent_pge_val` varchar(255)  DEFAULT NULL,
+  `good_pge_val` varchar(255)  DEFAULT NULL,
+  `promote_pge_val` varchar(255)  DEFAULT NULL,
+  `reasonable_pge_val` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
 CREATE TABLE  IF NOT EXISTS `yhcc_section_form` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `project_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `form_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `excellent_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `good_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `promote_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reasonable_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `loss_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `excellent_pge_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `good_pge_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `promote_pge_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reasonable_pge_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `project_id` varchar(255)  DEFAULT NULL,
+  `form_id` varchar(255)  DEFAULT NULL,
+  `excellent_val` varchar(255)  DEFAULT NULL,
+  `good_val` varchar(255)  DEFAULT NULL,
+  `promote_val` varchar(255)  DEFAULT NULL,
+  `reasonable_val` varchar(255)  DEFAULT NULL,
+  `loss_val` varchar(255)  DEFAULT NULL,
+  `excellent_pge_val` varchar(255)  DEFAULT NULL,
+  `good_pge_val` varchar(255)  DEFAULT NULL,
+  `promote_pge_val` varchar(255)  DEFAULT NULL,
+  `reasonable_pge_val` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 
 CREATE TABLE  IF NOT EXISTS `yhcc_section_floor` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `project_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `building_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `floor_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `excellent_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `good_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `promote_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reasonable_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `loss_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `excellent_pge_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `good_pge_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `promote_pge_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reasonable_pge_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `project_id` varchar(255)  DEFAULT NULL,
+  `building_id` varchar(255)  DEFAULT NULL,
+  `floor_id` varchar(255)  DEFAULT NULL,
+  `excellent_val` varchar(255)  DEFAULT NULL,
+  `good_val` varchar(255)  DEFAULT NULL,
+  `promote_val` varchar(255)  DEFAULT NULL,
+  `reasonable_val` varchar(255)  DEFAULT NULL,
+  `loss_val` varchar(255)  DEFAULT NULL,
+  `excellent_pge_val` varchar(255)  DEFAULT NULL,
+  `good_pge_val` varchar(255)  DEFAULT NULL,
+  `promote_pge_val` varchar(255)  DEFAULT NULL,
+  `reasonable_pge_val` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE  IF NOT EXISTS `yhcc_section_project` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `project_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `excellent_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `good_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `promote_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reasonable_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `loss_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `excellent_pge_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `good_pge_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `promote_pge_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `reasonable_pge_val` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `effect_time` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(255)  DEFAULT NULL,
+  `project_id` varchar(255)  DEFAULT NULL,
+  `excellent_val` varchar(255)  DEFAULT NULL,
+  `good_val` varchar(255)  DEFAULT NULL,
+  `promote_val` varchar(255)  DEFAULT NULL,
+  `reasonable_val` varchar(255)  DEFAULT NULL,
+  `loss_val` varchar(255)  DEFAULT NULL,
+  `excellent_pge_val` varchar(255)  DEFAULT NULL,
+  `good_pge_val` varchar(255)  DEFAULT NULL,
+  `promote_pge_val` varchar(255)  DEFAULT NULL,
+  `reasonable_pge_val` varchar(255)  DEFAULT NULL,
+  `effect_time` varchar(255)  DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `modify_time` datetime DEFAULT NULL,
-  `create_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `modify_user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `create_user` varchar(255)  DEFAULT NULL,
+  `modify_user` varchar(255)  DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
