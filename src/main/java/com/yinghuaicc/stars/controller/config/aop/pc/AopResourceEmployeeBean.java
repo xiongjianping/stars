@@ -17,13 +17,13 @@ import java.util.List;
 public class AopResourceEmployeeBean {
 
     //id
-    private String id = "1";
+    private String id;
 
     //编号
     private String num;
 
     //名称
-    private String name = "123";
+    private String name;
 
     //手机
     private String phone;

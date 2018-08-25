@@ -17,4 +17,6 @@ public interface SectionProjectService {
     void deleteSectionProject(String id);
 
     ResultPageList<SectionBrandResponse> getSectionProjectList(SectionBrandRequest sectionBrandRequest, PageParam pageParam);
+
+    SectionProject getSectionProjectListById(SectionBrandRequest sectionBrandRequest);
 }

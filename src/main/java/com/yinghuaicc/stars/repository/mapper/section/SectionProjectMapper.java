@@ -22,17 +22,17 @@ public interface SectionProjectMapper {
      */
     @Insert("insert into yhcc_section_project(id,project_id," +
             "excellent_val,good_val,promote_val,reasonable_val,loss_val,excellent_pge_val,good_pge_val,promote_pge_val,reasonable_pge_val," +
-            "effect_time,create_time,create_user)" +
+            "create_time,create_user)" +
             " values(#{id},#{projectId}," +
             "#{excellentVal},#{goodVal},#{promoteVal},#{reasonableVal},#{lossVal},#{excellentPgeVal},#{goodPgeVal},#{promotePgeVal},#{reasonablePgeVal}," +
-            "#{effectTime},#{createTime},#{createUser})")
+            "#{createTime},#{createUser})")
     void saveSectionProject(SectionProject sectionProject);
 
     /**
      * 新增删除
      * @param sectionProject
      */
-    @Delete("delete from yhcc_section_project where project_id = #{projectId} and effect_time = #{effectTime}")
+    @Delete("delete from yhcc_section_project where project_id = #{projectId} ")
     void deleteSaveSection(SectionProject sectionProject);
 
     /**
@@ -40,7 +40,7 @@ public interface SectionProjectMapper {
      * @param id
      * @return
      */
-    @Select("select * from yhcc_section_project where id #{values} ")
+    @Select("select * from yhcc_section_project where id = #{values} ")
     SectionProject getSectionProjectById(String id);
 
 
@@ -61,7 +61,14 @@ public interface SectionProjectMapper {
             " select a.*,b.name as projectName from yhcc_section_project a on yhcc_project b on b.id = a.project_id " +
             " where 1 = 1 " +
             " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
-            " <if test='effectTime != null'> AND a.effect_time = #{effectTime} </if>" +
             " </script>")
     List<SectionBrandResponse> getSectionProjectList(SectionBrandRequest sectionBrandRequest);
+
+
+    @Select(" " +
+            " select a.* from yhcc_section_project a  " +
+            " where " +
+            " a.project_id = #{projectId} " +
+            " ")
+    SectionProject getSectionProjectListById(SectionBrandRequest sectionBrandRequest);
 }

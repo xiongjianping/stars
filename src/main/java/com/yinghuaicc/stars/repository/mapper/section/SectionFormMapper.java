@@ -21,17 +21,17 @@ public interface SectionFormMapper {
      */
     @Insert("insert into yhcc_section_form(id,project_id,form_id," +
             "excellent_val,good_val,promote_val,reasonable_val,loss_val,excellent_pge_val,good_pge_val,promote_pge_val,reasonable_pge_val," +
-            "effect_time,create_time,create_user)" +
+            "create_time,create_user)" +
             " values(#{id},#{projectId},#{formId}," +
             "#{excellentVal},#{goodVal},#{promoteVal},#{reasonableVal},#{lossVal},#{excellentPgeVal},#{goodPgeVal},#{promotePgeVal},#{reasonablePgeVal}," +
-            "#{effectTime},#{createTime},#{createUser})")
+            "#{createTime},#{createUser})")
     void saveSectionForm(SectionForm sectionForm);
 
     /**
      * 新增删除
      * @param sectionForm
      */
-    @Delete("delete from yhcc_section_form where project_id = #{projectId} and form_id = #{formId}  and effect_time = #{effectTime}")
+    @Delete("delete from yhcc_section_form where project_id = #{projectId} and form_id = #{formId}")
     void deleteSaveSection(SectionForm sectionForm);
 
     /**
@@ -61,8 +61,16 @@ public interface SectionFormMapper {
             " where 1 = 1 " +
             " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
             " <if test='formId != null'> AND a.form_id = #{formId} </if> " +
-            " <if test='effectTime != null'> AND a.effect_time = #{effectTime} </if>" +
             " </script>")
     List<SectionBrandResponse> getSectionFormList(SectionBrandRequest sectionBrandRequest);
+
+
+    @Select(" " +
+            " select a.* from yhcc_section_form a  " +
+            " where " +
+            "   a.project_id = #{projectId} " +
+            "  AND a.form_id = #{formId} " +
+            " ")
+    SectionForm getSectionFormListById(SectionBrandRequest sectionBrandRequest);
 
 }

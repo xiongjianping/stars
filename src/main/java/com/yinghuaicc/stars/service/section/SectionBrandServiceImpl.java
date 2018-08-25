@@ -2,11 +2,14 @@ package com.yinghuaicc.stars.service.section;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
+import com.yinghuaicc.stars.repository.mapper.dynamic.fitted.FittedBrandMapper;
 import com.yinghuaicc.stars.repository.mapper.section.SectionBrandMapper;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedBrand;
 import com.yinghuaicc.stars.repository.model.section.SectionBrand;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandRequest;
 import com.yinghuaicc.stars.service.section.dto.response.SectionBrandResponse;
@@ -29,6 +32,9 @@ public class SectionBrandServiceImpl implements SectionBrandService {
 
     @Autowired
     AopResourceEmployeeBean aopResourceEmployeeBean;
+
+    @Autowired
+    FittedBrandMapper fittedBrandMapper;
 
     /**
      * 新增业态级别
@@ -81,5 +87,12 @@ public class SectionBrandServiceImpl implements SectionBrandService {
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
+    }
+
+    @Override
+    public SectionBrand getSectionBrandListById(SectionBrandRequest sectionBrandRequest) {
+        String species = fittedBrandMapper.getFittedBrandSpeciesId(MapperFactoryUtil.mapperObject(sectionBrandRequest, FittedBrand.class));
+        sectionBrandRequest.setSpeciesId(species);
+        return sectionBrandMapper.getSectionBrandListById(sectionBrandRequest);
     }
 }

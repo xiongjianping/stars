@@ -63,4 +63,9 @@ public class SectionFloorServiceImpl implements SectionFloorService {
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
     }
+
+    @Override
+    public SectionFloor getSectionFloorListById(SectionBrandRequest sectionBrandRequest) {
+        return sectionFloorMapper.getSectionFloorListById(sectionBrandRequest);
+    }
 }

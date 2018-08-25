@@ -21,17 +21,17 @@ public interface SectionFloorMapper {
      */
     @Insert("insert into yhcc_section_floor(id,project_id,building_id,floor_id," +
             "excellent_val,good_val,promote_val,reasonable_val,loss_val,excellent_pge_val,good_pge_val,promote_pge_val,reasonable_pge_val," +
-            "effect_time,create_time,create_user)" +
+            "create_time,create_user)" +
             " values(#{id},#{projectId},#{buildingId},#{floorId}," +
             "#{excellentVal},#{goodVal},#{promoteVal},#{reasonableVal},#{lossVal},#{excellentPgeVal},#{goodPgeVal},#{promotePgeVal},#{reasonablePgeVal}," +
-            "#{effectTime},#{createTime},#{createUser})")
+            "#{createTime},#{createUser})")
     void saveSectionFloor(SectionFloor sectionFloor);
 
     /**
      * 新增删除
      * @param sectionFloor
      */
-    @Delete("delete from yhcc_section_floor where project_id = #{projectId} and building_id = #{buildingId} and floor_id = #{floorId} and effect_time = #{effectTime}")
+    @Delete("delete from yhcc_section_floor where project_id = #{projectId} and building_id = #{buildingId} and floor_id = #{floorId}")
     void deleteSaveSection(SectionFloor sectionFloor);
 
     /**
@@ -63,9 +63,17 @@ public interface SectionFloorMapper {
             " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
             " <if test='buildingId != null'> AND a.building_id = #{buildingId} </if>" +
             " <if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
-            " <if test='effectTime != null'> AND a.effect_time = #{effectTime} </if>" +
             " </script>")
     List<SectionBrandResponse> getSectionFloorList(SectionBrandRequest sectionBrandRequest);
+
+
+    @Select(" " +
+            " select a.* from yhcc_section_floor a  " +
+            " where " +
+            "   a.project_id = #{projectId} " +
+            "  AND a.floor_id = #{floorId} " +
+            " ")
+    SectionFloor getSectionFloorListById(SectionBrandRequest sectionBrandRequest);
 
 
 }

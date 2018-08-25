@@ -19,4 +19,6 @@ public interface SectionBrandService {
 
     ResultPageList<SectionBrandResponse> getSectionBrandList(SectionBrandRequest sectionBrandRequest, PageParam pageParam);
 
+    SectionBrand getSectionBrandListById(SectionBrandRequest sectionBrandRequest);
+
 }
