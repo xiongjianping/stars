@@ -125,4 +125,9 @@ public class BrandServiceImpl implements BrandService{
 
         return brandMapper.findBrandByBusinessSpeciesId(businessSpeciesId);
     }
+
+    @Override
+    public List<Brand> findBrandByContractId(String businessSpeciesId) {
+        return brandMapper.findBrandByContractId(businessSpeciesId);
+    }
 }
