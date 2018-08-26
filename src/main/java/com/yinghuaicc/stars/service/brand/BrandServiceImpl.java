@@ -7,6 +7,7 @@ import com.yinghuaicc.stars.config.base.BusinessNum;
 import com.yinghuaicc.stars.repository.mapper.base.BaseMapper;
 import com.yinghuaicc.stars.repository.mapper.brand.BrandMapper;
 import com.yinghuaicc.stars.repository.model.brand.Brand;
+import com.yinghuaicc.stars.repository.model.brand.BrandCon;
 import com.yinghuaicc.stars.service.brand.dto.request.EditBrandRequestDTO;
 import com.yinghuaicc.stars.service.brand.dto.request.SaveBrandRequestDTO;
 import com.yinghuaicc.stars.service.brand.dto.response.BrandAllResponseDTO;
@@ -127,7 +128,7 @@ public class BrandServiceImpl implements BrandService{
     }
 
     @Override
-    public List<Brand> findBrandByContractId(String businessSpeciesId) {
+    public List<BrandCon> findBrandByContractId(String businessSpeciesId) {
         return brandMapper.findBrandByContractId(businessSpeciesId);
     }
 }

@@ -32,8 +32,8 @@ public interface FittedProjectMapper {
             " select a.*,b.name as projectName from yhcc_project_fitted a" +
             " LEFT JOIN yhcc_project b on a.project_id = b.id where " +
             " 1=1 " +
-            " <if test='projectId != null'> AND a.project_id = #{projectId} </if>" +
-            " <if test='effectTime != null'> AND a.effect_time = #{effectTime} </if> " +
+            " <if test='projectId != null and projectId != \"\"'> AND a.project_id = #{projectId} </if>" +
+            " <if test='effectTime != null and effectTime != \"\"'> AND a.effect_time = #{effectTime} </if> " +
             "  " +
             " </script>")
     List<FittedProjectListResponse> getFittedProjectList(FittedProject fittedProject);
@@ -91,7 +91,7 @@ public interface FittedProjectMapper {
      */
     @Select(" select fitted_val from yhcc_project_fitted  where " +
             " project_id = #{projectId} " +
-            " and effect_time >= #{createTime} and effect_time <= #{modifyTime} " +
-            " ORDER BY effect_time limit 0,1 ")
+            " and effect_time >= #{modifyTime} " +
+            " ORDER BY effect_time desc limit 0,1 ")
     String getFittedProjectId(FittedProject fittedProject);
 }

@@ -45,10 +45,10 @@ public class StandardBrandServiceImpl implements StandardBrandService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveStandardBrand(StandardBrand standardBrand) {
-        Integer count = contractMapper.getContractByContractIdAndDate(standardBrand.getContractId(),standardBrand.getEffectTime());
+       /* Integer count = contractMapper.getContractByContractIdAndDate(standardBrand.getContractId(),standardBrand.getEffectTime());
         if(count == 0){
             throw exceptionUtil.throwCustomException("RENTING_RATE_001");
-        }
+        }*/
         standardBrandMapper.deleteStandardBrandById(standardBrand);
         standardBrand.setId(UuidUtil.randomUUID());
         standardBrand.setCreateTime(LocalDateTime.now());

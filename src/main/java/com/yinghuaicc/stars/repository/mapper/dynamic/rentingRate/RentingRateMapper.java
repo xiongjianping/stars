@@ -58,13 +58,13 @@ public interface RentingRateMapper {
             " LEFT JOIN yhcc_project h on h.id = b.project_id" +
             " LEFT JOIN yhcc_building i on i.id = d.building_id" +
             " WHERE 1=1 " +
-            " <if test='projectId != null'> AND h.id = #{projectId} </if> " +
-            " <if test='buildingId != null'> AND i.id = #{buildingId} </if> " +
-            " <if test='floorId != null'> AND d.id = #{floorId} </if> " +
-            " <if test='businessFormId != null'> AND f.id = #{businessFormId} </if> " +
-            " <if test='brandName != null'> AND c.name like #{brandName} </if> " +
-            " <if test='effectTime != null'> AND a.effect_time = #{effectTime} </if> " +
-            " GROUP BY b.project_id " +
+            " <if test='projectId != null and projectId != \"\"' > AND h.id = #{projectId} </if> " +
+            " <if test='buildingId != null and buildingId != \"\"' > AND i.id = #{buildingId} </if> " +
+            " <if test='floorId != null and floorId != \"\"' > AND d.id = #{floorId} </if> " +
+            " <if test='businessFormId != null and businessFormId != \"\"' > AND f.id = #{businessFormId} </if> " +
+            " <if test='contractId != null and contractId != \"\"' > AND a.contract_id = #{contractId} </if> " +
+            " <if test='effectTime != null and effectTime != \"\" '  > AND left(a.effect_time,7) = left(#{effectTime},7) </if> " +
+            " GROUP BY a.id " +
             " </script>")
     List<RentingRateListResponse> getRentingRateList(getRentingRateListRequest getRentingRateListRequest);
 
@@ -192,7 +192,7 @@ public interface RentingRateMapper {
      * @return
      */
     @Select(" select a.* from yhcc_renting_rate a LEFT JOIN yhcc_contract b on b.contract_id = a.contract_id " +
-            " where b.project_id = #{projectId} and b.floor_id = #{floorId} and  date_format(a.effect_time,'%Y-%m') >= left(#{createTime},7) and date_format(a.effect_time,'%Y-%m') <= left(#{modifyTime},7)  " +
+            " where b.project_id = #{projectId} and b.floor_id = #{floorId} and date_format(a.effect_time,'%Y-%m') = left(#{modifyTime},7)  " +
             " GROUP BY a.contract_id order by a.effect_time ")
     List<RentingRate> getSyFloorRentingRate(StandardGuest standardGuest);
 

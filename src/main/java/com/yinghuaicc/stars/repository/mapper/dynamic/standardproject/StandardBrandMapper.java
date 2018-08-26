@@ -29,7 +29,7 @@ public interface StandardBrandMapper {
      * 新增删除
      * @param standardBrand
      */
-    @Delete("delete from yhcc_brand_standard where project_id = #{projectId} and building_id = #{buildingId} and floor_id = #{floorId} and form_id = #{formId} and species_id = #{speciesId}  and effect_time = #{effectTime}")
+    @Delete("delete from yhcc_brand_standard where project_id = #{projectId} and form_id = #{formId} and species_id = #{speciesId}  and effect_time = #{effectTime}")
     void deleteStandardBrandById(StandardBrand standardBrand);
 
 
@@ -45,13 +45,13 @@ public interface StandardBrandMapper {
             " LEFT JOIN yhcc_business_species h on h.id = a.species_id" +
             " where " +
             " 1=1 " +
-            " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
-            " <if test='buildingId != null'> AND a.building_id = #{buildingId} </if>" +
-            " <if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
-            " <if test='formId != null'> AND a.form_id = #{formId} </if> " +
-            " <if test='speciesId != null'> AND a.species_id = #{speciesId} </if>" +
-            " <if test='contractId != null'> AND a.contract_id = #{contractId} </if> " +
-            " <if test='effectTime != null'> AND a.effect_time = #{effectTime} </if>" +
+            " <if test='projectId != null and projectId != \"\"'> AND a.project_id = #{projectId} </if> " +
+            " <if test='buildingId != null and buildingId != \"\"'> AND a.building_id = #{buildingId} </if>" +
+            " <if test='floorId != null and floorId != \"\"'> AND a.floor_id = #{floorId} </if> " +
+            " <if test='formId != null and formId != \"\"'> AND a.form_id = #{formId} </if> " +
+            " <if test='speciesId != null and speciesId != \"\"'> AND a.species_id = #{speciesId} </if>" +
+            " <if test='contractId != null and contractId != \"\"'> AND a.contract_id = #{contractId} </if> " +
+            " <if test='effectTime != null and effectTime != \"\"'> AND a.effect_time = #{effectTime} </if>" +
             " group by a.id " +
             "</script>")
     List<StandardBrandListResponse> getStandardBrandList(StandardBrand standardBrand);

@@ -29,8 +29,8 @@ public interface ProjectRateMapper {
             " select a.*,b.name as projectName from yhcc_project_rate a" +
             " LEFT JOIN yhcc_project b on a.project_id = b.id where " +
             " 1=1 " +
-            " <if test='projectId != null'> AND a.project_id = #{projectId} </if>" +
-            " <if test='effectTime != null'> AND a.effect_time = #{effectTime} </if> " +
+            " <if test='projectId != null and projectId != \"\"'> AND a.project_id = #{projectId} </if>" +
+            " <if test='effectTime != null and effectTime != \"\"'> AND a.effect_time = #{effectTime} </if> " +
             "  " +
             " </script>")
     List<ProjectRateListResponse> getProjectRateList(ProjectRate projectRate);

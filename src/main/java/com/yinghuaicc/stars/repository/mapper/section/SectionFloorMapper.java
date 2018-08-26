@@ -56,13 +56,14 @@ public interface SectionFloorMapper {
      * @return
      */
     @Select(" <script>" +
-            " select a.*,b.name as projectName,c.name as buildingName,d.name as floorName from yhcc_section_floor a on yhcc_project b on b.id = a.project_id " +
+            " select a.*,b.name as projectName,c.name as buildingName,d.name as floorName from yhcc_section_floor a " +
+            " left join yhcc_project b on b.id = a.project_id " +
             " left join yhcc_building c on c.id = a.building_id " +
             " left join yhcc_floor d on d.id = a.floor_id" +
             " where 1 = 1 " +
-            " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
-            " <if test='buildingId != null'> AND a.building_id = #{buildingId} </if>" +
-            " <if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
+            " <if test='projectId != null and projectId != \"\"'> AND a.project_id = #{projectId} </if> " +
+            " <if test='buildingId != null and buildingId != \"\"'> AND a.building_id = #{buildingId} </if>" +
+            " <if test='floorId != null and floorId != \"\"'> AND a.floor_id = #{floorId} </if> " +
             " </script>")
     List<SectionBrandResponse> getSectionFloorList(SectionBrandRequest sectionBrandRequest);
 

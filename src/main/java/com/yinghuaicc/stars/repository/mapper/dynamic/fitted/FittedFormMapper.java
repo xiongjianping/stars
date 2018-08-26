@@ -42,12 +42,12 @@ public interface FittedFormMapper {
             " LEFT JOIN yhcc_business_species h on h.id = a.species_id" +
             " where " +
             " 1=1 " +
-            " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
-            " <if test='buildingId != null'> AND a.building_id = #{buildingId} </if>" +
-            " <if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
-            " <if test='formId != null'> AND a.form_id = #{formId} </if> " +
-            " <if test='speciesId != null'> AND a.species_id = #{speciesId} </if>" +
-            " <if test='effectTime != null'> AND a.effect_time = #{effectTime} </if>" +
+            " <if test='projectId != null and projectId != \"\"'> AND a.project_id = #{projectId} </if> " +
+            " <if test='buildingId != null and buildingId != \"\"'> AND a.building_id = #{buildingId} </if>" +
+            " <if test='floorId != null and floorId != \"\"'> AND a.floor_id = #{floorId} </if> " +
+            " <if test='formId != null and formId != \"\"'> AND a.form_id = #{formId} </if> " +
+            " <if test='speciesId != null and speciesId != \"\"'> AND a.species_id = #{speciesId} </if>" +
+            " <if test='effectTime != null and effectTime != \"\"'> AND a.effect_time = #{effectTime} </if>" +
             " group by a.id " +
             "</script>")
     List<FittedFormListResponse> getFittedFormList(FittedForm fittedForm);
@@ -94,7 +94,7 @@ public interface FittedFormMapper {
      */
     @Select(" select fitted_val from yhcc_form_fitted  where " +
             " project_id = #{projectId}  and form_id = #{formId} " +
-            " and effect_time >= #{createTime} and effect_time <= #{modifyTime} " +
+            " and effect_time <= #{modifyTime} " +
             " ORDER BY effect_time limit 0,1 ")
     String getFittedFormId(FittedForm fittedForm);
 }
