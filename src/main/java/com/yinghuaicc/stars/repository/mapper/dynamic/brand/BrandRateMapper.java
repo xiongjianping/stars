@@ -41,13 +41,13 @@ public interface BrandRateMapper {
             " LEFT JOIN yhcc_business_species h on h.id = a.species_id" +
             " where " +
             " 1=1 " +
-            " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
-            " <if test='buildingId != null'> AND a.building_id = #{buildingId} </if>" +
-            " <if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
-            " <if test='formId != null'> AND a.form_id = #{formId} </if> " +
-            " <if test='speciesId != null'> AND a.species_id = #{speciesId} </if>" +
-            " <if test='contractId != null'> AND a.contract_id = #{contractId} </if> " +
-            " <if test='effectTime != null'> AND a.effect_time = #{effectTime} </if>" +
+            " <if test='projectId != null and projectId != \"\" '> AND a.project_id = #{projectId} </if> " +
+            " <if test='buildingId != null and buildingId != \"\"'> AND a.building_id = #{buildingId} </if>" +
+            " <if test='floorId != null and floorId != \"\"'> AND a.floor_id = #{floorId} </if> " +
+            " <if test='formId != null and formId != \"\"'> AND a.form_id = #{formId} </if> " +
+            " <if test='speciesId != null and speciesId != \"\"'> AND a.species_id = #{speciesId} </if>" +
+            " <if test='contractId != null and contractId != \"\"'> AND a.contract_id = #{contractId} </if> " +
+            " <if test='effectTime != null and effectTime != \"\"'> AND a.effect_time = #{effectTime} </if>" +
             " group by a.id " +
             "</script>")
     List<BrandRateListResponse> getBrandRateList(BrandRate brandRate);
@@ -100,7 +100,7 @@ public interface BrandRateMapper {
      * @param brandRate
      * @return
      */
-    @Select(" select sum(c.acreage) from yhcc_brand_rate a LEFT JOIN yhcc_contract b on b.contract_id = a.contract_id  LEFT JOIN yhcc_room c on c.id = b.room_id" +
+    @Select(" select sum(c.acreage)/count(b.contract_id) from yhcc_brand_rate a LEFT JOIN yhcc_contract b on b.contract_id = a.contract_id  LEFT JOIN yhcc_room c on c.id = b.room_id" +
             " where a.project_id = #{projectId} and a.form_id = #{formId} and b.effect_time >= #{createTime} and b.invalid_time <= #{modifyTime} group by a.contract_id ")
     String getFormAcreageById(BrandRate brandRate);
 
@@ -129,7 +129,7 @@ public interface BrandRateMapper {
      * @param brandRate
      * @return
      */
-    @Select(" select sum(c.acreage) from yhcc_brand_rate a LEFT JOIN yhcc_contract b on b.contract_id = a.contract_id  LEFT JOIN yhcc_room c on c.id = b.room_id" +
+    @Select(" select sum(c.acreage)/count(a.contract_id) from yhcc_brand_rate a LEFT JOIN yhcc_contract b on b.contract_id = a.contract_id  LEFT JOIN yhcc_room c on c.id = b.room_id" +
             " where a.project_id = #{projectId} and a.form_id = #{formId} and a.contract_id = #{contractId} ")
     String getBrandAcreageById(BrandRate brandRate);
 

@@ -58,13 +58,14 @@ public interface SectionBrandMapper {
      * @return
      */
     @Select(" <script>" +
-            " select a.*,b.name as projectName,c.name as formName,d.name as speciesName from yhcc_section_brand a on yhcc_project b on b.id = a.project_id " +
+            " select a.*,b.name as projectName,c.name as formName,d.name as speciesName from yhcc_section_brand a " +
+            " left join yhcc_project b on b.id = a.project_id " +
             " left join yhcc_business_form c on c.id = a.form_id " +
             " left join yhcc_business_species d on d.id = a.species_id" +
             " where 1 = 1 " +
-            " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
-            " <if test='formId != null'> AND a.form_id = #{formId} </if> " +
-            " <if test='speciesId != null'> AND a.species_id = #{speciesId} </if>" +
+            " <if test='projectId != null and projectId != \"\"'> AND a.project_id = #{projectId} </if> " +
+            " <if test='formId != null and formId != \"\"'> AND a.form_id = #{formId} </if> " +
+            " <if test='speciesId != null and speciesId != \"\"'> AND a.species_id = #{speciesId} </if>" +
             " </script>")
     List<SectionBrandResponse> getSectionBrandList(SectionBrandRequest sectionBrandRequest);
 

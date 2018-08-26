@@ -135,7 +135,7 @@ public class ProjectRateServiceImpl implements ProjectRateService {
         BigDecimal rx = zkll.divide(acreage.multiply(day)); // 1 项目客流量除以面积
         String pb = projectRateMapper.getProjectBrandById(projectRate); // 2 项目下所有品牌销售额
         if(pb == null){
-            pb = "0";
+            throw exceptionUtil.throwCustomException("RENTING_RATE_005");
         }
         BigDecimal sale = new BigDecimal(pb);
 

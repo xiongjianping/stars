@@ -58,9 +58,9 @@ public interface SectionProjectMapper {
      * @return
      */
     @Select(" <script>" +
-            " select a.*,b.name as projectName from yhcc_section_project a on yhcc_project b on b.id = a.project_id " +
+            " select a.*,b.name as projectName from yhcc_section_project a left join yhcc_project b on b.id = a.project_id " +
             " where 1 = 1 " +
-            " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
+            " <if test='projectId != null and projectId != \"\"'> AND a.project_id = #{projectId} </if> " +
             " </script>")
     List<SectionBrandResponse> getSectionProjectList(SectionBrandRequest sectionBrandRequest);
 

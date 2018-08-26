@@ -32,8 +32,8 @@ public interface StandardProjectMapper {
             " select a.*,b.name as projectName from yhcc_project_standard a" +
             " LEFT JOIN yhcc_project b on a.project_id = b.id where " +
             " 1=1 " +
-            " <if test='projectId != null'> AND a.project_id = #{projectId} </if>" +
-            " <if test='effectTime != null'> AND a.effect_time = #{effectTime} </if> " +
+            " <if test='projectId != null and projectId != \"\" '> AND a.project_id = #{projectId} </if>" +
+            " <if test='effectTime != null and effectTime != \"\" '> AND a.effect_time = #{effectTime} </if> " +
             "  " +
             " </script>")
     List<StandardProjectListResponse> getStandardProjectList(StandardProject standardProject);
@@ -91,8 +91,8 @@ public interface StandardProjectMapper {
      */
     @Select(" select a.renting_rate_val from yhcc_project_standard a where " +
             " a.project_id = #{projectId} " +
-            " and a.effect_time >= #{createTime} and a.effect_time <= #{modifyTime} " +
-            " ORDER BY a.effect_time limit 0,1 ")
+            " and a.effect_time >= #{modifyTime} " +
+            " ORDER BY a.effect_time desc limit 0,1 ")
     String getStandardProjectId(StandardProject standardProject);
 
 

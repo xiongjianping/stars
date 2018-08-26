@@ -131,7 +131,7 @@ public class FloorRateServiceImpl implements FloorRateService {
         BigDecimal rx = zkll.divide(acreage.multiply(day)); // 1 楼层客流量除以面积
         String pb = floorRateMapper.getFloorBrandById(FloorRate); // 2 楼层下所有品牌销售额
         if(pb == null){
-            pb = "0";
+            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
         }
         BigDecimal sale = new BigDecimal(pb);
         BigDecimal px = sale.divide(acreage.multiply(day)); //销售额 / 面积*时间擦

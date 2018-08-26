@@ -48,13 +48,13 @@ public interface QuarterRateMapper {
             " LEFT JOIN yhcc_business_species h on h.id = a.species_id" +
             " where " +
             " 1=1 " +
-            " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
-            " <if test='buildingId != null'> AND a.building_id = #{buildingId} </if>" +
-            " <if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
-            " <if test='formId != null'> AND a.form_id = #{formId} </if> " +
-            " <if test='speciesId != null'> AND a.species_id = #{speciesId} </if>" +
-            " <if test='contractId != null'> AND a.contract_id = #{contractId} </if> " +
-            " <if test='effectTime != null'> AND a.effect_time = #{effectTime} </if>" +
+            " <if test='projectId != null and projectId != \"\"'> AND a.project_id = #{projectId} </if> " +
+            " <if test='buildingId != null and buildingId != \"\"'> AND a.building_id = #{buildingId} </if>" +
+            " <if test='floorId != null and floorId != \"\"'> AND a.floor_id = #{floorId} </if> " +
+            " <if test='formId != null and formId != \"\"'> AND a.form_id = #{formId} </if> " +
+            " <if test='speciesId != null and speciesId != \"\"'> AND a.species_id = #{speciesId} </if>" +
+            " <if test='contractId != null and contractId != \"\"'> AND a.contract_id = #{contractId} </if> " +
+            " <if test='effectTime != null and effectTime != \"\"'> AND a.effect_time = #{effectTime} </if>" +
             " group by a.id" +
             "</script>")
     List<QuarterRateListResponse> getQuarterRateList(QuarterRate quarterRate);
@@ -97,11 +97,11 @@ public interface QuarterRateMapper {
      * @return
      */
     @Select("" +
-            " select a.contract_id as id ,sum(b.acreage) as acreage from yhcc_contract a LEFT JOIN yhcc_room b on b.id = a.room_id " +
+            " select a.contract_id as id ,(sum(b.acreage)/count(a.contract_id)) as acreage from yhcc_contract a LEFT JOIN yhcc_room b on b.id = a.room_id " +
             " where a.project_id = #{projectId} " +
             " and str_to_date(a.effect_time,'%Y-%m-%d') >= str_to_date(#{createTime},'%Y-%m-%d') " +
             " and str_to_date(a.invalid_time,'%Y-%m-%d')  >= str_to_date(#{modifyTime},'%Y-%m-%d') " +
-            " GROUP BY a.contract_id " +
+            " " +
             "")
     List<ProjectQuarterRateResponse> getProjectQuarterRate(QuarterRate quarterRate);
 
@@ -112,7 +112,7 @@ public interface QuarterRateMapper {
      * @return
      */
     @Select("" +
-            "  select a.contract_id as id,sum(b.acreage) as acreage from yhcc_contract a LEFT JOIN yhcc_room b on b.id = a.room_id " +
+            "  select a.contract_id as id,(sum(b.acreage)/count(a.contract_id)) as acreage from yhcc_contract a LEFT JOIN yhcc_room b on b.id = a.room_id " +
             "  where a.project_id = #{projectId} and a.floor_id = #{floorId} " +
             " and str_to_date(a.effect_time,'%Y-%m-%d') >= str_to_date(#{createTime},'%Y-%m-%d') " +
             " and str_to_date(a.invalid_time,'%Y-%m-%d')  >= str_to_date(#{modifyTime},'%Y-%m-%d') " +
@@ -125,7 +125,7 @@ public interface QuarterRateMapper {
     /**
      * 业态查看品牌总面积
      */
-    @Select(" select a.contract_id as id ,sum(b.acreage) as acreage from yhcc_contract a LEFT JOIN yhcc_room b on b.id = a.room_id LEFT JOIN yhcc_brand c on c.id = a.brand_id " +
+    @Select(" select a.contract_id as id ,(sum(b.acreage)/count(a.contract_id)) as acreage from yhcc_contract a LEFT JOIN yhcc_room b on b.id = a.room_id LEFT JOIN yhcc_brand c on c.id = a.brand_id " +
             " where a.project_id = #{projectId} and c.business_form_id = #{formId} " +
             " and str_to_date(a.effect_time,'%Y-%m-%d') >= str_to_date(#{createTime},'%Y-%m-%d') " +
             " and str_to_date(a.invalid_time,'%Y-%m-%d')  >= str_to_date(#{modifyTime},'%Y-%m-%d') " +

@@ -32,10 +32,10 @@ public interface FloorRateMapper {
             " LEFT JOIN yhcc_floor d on d.id = a.floor_id" +
             " where " +
             " 1=1 " +
-            " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
-            " <if test='buildingId != null'> AND a.building_id = #{buildingId} </if>" +
-            " <if test='floorId != null'> AND a.floor_id = #{floorId} </if>" +
-            " <if test='effectTime != null'> AND a.effect_time = #{effectTime} </if>  " +
+            " <if test='projectId != null and projectId != \"\"'> AND a.project_id = #{projectId} </if> " +
+            " <if test='buildingId != null and buildingId != \"\"'> AND a.building_id = #{buildingId} </if>" +
+            " <if test='floorId != null and floorId != \"\"'> AND a.floor_id = #{floorId} </if>" +
+            " <if test='effectTime != null and effectTime != \"\"'> AND a.effect_time = #{effectTime} </if>  " +
             " </script>")
     List<FloorRateListResponse> getFloorRateList(FloorRate floorRate);
 
