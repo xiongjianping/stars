@@ -163,7 +163,7 @@ public interface StandardGuestMapper {
      * @param standardGuest
      * @return
      */
-    @Select(" select a.* from yhcc_standard_guest a where a.project_id = #{projectId} and contract_id = #{contractId} and a.effect_time >= #{createTime} and a.effect_time <= #{modifyTime} " +
+    @Select(" select a.* from yhcc_standard_guest a where a.project_id = #{projectId} and contract_id = #{contractId} and a.effect_time >= #{modifyTime} " +
             " ORDER BY a.effect_time LIMIT 0,1 ")
     StandardGuest getStandardBrandGuestListByFloor(StandardGuest standardGuest);
 

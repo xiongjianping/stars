@@ -51,6 +51,6 @@ dependencies {
 	compile("com.google.code.gson:gson:$gsonVersion")
 	compile("com.github.pagehelper:pagehelper-spring-boot-starter:$pagehelperVersion")
 	compile("org.apache.commons:commons-jexl:$jexlContextVersion")
-	compile("org.apache.poi:poi:$poiVersion")/
+	compile("org.apache.poi:poi:$poiVersion")
 	compile("org.apache.poi:poi-ooxml:$poiVersion")
 }

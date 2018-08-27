@@ -1,5 +1,6 @@
 package com.yinghuaicc.stars.repository.mapper.dynamic.rentingRate;
 
+import com.yinghuaicc.stars.repository.model.contract.Contract;
 import com.yinghuaicc.stars.repository.model.dynamic.brand.BrandRate;
 import com.yinghuaicc.stars.repository.model.dynamic.rentingRate.RentingRate;
 import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuest;
@@ -244,8 +245,56 @@ public interface RentingRateMapper {
      * @param brandRate
      * @return
      */
-    @Select("select sum(sales_volume) from yhcc_brand_rate where project_id = #{projectId}  and contract_id = #{contractId} and effect_time >= #{createTime} and effect_time <= #{modifyTime}")
+    @Select("select sum(sales_volume) from yhcc_brand_rate where project_id = #{projectId}  and contract_id = #{contractId} and effect_time >= #{modifyTime}")
     String getBrandById(BrandRate brandRate);
 
 
+    /**
+     * 便利日历
+     * @param standardGuest
+     * @return
+     */
+    @Select(" select left(adddate(#{createTime}, numlist.id),7) as date " +
+            " from (SELECT n1.i + n10.i*10 + n100.i*100 AS id FROM num n1 cross join num as n10 cross join num as n100) as numlist " +
+            " where adddate(#{createTime}, numlist.id) <= #{modifyTime}" +
+            " GROUP BY date ")
+    List<String> getSyDate(StandardGuest standardGuest);
+
+    @Select("<script> select a.* from yhcc_contract a LEFT JOIN yhcc_brand b on b.id = a.brand_id " +
+            " where 1=1 " +
+            " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
+            " <if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
+            " <if test='formId != null'> AND b.business_form_id = #{formId} </if> " +
+            " <if test='contractId != null'> AND a.contract_id = #{contractId} </if>" +
+            "  GROUP BY a.contract_id </script>")
+    List<Contract> getProject(StandardGuest standardGuest);
+
+    @Select("<script> select a.* from yhcc_contract a LEFT JOIN yhcc_brand b on b.id = a.brand_id " +
+            " where 1=1 " +
+            " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
+            " <if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
+            " <if test='formId != null'> AND b.business_form_id = #{formId} </if> " +
+            " <if test='contractId != null'> AND a.contract_id = #{contractId} </if>" +
+            " and a.effect_time >= #{createTime} and a.invalid_time >=  #{modifyTime}  " +
+            "   </script>")
+    List<Contract> getContract(StandardGuest standardGuest);
+
+    @Select("<script> select a.* from yhcc_renting_rate a  where " +
+            " a.contract_id = #{contractId} and LEFT JOIN(a.effect_time,7) = LEFT JOIN(#{modifyUser},7) " +
+            "   </script>")
+    RentingRate getR(StandardGuest standardGuest);
+
+
+
+
+
+    /**
+     * 便利日历
+     * @param standardGuest
+     * @return
+     */
+    @Select("  select adddate(#{createTime}, numlist.id) as date " +
+            "    from (SELECT n1.i + n10.i*10 + n100.i*100 AS id FROM num n1 cross join num as n10 cross join num as n100) as numlist where left(adddate(#{createTime}, numlist.id),7) = left(#{modifyTime},7) " +
+            "    GROUP BY date ")
+    List<String> getSyDateDay(StandardGuest standardGuest);
 }
