@@ -1,8 +1,6 @@
 package com.yinghuaicc.stars.repository.mapper.region;
 
 import com.yinghuaicc.stars.repository.model.region.*;
-import com.yinghuaicc.stars.repository.model.tissue.Employee;
-import com.yinghuaicc.stars.repository.model.tissue.EmployeeProjectData;
 import com.yinghuaicc.stars.repository.model.tissue.EmployeeProjectRelationTeam;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.TriangeConditionRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.TriangeConditionResponseDTO;
@@ -374,7 +372,8 @@ public interface RegionMapper {
             "<bind name='search.floorId' value='search.floorId' /> " +
             "<if test='search.projectId != null and search.projectId !=\"\"'>AND a.project_id = #{search.projectId}</if> " +
             "<if test='search.floorId != null and search.floorId !=\"\"'>AND a.floor_Id = #{search.floorId}</if> " +
-            " </where>" +
+            " and e.id is not null  " +
+            "</where>" +
             " GROUP BY e.id " +
             "</script>")
     List<TriangeConditionResponseDTO> findConditionlistByOtherId(@Param("search")TriangeConditionRequestDTO triangeConditionRequestDTO);

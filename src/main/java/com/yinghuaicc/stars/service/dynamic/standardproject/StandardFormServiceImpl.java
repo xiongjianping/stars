@@ -9,6 +9,7 @@ import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.dynamic.standardproject.StandardFormMapper;
 import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardForm;
+import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardFormSy;
 import com.yinghuaicc.stars.service.dynamic.standardproject.dto.response.StandardFormListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -108,7 +109,7 @@ public class StandardFormServiceImpl implements StandardFormService {
      * @return
      */
     @Override
-    public BigDecimal getSyFormCount(StandardForm standardForm) {
+    public BigDecimal getSyFormCount(StandardFormSy standardForm) {
         String val = standardFormMapper.getStandardFormId(standardForm);
         if(val == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");

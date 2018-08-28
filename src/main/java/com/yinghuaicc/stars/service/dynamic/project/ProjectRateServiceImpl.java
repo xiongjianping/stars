@@ -9,6 +9,7 @@ import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.dynamic.project.ProjectRateMapper;
 import com.yinghuaicc.stars.repository.model.dynamic.project.ProjectRate;
+import com.yinghuaicc.stars.repository.model.dynamic.project.ProjectRateSy;
 import com.yinghuaicc.stars.service.dynamic.project.dto.response.ProjectRateListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -115,7 +116,7 @@ public class ProjectRateServiceImpl implements ProjectRateService {
      */
     @Override
     @Transactional
-    public BigDecimal getSyProjectCount(ProjectRate projectRate) {
+    public BigDecimal getSyProjectCount(ProjectRateSy projectRate) {
         String kll = projectRateMapper.getProjectRateByIdSy(projectRate); //项目客流量
         if(kll == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_004");
@@ -128,7 +129,7 @@ public class ProjectRateServiceImpl implements ProjectRateService {
         }
         BigDecimal acreage = new BigDecimal(mj); //面积
 
-        Duration duration = Duration.between(projectRate.getCreateTime(),projectRate.getModifyTime());
+        Duration duration = Duration.between(LocalDateTime.parse(projectRate.getCreateTime()),LocalDateTime.parse(projectRate.getModifyTime()));
 
         BigDecimal day = new BigDecimal(duration.toDays()); //时间差
 

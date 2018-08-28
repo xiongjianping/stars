@@ -9,6 +9,7 @@ import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.dynamic.fitted.FittedFloorMapper;
 import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedFloor;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedFloorSy;
 import com.yinghuaicc.stars.service.dynamic.fitted.dto.response.FittedFloorListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -107,7 +108,7 @@ public class FittedFloorServiceImpl implements FittedFloorService {
      * @return
      */
     @Override
-    public BigDecimal getFittedFloor(FittedFloor fittedFloor) {
+    public BigDecimal getFittedFloor(FittedFloorSy fittedFloor) {
         String val = fittedFloorMapper.getFittedFloorId(fittedFloor);
         if(val == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");

@@ -1,6 +1,7 @@
 package com.yinghuaicc.stars.repository.mapper.dynamic.fitted;
 
 import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedFloor;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedFloorSy;
 import com.yinghuaicc.stars.service.dynamic.fitted.dto.response.FittedFloorListResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -91,5 +92,5 @@ public interface FittedFloorMapper {
             " project_id = #{projectId} and building_id = #{buildingId} and floor_id = #{floorId} " +
             " and effect_time >= #{modifyTime} " +
             " ORDER BY effect_time limit 0,1 ")
-    String getFittedFloorId(FittedFloor fittedFloor);
+    String getFittedFloorId(FittedFloorSy fittedFloor);
 }

@@ -1,6 +1,7 @@
 package com.yinghuaicc.stars.repository.mapper.dynamic.fitted;
 
 import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedForm;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedFormSy;
 import com.yinghuaicc.stars.service.dynamic.fitted.dto.response.FittedFormListResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -96,5 +97,5 @@ public interface FittedFormMapper {
             " project_id = #{projectId}  and form_id = #{formId} " +
             " and effect_time <= #{modifyTime} " +
             " ORDER BY effect_time limit 0,1 ")
-    String getFittedFormId(FittedForm fittedForm);
+    String getFittedFormId(FittedFormSy fittedForm);
 }

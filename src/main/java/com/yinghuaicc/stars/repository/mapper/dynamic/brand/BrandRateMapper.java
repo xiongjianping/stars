@@ -1,8 +1,12 @@
 package com.yinghuaicc.stars.repository.mapper.dynamic.brand;
 
 import com.yinghuaicc.stars.repository.model.dynamic.brand.BrandRate;
+import com.yinghuaicc.stars.repository.model.dynamic.brand.BrandRateSy;
 import com.yinghuaicc.stars.service.dynamic.brand.dto.response.BrandRateListResponse;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -92,7 +96,7 @@ public interface BrandRateMapper {
      * @return
      */
     @Select("select sum(passenger_flow) from yhcc_brand_rate where project_id = #{projectId} and form_id = #{formId} and effect_time >= #{createTime} and effect_time <= #{modifyTime} ")
-    String getFormRateByIdSy(BrandRate brandRate);
+    String getFormRateByIdSy(BrandRateSy brandRate);
 
 
     /**
@@ -102,7 +106,7 @@ public interface BrandRateMapper {
      */
     @Select(" select sum(c.acreage)/count(b.contract_id) from yhcc_brand_rate a LEFT JOIN yhcc_contract b on b.contract_id = a.contract_id  LEFT JOIN yhcc_room c on c.id = b.room_id" +
             " where a.project_id = #{projectId} and a.form_id = #{formId} and b.effect_time >= #{createTime} and b.invalid_time <= #{modifyTime} group by a.contract_id ")
-    String getFormAcreageById(BrandRate brandRate);
+    String getFormAcreageById(BrandRateSy brandRate);
 
 
     /**
@@ -111,7 +115,7 @@ public interface BrandRateMapper {
      * @return
      */
     @Select("select sum(sales_volume) from yhcc_brand_rate where project_id = #{projectId} and form_id = #{formId} and effect_time >= #{createTime} and effect_time <= #{modifyTime}")
-    String getFormBrandById(BrandRate brandRate);
+    String getFormBrandById(BrandRateSy brandRate);
 
 
 
@@ -121,7 +125,7 @@ public interface BrandRateMapper {
      * @return
      */
     @Select("select sum(passenger_flow) from yhcc_brand_rate where project_id = #{projectId} and form_id = #{formId} and contract_id = #{contractId} and effect_time >= #{createTime} and effect_time <= #{modifyTime} ")
-    String getBrandRateByIdSy(BrandRate brandRate);
+    String getBrandRateByIdSy(BrandRateSy brandRate);
 
 
     /**
@@ -131,7 +135,7 @@ public interface BrandRateMapper {
      */
     @Select(" select sum(c.acreage)/count(a.contract_id) from yhcc_brand_rate a LEFT JOIN yhcc_contract b on b.contract_id = a.contract_id  LEFT JOIN yhcc_room c on c.id = b.room_id" +
             " where a.project_id = #{projectId} and a.form_id = #{formId} and a.contract_id = #{contractId} ")
-    String getBrandAcreageById(BrandRate brandRate);
+    String getBrandAcreageById(BrandRateSy brandRate);
 
 
     /**
@@ -140,7 +144,7 @@ public interface BrandRateMapper {
      * @return
      */
     @Select("select sum(sales_volume) from yhcc_brand_rate where project_id = #{projectId} and form_id = #{formId} and contract_id = #{contractId} and effect_time >= #{createTime} and effect_time <= #{modifyTime}")
-    String getBrandBrandById(BrandRate brandRate);
+    String getBrandBrandById(BrandRateSy brandRate);
 
 
 

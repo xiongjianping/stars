@@ -1,6 +1,7 @@
 package com.yinghuaicc.stars.repository.mapper.dynamic.fitted;
 
 import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedProject;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedProjectSy;
 import com.yinghuaicc.stars.service.dynamic.fitted.dto.response.FittedProjectListResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -93,5 +94,5 @@ public interface FittedProjectMapper {
             " project_id = #{projectId} " +
             " and effect_time >= #{modifyTime} " +
             " ORDER BY effect_time desc limit 0,1 ")
-    String getFittedProjectId(FittedProject fittedProject);
+    String getFittedProjectId(FittedProjectSy fittedProject);
 }

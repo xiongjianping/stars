@@ -2,19 +2,19 @@ package com.yinghuaicc.stars.controller.business.pc.shouye;
 
 import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.config.response.JsonResult;
-import com.yinghuaicc.stars.repository.model.dynamic.brand.BrandRate;
-import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedBrand;
-import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedFloor;
-import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedForm;
-import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedProject;
-import com.yinghuaicc.stars.repository.model.dynamic.floor.FloorRate;
-import com.yinghuaicc.stars.repository.model.dynamic.project.ProjectRate;
-import com.yinghuaicc.stars.repository.model.dynamic.quarter.QuarterRate;
-import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuest;
-import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardBrand;
-import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardFloor;
-import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardForm;
-import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardProject;
+import com.yinghuaicc.stars.repository.model.dynamic.brand.BrandRateSy;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedBrandSy;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedFloorSy;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedFormSy;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedProjectSy;
+import com.yinghuaicc.stars.repository.model.dynamic.floor.FloorRateSy;
+import com.yinghuaicc.stars.repository.model.dynamic.project.ProjectRateSy;
+import com.yinghuaicc.stars.repository.model.dynamic.quarter.QuarterRateSy;
+import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuestSy;
+import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardBrandSy;
+import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardFloorSy;
+import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardFormSy;
+import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardProjectSy;
 import com.yinghuaicc.stars.repository.model.section.SectionBrand;
 import com.yinghuaicc.stars.repository.model.section.SectionFloor;
 import com.yinghuaicc.stars.repository.model.section.SectionForm;
@@ -38,7 +38,7 @@ import com.yinghuaicc.stars.service.section.SectionBrandService;
 import com.yinghuaicc.stars.service.section.SectionFloorService;
 import com.yinghuaicc.stars.service.section.SectionFormService;
 import com.yinghuaicc.stars.service.section.SectionProjectService;
-import com.yinghuaicc.stars.service.section.dto.request.SectionBrandRequest;
+import com.yinghuaicc.stars.service.section.dto.request.SectionBrandSyRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -117,27 +117,28 @@ public class SyController {
      * @return
      */
     @PostMapping(value = "/get/project")
-    public JsonResult getProject(@Validated @RequestBody BrandRate brandRate){
+    public JsonResult getProject(@Validated @RequestBody BrandRateSy brandRate){
 
         SyResponse s = new SyResponse();
-        BigDecimal projeckxd = projectRateService.getSyProjectCount(MapperFactoryUtil.mapperObject(brandRate,ProjectRate.class)); //客销度
-        BigDecimal projecspz = quarterRateService.getProjectQuarterRate(MapperFactoryUtil.mapperObject(brandRate,QuarterRate.class)); //适配值
-        BigDecimal projecyzl = rentingRateService.getSyProjectRentingRateCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuest.class)); //溢租率
+        BigDecimal projeckxd = projectRateService.getSyProjectCount(MapperFactoryUtil.mapperObject(brandRate,ProjectRateSy.class)); //客销度
+        BigDecimal projecspz = quarterRateService.getProjectQuarterRate(MapperFactoryUtil.mapperObject(brandRate,QuarterRateSy.class)); //适配值
+        BigDecimal projecyzl = rentingRateService.getSyProjectRentingRateCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuestSy.class)); //溢租率
 
-        s.setDtyzl(projecyzl);
-        s.setDtkxd(projeckxd);
-        s.setDtspz(projecspz);
+
 
 
         //标准
-        BigDecimal projecbzyzl = standardProjectService.getSyProjectCount(MapperFactoryUtil.mapperObject(brandRate,StandardProject.class));//溢租率
-        BigDecimal projecbzspz = fittedProjectService.getFittedProject(MapperFactoryUtil.mapperObject(brandRate,FittedProject.class));//适配值
-        BigDecimal projecbzkxd = standardGuestService.getSyStandardProjectGuestCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuest.class));//客销度
-        s.setBzyzl(projecbzyzl);
-        s.setBzspz(projecbzspz);
-        s.setBzkxd(projecbzkxd);
+        BigDecimal projecbzyzl = standardProjectService.getSyProjectCount(MapperFactoryUtil.mapperObject(brandRate,StandardProjectSy.class));//溢租率
+        BigDecimal projecbzspz = fittedProjectService.getFittedProject(MapperFactoryUtil.mapperObject(brandRate,FittedProjectSy.class));//适配值
+        BigDecimal projecbzkxd = standardGuestService.getSyStandardProjectGuestCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuestSy.class));//客销度
+        s.setStandardRent(projecbzyzl);
+        s.setStandardFitted(projecbzspz);
+        s.setStandardGuest(projecbzkxd);
+        s.setTriangleGuest(projeckxd);
+        s.setTriangleFitted(projecspz);
+        s.setTriangleRent(projecyzl);
 
-        SectionProject sp = sectionProjectService.getSectionProjectListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandRequest.class));
+        SectionProject sp = sectionProjectService.getSectionProjectListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandSyRequest.class));
 
         BigDecimal expv = new BigDecimal(sp.getExcellentPgeVal()); //优秀百分比
         s.setExcellentPgeVal(projecbzkxd.multiply(expv.add(new BigDecimal("1"))));
@@ -161,27 +162,28 @@ public class SyController {
      * @return
      */
     @PostMapping(value = "/get/floor")
-    public JsonResult getFloor(@Validated @RequestBody BrandRate brandRate){
+    public JsonResult getFloor(@Validated @RequestBody BrandRateSy brandRate){
 
         SyResponse s = new SyResponse();
-        BigDecimal floorkxd = floorRateService.getSyFloorRateCount(MapperFactoryUtil.mapperObject(brandRate,FloorRate.class)); //客销度
-        BigDecimal floorspz = quarterRateService.getFloorQuarterRate(MapperFactoryUtil.mapperObject(brandRate,QuarterRate.class)); //适配值
-        BigDecimal flooryzl = rentingRateService.getSyFloorRentingRateCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuest.class)); //溢租率
-        s.setDtkxd(floorkxd);
-        s.setDtspz(floorspz);
-        s.setDtyzl(flooryzl);
+        BigDecimal floorkxd = floorRateService.getSyFloorRateCount(MapperFactoryUtil.mapperObject(brandRate,FloorRateSy.class)); //客销度
+        BigDecimal floorspz = quarterRateService.getFloorQuarterRate(MapperFactoryUtil.mapperObject(brandRate,QuarterRateSy.class)); //适配值
+        BigDecimal flooryzl = rentingRateService.getSyFloorRentingRateCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuestSy.class)); //溢租率
+
 
         //标准
-        BigDecimal floorbzyzl = standardFloorService.getSyFloorCount(MapperFactoryUtil.mapperObject(brandRate,StandardFloor.class));//溢租率
-        BigDecimal floorbzspz = fittedFloorService.getFittedFloor(MapperFactoryUtil.mapperObject(brandRate,FittedFloor.class));//适配值
-        BigDecimal floorbzkxd = standardGuestService.getSyStandardFloorGuestCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuest.class));//客销度
+        BigDecimal floorbzyzl = standardFloorService.getSyFloorCount(MapperFactoryUtil.mapperObject(brandRate,StandardFloorSy.class));//溢租率
+        BigDecimal floorbzspz = fittedFloorService.getFittedFloor(MapperFactoryUtil.mapperObject(brandRate,FittedFloorSy.class));//适配值
+        BigDecimal floorbzkxd = standardGuestService.getSyStandardFloorGuestCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuestSy.class));//客销度
 
-        s.setBzyzl(floorbzyzl);
-        s.setBzspz(floorbzspz);
-        s.setBzkxd(floorbzkxd);
+        s.setStandardRent(flooryzl);
+        s.setStandardFitted(floorspz);
+        s.setStandardGuest(floorkxd);
+        s.setTriangleGuest(floorbzkxd);
+        s.setTriangleFitted(floorbzspz);
+        s.setTriangleRent(floorbzyzl);
 
 
-        SectionFloor sp = sectionFloorService.getSectionFloorListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandRequest.class));
+        SectionFloor sp = sectionFloorService.getSectionFloorListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandSyRequest.class));
 
         BigDecimal expv = new BigDecimal(sp.getExcellentPgeVal()); //优秀百分比
         s.setExcellentPgeVal(floorbzkxd.multiply(expv.add(new BigDecimal("1"))));
@@ -206,27 +208,26 @@ public class SyController {
      * @return
      */
     @PostMapping(value = "/get/yetai")
-    public JsonResult getYetai(@Validated @RequestBody BrandRate brandRate){
+    public JsonResult getYetai(@Validated @RequestBody BrandRateSy brandRate){
 
         SyResponse s = new SyResponse();
         BigDecimal formkxd = brandRateService.getSyFormRateCount(brandRate); //客销度
-        BigDecimal formspz = quarterRateService.getFormQuarterRate(MapperFactoryUtil.mapperObject(brandRate,QuarterRate.class)); //适配值
-        BigDecimal formyzl =  rentingRateService.getSyFromRentingRateCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuest.class)); //溢租率
-        s.setDtkxd(formkxd);
-        s.setDtspz(formspz);
-        s.setDtyzl(formyzl);
+        BigDecimal formspz = quarterRateService.getFormQuarterRate(MapperFactoryUtil.mapperObject(brandRate,QuarterRateSy.class)); //适配值
+        BigDecimal formyzl =  rentingRateService.getSyFromRentingRateCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuestSy.class)); //溢租率
 
         //标准
-        BigDecimal formbzyzl = standardFormService.getSyFormCount(MapperFactoryUtil.mapperObject(brandRate,StandardForm.class));//溢租率
-        BigDecimal formbzspz = fittedFormService.getFittedForm(MapperFactoryUtil.mapperObject(brandRate,FittedForm.class));//适配值
-        BigDecimal formbzkxd = standardGuestService.getSyStandardFormGuestCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuest.class));//客销度
+        BigDecimal formbzyzl = standardFormService.getSyFormCount(MapperFactoryUtil.mapperObject(brandRate,StandardFormSy.class));//溢租率
+        BigDecimal formbzspz = fittedFormService.getFittedForm(MapperFactoryUtil.mapperObject(brandRate,FittedFormSy.class));//适配值
+        BigDecimal formbzkxd = standardGuestService.getSyStandardFormGuestCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuestSy.class));//客销度
 
-        s.setBzkxd(formbzkxd);
-        s.setBzyzl(formbzyzl);
-        s.setBzspz(formbzspz);
+        s.setStandardRent(formyzl);
+        s.setStandardFitted(formspz);
+        s.setStandardGuest(formkxd);
+        s.setTriangleGuest(formbzkxd);
+        s.setTriangleFitted(formbzspz);
+        s.setTriangleRent(formbzyzl);
 
-
-        SectionForm sp = sectionFormService.getSectionFormListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandRequest.class));
+        SectionForm sp = sectionFormService.getSectionFormListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandSyRequest.class));
 
         BigDecimal expv = new BigDecimal(sp.getExcellentPgeVal()); //优秀百分比
         s.setExcellentPgeVal(formbzkxd.multiply(expv.add(new BigDecimal("1"))));
@@ -253,27 +254,27 @@ public class SyController {
      * @return
      */
     @PostMapping(value = "/get/brand")
-    public JsonResult getBrand(@Validated @RequestBody BrandRate brandRate){
+    public JsonResult getBrand(@Validated @RequestBody BrandRateSy brandRate){
 
         SyResponse s = new SyResponse();
         BigDecimal brandkxd = brandRateService.getSyBrandRateCount(brandRate); //客销度
-        BigDecimal brandspz = quarterRateService.getBrandQuarterRate(MapperFactoryUtil.mapperObject(brandRate,QuarterRate.class)); //适配值
-        BigDecimal brandyzl =  rentingRateService.getSyBrandRentingRateCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuest.class)); //溢租率
-        s.setDtkxd(brandkxd);
-        s.setDtspz(brandspz);
-        s.setDtyzl(brandyzl);
+        BigDecimal brandspz = quarterRateService.getBrandQuarterRate(MapperFactoryUtil.mapperObject(brandRate,QuarterRateSy.class)); //适配值
+        BigDecimal brandyzl =  rentingRateService.getSyBrandRentingRateCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuestSy.class)); //溢租率
 
         //标准
-        BigDecimal brandbzyzl = standardBrandService.getSyBrandCount(MapperFactoryUtil.mapperObject(brandRate,StandardBrand.class));//溢租率
-        BigDecimal brandbzspz = fittedBrandService.getFittedBrand(MapperFactoryUtil.mapperObject(brandRate,FittedBrand.class));//适配值
-        BigDecimal brandbzkxd = standardGuestService.getSyStandardBrandGuestCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuest.class));//客销度
+        BigDecimal brandbzyzl = standardBrandService.getSyBrandCount(MapperFactoryUtil.mapperObject(brandRate,StandardBrandSy.class));//溢租率
+        BigDecimal brandbzspz = fittedBrandService.getFittedBrand(MapperFactoryUtil.mapperObject(brandRate,FittedBrandSy.class));//适配值
+        BigDecimal brandbzkxd = standardGuestService.getSyStandardBrandGuestCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuestSy.class));//客销度
 
-        s.setBzyzl(brandbzyzl);
-        s.setBzspz(brandbzspz);
-        s.setBzkxd(brandbzkxd);
+        s.setStandardRent(brandyzl);
+        s.setStandardFitted(brandspz);
+        s.setStandardGuest(brandkxd);
+        s.setTriangleGuest(brandbzkxd);
+        s.setTriangleFitted(brandbzspz);
+        s.setTriangleRent(brandbzyzl);
 
 
-        SectionBrand sp = sectionBrandService.getSectionBrandListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandRequest.class));
+        SectionBrand sp = sectionBrandService.getSectionBrandListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandSyRequest.class));
 
         BigDecimal expv = new BigDecimal(sp.getExcellentPgeVal()); //优秀百分比
         s.setExcellentPgeVal(brandbzkxd.multiply(expv.add(new BigDecimal("1"))));

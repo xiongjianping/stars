@@ -4,6 +4,7 @@ import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.section.SectionForm;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandRequest;
+import com.yinghuaicc.stars.service.section.dto.request.SectionBrandSyRequest;
 import com.yinghuaicc.stars.service.section.dto.response.SectionBrandResponse;
 
 /**
@@ -18,5 +19,5 @@ public interface SectionFormService {
 
     ResultPageList<SectionBrandResponse> getSectionFormList(SectionBrandRequest sectionBrandRequest, PageParam pageParam);
 
-    SectionForm getSectionFormListById(SectionBrandRequest sectionBrandRequest);
+    SectionForm getSectionFormListById(SectionBrandSyRequest sectionBrandRequest);
 }

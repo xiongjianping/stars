@@ -1,8 +1,12 @@
 package com.yinghuaicc.stars.repository.mapper.dynamic.project;
 
 import com.yinghuaicc.stars.repository.model.dynamic.project.ProjectRate;
+import com.yinghuaicc.stars.repository.model.dynamic.project.ProjectRateSy;
 import com.yinghuaicc.stars.service.dynamic.project.dto.response.ProjectRateListResponse;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -81,7 +85,7 @@ public interface ProjectRateMapper {
      * @return
      */
     @Select("select sum(passenger_flow) from yhcc_project_rate where project_id = #{projectId} and effect_time >= #{createTime} and effect_time <= #{modifyTime} ")
-    String getProjectRateByIdSy(ProjectRate projectRate);
+    String getProjectRateByIdSy(ProjectRateSy projectRate);
 
     /**
      * 查看项目面积
@@ -98,6 +102,6 @@ public interface ProjectRateMapper {
      * @return
      */
     @Select("select sum(sales_volume) from yhcc_brand_rate where project_id = #{projectId} and effect_time >= #{createTime} and effect_time <= #{modifyTime}")
-    String getProjectBrandById(ProjectRate projectRate);
+    String getProjectBrandById(ProjectRateSy projectRate);
 
 }

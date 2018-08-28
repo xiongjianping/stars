@@ -11,6 +11,7 @@ import com.yinghuaicc.stars.repository.mapper.contract.ContractMapper;
 import com.yinghuaicc.stars.repository.mapper.dynamic.project.ProjectRateMapper;
 import com.yinghuaicc.stars.repository.mapper.dynamic.quarter.QuarterRateMapper;
 import com.yinghuaicc.stars.repository.model.dynamic.quarter.QuarterRate;
+import com.yinghuaicc.stars.repository.model.dynamic.quarter.QuarterRateSy;
 import com.yinghuaicc.stars.service.dynamic.quarter.dto.response.ProjectQuarterRateResponse;
 import com.yinghuaicc.stars.service.dynamic.quarter.dto.response.QuarterRateListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -179,12 +180,12 @@ public class QuarterRateServiceImpl implements QuarterRateService {
      * @return
      */
     @Override
-    public BigDecimal getBrandQuarterRate(QuarterRate quarterRate) {
+    public BigDecimal getBrandQuarterRate(QuarterRateSy quarterRate) {
         return new BigDecimal(val(quarterRate)).setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
 
-    private String val(QuarterRate quarterRate){
+    private String val(QuarterRateSy quarterRate){
         String val = quarterRateMapper.getQuarterContractId(quarterRate);
         if(val != null){
             return val;
@@ -208,7 +209,7 @@ public class QuarterRateServiceImpl implements QuarterRateService {
      * @return
      */
     @Override
-    public BigDecimal getProjectQuarterRate(QuarterRate quarterRate) {
+    public BigDecimal getProjectQuarterRate(QuarterRateSy quarterRate) {
         String mj = projectRateMapper.getProjectacreageById(quarterRate.getProjectId()); //项目面积
         if(mj == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_005");
@@ -236,7 +237,7 @@ public class QuarterRateServiceImpl implements QuarterRateService {
      * @return
      */
     @Override
-    public BigDecimal getFormQuarterRate(QuarterRate quarterRate) {
+    public BigDecimal getFormQuarterRate(QuarterRateSy quarterRate) {
         List<ProjectQuarterRateResponse> mj = quarterRateMapper.getFormQuarterRate(quarterRate); //业态面积
         BigDecimal ytmj = new BigDecimal("0");//业态面积
         BigDecimal zspz = new BigDecimal(0); //总适配值
@@ -267,7 +268,7 @@ public class QuarterRateServiceImpl implements QuarterRateService {
      * @return
      */
     @Override
-    public BigDecimal getFloorQuarterRate(QuarterRate quarterRate) {
+    public BigDecimal getFloorQuarterRate(QuarterRateSy quarterRate) {
         String mj = quarterRateMapper.getFloorQuarter(quarterRate); //楼层面积
         if(mj == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_007");

@@ -9,6 +9,7 @@ import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.dynamic.standardproject.StandardProjectMapper;
 import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardProject;
+import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardProjectSy;
 import com.yinghuaicc.stars.service.dynamic.standardproject.dto.response.StandardProjectListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -108,7 +109,7 @@ public class StandardProjectServiceImpl implements StandardProjectService {
      * @return
      */
     @Override
-    public BigDecimal getSyProjectCount(StandardProject standardProject) {
+    public BigDecimal getSyProjectCount(StandardProjectSy standardProject) {
         String val = standardProjectMapper.getStandardProjectId(standardProject);
         if(val == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");

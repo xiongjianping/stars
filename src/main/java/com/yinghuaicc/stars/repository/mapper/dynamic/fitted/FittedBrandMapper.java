@@ -1,6 +1,7 @@
 package com.yinghuaicc.stars.repository.mapper.dynamic.fitted;
 
 import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedBrand;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedBrandSy;
 import com.yinghuaicc.stars.service.dynamic.fitted.dto.response.FittedBrandListResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -98,11 +99,11 @@ public interface FittedBrandMapper {
             " project_id = #{projectId} and form_id = #{formId} and species_id = #{speciesId} " +
             " and effect_time >= #{createTime} and effect_time <= #{modifyTime} " +
             " ORDER BY effect_time limit 0,1 ")
-    String getFittedBrandId(FittedBrand fittedBrand);
+    String getFittedBrandId(FittedBrandSy fittedBrand);
 
 
     //根据签约
     @Select(" select b.business_species_id from yhcc_contract a LEFT JOIN yhcc_brand b on b.id " +
             "   where a.contract_id = #{contractId} and a.project_id = #{projectId} and b.business_form_id = #{formId} limit 0,1 ")
-    String getFittedBrandSpeciesId(FittedBrand fittedBrand);
+    String getFittedBrandSpeciesId(FittedBrandSy fittedBrand);
 }

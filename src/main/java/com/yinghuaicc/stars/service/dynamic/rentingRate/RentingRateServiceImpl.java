@@ -11,9 +11,11 @@ import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.contract.ContractMapper;
 import com.yinghuaicc.stars.repository.mapper.dynamic.rentingRate.RentingRateMapper;
 import com.yinghuaicc.stars.repository.mapper.dynamic.standardkxd.StandardGuestMapper;
+import com.yinghuaicc.stars.repository.model.contract.Contract;
 import com.yinghuaicc.stars.repository.model.dynamic.brand.BrandRate;
 import com.yinghuaicc.stars.repository.model.dynamic.rentingRate.RentingRate;
 import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuest;
+import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuestSy;
 import com.yinghuaicc.stars.service.dynamic.rentingRate.dto.request.getRentingRateListRequest;
 import com.yinghuaicc.stars.service.dynamic.rentingRate.dto.response.RentingRateDetailResponse;
 import com.yinghuaicc.stars.service.dynamic.rentingRate.dto.response.RentingRateListResponse;
@@ -129,10 +131,10 @@ public class RentingRateServiceImpl implements RentingRateService {
      * @return
      */
     @Override
-    public BigDecimal getSyProjectRentingRateCount(StandardGuest standardGuest) {
-
+    public BigDecimal getSyProjectRentingRateCount(StandardGuestSy standardGuest) {
+        return getCont(standardGuest);
         //1根据项目ID查看所有品牌动态溢组率
-        List<RentingRate> list = rentingRateMapper.getSyProjectRentingRate(standardGuest);
+      /*  List<RentingRate> list = rentingRateMapper.getSyProjectRentingRate(standardGuest);
         if(list == null) {
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");
         }
@@ -170,7 +172,7 @@ public class RentingRateServiceImpl implements RentingRateService {
         if(yzl.intValue() == 0) {
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");
         }
-        return yzl.setScale(2,BigDecimal.ROUND_UP);
+        return yzl.setScale(2,BigDecimal.ROUND_UP);*/
     }
 
 
@@ -180,9 +182,10 @@ public class RentingRateServiceImpl implements RentingRateService {
      * @return
      */
     @Override
-    public BigDecimal getSyFloorRentingRateCount(StandardGuest standardGuest) {
+    public BigDecimal getSyFloorRentingRateCount(StandardGuestSy standardGuest) {
+        return getCont(standardGuest);
         //楼层下品牌
-        List<RentingRate> list = rentingRateMapper.getSyFloorRentingRate(standardGuest);
+     /*   List<RentingRate> list = rentingRateMapper.getSyFloorRentingRate(standardGuest);
         if(list == null) {
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");
         }
@@ -222,7 +225,7 @@ public class RentingRateServiceImpl implements RentingRateService {
         if(yzl.intValue() == 0) {
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");
         }
-        return yzl.setScale(2,BigDecimal.ROUND_UP);
+        return yzl.setScale(2,BigDecimal.ROUND_UP);*/
     }
 
 
@@ -232,9 +235,10 @@ public class RentingRateServiceImpl implements RentingRateService {
      * @return
      */
     @Override
-    public BigDecimal getSyFromRentingRateCount(StandardGuest standardGuest) {
+    public BigDecimal getSyFromRentingRateCount(StandardGuestSy standardGuest) {
+        return getCont(standardGuest);
         //业态下品牌
-        List<RentingRate> list = rentingRateMapper.getSyFormRentingRate(standardGuest);
+     /*   List<RentingRate> list = rentingRateMapper.getSyFormRentingRate(standardGuest);
         if(list == null) {
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");
         }
@@ -274,6 +278,66 @@ public class RentingRateServiceImpl implements RentingRateService {
         if(yzl.intValue() == 0) {
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");
         }
+        return yzl.setScale(2,BigDecimal.ROUND_UP);*/
+    }
+
+
+    private BigDecimal getCont(StandardGuestSy standardGuest){
+        BigDecimal yzl =  new BigDecimal("0");
+        //获取所有品牌签约ID
+        List<Contract>  contractProject = rentingRateMapper.getProject(standardGuest);
+        if(contractProject.size() == 0){
+            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+        }
+
+        List<String> list = rentingRateMapper.getSyDate(standardGuest);
+        if(list.size() == 0){
+            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+        }
+         contractProject.forEach( p->{
+             standardGuest.setContractId(p.getContractId());
+             List<Contract> getContract = rentingRateMapper.getContract(standardGuest);
+             getContract.forEach( a->{
+
+                 list.forEach(b ->{
+                     BigDecimal zjlr = new BigDecimal("0");
+                     BigDecimal zfm = new BigDecimal("0");
+                     standardGuest.setCreateUser(b);
+                     RentingRate r = rentingRateMapper.getR(standardGuest);
+                     if(r == null) {
+                         throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+                     }
+                     standardGuest.setModifyUser(b);
+                     List<String> day = rentingRateMapper.getSyDateDay(standardGuest);
+                     BigDecimal rent = new BigDecimal(r.getRent()).divide(new BigDecimal("30")).multiply(new BigDecimal(day.size())); //租金
+                     BigDecimal propertyfee = new BigDecimal(r.getPropertyfee()).divide(new BigDecimal("30")).multiply(new BigDecimal(day.size()));; //物业费
+                     BigDecimal fm = rent.add(propertyfee); //分母
+
+                     BigDecimal depreciation = new BigDecimal(r.getDepreciation()).divide(new BigDecimal("30")).multiply(new BigDecimal(day.size()));;//装修折旧费
+                     BigDecimal agencyFee = new BigDecimal(r.getAgencyFee()).divide(new BigDecimal("30")).multiply(new BigDecimal(day.size()));;//代理费\
+                     BigDecimal laborCost = new BigDecimal(r.getLaborCost()).divide(new BigDecimal("30")).multiply(new BigDecimal(day.size()));;//人工成本
+                     BigDecimal gdcb = rent.add(propertyfee).add(depreciation).add(agencyFee).add(laborCost); //固定成品
+                     //净利润=销售收入（动态客销度）*毛利率(标准客销度)-固定成本
+
+                     StandardGuest bz = standardGuestMapper.getStandardBrandGuestListByFloor(standardGuest);
+                     if(bz == null) {
+                         throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+                     }
+                     BigDecimal interestval = new BigDecimal(bz.getInterestVal());//毛利率
+                     //动态
+                     String xssr = rentingRateMapper.getBrandById(MapperFactoryUtil.mapperObject(standardGuest,BrandRate.class));
+                     BigDecimal salesVolume = new BigDecimal(xssr);//销售收入
+                     BigDecimal jlr = salesVolume.multiply(interestval).subtract(gdcb);
+                     zjlr.add(jlr);
+                     zfm.add(fm);
+                     yzl.add(zjlr.divide(zfm));
+
+                    });
+                });
+            });
+        if(yzl.intValue() == 0) {
+            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+        }
         return yzl.setScale(2,BigDecimal.ROUND_UP);
     }
 
@@ -284,9 +348,10 @@ public class RentingRateServiceImpl implements RentingRateService {
      * @return
      */
     @Override
-    public BigDecimal getSyBrandRentingRateCount(StandardGuest standardGuest) {
+    public BigDecimal getSyBrandRentingRateCount(StandardGuestSy standardGuest) {
+        return getCont(standardGuest);
         //业态下品牌
-        RentingRate p = rentingRateMapper.getSyBrandRentingRate(standardGuest);
+      /*  RentingRate p = rentingRateMapper.getSyBrandRentingRate(standardGuest);
         if(p == null) {
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");
         }
@@ -319,7 +384,7 @@ public class RentingRateServiceImpl implements RentingRateService {
         if(yzl.intValue() == 0) {
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");
         }
-        return yzl.setScale(2,BigDecimal.ROUND_UP);
+        return yzl.setScale(2,BigDecimal.ROUND_UP);*/
     }
 
 

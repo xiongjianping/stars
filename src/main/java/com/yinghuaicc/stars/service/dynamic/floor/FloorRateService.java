@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.service.dynamic.floor;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.dynamic.floor.FloorRate;
+import com.yinghuaicc.stars.repository.model.dynamic.floor.FloorRateSy;
 import com.yinghuaicc.stars.service.dynamic.floor.dto.response.FloorRateListResponse;
 
 import java.math.BigDecimal;
@@ -22,5 +23,5 @@ public interface FloorRateService {
 
     void deleteFloorRate(String id);
 
-    public BigDecimal getSyFloorRateCount(FloorRate FloorRate);
+    public BigDecimal getSyFloorRateCount(FloorRateSy FloorRate);
 }

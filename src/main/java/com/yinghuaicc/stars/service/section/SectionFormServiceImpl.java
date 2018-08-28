@@ -9,6 +9,7 @@ import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.section.SectionFormMapper;
 import com.yinghuaicc.stars.repository.model.section.SectionForm;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandRequest;
+import com.yinghuaicc.stars.service.section.dto.request.SectionBrandSyRequest;
 import com.yinghuaicc.stars.service.section.dto.response.SectionBrandResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,7 +66,7 @@ public class SectionFormServiceImpl implements SectionFormService{
     }
 
     @Override
-    public SectionForm getSectionFormListById(SectionBrandRequest sectionBrandRequest) {
+    public SectionForm getSectionFormListById(SectionBrandSyRequest sectionBrandRequest) {
         return sectionFormMapper.getSectionFormListById(sectionBrandRequest);
     }
 }

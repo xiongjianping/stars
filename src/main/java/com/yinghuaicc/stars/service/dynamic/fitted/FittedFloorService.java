@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.service.dynamic.fitted;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedFloor;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedFloorSy;
 import com.yinghuaicc.stars.service.dynamic.fitted.dto.response.FittedFloorListResponse;
 
 import java.math.BigDecimal;
@@ -22,6 +23,6 @@ public interface FittedFloorService {
 
     void deleteFittedFloor(String id);
 
-    BigDecimal getFittedFloor(FittedFloor fittedFloor);
+    BigDecimal getFittedFloor(FittedFloorSy fittedFloor);
 
 }

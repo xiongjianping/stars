@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.service.dynamic.fitted;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedForm;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedFormSy;
 import com.yinghuaicc.stars.service.dynamic.fitted.dto.response.FittedFormListResponse;
 
 import java.math.BigDecimal;
@@ -22,5 +23,5 @@ public interface FittedFormService {
 
     void deleteFittedForm(String id);
 
-    BigDecimal getFittedForm(FittedForm fittedForm);
+    BigDecimal getFittedForm(FittedFormSy fittedForm);
 }

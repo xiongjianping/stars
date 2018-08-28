@@ -1,6 +1,7 @@
 package com.yinghuaicc.stars.repository.mapper.dynamic.standardkxd;
 
 import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuest;
+import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuestSy;
 import com.yinghuaicc.stars.service.dynamic.standardKxd.dto.StandardGuestListResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -125,7 +126,7 @@ public interface StandardGuestMapper {
             " <if test='contractId != null'> AND a.contract_id = #{contractId} </if> " +
             " group by a.contract_id order by a.effect_time " +
             "</script>")
-    List<StandardGuestListResponse> getStandardProjectGuestList(StandardGuest standardGuest);
+    List<StandardGuestListResponse> getStandardProjectGuestList(StandardGuestSy standardGuest);
 
 
     /**
@@ -163,9 +164,9 @@ public interface StandardGuestMapper {
      * @param standardGuest
      * @return
      */
-    @Select(" select a.* from yhcc_standard_guest a where a.project_id = #{projectId} and contract_id = #{contractId} and a.effect_time >= #{createTime} and a.effect_time <= #{modifyTime} " +
+    @Select(" select a.* from yhcc_standard_guest a where a.project_id = #{projectId} and contract_id = #{contractId} and a.effect_time >= #{modifyTime} " +
             " ORDER BY a.effect_time LIMIT 0,1 ")
-    StandardGuest getStandardBrandGuestListByFloor(StandardGuest standardGuest);
+    StandardGuest getStandardBrandGuestListByFloor(StandardGuestSy standardGuest);
 
 
 }

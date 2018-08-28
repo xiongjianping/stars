@@ -9,6 +9,7 @@ import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.section.SectionFloorMapper;
 import com.yinghuaicc.stars.repository.model.section.SectionFloor;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandRequest;
+import com.yinghuaicc.stars.service.section.dto.request.SectionBrandSyRequest;
 import com.yinghuaicc.stars.service.section.dto.response.SectionBrandResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,7 +66,7 @@ public class SectionFloorServiceImpl implements SectionFloorService {
     }
 
     @Override
-    public SectionFloor getSectionFloorListById(SectionBrandRequest sectionBrandRequest) {
+    public SectionFloor getSectionFloorListById(SectionBrandSyRequest sectionBrandRequest) {
         return sectionFloorMapper.getSectionFloorListById(sectionBrandRequest);
     }
 }

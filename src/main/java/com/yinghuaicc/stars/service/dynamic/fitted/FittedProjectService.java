@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.service.dynamic.fitted;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedProject;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedProjectSy;
 import com.yinghuaicc.stars.service.dynamic.fitted.dto.response.FittedProjectListResponse;
 
 import java.math.BigDecimal;
@@ -22,6 +23,6 @@ public interface FittedProjectService {
 
     void updatFittedProject(FittedProject fittedProject);
 
-    BigDecimal getFittedProject(FittedProject fittedProject);
+    BigDecimal getFittedProject(FittedProjectSy fittedProject);
 
 }
