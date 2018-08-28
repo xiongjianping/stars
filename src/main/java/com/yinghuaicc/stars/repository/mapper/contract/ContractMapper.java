@@ -75,7 +75,7 @@ public interface ContractMapper {
      *@Author:Fly Created in 2018/7/16 下午1:58
      *@Description: 查询品牌是否已经签约
      */
-    @Select("select contract_id from yhcc_contract where brand_id = #{brandId} and project_id = #{projectId} and status = true group by contract_id ")
+    @Select("select contract_id from yhcc_contract where brand_id = #{brandId} and project_id = #{projectId} group by contract_id ")
     String countContractByBrandIdId(@Param("brandId") String brandId,@Param("projectId") String projectId);
 
     /**
