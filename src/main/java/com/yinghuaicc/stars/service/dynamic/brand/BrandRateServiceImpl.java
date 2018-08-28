@@ -10,6 +10,7 @@ import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.contract.ContractMapper;
 import com.yinghuaicc.stars.repository.mapper.dynamic.brand.BrandRateMapper;
 import com.yinghuaicc.stars.repository.model.dynamic.brand.BrandRate;
+import com.yinghuaicc.stars.repository.model.dynamic.brand.BrandRateSy;
 import com.yinghuaicc.stars.service.dynamic.brand.dto.response.BrandRateListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -116,7 +117,7 @@ public class BrandRateServiceImpl implements BrandRateService {
      * @return
      */
     @Override
-    public BigDecimal getSyBrandRateCount(BrandRate brandRate) {
+    public BigDecimal getSyBrandRateCount(BrandRateSy brandRate) {
         String kll = brandRateMapper.getBrandRateByIdSy(brandRate); //品牌客流量
         if(kll == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_008");
@@ -129,7 +130,7 @@ public class BrandRateServiceImpl implements BrandRateService {
         }
         BigDecimal acreage = new BigDecimal(mj); //面积
 
-        Duration duration = Duration.between(brandRate.getCreateTime(),brandRate.getModifyTime());
+        Duration duration = Duration.between(LocalDateTime.parse(brandRate.getCreateTime()),LocalDateTime.parse(brandRate.getModifyTime()));
         BigDecimal day = new BigDecimal(duration.toDays()); //时间差
 
         BigDecimal rx = zkll.divide(acreage.multiply(day)); // 1 品牌客流量除以面积
@@ -150,7 +151,7 @@ public class BrandRateServiceImpl implements BrandRateService {
      * @return
      */
     @Override
-    public BigDecimal getSyFormRateCount(BrandRate brandRate) {
+    public BigDecimal getSyFormRateCount(BrandRateSy brandRate) {
         String kll = brandRateMapper.getFormRateByIdSy(brandRate); //业态客流量
         if(kll == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_008");
@@ -163,7 +164,7 @@ public class BrandRateServiceImpl implements BrandRateService {
         }
         BigDecimal acreage = new BigDecimal(mj); //面积
 
-        Duration duration = Duration.between(brandRate.getCreateTime(),brandRate.getModifyTime());
+        Duration duration = Duration.between(LocalDateTime.parse(brandRate.getCreateTime()),LocalDateTime.parse(brandRate.getModifyTime()));
         BigDecimal day = new BigDecimal(duration.toDays()); //时间差
 
         BigDecimal rx = zkll.divide(acreage.multiply(day)); // 1 业态客流量除以面积

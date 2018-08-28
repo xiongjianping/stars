@@ -1,6 +1,7 @@
 package com.yinghuaicc.stars.repository.mapper.dynamic.standardproject;
 
 import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardProject;
+import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardProjectSy;
 import com.yinghuaicc.stars.service.dynamic.standardproject.dto.response.StandardProjectListResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -93,7 +94,7 @@ public interface StandardProjectMapper {
             " a.project_id = #{projectId} " +
             " and a.effect_time >= #{modifyTime} " +
             " ORDER BY a.effect_time desc limit 0,1 ")
-    String getStandardProjectId(StandardProject standardProject);
+    String getStandardProjectId(StandardProjectSy standardProject);
 
 
 }

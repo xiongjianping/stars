@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.service.dynamic.project;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.dynamic.project.ProjectRate;
+import com.yinghuaicc.stars.repository.model.dynamic.project.ProjectRateSy;
 import com.yinghuaicc.stars.service.dynamic.project.dto.response.ProjectRateListResponse;
 
 import java.math.BigDecimal;
@@ -22,5 +23,5 @@ public interface ProjectRateService {
 
     void deleteProjectRate(String id);
 
-    BigDecimal getSyProjectCount(ProjectRate projectRate);
+    BigDecimal getSyProjectCount(ProjectRateSy projectRate);
 }

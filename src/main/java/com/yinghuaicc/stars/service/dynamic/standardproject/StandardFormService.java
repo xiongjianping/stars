@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.service.dynamic.standardproject;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardForm;
+import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardFormSy;
 import com.yinghuaicc.stars.service.dynamic.standardproject.dto.response.StandardFormListResponse;
 
 import java.math.BigDecimal;
@@ -22,5 +23,5 @@ public interface StandardFormService {
 
     void deleteStandardForm(String id);
 
-    BigDecimal getSyFormCount(StandardForm standardForm);
+    BigDecimal getSyFormCount(StandardFormSy standardForm);
 }

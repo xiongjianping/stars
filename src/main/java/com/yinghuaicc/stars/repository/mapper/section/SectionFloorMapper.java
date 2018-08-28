@@ -2,6 +2,7 @@ package com.yinghuaicc.stars.repository.mapper.section;
 
 import com.yinghuaicc.stars.repository.model.section.SectionFloor;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandRequest;
+import com.yinghuaicc.stars.service.section.dto.request.SectionBrandSyRequest;
 import com.yinghuaicc.stars.service.section.dto.response.SectionBrandResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -74,7 +75,7 @@ public interface SectionFloorMapper {
             "   a.project_id = #{projectId} " +
             "  AND a.floor_id = #{floorId} " +
             " ")
-    SectionFloor getSectionFloorListById(SectionBrandRequest sectionBrandRequest);
+    SectionFloor getSectionFloorListById(SectionBrandSyRequest sectionBrandRequest);
 
 
 }

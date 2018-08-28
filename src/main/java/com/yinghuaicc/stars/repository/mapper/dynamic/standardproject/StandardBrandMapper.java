@@ -1,6 +1,7 @@
 package com.yinghuaicc.stars.repository.mapper.dynamic.standardproject;
 
 import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardBrand;
+import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardBrandSy;
 import com.yinghuaicc.stars.service.dynamic.standardproject.dto.response.StandardBrandListResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -100,6 +101,6 @@ public interface StandardBrandMapper {
             "  and a.species_id = #{speciesId} and a.contract_id = #{contractId} " +
             " and a.effect_time >= #{createTime} and a.effect_time <= #{modifyTime} " +
             " ORDER BY a.effect_time limit 0,1 ")
-    String getStandardBrandId(StandardBrand standardBrand);
+    String getStandardBrandId(StandardBrandSy standardBrand);
 
 }

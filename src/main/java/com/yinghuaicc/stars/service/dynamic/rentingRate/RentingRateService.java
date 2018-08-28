@@ -3,7 +3,7 @@ package com.yinghuaicc.stars.service.dynamic.rentingRate;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.dynamic.rentingRate.RentingRate;
-import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuest;
+import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuestSy;
 import com.yinghuaicc.stars.service.dynamic.rentingRate.dto.request.getRentingRateListRequest;
 import com.yinghuaicc.stars.service.dynamic.rentingRate.dto.response.RentingRateDetailResponse;
 import com.yinghuaicc.stars.service.dynamic.rentingRate.dto.response.RentingRateListResponse;
@@ -24,11 +24,11 @@ public interface RentingRateService {
 
     void deleteRentingRateById(String id);
 
-    BigDecimal getSyProjectRentingRateCount(StandardGuest standardGuest);
+    BigDecimal getSyProjectRentingRateCount(StandardGuestSy standardGuest);
 
-    BigDecimal getSyFloorRentingRateCount(StandardGuest standardGuest);
+    BigDecimal getSyFloorRentingRateCount(StandardGuestSy standardGuest);
 
-    BigDecimal getSyFromRentingRateCount(StandardGuest standardGuest);
+    BigDecimal getSyFromRentingRateCount(StandardGuestSy standardGuest);
 
-    BigDecimal getSyBrandRentingRateCount(StandardGuest standardGuest);
+    BigDecimal getSyBrandRentingRateCount(StandardGuestSy standardGuest);
 }

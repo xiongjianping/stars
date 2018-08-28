@@ -6,10 +6,10 @@ import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
-import com.yinghuaicc.stars.repository.mapper.dynamic.fitted.FittedBrandMapper;
 import com.yinghuaicc.stars.repository.mapper.section.SectionProjectMapper;
 import com.yinghuaicc.stars.repository.model.section.SectionProject;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandRequest;
+import com.yinghuaicc.stars.service.section.dto.request.SectionBrandSyRequest;
 import com.yinghuaicc.stars.service.section.dto.response.SectionBrandResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,7 +68,7 @@ public class SectionProjectServiceImpl implements SectionProjectService{
     }
 
     @Override
-    public SectionProject getSectionProjectListById(SectionBrandRequest sectionBrandRequest) {
+    public SectionProject getSectionProjectListById(SectionBrandSyRequest sectionBrandRequest) {
         return sectionProjectMapper.getSectionProjectListById(sectionBrandRequest);
     }
 }

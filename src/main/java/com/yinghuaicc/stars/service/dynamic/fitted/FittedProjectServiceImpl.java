@@ -9,6 +9,7 @@ import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.dynamic.fitted.FittedProjectMapper;
 import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedProject;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedProjectSy;
 import com.yinghuaicc.stars.service.dynamic.fitted.dto.response.FittedProjectListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,7 +110,7 @@ public class FittedProjectServiceImpl implements FittedProjectService {
      * @return
      */
     @Override
-    public BigDecimal getFittedProject(FittedProject fittedProject) {
+    public BigDecimal getFittedProject(FittedProjectSy fittedProject) {
         String val = fittedProjectMapper.getFittedProjectId(fittedProject);
         if(val == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");

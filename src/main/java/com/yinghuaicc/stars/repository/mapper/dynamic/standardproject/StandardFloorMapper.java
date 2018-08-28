@@ -1,6 +1,7 @@
 package com.yinghuaicc.stars.repository.mapper.dynamic.standardproject;
 
 import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardFloor;
+import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardFloorSy;
 import com.yinghuaicc.stars.service.dynamic.standardproject.dto.response.StandardFloorListResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -90,5 +91,5 @@ public interface StandardFloorMapper {
             " a.project_id = #{projectId}  and a.building_id = #{buildingId} and a.floor_id = #{floorId} " +
             " and a.effect_time <= #{modifyTime} " +
             " ORDER BY a.effect_time desc limit 0,1 ")
-    String getStandardFloorId(StandardFloor standardFloor);
+    String getStandardFloorId(StandardFloorSy standardFloor);
 }

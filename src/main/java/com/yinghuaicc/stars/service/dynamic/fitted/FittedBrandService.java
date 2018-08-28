@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.service.dynamic.fitted;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedBrand;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedBrandSy;
 import com.yinghuaicc.stars.service.dynamic.fitted.dto.response.FittedBrandListResponse;
 
 import java.math.BigDecimal;
@@ -22,6 +23,6 @@ public interface FittedBrandService {
 
     void updateFittedBrand(FittedBrand fittedBrand);
 
-    BigDecimal getFittedBrand(FittedBrand fittedBrand);
+    BigDecimal getFittedBrand(FittedBrandSy fittedBrand);
 
 }

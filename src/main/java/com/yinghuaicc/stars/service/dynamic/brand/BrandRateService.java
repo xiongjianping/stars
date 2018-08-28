@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.service.dynamic.brand;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.dynamic.brand.BrandRate;
+import com.yinghuaicc.stars.repository.model.dynamic.brand.BrandRateSy;
 import com.yinghuaicc.stars.service.dynamic.brand.dto.response.BrandRateListResponse;
 
 import java.math.BigDecimal;
@@ -22,7 +23,7 @@ public interface BrandRateService {
 
     void updateBrandRate(BrandRate brandRate);
 
-    public BigDecimal getSyBrandRateCount(BrandRate brandRate);
+    public BigDecimal getSyBrandRateCount(BrandRateSy brandRate);
 
-    public BigDecimal getSyFormRateCount(BrandRate brandRate);
+    public BigDecimal getSyFormRateCount(BrandRateSy brandRate);
 }

@@ -9,6 +9,7 @@ import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.dynamic.fitted.FittedFormMapper;
 import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedForm;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedFormSy;
 import com.yinghuaicc.stars.service.dynamic.fitted.dto.response.FittedFormListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -107,7 +108,7 @@ public class FittedFormServiceImpl implements FittedFormService {
      * @return
      */
     @Override
-    public BigDecimal getFittedForm(FittedForm fittedForm) {
+    public BigDecimal getFittedForm(FittedFormSy fittedForm) {
         String val = fittedFormMapper.getFittedFormId(fittedForm);
         if(val == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");

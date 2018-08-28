@@ -1,6 +1,7 @@
 package com.yinghuaicc.stars.repository.mapper.dynamic.quarter;
 
 import com.yinghuaicc.stars.repository.model.dynamic.quarter.QuarterRate;
+import com.yinghuaicc.stars.repository.model.dynamic.quarter.QuarterRateSy;
 import com.yinghuaicc.stars.service.dynamic.quarter.dto.response.ProjectQuarterRateResponse;
 import com.yinghuaicc.stars.service.dynamic.quarter.dto.response.QuarterRateListResponse;
 import org.apache.ibatis.annotations.Delete;
@@ -103,7 +104,7 @@ public interface QuarterRateMapper {
             " and str_to_date(a.invalid_time,'%Y-%m-%d')  >= str_to_date(#{modifyTime},'%Y-%m-%d') " +
             " " +
             "")
-    List<ProjectQuarterRateResponse> getProjectQuarterRate(QuarterRate quarterRate);
+    List<ProjectQuarterRateResponse> getProjectQuarterRate(QuarterRateSy quarterRate);
 
 
     /**
@@ -118,7 +119,7 @@ public interface QuarterRateMapper {
             " and str_to_date(a.invalid_time,'%Y-%m-%d')  >= str_to_date(#{modifyTime},'%Y-%m-%d') " +
             "  GROUP BY a.contract_id  " +
             "")
-    List<ProjectQuarterRateResponse> getFloorQuarterRate(QuarterRate quarterRate);
+    List<ProjectQuarterRateResponse> getFloorQuarterRate(QuarterRateSy quarterRate);
 
 
 
@@ -130,7 +131,7 @@ public interface QuarterRateMapper {
             " and str_to_date(a.effect_time,'%Y-%m-%d') >= str_to_date(#{createTime},'%Y-%m-%d') " +
             " and str_to_date(a.invalid_time,'%Y-%m-%d')  >= str_to_date(#{modifyTime},'%Y-%m-%d') " +
             " GROUP BY a.contract_id")
-    List<ProjectQuarterRateResponse> getFormQuarterRate(QuarterRate quarterRate);
+    List<ProjectQuarterRateResponse> getFormQuarterRate(QuarterRateSy quarterRate);
 
     /**
      * 查看品牌时间差适配值
@@ -141,7 +142,7 @@ public interface QuarterRateMapper {
             " a.contract_id = #{contractId} " +
             " and a.effect_time >= #{createTime} and a.effect_time <= #{modifyTime} " +
             " ORDER BY a.effect_time desc limit 0,1 ")
-    String getQuarterContractId(QuarterRate quarterRate);
+    String getQuarterContractId(QuarterRateSy quarterRate);
 
 
     /**
@@ -153,7 +154,7 @@ public interface QuarterRateMapper {
             " a.contract_id = #{contractId}  " +
             " and a.effect_time  >= #{modifyTime} " +
             " ORDER BY a.effect_time limit 0,1 ")
-    String getBigQuarterContractId(QuarterRate quarterRate);
+    String getBigQuarterContractId(QuarterRateSy quarterRate);
 
 
     /**
@@ -165,14 +166,14 @@ public interface QuarterRateMapper {
             " a.contract_id = #{contractId}  " +
             " and a.effect_time  <= #{modifyTime} " +
             " ORDER BY a.effect_time desc limit 0,1 ")
-    String getSmalQuarterContractId(QuarterRate quarterRate);
+    String getSmalQuarterContractId(QuarterRateSy quarterRate);
 
 
     /**
      * 查看楼层面积
      */
     @Select("select acreage from yhcc_floor where project_id = #{projectId} and id = #{floorId} ")
-    String getFloorQuarter(QuarterRate quarterRate);
+    String getFloorQuarter(QuarterRateSy quarterRate);
 
 
 }

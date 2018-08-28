@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.service.dynamic.standardKxd;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuest;
+import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuestSy;
 import com.yinghuaicc.stars.service.dynamic.standardKxd.dto.StandardGuestListResponse;
 
 import java.math.BigDecimal;
@@ -22,12 +23,12 @@ public interface StandardGuestService {
 
     void updateStandardGuest(StandardGuest standardGuest);
 
-    BigDecimal getSyStandardProjectGuestCount(StandardGuest standardGuest);
+    BigDecimal getSyStandardProjectGuestCount(StandardGuestSy standardGuest);
 
-    BigDecimal getSyStandardFloorGuestCount(StandardGuest standardGuest);
+    BigDecimal getSyStandardFloorGuestCount(StandardGuestSy standardGuest);
 
-    BigDecimal getSyStandardFormGuestCount(StandardGuest standardGuest);
+    BigDecimal getSyStandardFormGuestCount(StandardGuestSy standardGuest);
 
-    BigDecimal getSyStandardBrandGuestCount(StandardGuest standardGuest);
+    BigDecimal getSyStandardBrandGuestCount(StandardGuestSy standardGuest);
 
 }

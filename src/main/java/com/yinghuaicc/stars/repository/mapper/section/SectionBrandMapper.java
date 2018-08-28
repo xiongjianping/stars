@@ -2,6 +2,7 @@ package com.yinghuaicc.stars.repository.mapper.section;
 
 import com.yinghuaicc.stars.repository.model.section.SectionBrand;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandRequest;
+import com.yinghuaicc.stars.service.section.dto.request.SectionBrandSyRequest;
 import com.yinghuaicc.stars.service.section.dto.response.SectionBrandResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -77,6 +78,6 @@ public interface SectionBrandMapper {
             "   a.project_id = #{projectId} " +
             "  AND a.species_id = #{speciesId} " +
             " ")
-    SectionBrand getSectionBrandListById(SectionBrandRequest sectionBrandRequest);
+    SectionBrand getSectionBrandListById(SectionBrandSyRequest sectionBrandRequest);
 
 }

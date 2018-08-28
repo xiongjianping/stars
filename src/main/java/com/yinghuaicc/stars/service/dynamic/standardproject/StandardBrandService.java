@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.service.dynamic.standardproject;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardBrand;
+import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardBrandSy;
 import com.yinghuaicc.stars.service.dynamic.standardproject.dto.response.StandardBrandListResponse;
 
 import java.math.BigDecimal;
@@ -22,5 +23,5 @@ public interface StandardBrandService {
 
     void updateStandardBrand(StandardBrand standardBrand);
 
-    BigDecimal getSyBrandCount(StandardBrand standardBrand);
+    BigDecimal getSyBrandCount(StandardBrandSy standardBrand);
 }

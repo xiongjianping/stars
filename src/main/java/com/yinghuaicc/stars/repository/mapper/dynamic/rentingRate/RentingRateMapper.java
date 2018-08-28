@@ -4,6 +4,7 @@ import com.yinghuaicc.stars.repository.model.contract.Contract;
 import com.yinghuaicc.stars.repository.model.dynamic.brand.BrandRate;
 import com.yinghuaicc.stars.repository.model.dynamic.rentingRate.RentingRate;
 import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuest;
+import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuestSy;
 import com.yinghuaicc.stars.service.dynamic.rentingRate.dto.request.getRentingRateListRequest;
 import com.yinghuaicc.stars.service.dynamic.rentingRate.dto.response.RentingRateDetailResponse;
 import com.yinghuaicc.stars.service.dynamic.rentingRate.dto.response.RentingRateListResponse;
@@ -258,7 +259,7 @@ public interface RentingRateMapper {
             " from (SELECT n1.i + n10.i*10 + n100.i*100 AS id FROM num n1 cross join num as n10 cross join num as n100) as numlist " +
             " where adddate(#{createTime}, numlist.id) <= #{modifyTime}" +
             " GROUP BY date ")
-    List<String> getSyDate(StandardGuest standardGuest);
+    List<String> getSyDate(StandardGuestSy standardGuest);
 
     @Select("<script> select a.* from yhcc_contract a LEFT JOIN yhcc_brand b on b.id = a.brand_id " +
             " where 1=1 " +
@@ -267,7 +268,7 @@ public interface RentingRateMapper {
             " <if test='formId != null'> AND b.business_form_id = #{formId} </if> " +
             " <if test='contractId != null'> AND a.contract_id = #{contractId} </if>" +
             "  GROUP BY a.contract_id </script>")
-    List<Contract> getProject(StandardGuest standardGuest);
+    List<Contract> getProject(StandardGuestSy standardGuest);
 
     @Select("<script> select a.* from yhcc_contract a LEFT JOIN yhcc_brand b on b.id = a.brand_id " +
             " where 1=1 " +
@@ -277,12 +278,12 @@ public interface RentingRateMapper {
             " <if test='contractId != null'> AND a.contract_id = #{contractId} </if>" +
             " and a.effect_time >= #{createTime} and a.invalid_time >=  #{modifyTime}  " +
             "   </script>")
-    List<Contract> getContract(StandardGuest standardGuest);
+    List<Contract> getContract(StandardGuestSy standardGuest);
 
     @Select("<script> select a.* from yhcc_renting_rate a  where " +
             " a.contract_id = #{contractId} and LEFT JOIN(a.effect_time,7) = LEFT JOIN(#{modifyUser},7) " +
             "   </script>")
-    RentingRate getR(StandardGuest standardGuest);
+    RentingRate getR(StandardGuestSy standardGuest);
 
 
 
@@ -296,5 +297,5 @@ public interface RentingRateMapper {
     @Select("  select adddate(#{createTime}, numlist.id) as date " +
             "    from (SELECT n1.i + n10.i*10 + n100.i*100 AS id FROM num n1 cross join num as n10 cross join num as n100) as numlist where left(adddate(#{createTime}, numlist.id),7) = left(#{modifyTime},7) " +
             "    GROUP BY date ")
-    List<String> getSyDateDay(StandardGuest standardGuest);
+    List<String> getSyDateDay(StandardGuestSy standardGuest);
 }

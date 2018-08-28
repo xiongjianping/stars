@@ -10,6 +10,7 @@ import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.dynamic.floor.FloorRateMapper;
 import com.yinghuaicc.stars.repository.model.dynamic.floor.FloorRate;
+import com.yinghuaicc.stars.repository.model.dynamic.floor.FloorRateSy;
 import com.yinghuaicc.stars.service.dynamic.floor.dto.response.FloorRateListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -112,7 +113,7 @@ public class FloorRateServiceImpl implements FloorRateService {
      */
     @Override
     @Transactional
-    public BigDecimal getSyFloorRateCount(FloorRate FloorRate) {
+    public BigDecimal getSyFloorRateCount(FloorRateSy FloorRate) {
         String kll = floorRateMapper.getFloorRateByIdSy(FloorRate); //楼层客流量
         if(kll == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_006");
@@ -125,7 +126,7 @@ public class FloorRateServiceImpl implements FloorRateService {
         }
         BigDecimal acreage = new BigDecimal(mj); //面积
 
-        Duration duration = Duration.between(FloorRate.getCreateTime(),FloorRate.getModifyTime());
+        Duration duration = Duration.between(LocalDateTime.parse(FloorRate.getCreateTime()),LocalDateTime.parse(FloorRate.getModifyTime()));
         BigDecimal day = new BigDecimal(duration.toDays()); //时间差
 
         BigDecimal rx = zkll.divide(acreage.multiply(day)); // 1 楼层客流量除以面积

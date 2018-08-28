@@ -9,9 +9,10 @@ import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.dynamic.fitted.FittedBrandMapper;
 import com.yinghuaicc.stars.repository.mapper.section.SectionBrandMapper;
-import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedBrand;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedBrandSy;
 import com.yinghuaicc.stars.repository.model.section.SectionBrand;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandRequest;
+import com.yinghuaicc.stars.service.section.dto.request.SectionBrandSyRequest;
 import com.yinghuaicc.stars.service.section.dto.response.SectionBrandResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,9 +91,10 @@ public class SectionBrandServiceImpl implements SectionBrandService {
     }
 
     @Override
-    public SectionBrand getSectionBrandListById(SectionBrandRequest sectionBrandRequest) {
-        String species = fittedBrandMapper.getFittedBrandSpeciesId(MapperFactoryUtil.mapperObject(sectionBrandRequest, FittedBrand.class));
+    public SectionBrand getSectionBrandListById(SectionBrandSyRequest sectionBrandRequest) {
+        String species = fittedBrandMapper.getFittedBrandSpeciesId(MapperFactoryUtil.mapperObject(sectionBrandRequest, FittedBrandSy.class));
         sectionBrandRequest.setSpeciesId(species);
         return sectionBrandMapper.getSectionBrandListById(sectionBrandRequest);
+
     }
 }

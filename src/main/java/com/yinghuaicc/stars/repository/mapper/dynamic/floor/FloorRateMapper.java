@@ -1,8 +1,12 @@
 package com.yinghuaicc.stars.repository.mapper.dynamic.floor;
 
 import com.yinghuaicc.stars.repository.model.dynamic.floor.FloorRate;
+import com.yinghuaicc.stars.repository.model.dynamic.floor.FloorRateSy;
 import com.yinghuaicc.stars.service.dynamic.floor.dto.response.FloorRateListResponse;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -86,7 +90,7 @@ public interface FloorRateMapper {
      * @return
      */
     @Select("select sum(passenger_flow) from yhcc_floor_rate where project_id = #{projectId} and building_id = #{buildingId} and floor_id = #{floorId} and effect_time >= #{createTime} and effect_time <= #{modifyTime} ")
-    String getFloorRateByIdSy(FloorRate floorRate);
+    String getFloorRateByIdSy(FloorRateSy floorRate);
 
 
 
@@ -106,5 +110,5 @@ public interface FloorRateMapper {
      * @return
      */
     @Select("select sum(sales_volume) from yhcc_brand_rate where project_id = #{projectId} and building_id = #{buildingId} and floor_id = #{floorId} and effect_time >= #{createTime} and effect_time <= #{modifyTime}")
-    String getFloorBrandById(FloorRate floorRate);
+    String getFloorBrandById(FloorRateSy floorRate);
 }

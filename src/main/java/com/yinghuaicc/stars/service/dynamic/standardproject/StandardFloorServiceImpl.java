@@ -9,6 +9,7 @@ import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.dynamic.standardproject.StandardFloorMapper;
 import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardFloor;
+import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardFloorSy;
 import com.yinghuaicc.stars.service.dynamic.standardproject.dto.response.StandardFloorListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -107,7 +108,7 @@ public class StandardFloorServiceImpl implements StandardFloorService {
      * @return
      */
     @Override
-    public BigDecimal getSyFloorCount(StandardFloor standardFloor) {
+    public BigDecimal getSyFloorCount(StandardFloorSy standardFloor) {
         String val = standardFloorMapper.getStandardFloorId(standardFloor);
         if(val == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");

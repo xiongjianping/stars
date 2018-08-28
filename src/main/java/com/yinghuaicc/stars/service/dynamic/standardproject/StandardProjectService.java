@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.service.dynamic.standardproject;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardProject;
+import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardProjectSy;
 import com.yinghuaicc.stars.service.dynamic.standardproject.dto.response.StandardProjectListResponse;
 
 import java.math.BigDecimal;
@@ -22,6 +23,6 @@ public interface StandardProjectService {
 
     void updatStandardProject(StandardProject standardProject);
 
-    BigDecimal getSyProjectCount(StandardProject standardProject);
+    BigDecimal getSyProjectCount(StandardProjectSy standardProject);
 
 }

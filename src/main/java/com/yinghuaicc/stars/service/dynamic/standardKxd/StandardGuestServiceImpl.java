@@ -14,9 +14,10 @@ import com.yinghuaicc.stars.repository.mapper.dynamic.floor.FloorRateMapper;
 import com.yinghuaicc.stars.repository.mapper.dynamic.project.ProjectRateMapper;
 import com.yinghuaicc.stars.repository.mapper.dynamic.rentingRate.RentingRateMapper;
 import com.yinghuaicc.stars.repository.mapper.dynamic.standardkxd.StandardGuestMapper;
-import com.yinghuaicc.stars.repository.model.dynamic.brand.BrandRate;
+import com.yinghuaicc.stars.repository.model.dynamic.brand.BrandRateSy;
 import com.yinghuaicc.stars.repository.model.dynamic.rentingRate.RentingRate;
 import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuest;
+import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuestSy;
 import com.yinghuaicc.stars.service.dynamic.rentingRate.dto.request.getRentingRateListRequest;
 import com.yinghuaicc.stars.service.dynamic.rentingRate.dto.response.RentingRateListResponse;
 import com.yinghuaicc.stars.service.dynamic.standardKxd.dto.StandardGuestListResponse;
@@ -212,7 +213,7 @@ public class StandardGuestServiceImpl implements StandardGuestService {
      * @return
      */
     @Override
-    public BigDecimal getSyStandardProjectGuestCount(StandardGuest standardGuest) {
+    public BigDecimal getSyStandardProjectGuestCount(StandardGuestSy standardGuest) {
         String mj = projectRateMapper.getProjectacreageById(standardGuest.getProjectId()); //项目面积
         if(mj == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_005");
@@ -225,7 +226,7 @@ public class StandardGuestServiceImpl implements StandardGuestService {
         BigDecimal xmmj = new BigDecimal(mj); //项目面积
         BigDecimal zxse = new BigDecimal("0");//销售额
         BigDecimal zkll = new BigDecimal("0"); // 客流量
-        Duration duration = Duration.between(standardGuest.getCreateTime(),standardGuest.getModifyTime());
+        Duration duration = Duration.between(LocalDateTime.parse(standardGuest.getCreateTime()),LocalDateTime.parse(standardGuest.getModifyTime()));
         BigDecimal day = new BigDecimal(duration.toDays()); //时间差
         getStandardProjectGuestList.forEach(p->{
             standardGuest.setContractId(p.getContractId());
@@ -266,7 +267,7 @@ public class StandardGuestServiceImpl implements StandardGuestService {
      * @return
      */
     @Override
-    public BigDecimal getSyStandardFloorGuestCount(StandardGuest standardGuest) {
+    public BigDecimal getSyStandardFloorGuestCount(StandardGuestSy standardGuest) {
         String mj = floorRateMapper.getFloorAcreageById(standardGuest.getFloorId()); //面积
         if(mj == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_007");
@@ -279,7 +280,7 @@ public class StandardGuestServiceImpl implements StandardGuestService {
         BigDecimal xmmj = new BigDecimal(mj); //楼层面积
         BigDecimal zxse = new BigDecimal("0");//销售额
         BigDecimal zkll = new BigDecimal("0"); // 客流量
-        Duration duration = Duration.between(standardGuest.getCreateTime(),standardGuest.getModifyTime());
+        Duration duration = Duration.between(LocalDateTime.parse(standardGuest.getCreateTime()),LocalDateTime.parse(standardGuest.getModifyTime()));
         BigDecimal day = new BigDecimal(duration.toDays()); //时间差
         getStandardProjectGuestList.forEach(p->{
             standardGuest.setContractId(p.getContractId());
@@ -320,8 +321,8 @@ public class StandardGuestServiceImpl implements StandardGuestService {
      * @return
      */
     @Override
-    public BigDecimal getSyStandardFormGuestCount(StandardGuest standardGuest) {
-        String mj = brandRateMapper.getFormAcreageById(MapperFactoryUtil.mapperObject(standardGuest, BrandRate.class)); //面积
+    public BigDecimal getSyStandardFormGuestCount(StandardGuestSy standardGuest) {
+        String mj = brandRateMapper.getFormAcreageById(MapperFactoryUtil.mapperObject(standardGuest, BrandRateSy.class)); //面积
         if(mj == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_009");
         }
@@ -333,7 +334,7 @@ public class StandardGuestServiceImpl implements StandardGuestService {
         BigDecimal xmmj = new BigDecimal(mj); //业态面积
         BigDecimal zxse = new BigDecimal("0");//销售额
         BigDecimal zkll = new BigDecimal("0"); // 客流量
-        Duration duration = Duration.between(standardGuest.getCreateTime(),standardGuest.getModifyTime());
+        Duration duration = Duration.between(LocalDateTime.parse(standardGuest.getCreateTime()),LocalDateTime.parse(standardGuest.getModifyTime()));
         BigDecimal day = new BigDecimal(duration.toDays()); //时间差
         getStandardProjectGuestList.forEach(p->{
             standardGuest.setContractId(p.getContractId());
@@ -375,8 +376,8 @@ public class StandardGuestServiceImpl implements StandardGuestService {
      * @return
      */
     @Override
-    public BigDecimal getSyStandardBrandGuestCount(StandardGuest standardGuest) {
-        String mj = brandRateMapper.getBrandAcreageById(MapperFactoryUtil.mapperObject(standardGuest, BrandRate.class)); //面积
+    public BigDecimal getSyStandardBrandGuestCount(StandardGuestSy standardGuest) {
+        String mj = brandRateMapper.getBrandAcreageById(MapperFactoryUtil.mapperObject(standardGuest, BrandRateSy.class)); //面积
         if(mj == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_009");
         }
@@ -387,7 +388,7 @@ public class StandardGuestServiceImpl implements StandardGuestService {
         BigDecimal xmmj = new BigDecimal(mj); //品牌面积
         BigDecimal zxse = new BigDecimal("0");//销售额
         BigDecimal zkll = new BigDecimal("0"); // 客流量
-        Duration duration = Duration.between(standardGuest.getCreateTime(),standardGuest.getModifyTime());
+        Duration duration = Duration.between(LocalDateTime.parse(standardGuest.getCreateTime()),LocalDateTime.parse(standardGuest.getModifyTime()));
         BigDecimal day = new BigDecimal(duration.toDays()); //时间差
         BigDecimal zgdcb = new BigDecimal("0");
         getStandardProjectGuestList.forEach(p->{

@@ -4,6 +4,7 @@ import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.section.SectionBrand;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandRequest;
+import com.yinghuaicc.stars.service.section.dto.request.SectionBrandSyRequest;
 import com.yinghuaicc.stars.service.section.dto.response.SectionBrandResponse;
 
 /**
@@ -19,6 +20,6 @@ public interface SectionBrandService {
 
     ResultPageList<SectionBrandResponse> getSectionBrandList(SectionBrandRequest sectionBrandRequest, PageParam pageParam);
 
-    SectionBrand getSectionBrandListById(SectionBrandRequest sectionBrandRequest);
+    SectionBrand getSectionBrandListById(SectionBrandSyRequest sectionBrandRequest);
 
 }

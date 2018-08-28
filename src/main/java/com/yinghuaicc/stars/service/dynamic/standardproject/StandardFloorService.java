@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.service.dynamic.standardproject;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardFloor;
+import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardFloorSy;
 import com.yinghuaicc.stars.service.dynamic.standardproject.dto.response.StandardFloorListResponse;
 
 import java.math.BigDecimal;
@@ -22,6 +23,6 @@ public interface StandardFloorService {
 
     void deleteStandardFloor(String id);
 
-    BigDecimal getSyFloorCount(StandardFloor standardFloor);
+    BigDecimal getSyFloorCount(StandardFloorSy standardFloor);
 
 }

@@ -1,6 +1,7 @@
 package com.yinghuaicc.stars.repository.mapper.dynamic.standardproject;
 
 import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardForm;
+import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardFormSy;
 import com.yinghuaicc.stars.service.dynamic.standardproject.dto.response.StandardFormListResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -94,6 +95,6 @@ public interface StandardFormMapper {
             " a.project_id = #{projectId}  and a.form_id = #{formId} " +
             " and a.effect_time >=  #{modifyTime} " +
             " ORDER BY a.effect_time desc limit 0,1 ")
-    String getStandardFormId(StandardForm standardForm);
+    String getStandardFormId(StandardFormSy standardForm);
 
 }

@@ -2,6 +2,7 @@ package com.yinghuaicc.stars.repository.mapper.section;
 
 import com.yinghuaicc.stars.repository.model.section.SectionForm;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandRequest;
+import com.yinghuaicc.stars.service.section.dto.request.SectionBrandSyRequest;
 import com.yinghuaicc.stars.service.section.dto.response.SectionBrandResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -71,6 +72,6 @@ public interface SectionFormMapper {
             "   a.project_id = #{projectId} " +
             "  AND a.form_id = #{formId} " +
             " ")
-    SectionForm getSectionFormListById(SectionBrandRequest sectionBrandRequest);
+    SectionForm getSectionFormListById(SectionBrandSyRequest sectionBrandRequest);
 
 }

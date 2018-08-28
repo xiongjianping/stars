@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.service.dynamic.quarter;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.dynamic.quarter.QuarterRate;
+import com.yinghuaicc.stars.repository.model.dynamic.quarter.QuarterRateSy;
 import com.yinghuaicc.stars.service.dynamic.quarter.dto.response.QuarterRateListResponse;
 
 import java.math.BigDecimal;
@@ -22,11 +23,11 @@ public interface QuarterRateService {
 
     void updateQuarterRate(QuarterRate quarterRate);
 
-    BigDecimal getBrandQuarterRate(QuarterRate quarterRate);
+    BigDecimal getBrandQuarterRate(QuarterRateSy quarterRate);
 
-    BigDecimal getProjectQuarterRate(QuarterRate quarterRate);
+    BigDecimal getProjectQuarterRate(QuarterRateSy quarterRate);
 
-    BigDecimal getFormQuarterRate(QuarterRate quarterRate);
+    BigDecimal getFormQuarterRate(QuarterRateSy quarterRate);
 
-    BigDecimal getFloorQuarterRate(QuarterRate quarterRate);
+    BigDecimal getFloorQuarterRate(QuarterRateSy quarterRate);
 }

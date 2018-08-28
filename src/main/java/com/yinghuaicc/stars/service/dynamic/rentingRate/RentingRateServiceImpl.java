@@ -15,6 +15,7 @@ import com.yinghuaicc.stars.repository.model.contract.Contract;
 import com.yinghuaicc.stars.repository.model.dynamic.brand.BrandRate;
 import com.yinghuaicc.stars.repository.model.dynamic.rentingRate.RentingRate;
 import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuest;
+import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuestSy;
 import com.yinghuaicc.stars.service.dynamic.rentingRate.dto.request.getRentingRateListRequest;
 import com.yinghuaicc.stars.service.dynamic.rentingRate.dto.response.RentingRateDetailResponse;
 import com.yinghuaicc.stars.service.dynamic.rentingRate.dto.response.RentingRateListResponse;
@@ -130,7 +131,7 @@ public class RentingRateServiceImpl implements RentingRateService {
      * @return
      */
     @Override
-    public BigDecimal getSyProjectRentingRateCount(StandardGuest standardGuest) {
+    public BigDecimal getSyProjectRentingRateCount(StandardGuestSy standardGuest) {
         return getCont(standardGuest);
         //1根据项目ID查看所有品牌动态溢组率
       /*  List<RentingRate> list = rentingRateMapper.getSyProjectRentingRate(standardGuest);
@@ -181,7 +182,7 @@ public class RentingRateServiceImpl implements RentingRateService {
      * @return
      */
     @Override
-    public BigDecimal getSyFloorRentingRateCount(StandardGuest standardGuest) {
+    public BigDecimal getSyFloorRentingRateCount(StandardGuestSy standardGuest) {
         return getCont(standardGuest);
         //楼层下品牌
      /*   List<RentingRate> list = rentingRateMapper.getSyFloorRentingRate(standardGuest);
@@ -234,7 +235,7 @@ public class RentingRateServiceImpl implements RentingRateService {
      * @return
      */
     @Override
-    public BigDecimal getSyFromRentingRateCount(StandardGuest standardGuest) {
+    public BigDecimal getSyFromRentingRateCount(StandardGuestSy standardGuest) {
         return getCont(standardGuest);
         //业态下品牌
      /*   List<RentingRate> list = rentingRateMapper.getSyFormRentingRate(standardGuest);
@@ -281,7 +282,7 @@ public class RentingRateServiceImpl implements RentingRateService {
     }
 
 
-    private BigDecimal getCont(StandardGuest standardGuest){
+    private BigDecimal getCont(StandardGuestSy standardGuest){
         BigDecimal yzl =  new BigDecimal("0");
         //获取所有品牌签约ID
         List<Contract>  contractProject = rentingRateMapper.getProject(standardGuest);
@@ -293,11 +294,11 @@ public class RentingRateServiceImpl implements RentingRateService {
         if(list.size() == 0){
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");
         }
-
          contractProject.forEach( p->{
              standardGuest.setContractId(p.getContractId());
              List<Contract> getContract = rentingRateMapper.getContract(standardGuest);
              getContract.forEach( a->{
+
                  list.forEach(b ->{
                      BigDecimal zjlr = new BigDecimal("0");
                      BigDecimal zfm = new BigDecimal("0");
@@ -330,6 +331,7 @@ public class RentingRateServiceImpl implements RentingRateService {
                      zjlr.add(jlr);
                      zfm.add(fm);
                      yzl.add(zjlr.divide(zfm));
+
                     });
                 });
             });
@@ -346,7 +348,7 @@ public class RentingRateServiceImpl implements RentingRateService {
      * @return
      */
     @Override
-    public BigDecimal getSyBrandRentingRateCount(StandardGuest standardGuest) {
+    public BigDecimal getSyBrandRentingRateCount(StandardGuestSy standardGuest) {
         return getCont(standardGuest);
         //业态下品牌
       /*  RentingRate p = rentingRateMapper.getSyBrandRentingRate(standardGuest);

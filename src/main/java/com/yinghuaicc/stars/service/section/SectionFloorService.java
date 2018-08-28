@@ -4,6 +4,7 @@ import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.model.section.SectionFloor;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandRequest;
+import com.yinghuaicc.stars.service.section.dto.request.SectionBrandSyRequest;
 import com.yinghuaicc.stars.service.section.dto.response.SectionBrandResponse;
 
 /**
@@ -19,5 +20,5 @@ public interface SectionFloorService {
 
     ResultPageList<SectionBrandResponse> getSectionFloorList(SectionBrandRequest sectionBrandRequest, PageParam pageParam);
 
-    SectionFloor getSectionFloorListById(SectionBrandRequest sectionBrandRequest);
+    SectionFloor getSectionFloorListById(SectionBrandSyRequest sectionBrandRequest);
 }

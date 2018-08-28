@@ -10,6 +10,7 @@ import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.contract.ContractMapper;
 import com.yinghuaicc.stars.repository.mapper.dynamic.standardproject.StandardBrandMapper;
 import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardBrand;
+import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardBrandSy;
 import com.yinghuaicc.stars.service.dynamic.standardproject.dto.response.StandardBrandListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -121,7 +122,7 @@ public class StandardBrandServiceImpl implements StandardBrandService {
      * @return
      */
     @Override
-    public BigDecimal getSyBrandCount(StandardBrand standardBrand) {
+    public BigDecimal getSyBrandCount(StandardBrandSy standardBrand) {
         String val = standardBrandMapper.getStandardBrandId(standardBrand);
         if(val == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");

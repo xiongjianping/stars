@@ -10,6 +10,7 @@ import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.contract.ContractMapper;
 import com.yinghuaicc.stars.repository.mapper.dynamic.fitted.FittedBrandMapper;
 import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedBrand;
+import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedBrandSy;
 import com.yinghuaicc.stars.service.dynamic.fitted.dto.response.FittedBrandListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -112,7 +113,7 @@ public class FittedBrandServiceImpl implements FittedBrandService {
      * @return
      */
     @Override
-    public BigDecimal getFittedBrand(FittedBrand fittedBrand) {
+    public BigDecimal getFittedBrand(FittedBrandSy fittedBrand) {
         //查找业种
         String species = fittedBrandMapper.getFittedBrandSpeciesId(fittedBrand);
         if(species == null){
