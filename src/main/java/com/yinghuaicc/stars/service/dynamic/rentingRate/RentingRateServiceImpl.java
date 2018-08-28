@@ -55,7 +55,7 @@ public class RentingRateServiceImpl implements RentingRateService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveRentingRate(RentingRate rentingRate) {
-        Integer count = contractMapper.getContractByContractIdAndDate(rentingRate.getContractId(),rentingRate.getEffectTime());
+        Integer count = contractMapper.getContractByContractIdAndDates(rentingRate.getContractId(),rentingRate.getEffectTime());
         if(count == 0){
             throw exceptionUtil.throwCustomException("RENTING_RATE_001");
         }

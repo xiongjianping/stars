@@ -21,8 +21,8 @@ public interface FittedFormMapper {
      * 新增
      * @param fittedForm 
      */
-    @Insert("insert into yhcc_form_fitted(id,project_id,fitted_val,effect_time,create_time,create_user,building_id,floor_id,form_id,species_id)" +
-            " values(#{id},#{projectId},#{fittedVal},#{effectTime},#{createTime},#{createUser},#{buildingId},#{floorId},#{formId},#{speciesId})")
+    @Insert("insert into yhcc_form_fitted(id,project_id,fitted_val,effect_time,create_time,create_user,form_id)" +
+            " values(#{id},#{projectId},#{fittedVal},#{effectTime},#{createTime},#{createUser},#{formId})")
     void saveFittedForm(FittedForm fittedForm);
 
     /**
