@@ -46,7 +46,14 @@ public class ContractServiceImpl implements ContractService{
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveContract(SaveContractRequestDTO saveContractRequestDTO, String loginEmployeeId) {
+        if(saveContractRequestDTO.getRoomId().size() > 1){
+            throw exceptionUtil.throwCustomException("CONTRACT_SAVE_CONTRACT_010");
+        }
 
+        Integer count = contractMapper.countContractByBrandIdIdCount(saveContractRequestDTO.getBrandId(),saveContractRequestDTO.getProjectId());
+        if(count != 0){
+            throw exceptionUtil.throwCustomException("ROOM_CQRS_FIND_BY_PROJECT_002");
+        }
         saveContractRequestDTO.getRoomId().stream().forEach(roomId -> {
 
             if (Objects.isNull(regionMapper.findRoomById(roomId))){
@@ -54,10 +61,10 @@ public class ContractServiceImpl implements ContractService{
                 throw exceptionUtil.throwCustomException("CONTRACT_SAVE_CONTRACT_005");
             }
 
-      /*      if (contractMapper.countContractByRoomId(roomId) > 0){
+           if (contractMapper.countContractByRoomId(roomId) > 0){
 
                 throw exceptionUtil.throwCustomException("CONTRACT_SAVE_CONTRACT_006");
-            }*/
+            }
 
             if (2 == regionMapper.findRoomById(roomId).getState()){
 
