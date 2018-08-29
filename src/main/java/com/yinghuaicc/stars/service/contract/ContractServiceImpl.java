@@ -112,7 +112,7 @@ public class ContractServiceImpl implements ContractService{
     @Override
     public void dispelContract(String id, String loginEmployeeId,String invalidTime) {
 
-        List<Contract> contracts = contractMapper.findContractByContractId(id);
+        List<Contract> contracts = contractMapper.findContractByIds(id);
         contracts.forEach(contract->{
             if (contract.isStatus()){
 
