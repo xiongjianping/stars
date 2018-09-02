@@ -222,13 +222,14 @@ public class StandardGuestServiceImpl implements StandardGuestService {
         if(getStandardProjectGuestList.size() == 0){
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");
         }
-        BigDecimal zgdcb = new BigDecimal("0");
+
         BigDecimal xmmj = new BigDecimal(mj); //项目面积
         BigDecimal zxse = new BigDecimal("0");//销售额
         BigDecimal zkll = new BigDecimal("0"); // 客流量
         Duration duration = Duration.between(LocalDateTime.parse(standardGuest.getCreateTime()),LocalDateTime.parse(standardGuest.getModifyTime()));
         BigDecimal day = new BigDecimal(duration.toDays()); //时间差
         getStandardProjectGuestList.forEach(p->{
+            BigDecimal zgdcb = new BigDecimal("0");
             standardGuest.setContractId(p.getContractId());
             List<String> list = rentingRateMapper.getSyDate(standardGuest);
             if(list.size() == 0){
