@@ -26,6 +26,8 @@ public interface ContractCQRSMapper {
      */
     @Select("<script> " +
             "select " +
+            " (case when co.invalid_time = '9999-12-12' then '' else co.invalid_time end)  as invalidTime," +
+            "co.effect_time as effectTime," +
             "co.id as id, " +
             "ar.name as areaName, " +
             "pr.name as projectName, " +
@@ -76,6 +78,7 @@ public interface ContractCQRSMapper {
      */
     @Select("<script> " +
             "select " +
+            "co.effect_time as effectTime," +
             "co.id as id, " +
             "ar.name as areaName, " +
             "pr.id as projectId, " +

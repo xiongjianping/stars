@@ -36,7 +36,6 @@ public interface FittedFloorMapper {
             " where " +
             " 1=1 " +
             " <if test='projectId != null and projectId != \"\"'> AND a.project_id = #{projectId} </if> " +
-            " <if test='buildingId != null and buildingId != \"\"'> AND a.building_id = #{buildingId} </if>" +
             " <if test='floorId != null and floorId != \"\"'> AND a.floor_id = #{floorId} </if>" +
             " <if test='effectTime != null and effectTime != \"\"'> AND a.effect_time = #{effectTime} </if>  " +
             " </script>")
@@ -88,9 +87,15 @@ public interface FittedFloorMapper {
      * @param fittedFloor
      * @return
      */
-    @Select(" select fitted_val from yhcc_form_fitted  where " +
-            " project_id = #{projectId} and building_id = #{buildingId} and floor_id = #{floorId} " +
+    @Select(" select fitted_val from yhcc_floor_fitted  where " +
+            " project_id = #{projectId} and floor_id = #{floorId} " +
+            " and effect_time <= #{modifyTime} " +
+            " ORDER BY effect_time desc limit 0,1 ")
+    String getFittedFloorId(FittedFloorSy fittedFloor);
+
+    @Select(" select fitted_val from yhcc_floor_fitted  where " +
+            " project_id = #{projectId} and floor_id = #{floorId} " +
             " and effect_time >= #{modifyTime} " +
             " ORDER BY effect_time limit 0,1 ")
-    String getFittedFloorId(FittedFloorSy fittedFloor);
+    String getFittedFloorIds(FittedFloorSy fittedFloor);
 }

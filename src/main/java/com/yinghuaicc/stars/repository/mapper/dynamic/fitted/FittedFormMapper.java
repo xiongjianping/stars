@@ -35,19 +35,13 @@ public interface FittedFormMapper {
 
 
     @Select("<script>" +
-            " select a.*,b.name as projectName,c.name as buildingName,d.name as floorName,g.name as formName,h.name as speciesName from yhcc_form_fitted a " +
+            " select a.*,b.name as projectName,g.name as formName from yhcc_form_fitted a " +
             " LEFT JOIN yhcc_project b on b.id = a.project_id  " +
-            " LEFT JOIN yhcc_building c on c.id = a.building_id " +
-            " LEFT JOIN yhcc_floor d on d.id = a.floor_id" +
             " LEFT JOIN yhcc_business_form g on g.id = a.form_id" +
-            " LEFT JOIN yhcc_business_species h on h.id = a.species_id" +
             " where " +
             " 1=1 " +
             " <if test='projectId != null and projectId != \"\"'> AND a.project_id = #{projectId} </if> " +
-            " <if test='buildingId != null and buildingId != \"\"'> AND a.building_id = #{buildingId} </if>" +
-            " <if test='floorId != null and floorId != \"\"'> AND a.floor_id = #{floorId} </if> " +
             " <if test='formId != null and formId != \"\"'> AND a.form_id = #{formId} </if> " +
-            " <if test='speciesId != null and speciesId != \"\"'> AND a.species_id = #{speciesId} </if>" +
             " <if test='effectTime != null and effectTime != \"\"'> AND a.effect_time = #{effectTime} </if>" +
             " group by a.id " +
             "</script>")
@@ -96,6 +90,12 @@ public interface FittedFormMapper {
     @Select(" select fitted_val from yhcc_form_fitted  where " +
             " project_id = #{projectId}  and form_id = #{formId} " +
             " and effect_time <= #{modifyTime} " +
-            " ORDER BY effect_time limit 0,1 ")
+            " ORDER BY effect_time desc limit 0,1 ")
     String getFittedFormId(FittedFormSy fittedForm);
+
+    @Select(" select fitted_val from yhcc_form_fitted  where " +
+            " project_id = #{projectId}  and form_id = #{formId} " +
+            " and effect_time >= #{modifyTime} " +
+            " ORDER BY effect_time limit 0,1 ")
+    String getFittedFormIds(FittedFormSy fittedForm);
 }

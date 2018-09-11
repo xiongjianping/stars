@@ -46,6 +46,16 @@ public class ContractTriangleCQRSListResponseDTO {
     //修改时间
     private LocalDateTime modifyTime;
 
+    private String effectTime; //签约生效时间
+
+    public String getEffectTime() {
+        return effectTime;
+    }
+
+    public void setEffectTime(String effectTime) {
+        this.effectTime = effectTime;
+    }
+
     public String getId() {
         return id;
     }

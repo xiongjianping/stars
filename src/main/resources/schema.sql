@@ -524,6 +524,26 @@ CREATE TABLE IF NOT EXISTS `yhcc_help_business_species`(
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+-- 创建业太帮扶计划表
+CREATE TABLE IF NOT EXISTS `yhcc_help_from_context`(
+
+  `id` VARCHAR (50) NOT NULL,
+  `project_id` VARCHAR (50),
+  `business_form_id` VARCHAR (50),
+  `yx_help_context` VARCHAR (2184),
+  `lh_help_context` VARCHAR (2184),
+  `ts_help_context` VARCHAR (2184),
+  `hl_help_context` VARCHAR (2184),
+  `ks_help_context` VARCHAR (2184),
+  `create_time` DATETIME,
+  `modify_time` DATETIME,
+  `create_user` VARCHAR (100),
+  `modify_user` VARCHAR (100),
+  `type` int(11),
+  PRIMARY KEY (`id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- 创建三角理论表
 CREATE TABLE IF NOT EXISTS `yhcc_triangle`(
   `id` VARCHAR (50) NOT NULL,

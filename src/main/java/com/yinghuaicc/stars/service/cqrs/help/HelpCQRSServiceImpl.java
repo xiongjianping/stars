@@ -8,6 +8,7 @@ import com.yinghuaicc.stars.repository.mapper.cqrs.help.HelpCQRSMapper;
 import com.yinghuaicc.stars.repository.mapper.help.HelpMapper;
 import com.yinghuaicc.stars.service.cqrs.help.dto.request.FindHelpPlanFloorListCQRSRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.help.dto.request.FindHelpPlanProjectListCQRSRequestDTO;
+import com.yinghuaicc.stars.service.cqrs.help.dto.request.FindHelpRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.help.dto.response.FindHelpPlanBusinessSpeciesListCQRSResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.help.dto.response.FindHelpPlanFloorListCQRSResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.help.dto.response.FindHelpPlanProjectListCQRSResponseDTO;
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @Author:Fly
@@ -77,12 +77,12 @@ public class HelpCQRSServiceImpl implements HelpCQRSService {
      *@Description: 业态帮扶计划列表
      */
     @Override
-    public ResultPageList<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> findHelpPlanBusinessSpeciesListCQRS(String projectId, Integer helpType, PageParam pageParam) {
+    public ResultPageList<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> findHelpPlanBusinessSpeciesListCQRS(String projectId, Integer helpType,String fromId,String speciesId, PageParam pageParam) {
 
         Page page = PageHelper.startPage(pageParam.getP(), pageParam.getC());
 
         List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> result =
-                helpCQRSMapper.findHelpPlanBusinessSpeciesCQRSList(projectId, helpType);
+                helpCQRSMapper.findHelpPlanBusinessSpeciesCQRSList(projectId, helpType,fromId,speciesId);
 
         return new ResultPageList<FindHelpPlanBusinessSpeciesListCQRSResponseDTO>()
                 .setResultList(result)
@@ -90,5 +90,40 @@ public class HelpCQRSServiceImpl implements HelpCQRSService {
                 .setSize(pageParam.getC())
                 .setCountPage(page.getPages())
                 .setCountSize(page.getTotal());
+    }
+
+    @Override
+    public ResultPageList<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> findHelpFromListCQRS(String projectId, Integer helpType,String fromId, PageParam pageParam) {
+        Page page = PageHelper.startPage(pageParam.getP(), pageParam.getC());
+
+        List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> result =
+                helpCQRSMapper.findHelpFromCQRSList(projectId, helpType,fromId);
+
+        return new ResultPageList<FindHelpPlanBusinessSpeciesListCQRSResponseDTO>()
+                .setResultList(result)
+                .setPage(pageParam.getP())
+                .setSize(pageParam.getC())
+                .setCountPage(page.getPages())
+                .setCountSize(page.getTotal());
+    }
+
+    @Override
+    public List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> getProjectList(FindHelpRequestDTO f) {
+        return helpCQRSMapper.getProjectList(f);
+    }
+
+    @Override
+    public List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> getfloorList(FindHelpRequestDTO f) {
+        return helpCQRSMapper.getfloorList(f);
+    }
+
+    @Override
+    public List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> getformList(FindHelpRequestDTO f) {
+        return helpCQRSMapper.getformList(f);
+    }
+
+    @Override
+    public List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> getspeciesList(FindHelpRequestDTO f) {
+        return helpCQRSMapper.getspeciesList(f);
     }
 }

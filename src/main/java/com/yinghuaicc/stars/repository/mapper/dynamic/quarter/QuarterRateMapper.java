@@ -50,7 +50,6 @@ public interface QuarterRateMapper {
             " where " +
             " 1=1 " +
             " <if test='projectId != null and projectId != \"\"'> AND a.project_id = #{projectId} </if> " +
-            " <if test='buildingId != null and buildingId != \"\"'> AND a.building_id = #{buildingId} </if>" +
             " <if test='floorId != null and floorId != \"\"'> AND a.floor_id = #{floorId} </if> " +
             " <if test='formId != null and formId != \"\"'> AND a.form_id = #{formId} </if> " +
             " <if test='speciesId != null and speciesId != \"\"'> AND a.species_id = #{speciesId} </if>" +
@@ -100,8 +99,8 @@ public interface QuarterRateMapper {
     @Select("" +
             " select a.contract_id as id ,(sum(b.acreage)/count(a.contract_id)) as acreage from yhcc_contract a LEFT JOIN yhcc_room b on b.id = a.room_id " +
             " where a.project_id = #{projectId} " +
-            " and str_to_date(a.effect_time,'%Y-%m-%d') >= str_to_date(#{createTime},'%Y-%m-%d') " +
-            " and str_to_date(a.invalid_time,'%Y-%m-%d')  >= str_to_date(#{modifyTime},'%Y-%m-%d') " +
+            " and a.effect_time <= #{createTime}" +
+            " and a.invalid_time  >= #{modifyTime} " +
             " " +
             "")
     List<ProjectQuarterRateResponse> getProjectQuarterRate(QuarterRateSy quarterRate);
@@ -113,25 +112,36 @@ public interface QuarterRateMapper {
      * @return
      */
     @Select("" +
-            "  select a.contract_id as id,(sum(b.acreage)/count(a.contract_id)) as acreage from yhcc_contract a LEFT JOIN yhcc_room b on b.id = a.room_id " +
+            "  select a.contract_id as id ,(sum(c.acreage)/count(b.id)) as acreage from yhcc_brand_rate a left join yhcc_contract b on b.contract_id = a.contract_id LEFT JOIN yhcc_room c on c.id = b.room_id  " +
             "  where a.project_id = #{projectId} and a.floor_id = #{floorId} " +
-            " and str_to_date(a.effect_time,'%Y-%m-%d') >= str_to_date(#{createTime},'%Y-%m-%d') " +
-            " and str_to_date(a.invalid_time,'%Y-%m-%d')  >= str_to_date(#{modifyTime},'%Y-%m-%d') " +
+            " and b.effect_time <= #{createTime} and b.invalid_time >= #{createTime}" +
             "  GROUP BY a.contract_id  " +
             "")
     List<ProjectQuarterRateResponse> getFloorQuarterRate(QuarterRateSy quarterRate);
 
 
+    @Select("" +
+            "  select a.contract_id as id ,(sum(c.acreage)/count(b.id)) as acreage from yhcc_brand_rate a left join yhcc_contract b on b.contract_id = a.contract_id LEFT JOIN yhcc_room c on c.id = b.room_id  " +
+            "  where a.project_id = #{projectId} and a.floor_id = #{floorId} " +
+            " and b.effect_time <= #{createTime} and b.effect_time >= #{modifyTime}" +
+            "  GROUP BY a.contract_id  " +
+            "")
+    List<ProjectQuarterRateResponse> getFloorQuarterRates(QuarterRateSy quarterRate);
 
     /**
      * 业态查看品牌总面积
      */
     @Select(" select a.contract_id as id ,(sum(b.acreage)/count(a.contract_id)) as acreage from yhcc_contract a LEFT JOIN yhcc_room b on b.id = a.room_id LEFT JOIN yhcc_brand c on c.id = a.brand_id " +
             " where a.project_id = #{projectId} and c.business_form_id = #{formId} " +
-            " and str_to_date(a.effect_time,'%Y-%m-%d') >= str_to_date(#{createTime},'%Y-%m-%d') " +
-            " and str_to_date(a.invalid_time,'%Y-%m-%d')  >= str_to_date(#{modifyTime},'%Y-%m-%d') " +
+            " and a.effect_time <= #{createTime} and a.invalid_time >= #{createTime} " +
             " GROUP BY a.contract_id")
     List<ProjectQuarterRateResponse> getFormQuarterRate(QuarterRateSy quarterRate);
+
+    @Select(" select a.contract_id as id ,(sum(b.acreage)/count(a.contract_id)) as acreage from yhcc_contract a LEFT JOIN yhcc_room b on b.id = a.room_id LEFT JOIN yhcc_brand c on c.id = a.brand_id " +
+            " where a.project_id = #{projectId} and c.business_form_id = #{formId} " +
+            " and a.effect_time <= #{createTime} and a.effect_time >= #{modifyTime} " +
+            " GROUP BY a.contract_id")
+    List<ProjectQuarterRateResponse> getFormQuarterRates(QuarterRateSy quarterRate);
 
     /**
      * 查看品牌时间差适配值
@@ -152,8 +162,8 @@ public interface QuarterRateMapper {
      */
     @Select(" select a.quarter_val from yhcc_quarter_rate a where " +
             " a.contract_id = #{contractId}  " +
-            " and a.effect_time  >= #{modifyTime} " +
-            " ORDER BY a.effect_time limit 0,1 ")
+            " and a.effect_time  <= #{modifyTime} " +
+            " ORDER BY a.effect_time desc limit 0,1 ")
     String getBigQuarterContractId(QuarterRateSy quarterRate);
 
 
@@ -164,8 +174,8 @@ public interface QuarterRateMapper {
      */
     @Select(" select a.quarter_val from yhcc_quarter_rate a where " +
             " a.contract_id = #{contractId}  " +
-            " and a.effect_time  <= #{modifyTime} " +
-            " ORDER BY a.effect_time desc limit 0,1 ")
+            " and a.effect_time  >= #{modifyTime} " +
+            " ORDER BY a.effect_time limit 0,1 ")
     String getSmalQuarterContractId(QuarterRateSy quarterRate);
 
 

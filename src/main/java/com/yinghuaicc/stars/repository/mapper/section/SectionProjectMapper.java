@@ -69,7 +69,7 @@ public interface SectionProjectMapper {
     @Select(" " +
             " select a.* from yhcc_section_project a  " +
             " where " +
-            " a.project_id = #{projectId} " +
+            " a.project_id = #{projectId} order by a.create_time desc limit 0,1 " +
             " ")
     SectionProject getSectionProjectListById(SectionBrandSyRequest sectionBrandRequest);
 }

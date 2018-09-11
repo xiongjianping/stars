@@ -17,6 +17,9 @@ import java.util.List;
 @Repository
 public interface BaseMapper {
 
+
+
+
     /**
      *@Author:Fly Created in 2018/7/5 上午10:40
      *@Description: 查询所有城市

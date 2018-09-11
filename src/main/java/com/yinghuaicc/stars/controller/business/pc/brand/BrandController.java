@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.controller.business.pc.brand;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.response.JsonResult;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
+import com.yinghuaicc.stars.repository.model.brand.BrandRquest;
 import com.yinghuaicc.stars.service.brand.BrandService;
 import com.yinghuaicc.stars.service.brand.dto.request.EditBrandRequestDTO;
 import com.yinghuaicc.stars.service.brand.dto.request.SaveBrandRequestDTO;
@@ -116,9 +117,9 @@ public class BrandController {
      *@Author:Fly Created in 2018/7/30 下午12:58
      *@Description: 根据业种查询品牌签约ID
      */
-    @GetMapping(value = "/find/contract/{businessSpeciesId}")
-    public JsonResult findBrandByContractId(@PathVariable String businessSpeciesId){
+    @PostMapping(value = "/find/contract")
+    public JsonResult findBrandByContractId(@RequestBody BrandRquest brandRquest){
 
-        return JsonResult.success(brandService.findBrandByContractId(businessSpeciesId));
+        return JsonResult.success(brandService.findBrandByContractId(brandRquest));
     }
 }

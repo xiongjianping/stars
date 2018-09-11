@@ -19,6 +19,8 @@ import com.yinghuaicc.stars.repository.model.section.SectionBrand;
 import com.yinghuaicc.stars.repository.model.section.SectionFloor;
 import com.yinghuaicc.stars.repository.model.section.SectionForm;
 import com.yinghuaicc.stars.repository.model.section.SectionProject;
+import com.yinghuaicc.stars.service.cqrs.help.HelpCQRSService;
+import com.yinghuaicc.stars.service.cqrs.help.dto.request.FindHelpRequestDTO;
 import com.yinghuaicc.stars.service.dynamic.brand.BrandRateService;
 import com.yinghuaicc.stars.service.dynamic.brand.dto.response.SyResponse;
 import com.yinghuaicc.stars.service.dynamic.fitted.FittedBrandService;
@@ -112,6 +114,9 @@ public class SyController {
     @Autowired
     SectionBrandService sectionBrandService; //区间业种
 
+    @Autowired
+    HelpCQRSService helpCQRSService;//帮扶计划
+
     /**
      * 首页三角形项目级别
      * @return
@@ -136,23 +141,89 @@ public class SyController {
         s.setStandardGuest(projecbzkxd);
         s.setTriangleGuest(projeckxd);
         s.setTriangleFitted(projecspz);
-        s.setTriangleRent(projecyzl);
+
 
         SectionProject sp = sectionProjectService.getSectionProjectListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandSyRequest.class));
 
-        BigDecimal expv = new BigDecimal(sp.getExcellentPgeVal()); //优秀百分比
-        s.setExcellentPgeVal(projecbzkxd.multiply(expv.add(new BigDecimal("1"))));
-
-        BigDecimal goodPgeVal = new BigDecimal(sp.getGoodPgeVal());//良好百分比
-        s.setGoodPgeVal(projecbzkxd.multiply(goodPgeVal.add(new BigDecimal("1"))));
+        BigDecimal reasonablePgeVal = new BigDecimal(sp.getReasonablePgeVal());//合理百分比
+        s.setReasonablePgeVal(projecbzkxd.multiply(reasonablePgeVal.add(new BigDecimal("1"))).setScale(2,BigDecimal.ROUND_UP));
 
         BigDecimal promotePgeVal = new BigDecimal(sp.getPromotePgeVal());//提升百分比
-        s.setPromotePgeVal(projecbzkxd.multiply(promotePgeVal.add(new BigDecimal("1"))));
+        s.setPromotePgeVal(s.getReasonablePgeVal().multiply(promotePgeVal.add(new BigDecimal("1"))).setScale(2,BigDecimal.ROUND_UP));
 
-        BigDecimal reasonablePgeVal = new BigDecimal(sp.getReasonablePgeVal());//合理百分比
-        s.setReasonablePgeVal(projecbzkxd.multiply(reasonablePgeVal.add(new BigDecimal("1"))));
+        BigDecimal goodPgeVal = new BigDecimal(sp.getGoodPgeVal());//良好百分比
+        s.setGoodPgeVal(s.getPromotePgeVal().multiply(goodPgeVal.add(new BigDecimal("1"))).setScale(2,BigDecimal.ROUND_UP));
+
+        BigDecimal expv = new BigDecimal(sp.getExcellentPgeVal()); //优秀百分比
+        s.setExcellentPgeVal(s.getGoodPgeVal().multiply(expv.add(new BigDecimal("1"))).setScale(2,BigDecimal.ROUND_UP));
+
+
+
         s.setLossVal(projecbzkxd);
 
+
+
+        FindHelpRequestDTO f = new FindHelpRequestDTO();
+        f.setProjectId(brandRate.getProjectId());
+        f.setType(1);
+
+        if(projecyzl.floatValue() >=1 && projecyzl.floatValue()<=99){
+            s.setYzlState(4);
+            f.setState(4);
+        }else if(projecyzl.floatValue() >=100 && projecyzl.floatValue()<=199){
+            s.setYzlState(3);
+            f.setState(3);
+        }else if(projecyzl.floatValue() >=200 && projecyzl.floatValue()<=299){
+            s.setYzlState(2);
+            f.setState(2);
+        }else if(projecyzl.floatValue()>=300){
+            s.setYzlState(1);
+            f.setState(1);
+        }else{
+            s.setYzlState(5);
+            f.setState(5);
+        }
+        s.setYzl(helpCQRSService.getProjectList(f).size() == 0 ? null : helpCQRSService.getProjectList(f));
+
+
+        f.setType(2);
+       if(projeckxd.floatValue() >=s.getReasonablePgeVal().floatValue() && projeckxd.floatValue() < s.getPromotePgeVal().floatValue()){
+            f.setState(4);
+            s.setKxdState(4);
+        }else if(projeckxd.floatValue()  >=s.getPromotePgeVal().floatValue() && projeckxd.floatValue() < s.getPromotePgeVal().floatValue()){
+            f.setState(3);
+            s.setKxdState(3);
+        }else if(projeckxd.floatValue()  >=s.getPromotePgeVal().floatValue() && projeckxd.floatValue() <s.getGoodPgeVal().floatValue()){
+            f.setState(2);
+            s.setKxdState(2);
+        }else if(projeckxd.floatValue() >=s.getExcellentPgeVal().floatValue()){
+            f.setState(1);
+            s.setKxdState(1);
+        }else{
+            f.setState(5);
+            s.setKxdState(5);
+        }
+        s.setKxd(helpCQRSService.getProjectList(f).size() == 0 ? null : helpCQRSService.getProjectList(f));
+
+        f.setType(3);
+        if(projecspz.intValue() >=6000 && projecspz.intValue()<=6999){
+            f.setState(4);
+            s.setSpzState(4);
+        }else if(projecspz.intValue() >=7000 && projecspz.intValue()<=7999){
+            f.setState(3);
+            s.setSpzState(3);
+        }else if(projecspz.intValue() >=8000 && projecspz.intValue()<=8999){
+            f.setState(2);
+            s.setSpzState(2);
+        }else if(projecspz.intValue()>=9000){
+            f.setState(1);
+            s.setSpzState(1);
+        }else{
+            s.setSpzState(5);
+            f.setState(5);
+        }
+        s.setSpz(helpCQRSService.getProjectList(f).size() == 0 ? null : helpCQRSService.getProjectList(f));
+        s.setTriangleRent(projecyzl.multiply(new BigDecimal("100")));
         return JsonResult.success(s);
     }
 
@@ -175,29 +246,90 @@ public class SyController {
         BigDecimal floorbzspz = fittedFloorService.getFittedFloor(MapperFactoryUtil.mapperObject(brandRate,FittedFloorSy.class));//适配值
         BigDecimal floorbzkxd = standardGuestService.getSyStandardFloorGuestCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuestSy.class));//客销度
 
-        s.setStandardRent(flooryzl);
-        s.setStandardFitted(floorspz);
-        s.setStandardGuest(floorkxd);
-        s.setTriangleGuest(floorbzkxd);
-        s.setTriangleFitted(floorbzspz);
-        s.setTriangleRent(floorbzyzl);
+        s.setStandardRent(floorbzyzl);
+        s.setStandardFitted(floorbzspz);
+        s.setStandardGuest(floorbzkxd);
+        s.setTriangleGuest(floorkxd);
+        s.setTriangleFitted(floorspz);
+
 
 
         SectionFloor sp = sectionFloorService.getSectionFloorListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandSyRequest.class));
 
-        BigDecimal expv = new BigDecimal(sp.getExcellentPgeVal()); //优秀百分比
-        s.setExcellentPgeVal(floorbzkxd.multiply(expv.add(new BigDecimal("1"))));
-
-        BigDecimal goodPgeVal = new BigDecimal(sp.getGoodPgeVal());//良好百分比
-        s.setGoodPgeVal(floorbzkxd.multiply(goodPgeVal.add(new BigDecimal("1"))));
+        BigDecimal reasonablePgeVal = new BigDecimal(sp.getReasonablePgeVal());//合理百分比
+        s.setReasonablePgeVal(floorbzkxd.multiply(reasonablePgeVal.add(new BigDecimal("1"))).setScale(2,BigDecimal.ROUND_UP));
 
         BigDecimal promotePgeVal = new BigDecimal(sp.getPromotePgeVal());//提升百分比
-        s.setPromotePgeVal(floorbzkxd.multiply(promotePgeVal.add(new BigDecimal("1"))));
+        s.setPromotePgeVal(s.getReasonablePgeVal().multiply(promotePgeVal.add(new BigDecimal("1"))).setScale(2,BigDecimal.ROUND_UP));
 
-        BigDecimal reasonablePgeVal = new BigDecimal(sp.getReasonablePgeVal());//合理百分比
-        s.setReasonablePgeVal(floorbzkxd.multiply(reasonablePgeVal.add(new BigDecimal("1"))));
+        BigDecimal goodPgeVal = new BigDecimal(sp.getGoodPgeVal());//良好百分比
+        s.setGoodPgeVal(s.getPromotePgeVal().multiply(goodPgeVal.add(new BigDecimal("1"))).setScale(2,BigDecimal.ROUND_UP));
+
+        BigDecimal expv = new BigDecimal(sp.getExcellentPgeVal()); //优秀百分比
+        s.setExcellentPgeVal(s.getGoodPgeVal().multiply(expv.add(new BigDecimal("1"))).setScale(2,BigDecimal.ROUND_UP));
 
         s.setLossVal(floorbzkxd);
+
+        FindHelpRequestDTO f = new FindHelpRequestDTO();
+        f.setProjectId(brandRate.getProjectId());
+        f.setFloorId(brandRate.getFloorId());
+        f.setType(1);
+        if(flooryzl.floatValue() >=1 && flooryzl.floatValue()<=99){
+            f.setState(4);
+            s.setYzlState(4);
+        }else if(flooryzl.floatValue() >=100 && flooryzl.floatValue()<=199){
+            f.setState(3);
+            s.setYzlState(3);
+        }else if(flooryzl.floatValue() >=200 && flooryzl.floatValue()<=299){
+            f.setState(2);
+            s.setYzlState(2);
+        }else if(flooryzl.floatValue()>=300){
+            f.setState(1);
+            s.setYzlState(1);
+        }else{
+            f.setState(5);
+            s.setYzlState(5);
+        }
+        s.setYzl(helpCQRSService.getfloorList(f).size() == 0 ? null : helpCQRSService.getfloorList(f));
+
+        f.setType(2);
+        if(floorkxd.floatValue() >=s.getReasonablePgeVal().floatValue() && floorkxd.floatValue() <s.getPromotePgeVal().floatValue()){
+            f.setState(4);
+            s.setKxdState(4);
+        }else if(floorkxd.floatValue()  >=s.getPromotePgeVal().floatValue() && floorkxd.floatValue() < s.getPromotePgeVal().floatValue()){
+            f.setState(3);
+            s.setKxdState(3);
+        }else if(floorkxd.floatValue()  >=s.getPromotePgeVal().floatValue() && floorkxd.floatValue() <s.getGoodPgeVal().floatValue()){
+            f.setState(2);
+            s.setKxdState(2);
+        }else if(floorkxd.floatValue() >=s.getExcellentPgeVal().floatValue()){
+            f.setState(1);
+            s.setKxdState(1);
+        }else{
+            f.setState(5);
+            s.setKxdState(5);
+        }
+        s.setKxd(helpCQRSService.getfloorList(f).size() == 0 ? null : helpCQRSService.getfloorList(f));
+
+        f.setType(3);
+        if(floorspz.intValue() >=6000 && floorspz.intValue()<=6999){
+            f.setState(4);
+            s.setSpzState(4);
+        }else if(floorspz.intValue() >=7000 && floorspz.intValue()<=7999){
+            f.setState(3);
+            s.setSpzState(3);
+        }else if(floorspz.intValue() >=8000 && floorspz.intValue()<=8999){
+            f.setState(2);
+            s.setSpzState(2);
+        }else if(floorspz.intValue()>=9000){
+            f.setState(1);
+            s.setSpzState(1);
+        }else{
+            f.setState(5);
+            s.setSpzState(5);
+        }
+        s.setSpz(helpCQRSService.getfloorList(f).size() == 0 ? null : helpCQRSService.getfloorList(f));
+        s.setTriangleRent(flooryzl.multiply(new BigDecimal("100")));
         return JsonResult.success(s);
     }
 
@@ -220,29 +352,89 @@ public class SyController {
         BigDecimal formbzspz = fittedFormService.getFittedForm(MapperFactoryUtil.mapperObject(brandRate,FittedFormSy.class));//适配值
         BigDecimal formbzkxd = standardGuestService.getSyStandardFormGuestCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuestSy.class));//客销度
 
-        s.setStandardRent(formyzl);
-        s.setStandardFitted(formspz);
-        s.setStandardGuest(formkxd);
-        s.setTriangleGuest(formbzkxd);
-        s.setTriangleFitted(formbzspz);
-        s.setTriangleRent(formbzyzl);
+        s.setStandardRent(formbzyzl);
+        s.setStandardFitted(formbzspz);
+        s.setStandardGuest(formbzkxd);
+        s.setTriangleGuest(formkxd);
+        s.setTriangleFitted(formspz);
+
 
         SectionForm sp = sectionFormService.getSectionFormListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandSyRequest.class));
 
-        BigDecimal expv = new BigDecimal(sp.getExcellentPgeVal()); //优秀百分比
-        s.setExcellentPgeVal(formbzkxd.multiply(expv.add(new BigDecimal("1"))));
-
-        BigDecimal goodPgeVal = new BigDecimal(sp.getGoodPgeVal());//良好百分比
-        s.setGoodPgeVal(formbzkxd.multiply(goodPgeVal.add(new BigDecimal("1"))));
+        BigDecimal reasonablePgeVal = new BigDecimal(sp.getReasonablePgeVal());//合理百分比
+        s.setReasonablePgeVal(formbzkxd.multiply(reasonablePgeVal.add(new BigDecimal("1"))).setScale(2,BigDecimal.ROUND_UP));
 
         BigDecimal promotePgeVal = new BigDecimal(sp.getPromotePgeVal());//提升百分比
-        s.setPromotePgeVal(formbzkxd.multiply(promotePgeVal.add(new BigDecimal("1"))));
+        s.setPromotePgeVal(s.getReasonablePgeVal().multiply(promotePgeVal.add(new BigDecimal("1"))).setScale(2,BigDecimal.ROUND_UP));
 
-        BigDecimal reasonablePgeVal = new BigDecimal(sp.getReasonablePgeVal());//合理百分比
-        s.setReasonablePgeVal(formbzkxd.multiply(reasonablePgeVal.add(new BigDecimal("1"))));
+        BigDecimal goodPgeVal = new BigDecimal(sp.getGoodPgeVal());//良好百分比
+        s.setGoodPgeVal(s.getPromotePgeVal().multiply(goodPgeVal.add(new BigDecimal("1"))).setScale(2,BigDecimal.ROUND_UP));
+
+        BigDecimal expv = new BigDecimal(sp.getExcellentPgeVal()); //优秀百分比
+        s.setExcellentPgeVal(s.getGoodPgeVal().multiply(expv.add(new BigDecimal("1"))).setScale(2,BigDecimal.ROUND_UP));
 
         s.setLossVal(formbzkxd);
 
+        FindHelpRequestDTO f = new FindHelpRequestDTO();
+        f.setProjectId(brandRate.getProjectId());
+        f.setFormId(brandRate.getFormId());
+        f.setType(1);
+        if(formyzl.floatValue() >=1 && formyzl.floatValue()<=99){
+            f.setState(4);
+            s.setYzlState(4);
+        }else if(formyzl.floatValue() >=100 && formyzl.floatValue()<=199){
+            f.setState(3);
+            s.setYzlState(3);
+        }else if(formyzl.floatValue() >=200 && formyzl.floatValue()<=299){
+            f.setState(2);
+            s.setYzlState(2);
+        }else if(formyzl.floatValue()>=300){
+            f.setState(1);
+            s.setYzlState(1);
+        }else{
+            f.setState(5);
+            s.setYzlState(5);
+        }
+        s.setYzl(helpCQRSService.getformList(f).size() == 0 ? null : helpCQRSService.getformList(f));
+
+        f.setType(2);
+        if(formkxd.floatValue() >=s.getReasonablePgeVal().floatValue() && formkxd.floatValue() <s.getPromotePgeVal().floatValue()){
+            f.setState(4);
+            s.setKxdState(4);
+        }else if(formkxd.floatValue()  >=s.getPromotePgeVal().floatValue() && formkxd.floatValue() < s.getPromotePgeVal().floatValue()){
+            f.setState(3);
+            s.setKxdState(3);
+        }else if(formkxd.floatValue()  >=s.getPromotePgeVal().floatValue() && formkxd.floatValue() <s.getGoodPgeVal().floatValue()){
+            f.setState(2);
+            s.setKxdState(2);
+        }else if(formkxd.floatValue() >=s.getExcellentPgeVal().floatValue()){
+            f.setState(1);
+            s.setKxdState(1);
+        }else{
+            f.setState(5);
+            s.setKxdState(5);
+        }
+        s.setKxd(helpCQRSService.getformList(f).size() == 0 ? null : helpCQRSService.getformList(f));
+
+        f.setType(3);
+        if(formspz.intValue() >=6000 && formspz.intValue()<=6999){
+            f.setState(4);
+            s.setSpzState(4);
+        }else if(formspz.intValue() >=7000 && formspz.intValue()<=7999){
+            f.setState(3);
+            s.setSpzState(3);
+        }else if(formspz.intValue() >=8000 && formspz.intValue()<=8999){
+            f.setState(2);
+            s.setSpzState(2);
+        }else if(formspz.intValue()>=9000){
+            f.setState(1);
+            s.setSpzState(1);
+        }else{
+            f.setState(5);
+            s.setSpzState(5);
+        }
+        s.setSpz(helpCQRSService.getformList(f).size() == 0 ? null : helpCQRSService.getformList(f));
+        s.setTriangleRent(formyzl.multiply(new BigDecimal("100")));
         return JsonResult.success(s);
     }
 
@@ -266,31 +458,92 @@ public class SyController {
         BigDecimal brandbzspz = fittedBrandService.getFittedBrand(MapperFactoryUtil.mapperObject(brandRate,FittedBrandSy.class));//适配值
         BigDecimal brandbzkxd = standardGuestService.getSyStandardBrandGuestCount(MapperFactoryUtil.mapperObject(brandRate,StandardGuestSy.class));//客销度
 
-        s.setStandardRent(brandyzl);
-        s.setStandardFitted(brandspz);
-        s.setStandardGuest(brandkxd);
-        s.setTriangleGuest(brandbzkxd);
-        s.setTriangleFitted(brandbzspz);
-        s.setTriangleRent(brandbzyzl);
+        s.setStandardRent(brandbzyzl);
+        s.setStandardFitted(brandbzspz);
+        s.setStandardGuest(brandbzkxd);
+        s.setTriangleGuest(brandkxd);
+        s.setTriangleFitted(brandspz);
+
 
 
         SectionBrand sp = sectionBrandService.getSectionBrandListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandSyRequest.class));
 
-        BigDecimal expv = new BigDecimal(sp.getExcellentPgeVal()); //优秀百分比
-        s.setExcellentPgeVal(brandbzkxd.multiply(expv.add(new BigDecimal("1"))));
-
-        BigDecimal goodPgeVal = new BigDecimal(sp.getGoodPgeVal());//良好百分比
-        s.setGoodPgeVal(brandbzkxd.multiply(goodPgeVal.add(new BigDecimal("1"))));
+        BigDecimal reasonablePgeVal = new BigDecimal(sp.getReasonablePgeVal());//合理百分比
+        s.setReasonablePgeVal(brandbzkxd.multiply(reasonablePgeVal.add(new BigDecimal("1"))).setScale(2,BigDecimal.ROUND_UP));
 
         BigDecimal promotePgeVal = new BigDecimal(sp.getPromotePgeVal());//提升百分比
-        s.setPromotePgeVal(brandbzkxd.multiply(promotePgeVal.add(new BigDecimal("1"))));
+        s.setPromotePgeVal(s.getReasonablePgeVal().multiply(promotePgeVal.add(new BigDecimal("1"))).setScale(2,BigDecimal.ROUND_UP));
 
-        BigDecimal reasonablePgeVal = new BigDecimal(sp.getReasonablePgeVal());//合理百分比
-        s.setReasonablePgeVal(brandbzkxd.multiply(reasonablePgeVal.add(new BigDecimal("1"))));
+        BigDecimal goodPgeVal = new BigDecimal(sp.getGoodPgeVal());//良好百分比
+        s.setGoodPgeVal(s.getPromotePgeVal().multiply(goodPgeVal.add(new BigDecimal("1"))).setScale(2,BigDecimal.ROUND_UP));
+
+        BigDecimal expv = new BigDecimal(sp.getExcellentPgeVal()); //优秀百分比
+        s.setExcellentPgeVal(s.getGoodPgeVal().multiply(expv.add(new BigDecimal("1"))).setScale(2,BigDecimal.ROUND_UP));
 
         s.setLossVal(brandbzkxd);
 
+        FindHelpRequestDTO f = new FindHelpRequestDTO();
+        f.setProjectId(brandRate.getProjectId());
+        f.setFormId(brandRate.getFormId());
+        f.setSpeciesId(brandRate.getSpeciesId());
+        f.setType(1);
+        if(brandyzl.floatValue() >=1 && brandyzl.floatValue()<=99){
+            f.setState(4);
+            s.setYzlState(4);
+        }else if(brandyzl.floatValue() >=100 && brandyzl.floatValue()<=199){
+            f.setState(3);
+            s.setYzlState(3);
+        }else if(brandyzl.floatValue() >=200 && brandyzl.floatValue()<=299){
+            f.setState(2);
+            s.setYzlState(2);
+        }else if(brandyzl.floatValue()>=300){
+            f.setState(1);
+            s.setYzlState(1);
+        }else{
+            f.setState(5);
+            s.setYzlState(5);
+        }
+        s.setYzl(helpCQRSService.getspeciesList(f).size() == 0 ? null : helpCQRSService.getspeciesList(f));
 
+        f.setType(2);
+        if(brandkxd.floatValue() >=s.getReasonablePgeVal().floatValue() && brandkxd.floatValue() <s.getPromotePgeVal().floatValue()){
+            f.setState(4);
+            s.setKxdState(4);
+        }else if(brandkxd.floatValue()  >=s.getPromotePgeVal().floatValue() && brandkxd.floatValue() < s.getPromotePgeVal().floatValue()){
+            f.setState(3);
+            s.setKxdState(3);
+        }else if(brandkxd.floatValue()  >=s.getPromotePgeVal().floatValue() && brandkxd.floatValue() <s.getGoodPgeVal().floatValue()){
+            f.setState(2);
+            s.setKxdState(2);
+        }else if(brandkxd.floatValue() >=s.getExcellentPgeVal().floatValue()){
+            f.setState(1);
+            s.setKxdState(1);
+        }else{
+            f.setState(5);
+            s.setKxdState(5);
+        }
+        s.setKxd(helpCQRSService.getspeciesList(f).size() == 0 ? null : helpCQRSService.getspeciesList(f));
+
+        f.setType(3);
+        if(brandspz.intValue() >=6000 && brandspz.intValue()<=6999){
+            f.setState(4);
+            s.setSpzState(4);
+        }else if(brandspz.intValue() >=7000 && brandspz.intValue()<=7999){
+            f.setState(3);
+            s.setSpzState(3);
+        }else if(brandspz.intValue() >=8000 && brandspz.intValue()<=8999){
+            f.setState(2);
+            s.setSpzState(2);
+        }else if(brandspz.intValue()>=9000){
+            f.setState(1);
+            s.setSpzState(1);
+        }else{
+            f.setState(5);
+            s.setSpzState(5);
+        }
+        s.setSpz(helpCQRSService.getspeciesList(f).size() == 0 ? null : helpCQRSService.getspeciesList(f));
+
+        s.setTriangleRent(brandyzl.multiply(new BigDecimal("100")));
         return JsonResult.success(s);
     }
 

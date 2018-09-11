@@ -6,6 +6,15 @@ package com.yinghuaicc.stars.service.dynamic.quarter.dto.response;
 public class ProjectQuarterRateResponse {
     private String id;
     private String acreage;
+    private Integer count;
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
 
     public String getId() {
         return id;

@@ -103,6 +103,7 @@ public interface StandardGuestMapper {
     String getStandardGuestAcreageById(StandardGuest standardGuest);
 
 
+
     /**
      * 查询项目列表
      */
@@ -116,17 +117,16 @@ public interface StandardGuestMapper {
             " LEFT JOIN yhcc_business_form g on g.id = a.form_id" +
             " LEFT JOIN yhcc_business_species h on h.id = a.species_id" +
             " where " +
-            " str_to_date(a.effect_time,'%Y-%m-%d') >= str_to_date(#{createTime},'%Y-%m-%d') " +
-            " and str_to_date(a.effect_time,'%Y-%m-%d')  >= str_to_date(#{modifyTime},'%Y-%m-%d') " +
+            " a.effect_time >= #{modifyTime} " +
+            "  " +
             " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
-            " <if test='buildingId != null'> AND a.building_id = #{buildingId} </if>" +
             " <if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
             " <if test='formId != null'> AND a.form_id = #{formId} </if> " +
             " <if test='speciesId != null'> AND a.species_id = #{speciesId} </if>" +
             " <if test='contractId != null'> AND a.contract_id = #{contractId} </if> " +
-            " group by a.contract_id order by a.effect_time " +
+            " group by a.contract_id order by a.effect_time  " +
             "</script>")
-    List<StandardGuestListResponse> getStandardProjectGuestList(StandardGuestSy standardGuest);
+    List<StandardGuestListResponse> getStandardProjectGuestLists(StandardGuestSy standardGuest);
 
 
     /**
@@ -164,9 +164,12 @@ public interface StandardGuestMapper {
      * @param standardGuest
      * @return
      */
-    @Select(" select a.* from yhcc_standard_guest a where a.project_id = #{projectId} and contract_id = #{contractId} and a.effect_time >= #{modifyTime} " +
-            " ORDER BY a.effect_time LIMIT 0,1 ")
+    @Select(" select a.* from yhcc_standard_guest a where a.project_id = #{projectId} and contract_id = #{contractId} and a.effect_time <= #{modifyTime} " +
+            " ORDER BY a.effect_time desc LIMIT 0,1 ")
     StandardGuest getStandardBrandGuestListByFloor(StandardGuestSy standardGuest);
 
+    @Select(" select a.* from yhcc_standard_guest a where a.project_id = #{projectId} and contract_id = #{contractId} and a.effect_time >= #{modifyTime} " +
+            " ORDER BY a.effect_time LIMIT 0,1 ")
+    StandardGuest getStandardBrandGuestListByFloors(StandardGuestSy standardGuest);
 
 }

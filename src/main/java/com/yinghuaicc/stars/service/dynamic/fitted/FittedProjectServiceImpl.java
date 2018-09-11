@@ -113,7 +113,10 @@ public class FittedProjectServiceImpl implements FittedProjectService {
     public BigDecimal getFittedProject(FittedProjectSy fittedProject) {
         String val = fittedProjectMapper.getFittedProjectId(fittedProject);
         if(val == null){
-            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+            val = fittedProjectMapper.getFittedProjectIds(fittedProject);
+            if(val == null){
+                throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+            }
         }
         BigDecimal v = new BigDecimal(val).setScale(2,BigDecimal.ROUND_HALF_UP);
         return v;

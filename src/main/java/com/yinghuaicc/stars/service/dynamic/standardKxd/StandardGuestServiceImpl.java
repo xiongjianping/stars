@@ -2,6 +2,7 @@ package com.yinghuaicc.stars.service.dynamic.standardKxd;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.yinghuaicc.stars.common.utils.date.LocalDateTimeUtils;
 import com.yinghuaicc.stars.common.utils.exception.ExceptionUtil;
 import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
@@ -73,40 +74,42 @@ public class StandardGuestServiceImpl implements StandardGuestService {
         }
 
 
-        BigDecimal rent; //租金
+     /*   BigDecimal rent; //租金
         BigDecimal propertyfee; //物业费
         BigDecimal depreciation;//装修折旧费
         BigDecimal agencyFee;//代理费\
         BigDecimal laborCost;//人工成本
-        BigDecimal gdcb = new BigDecimal("0");//固定成本
+        BigDecimal gdcb;//固定成本
         //动态固定成本
         RentingRateListResponse rentingRateListResponse = rentingRateMapper.getRentingRateByKxd(MapperFactoryUtil.mapperObject(standardGuest, getRentingRateListRequest.class));
-        if(rentingRateListResponse != null){
-            //月份总和除以30，最后相加
-            rent = new BigDecimal(rentingRateListResponse.getRent()).divide(new BigDecimal("30")).setScale(2,BigDecimal.ROUND_HALF_UP);  //租金
-            propertyfee = new BigDecimal(rentingRateListResponse.getPropertyfee()).divide(new BigDecimal("30")).setScale(2,BigDecimal.ROUND_HALF_UP);  //物业费
-            depreciation = new BigDecimal(rentingRateListResponse.getDepreciation()).divide(new BigDecimal("30")).setScale(2,BigDecimal.ROUND_HALF_UP); //装修折旧费
-            agencyFee = new BigDecimal(rentingRateListResponse.getAgencyFee()).divide(new BigDecimal("30")).setScale(2,BigDecimal.ROUND_HALF_UP); //代理费\
-            laborCost = new BigDecimal(rentingRateListResponse.getLaborCost()).divide(new BigDecimal("30")).setScale(2,BigDecimal.ROUND_HALF_UP); //人工成本
-            gdcb.add(rent).add(propertyfee).add(depreciation).add(agencyFee).add(laborCost);
+        if(rentingRateListResponse == null){
+            throw exceptionUtil.throwCustomException("RENTING_RATE_012");
         }
 
-        if(gdcb.intValue() < 1){
-            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
-        }
+        //月份总和除以30，最后相加
+        rent = new BigDecimal(rentingRateListResponse.getRent()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_HALF_UP);  //租金
+        propertyfee = new BigDecimal(rentingRateListResponse.getPropertyfee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_HALF_UP);  //物业费
+        depreciation = new BigDecimal(rentingRateListResponse.getDepreciation()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_HALF_UP); //装修折旧费
+        agencyFee = new BigDecimal(rentingRateListResponse.getAgencyFee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_HALF_UP); //代理费\
+        laborCost = new BigDecimal(rentingRateListResponse.getLaborCost()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_HALF_UP); //人工成本
+        gdcb = rent.add(propertyfee).add(depreciation).add(agencyFee).add(laborCost);
 
-        BigDecimal mll = new BigDecimal(standardGuest.getInterestVal());//毛利率
+        if(gdcb.floatValue() <= 0){
+            throw exceptionUtil.throwCustomException("RENTING_RATE_012");
+        }*/
+
+/*        BigDecimal mll = new BigDecimal(standardGuest.getInterestVal());//毛利率
         BigDecimal kdj = new BigDecimal(standardGuest.getPriceVal());//客单价
 
-        BigDecimal xsl = gdcb.divide(mll).setScale(2,BigDecimal.ROUND_HALF_UP);//销售量
-        BigDecimal kll = xsl.divide(kdj).setScale(2,BigDecimal.ROUND_HALF_UP);//客流量
-        String mj = standardGuestMapper.getStandardGuestAcreageById(standardGuest);
+        BigDecimal xsl = gdcb.divide(mll,2,BigDecimal.ROUND_HALF_UP);//销售量
+        BigDecimal kll = xsl.divide(kdj,2,BigDecimal.ROUND_HALF_UP);//客流量*/
+ /*       String mj = standardGuestMapper.getStandardGuestAcreageById(standardGuest);
         if(mj == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_010");
-        }
-        BigDecimal ppmj = new BigDecimal(mj);//品牌面积
-        BigDecimal zkxd = xsl.divide(ppmj).multiply(kll.divide(ppmj)).setScale(2,BigDecimal.ROUND_HALF_UP);// 销售量/品牌面积 *（客流量/品牌面积）
-        standardGuest.setStandardVal(zkxd.toString());
+        }*/
+       // BigDecimal ppmj = new BigDecimal(mj);//品牌面积
+      //  BigDecimal zkxd = xsl.divide(ppmj,2,BigDecimal.ROUND_HALF_UP).multiply(kll.divide(ppmj,2,BigDecimal.ROUND_HALF_UP));// 销售量/品牌面积 *（客流量/品牌面积）
+    //    standardGuest.setStandardVal(zkxd.toString());
         standardGuest.setId(UuidUtil.randomUUID());
         standardGuest.setCreateTime(LocalDateTime.now());
         standardGuest.setCreateUser(aopResourceEmployeeBean.getName());
@@ -218,47 +221,55 @@ public class StandardGuestServiceImpl implements StandardGuestService {
         if(mj == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_005");
         }
-        List<StandardGuestListResponse> getStandardProjectGuestList = standardGuestMapper.getStandardProjectGuestList(standardGuest);
+        List<StandardGuestListResponse> getStandardProjectGuestList = floorRateMapper.getStandardProjectGuestList(standardGuest);
         if(getStandardProjectGuestList.size() == 0){
-            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+            getStandardProjectGuestList = standardGuestMapper.getStandardProjectGuestLists(standardGuest);
+            if(getStandardProjectGuestList.size() == 0){
+                throw exceptionUtil.throwCustomException("RENTING_RATE_021");
+            }
         }
 
         BigDecimal xmmj = new BigDecimal(mj); //项目面积
         BigDecimal zxse = new BigDecimal("0");//销售额
         BigDecimal zkll = new BigDecimal("0"); // 客流量
-        Duration duration = Duration.between(LocalDateTime.parse(standardGuest.getCreateTime()),LocalDateTime.parse(standardGuest.getModifyTime()));
-        BigDecimal day = new BigDecimal(duration.toDays()); //时间差
-        getStandardProjectGuestList.forEach(p->{
+        Duration duration = Duration.between(LocalDateTimeUtils.StringDate(standardGuest.getCreateTime()),LocalDateTimeUtils.StringDate(standardGuest.getModifyTime()));
+        BigDecimal day = new BigDecimal(duration.toDays()+1); //时间差
+
+        for(StandardGuestListResponse p : getStandardProjectGuestList){
             BigDecimal zgdcb = new BigDecimal("0");
             standardGuest.setContractId(p.getContractId());
             List<String> list = rentingRateMapper.getSyDate(standardGuest);
             if(list.size() == 0){
                 throw exceptionUtil.throwCustomException("RENTING_RATE_011");
             }
-            list.forEach(b ->{
+            for(String b : list){
+                standardGuest.setCreateUser(b);
                 RentingRate r = rentingRateMapper.getR(standardGuest);
                 if(r == null) {
                     throw exceptionUtil.throwCustomException("RENTING_RATE_011");
                 }
-                standardGuest.setModifyUser(b);
                 List<String> days = rentingRateMapper.getSyDateDay(standardGuest);
-                BigDecimal rent = new BigDecimal(r.getRent()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size())); //租金
-                BigDecimal propertyfee = new BigDecimal(r.getPropertyfee()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size()));; //物业费
-                BigDecimal depreciation = new BigDecimal(r.getDepreciation()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size()));;//装修折旧费
-                BigDecimal agencyFee = new BigDecimal(r.getAgencyFee()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size()));;//代理费\
-                BigDecimal laborCost = new BigDecimal(r.getLaborCost()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size()));;//人工成本
+                BigDecimal rent = new BigDecimal(r.getRent()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size())); //租金
+                BigDecimal propertyfee = new BigDecimal(r.getPropertyfee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size()));; //物业费
+                BigDecimal depreciation = new BigDecimal(r.getDepreciation()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size()));;//装修折旧费
+                BigDecimal agencyFee = new BigDecimal(r.getAgencyFee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size()));;//代理费\
+                BigDecimal laborCost = new BigDecimal(r.getLaborCost()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size()));;//人工成本
                 BigDecimal gdcb = rent.add(propertyfee).add(depreciation).add(agencyFee).add(laborCost); //固定成品
-                zgdcb.add(gdcb);
-            });
+                zgdcb = zgdcb.add(gdcb);
+            }
+
+
             BigDecimal mll = new BigDecimal(p.getInterestVal()); //毛利率
-            BigDecimal xse = zgdcb.divide(mll);
-            BigDecimal kll = xse.divide(new BigDecimal(p.getPriceVal())); // 客流量
-            zxse.add(xse);
-            zkll.add(kll);
-        });
+            BigDecimal xse = zgdcb.divide(mll,2,BigDecimal.ROUND_UP);
+            BigDecimal kll = xse.divide(new BigDecimal(p.getPriceVal()),2,BigDecimal.ROUND_UP); // 客流量
+            zxse = zxse.add(xse);
+            zkll = zkll.add(kll);
+        }
 
 
-        BigDecimal kxd = zkll.divide(xmmj.multiply(day)).multiply(zxse.divide(xmmj.multiply(day))); //客销度
+
+
+        BigDecimal kxd = zkll.divide(xmmj.multiply(day),2,BigDecimal.ROUND_UP).multiply(zxse.divide(xmmj.multiply(day),2,BigDecimal.ROUND_UP)); //客销度
         return kxd.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
@@ -273,46 +284,56 @@ public class StandardGuestServiceImpl implements StandardGuestService {
         if(mj == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_007");
         }
-        List<StandardGuestListResponse> getStandardProjectGuestList = standardGuestMapper.getStandardProjectGuestList(standardGuest);
+        List<StandardGuestListResponse> getStandardProjectGuestList = floorRateMapper.getStandardProjectGuestList(standardGuest);
         if(getStandardProjectGuestList.size() == 0){
-            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+            getStandardProjectGuestList = standardGuestMapper.getStandardProjectGuestLists(standardGuest);
+            if(getStandardProjectGuestList.size() == 0){
+                throw exceptionUtil.throwCustomException("RENTING_RATE_021");
+            }
         }
         BigDecimal zgdcb = new BigDecimal("0");
         BigDecimal xmmj = new BigDecimal(mj); //楼层面积
         BigDecimal zxse = new BigDecimal("0");//销售额
         BigDecimal zkll = new BigDecimal("0"); // 客流量
-        Duration duration = Duration.between(LocalDateTime.parse(standardGuest.getCreateTime()),LocalDateTime.parse(standardGuest.getModifyTime()));
-        BigDecimal day = new BigDecimal(duration.toDays()); //时间差
-        getStandardProjectGuestList.forEach(p->{
+        Duration duration = Duration.between(LocalDateTimeUtils.StringDate(standardGuest.getCreateTime()),LocalDateTimeUtils.StringDate(standardGuest.getModifyTime()));
+        BigDecimal day = new BigDecimal(duration.toDays()+1); //时间差
+
+        for(StandardGuestListResponse p : getStandardProjectGuestList){
             standardGuest.setContractId(p.getContractId());
             List<String> list = rentingRateMapper.getSyDate(standardGuest);
             if(list.size() == 0){
                 throw exceptionUtil.throwCustomException("RENTING_RATE_011");
             }
-            list.forEach(b ->{
+
+            for(String b : list){
+                standardGuest.setCreateUser(b);
                 RentingRate r = rentingRateMapper.getR(standardGuest);
                 if(r == null) {
                     throw exceptionUtil.throwCustomException("RENTING_RATE_011");
                 }
-                standardGuest.setModifyUser(b);
+
                 List<String> days = rentingRateMapper.getSyDateDay(standardGuest);
-                BigDecimal rent = new BigDecimal(r.getRent()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size())); //租金
-                BigDecimal propertyfee = new BigDecimal(r.getPropertyfee()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size()));; //物业费
-                BigDecimal depreciation = new BigDecimal(r.getDepreciation()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size()));;//装修折旧费
-                BigDecimal agencyFee = new BigDecimal(r.getAgencyFee()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size()));;//代理费\
-                BigDecimal laborCost = new BigDecimal(r.getLaborCost()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size()));;//人工成本
+                BigDecimal rent = new BigDecimal(r.getRent()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size())); //租金
+                BigDecimal propertyfee = new BigDecimal(r.getPropertyfee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size()));; //物业费
+                BigDecimal depreciation = new BigDecimal(r.getDepreciation()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size()));;//装修折旧费
+                BigDecimal agencyFee = new BigDecimal(r.getAgencyFee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size()));;//代理费\
+                BigDecimal laborCost = new BigDecimal(r.getLaborCost()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size()));;//人工成本
                 BigDecimal gdcb = rent.add(propertyfee).add(depreciation).add(agencyFee).add(laborCost); //固定成品
-                zgdcb.add(gdcb);
-            });
+                zgdcb = zgdcb.add(gdcb);
+            }
+
+
             BigDecimal mll = new BigDecimal(p.getInterestVal()); //毛利率
-            BigDecimal xse = zgdcb.divide(mll);
-            BigDecimal kll = xse.divide(new BigDecimal(p.getPriceVal())); // 客流量
-            zxse.add(xse);
-            zkll.add(kll);
-        });
+            BigDecimal xse = zgdcb.divide(mll,2,BigDecimal.ROUND_UP);
+            BigDecimal kll = xse.divide(new BigDecimal(p.getPriceVal()),2,BigDecimal.ROUND_UP); // 客流量
+            zxse = zxse.add(xse);
+            zkll = zkll.add(kll);
+        }
 
 
-        BigDecimal kxd = zkll.divide(xmmj.multiply(day)).multiply(zxse.divide(xmmj.multiply(day))); //客销度
+
+
+        BigDecimal kxd = zkll.divide(xmmj.multiply(day),2,BigDecimal.ROUND_UP).multiply(zxse.divide(xmmj.multiply(day),2,BigDecimal.ROUND_UP)); //客销度
         return kxd.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
@@ -327,47 +348,53 @@ public class StandardGuestServiceImpl implements StandardGuestService {
         if(mj == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_009");
         }
-        List<StandardGuestListResponse> getStandardProjectGuestList = standardGuestMapper.getStandardProjectGuestList(standardGuest);
+        List<StandardGuestListResponse> getStandardProjectGuestList = floorRateMapper.getStandardProjectGuestList(standardGuest);
         if(getStandardProjectGuestList.size() == 0){
-            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+            getStandardProjectGuestList = standardGuestMapper.getStandardProjectGuestLists(standardGuest);
+            if(getStandardProjectGuestList.size() == 0){
+                throw exceptionUtil.throwCustomException("RENTING_RATE_021");
+            }
         }
         BigDecimal zgdcb = new BigDecimal("0");
         BigDecimal xmmj = new BigDecimal(mj); //业态面积
         BigDecimal zxse = new BigDecimal("0");//销售额
         BigDecimal zkll = new BigDecimal("0"); // 客流量
-        Duration duration = Duration.between(LocalDateTime.parse(standardGuest.getCreateTime()),LocalDateTime.parse(standardGuest.getModifyTime()));
-        BigDecimal day = new BigDecimal(duration.toDays()); //时间差
-        getStandardProjectGuestList.forEach(p->{
+        Duration duration = Duration.between(LocalDateTimeUtils.StringDate(standardGuest.getCreateTime()),LocalDateTimeUtils.StringDate(standardGuest.getModifyTime()));
+        BigDecimal day = new BigDecimal(duration.toDays()+1); //时间差
+        for(StandardGuestListResponse p : getStandardProjectGuestList){
             standardGuest.setContractId(p.getContractId());
             standardGuest.setBusinessFormId(p.getFormId());
             List<String> list = rentingRateMapper.getSyDate(standardGuest);
             if(list.size() == 0){
                 throw exceptionUtil.throwCustomException("RENTING_RATE_011");
             }
-            list.forEach(b ->{
+            for(String b : list){
+                standardGuest.setCreateUser(b);
                 RentingRate r = rentingRateMapper.getR(standardGuest);
                 if(r == null) {
                     throw exceptionUtil.throwCustomException("RENTING_RATE_011");
                 }
-                standardGuest.setModifyUser(b);
+
                 List<String> days = rentingRateMapper.getSyDateDay(standardGuest);
-                BigDecimal rent = new BigDecimal(r.getRent()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size())); //租金
-                BigDecimal propertyfee = new BigDecimal(r.getPropertyfee()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size()));; //物业费
-                BigDecimal depreciation = new BigDecimal(r.getDepreciation()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size()));;//装修折旧费
-                BigDecimal agencyFee = new BigDecimal(r.getAgencyFee()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size()));;//代理费\
-                BigDecimal laborCost = new BigDecimal(r.getLaborCost()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size()));;//人工成本
+                BigDecimal rent = new BigDecimal(r.getRent()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size())); //租金
+                BigDecimal propertyfee = new BigDecimal(r.getPropertyfee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size()));; //物业费
+                BigDecimal depreciation = new BigDecimal(r.getDepreciation()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size()));;//装修折旧费
+                BigDecimal agencyFee = new BigDecimal(r.getAgencyFee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size()));;//代理费\
+                BigDecimal laborCost = new BigDecimal(r.getLaborCost()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size()));;//人工成本
                 BigDecimal gdcb = rent.add(propertyfee).add(depreciation).add(agencyFee).add(laborCost); //固定成品
-                zgdcb.add(gdcb);
-            });
+                zgdcb = zgdcb.add(gdcb);
+            }
+
             BigDecimal mll = new BigDecimal(p.getInterestVal()); //毛利率
-            BigDecimal xse = zgdcb.divide(mll);
-            BigDecimal kll = xse.divide(new BigDecimal(p.getPriceVal())); // 客流量
-            zxse.add(xse);
-            zkll.add(kll);
-        });
+            BigDecimal xse = zgdcb.divide(mll,2,BigDecimal.ROUND_UP);
+            BigDecimal kll = xse.divide(new BigDecimal(p.getPriceVal()),2,BigDecimal.ROUND_UP); // 客流量
+            zxse = zxse.add(xse);
+            zkll = zkll.add(kll);
+        }
 
 
-        BigDecimal kxd = zkll.divide(xmmj.multiply(day)).multiply(zxse.divide(xmmj.multiply(day))); //客销度
+
+        BigDecimal kxd = zkll.divide(xmmj.multiply(day),2,BigDecimal.ROUND_UP).multiply(zxse.divide(xmmj.multiply(day),2,BigDecimal.ROUND_UP)); //客销度
         return kxd.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
@@ -382,17 +409,20 @@ public class StandardGuestServiceImpl implements StandardGuestService {
         if(mj == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_009");
         }
-        List<StandardGuestListResponse> getStandardProjectGuestList = standardGuestMapper.getStandardProjectGuestList(standardGuest);
+        List<StandardGuestListResponse> getStandardProjectGuestList = floorRateMapper.getStandardProjectGuestList(standardGuest);
         if(getStandardProjectGuestList.size() == 0){
-            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+            getStandardProjectGuestList = standardGuestMapper.getStandardProjectGuestLists(standardGuest);
+            if(getStandardProjectGuestList.size() == 0){
+                throw exceptionUtil.throwCustomException("RENTING_RATE_021");
+            }
         }
         BigDecimal xmmj = new BigDecimal(mj); //品牌面积
         BigDecimal zxse = new BigDecimal("0");//销售额
         BigDecimal zkll = new BigDecimal("0"); // 客流量
-        Duration duration = Duration.between(LocalDateTime.parse(standardGuest.getCreateTime()),LocalDateTime.parse(standardGuest.getModifyTime()));
-        BigDecimal day = new BigDecimal(duration.toDays()); //时间差
+        Duration duration = Duration.between(LocalDateTimeUtils.StringDate(standardGuest.getCreateTime()),LocalDateTimeUtils.StringDate(standardGuest.getModifyTime()));
+        BigDecimal day = new BigDecimal(duration.toDays()+1); //时间差
         BigDecimal zgdcb = new BigDecimal("0");
-        getStandardProjectGuestList.forEach(p->{
+        for(StandardGuestListResponse p : getStandardProjectGuestList){
             standardGuest.setContractId(p.getContractId());
             standardGuest.setBusinessFormId(p.getFormId());
 
@@ -400,33 +430,37 @@ public class StandardGuestServiceImpl implements StandardGuestService {
             if(list.size() == 0){
                 throw exceptionUtil.throwCustomException("RENTING_RATE_011");
             }
-            list.forEach(b ->{
+            for(String b : list){
+                standardGuest.setCreateUser(b);
                 RentingRate r = rentingRateMapper.getR(standardGuest);
                 if(r == null) {
                     throw exceptionUtil.throwCustomException("RENTING_RATE_011");
                 }
-                standardGuest.setModifyUser(b);
+
                 List<String> days = rentingRateMapper.getSyDateDay(standardGuest);
-                BigDecimal rent = new BigDecimal(r.getRent()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size())); //租金
-                BigDecimal propertyfee = new BigDecimal(r.getPropertyfee()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size()));; //物业费
-                BigDecimal depreciation = new BigDecimal(r.getDepreciation()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size()));;//装修折旧费
-                BigDecimal agencyFee = new BigDecimal(r.getAgencyFee()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size()));;//代理费\
-                BigDecimal laborCost = new BigDecimal(r.getLaborCost()).divide(new BigDecimal("30")).multiply(new BigDecimal(days.size()));;//人工成本
+                BigDecimal rent = new BigDecimal(r.getRent()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size())); //租金
+                BigDecimal propertyfee = new BigDecimal(r.getPropertyfee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size()));; //物业费
+                BigDecimal depreciation = new BigDecimal(r.getDepreciation()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size()));;//装修折旧费
+                BigDecimal agencyFee = new BigDecimal(r.getAgencyFee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size()));;//代理费\
+                BigDecimal laborCost = new BigDecimal(r.getLaborCost()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(days.size()));;//人工成本
                 BigDecimal gdcb = rent.add(propertyfee).add(depreciation).add(agencyFee).add(laborCost); //固定成品
-                zgdcb.add(gdcb);
-            });
+                zgdcb = zgdcb.add(gdcb);
+            }
+
 
 
 
             BigDecimal mll = new BigDecimal(p.getInterestVal()); //毛利率
-            BigDecimal xse = zgdcb.divide(mll);
-            BigDecimal kll = xse.divide(new BigDecimal(p.getPriceVal())); // 客流量
-            zxse.add(xse);
-            zkll.add(kll);
-        });
+            BigDecimal xse = zgdcb.divide(mll,2,BigDecimal.ROUND_UP);
+            BigDecimal kll = xse.divide(new BigDecimal(p.getPriceVal()),2,BigDecimal.ROUND_UP); // 客流量
+            zxse = zxse.add(xse);
+            zkll = zkll.add(kll);
+        }
 
 
-        BigDecimal kxd = zkll.divide(xmmj.multiply(day)).multiply(zxse.divide(xmmj.multiply(day))); //客销度
+
+
+        BigDecimal kxd = zkll.divide(xmmj.multiply(day),2,BigDecimal.ROUND_UP).multiply(zxse.divide(xmmj.multiply(day),2,BigDecimal.ROUND_UP)); //客销度
         return kxd.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 

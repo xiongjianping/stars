@@ -12,7 +12,6 @@ import com.yinghuaicc.stars.repository.model.help.HelpContext;
 import com.yinghuaicc.stars.repository.model.help.HelpPlanBusinessSpecies;
 import com.yinghuaicc.stars.repository.model.help.HelpPlanFloor;
 import com.yinghuaicc.stars.repository.model.help.HelpPlanProject;
-import com.yinghuaicc.stars.service.help.HelpService;
 import com.yinghuaicc.stars.service.help.dto.request.*;
 import com.yinghuaicc.stars.service.help.dto.response.FindHelpContextListResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,8 +130,14 @@ public class HelpServiceImpl implements HelpService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveHelpPlanProject(SaveHelpPlanProjectRequestDTO saveHelpPlanProjectRequestDTO, String loginEmployeeId) {
-
-        HelpPlanProject helpPlanProject = helpMapper.findHelpPlanProjectByProjectId(saveHelpPlanProjectRequestDTO.getProjectId());
+        HelpPlanProject helpPlanProject = new HelpPlanProject()
+                .setId(UuidUtil.randomUUID())
+                .setProjectId(saveHelpPlanProjectRequestDTO.getProjectId())
+                .setCreateUser(loginEmployeeId)
+                .setModifyUser(loginEmployeeId)
+                .setModifyTime(LocalDateTime.now())
+                .setCreateTime(LocalDateTime.now());
+    /*    HelpPlanProject helpPlanProject = helpMapper.findHelpPlanProjectByProjectId(saveHelpPlanProjectRequestDTO.getProjectId());
 
         if (Objects.isNull(helpPlanProject)){
 
@@ -144,7 +149,7 @@ public class HelpServiceImpl implements HelpService {
                     .setModifyTime(LocalDateTime.now())
                     .setCreateTime(LocalDateTime.now());
         }
-
+*/
         helpPlanProject.setType(saveHelpPlanProjectRequestDTO.getHelpType());
 
         if (saveHelpPlanProjectRequestDTO.getType().equals("yx")){
@@ -169,13 +174,14 @@ public class HelpServiceImpl implements HelpService {
                     saveHelpPlanProjectRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }
 
-        if (helpMapper.countHelpPlanProjectByProjectId(saveHelpPlanProjectRequestDTO.getProjectId())==0){
+        helpMapper.saveHelpPlanProject(Stream.of(helpPlanProject).collect(Collectors.toList()));
+    /*    if (helpMapper.countHelpPlanProjectByProjectId(saveHelpPlanProjectRequestDTO.getProjectId())==0){
 
             helpMapper.saveHelpPlanProject(Stream.of(helpPlanProject).collect(Collectors.toList()));
         }else {
 
             helpMapper.updateHelpPlanProject(helpPlanProject.setModifyUser(loginEmployeeId).setModifyTime(LocalDateTime.now()));
-        }
+        }*/
     }
 
     /**
@@ -185,8 +191,15 @@ public class HelpServiceImpl implements HelpService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveHelpPlanFloor(SaveHelpPlanFloorRequestDTO saveHelpPlanFloorRequestDTO, String loginEmployeeId) {
-
-        HelpPlanFloor helpPlanFloor =
+        HelpPlanFloor helpPlanFloor = new HelpPlanFloor()
+                .setId(UuidUtil.randomUUID())
+                .setProjectId(saveHelpPlanFloorRequestDTO.getProjectId())
+                .setFloorId(saveHelpPlanFloorRequestDTO.getFloorId())
+                .setCreateUser(loginEmployeeId)
+                .setModifyUser(loginEmployeeId)
+                .setModifyTime(LocalDateTime.now())
+                .setCreateTime(LocalDateTime.now());
+       /* HelpPlanFloor helpPlanFloor =
                 helpMapper.findHelpPlanFloorByProjectIdAndFloorId(
                         saveHelpPlanFloorRequestDTO.getProjectId(), saveHelpPlanFloorRequestDTO.getFloorId());
         if (Objects.isNull(helpPlanFloor)){
@@ -199,7 +212,7 @@ public class HelpServiceImpl implements HelpService {
                     .setModifyUser(loginEmployeeId)
                     .setModifyTime(LocalDateTime.now())
                     .setCreateTime(LocalDateTime.now());
-        }
+        }*/
 
         helpPlanFloor.setType(saveHelpPlanFloorRequestDTO.getHelpType());
 
@@ -225,13 +238,14 @@ public class HelpServiceImpl implements HelpService {
                     saveHelpPlanFloorRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }
 
-        if (helpMapper.countHelpPlanFloorByProjectIdAndFloorId(saveHelpPlanFloorRequestDTO.getProjectId(), saveHelpPlanFloorRequestDTO.getFloorId())==0){
+        helpMapper.saveHelpPlanFloor(Stream.of(helpPlanFloor).collect(Collectors.toList()));
+  /*      if (helpMapper.countHelpPlanFloorByProjectIdAndFloorId(saveHelpPlanFloorRequestDTO.getProjectId(), saveHelpPlanFloorRequestDTO.getFloorId())==0){
 
             helpMapper.saveHelpPlanFloor(Stream.of(helpPlanFloor).collect(Collectors.toList()));
         }else {
 
             helpMapper.editHelpPlanFloor(helpPlanFloor.setModifyUser(loginEmployeeId).setModifyTime(LocalDateTime.now()));
-        }
+        }*/
     }
 
     /**
@@ -241,8 +255,17 @@ public class HelpServiceImpl implements HelpService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveHelpPlanHelpPlanBusinessSpecies(SaveHelpPlanBusinessSpeciesRequestDTO saveHelpPlanBusinessSpeciesRequestDTO, String loginEmployeeId) {
-
         HelpPlanBusinessSpecies helpPlanBusinessSpecies =
+                new HelpPlanBusinessSpecies()
+                        .setId(UuidUtil.randomUUID())
+                        .setProjectId(saveHelpPlanBusinessSpeciesRequestDTO.getProjectId())
+                        .setBusinessFormId(saveHelpPlanBusinessSpeciesRequestDTO.getBusinessFormId())
+                        .setBusinessSpeciesId(saveHelpPlanBusinessSpeciesRequestDTO.getBusinessSpeciesId())
+                        .setCreateUser(loginEmployeeId)
+                        .setModifyUser(loginEmployeeId)
+                        .setModifyTime(LocalDateTime.now())
+                        .setCreateTime(LocalDateTime.now());
+    /*    HelpPlanBusinessSpecies helpPlanBusinessSpecies =
                 helpMapper.findHelpPlanBusinessSpeciesByProjectIdAndBusinessFormIdAndBusinessSpeciesId(
                         saveHelpPlanBusinessSpeciesRequestDTO.getProjectId(),
                         saveHelpPlanBusinessSpeciesRequestDTO.getBusinessFormId(),
@@ -260,7 +283,76 @@ public class HelpServiceImpl implements HelpService {
                             .setModifyUser(loginEmployeeId)
                             .setModifyTime(LocalDateTime.now())
                             .setCreateTime(LocalDateTime.now());
+        }*/
+
+        helpPlanBusinessSpecies.setType(saveHelpPlanBusinessSpeciesRequestDTO.getHelpType());
+
+        if (saveHelpPlanBusinessSpeciesRequestDTO.getType().equals("yx")){
+
+            helpPlanBusinessSpecies.setYxHelpContext(
+                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
+        }else if (saveHelpPlanBusinessSpeciesRequestDTO.getType().equals("lh")){
+
+            helpPlanBusinessSpecies.setLhHelpContext(
+                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
+        }else if (saveHelpPlanBusinessSpeciesRequestDTO.getType().equals("ts")){
+
+            helpPlanBusinessSpecies.setTsHelpContext(
+                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
+        }else if (saveHelpPlanBusinessSpeciesRequestDTO.getType().equals("hl")){
+
+            helpPlanBusinessSpecies.setHlHelpContext(
+                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
+        }else if (saveHelpPlanBusinessSpeciesRequestDTO.getType().equals("ks")){
+
+            helpPlanBusinessSpecies.setKsHelpContext(
+                    saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }
+        helpMapper.saveHelpPlanBusinessSpecies(Stream.of(helpPlanBusinessSpecies).collect(Collectors.toList()));
+   /*     if (helpMapper.countHelpPlanBusinessSpeciesByProjectIdAndBusinessFormIdAndBusinessSpeciesId(saveHelpPlanBusinessSpeciesRequestDTO.getProjectId(), saveHelpPlanBusinessSpeciesRequestDTO.getBusinessFormId(), saveHelpPlanBusinessSpeciesRequestDTO.getBusinessSpeciesId())==0){
+
+            helpMapper.saveHelpPlanBusinessSpecies(Stream.of(helpPlanBusinessSpecies).collect(Collectors.toList()));
+        }else {
+
+            helpMapper.editHelpPlanBusinessSpecies(helpPlanBusinessSpecies.setModifyUser(loginEmployeeId).setModifyTime(LocalDateTime.now()));
+        }*/
+    }
+
+
+    /**
+     * 业态
+     * @param saveHelpPlanBusinessSpeciesRequestDTO
+     * @param loginEmployeeId
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveHelpFrom(SaveHelpPlanBusinessSpeciesRequestDTO saveHelpPlanBusinessSpeciesRequestDTO, String loginEmployeeId) {
+        HelpPlanBusinessSpecies helpPlanBusinessSpecies =
+                new HelpPlanBusinessSpecies()
+                        .setId(UuidUtil.randomUUID())
+                        .setProjectId(saveHelpPlanBusinessSpeciesRequestDTO.getProjectId())
+                        .setBusinessFormId(saveHelpPlanBusinessSpeciesRequestDTO.getBusinessFormId())
+                        .setCreateUser(loginEmployeeId)
+                        .setModifyUser(loginEmployeeId)
+                        .setModifyTime(LocalDateTime.now())
+                        .setCreateTime(LocalDateTime.now());
+      /*  HelpPlanBusinessSpecies helpPlanBusinessSpecies =
+                helpMapper.findHelpPlanBusinessSpeciesByProjectIdAndBusinessFormId(
+                        saveHelpPlanBusinessSpeciesRequestDTO.getProjectId(),
+                        saveHelpPlanBusinessSpeciesRequestDTO.getBusinessFormId());
+
+        if (Objects.isNull(helpPlanBusinessSpecies)){
+
+            helpPlanBusinessSpecies =
+                    new HelpPlanBusinessSpecies()
+                            .setId(UuidUtil.randomUUID())
+                            .setProjectId(saveHelpPlanBusinessSpeciesRequestDTO.getProjectId())
+                            .setBusinessFormId(saveHelpPlanBusinessSpeciesRequestDTO.getBusinessFormId())
+                            .setCreateUser(loginEmployeeId)
+                            .setModifyUser(loginEmployeeId)
+                            .setModifyTime(LocalDateTime.now())
+                            .setCreateTime(LocalDateTime.now());
+        }*/
 
         helpPlanBusinessSpecies.setType(saveHelpPlanBusinessSpeciesRequestDTO.getHelpType());
 
@@ -286,12 +378,13 @@ public class HelpServiceImpl implements HelpService {
                     saveHelpPlanBusinessSpeciesRequestDTO.getHelpContext().stream().collect(Collectors.joining("\n")));
         }
 
-        if (helpMapper.countHelpPlanBusinessSpeciesByProjectIdAndBusinessFormIdAndBusinessSpeciesId(saveHelpPlanBusinessSpeciesRequestDTO.getProjectId(), saveHelpPlanBusinessSpeciesRequestDTO.getBusinessFormId(), saveHelpPlanBusinessSpeciesRequestDTO.getBusinessSpeciesId())==0){
+        helpMapper.saveHelpFrom(Stream.of(helpPlanBusinessSpecies).collect(Collectors.toList()));
+   /*     if (helpMapper.countHelpPlanBusinessSpeciesByProjectIdAndBusinessFormId(saveHelpPlanBusinessSpeciesRequestDTO.getProjectId(), saveHelpPlanBusinessSpeciesRequestDTO.getBusinessFormId())==0){
 
-            helpMapper.saveHelpPlanBusinessSpecies(Stream.of(helpPlanBusinessSpecies).collect(Collectors.toList()));
+            helpMapper.saveHelpFrom(Stream.of(helpPlanBusinessSpecies).collect(Collectors.toList()));
         }else {
 
-            helpMapper.editHelpPlanBusinessSpecies(helpPlanBusinessSpecies.setModifyUser(loginEmployeeId).setModifyTime(LocalDateTime.now()));
-        }
+            helpMapper.editHelpFrom(helpPlanBusinessSpecies.setModifyUser(loginEmployeeId).setModifyTime(LocalDateTime.now()));
+        }*/
     }
 }

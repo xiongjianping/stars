@@ -19,7 +19,7 @@ public class FittedFormListResponse {
     private String floorName; //楼层
     private String formName;
     private String speciesName;
-    private String rentingRateVal;//溢租率
+    private String fittedVal;//溢租率
     private String effectTime; //生效时间
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
@@ -122,12 +122,12 @@ public class FittedFormListResponse {
         this.speciesName = speciesName;
     }
 
-    public String getRentingRateVal() {
-        return rentingRateVal;
+    public String getFittedVal() {
+        return fittedVal;
     }
 
-    public void setRentingRateVal(String rentingRateVal) {
-        this.rentingRateVal = rentingRateVal;
+    public void setFittedVal(String fittedVal) {
+        this.fittedVal = fittedVal;
     }
 
     public String getEffectTime() {

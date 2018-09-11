@@ -4,9 +4,12 @@ import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.service.cqrs.help.dto.request.FindHelpPlanFloorListCQRSRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.help.dto.request.FindHelpPlanProjectListCQRSRequestDTO;
+import com.yinghuaicc.stars.service.cqrs.help.dto.request.FindHelpRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.help.dto.response.FindHelpPlanBusinessSpeciesListCQRSResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.help.dto.response.FindHelpPlanFloorListCQRSResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.help.dto.response.FindHelpPlanProjectListCQRSResponseDTO;
+
+import java.util.List;
 
 /**
  * @Author:Fly
@@ -32,5 +35,22 @@ public interface HelpCQRSService {
      *@Author:Fly Created in 2018/7/21 下午1:53
      *@Description: 业态帮扶计划
      */
-    ResultPageList<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> findHelpPlanBusinessSpeciesListCQRS(String projectId, Integer helpType, PageParam pageParam);
+    ResultPageList<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> findHelpPlanBusinessSpeciesListCQRS(String projectId, Integer helpType,String fromId,String speciesId, PageParam pageParam);
+
+
+    /**
+     *@Author:Fly Created in 2018/7/21 下午1:53
+     *@Description: 业态帮扶计划
+     */
+    ResultPageList<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> findHelpFromListCQRS(String projectId, Integer helpType,String fromId,PageParam pageParam);
+
+    List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> getProjectList(FindHelpRequestDTO f);
+
+    List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> getfloorList(FindHelpRequestDTO f);
+
+    List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> getformList(FindHelpRequestDTO f);
+
+    List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> getspeciesList(FindHelpRequestDTO f);
+
+
 }

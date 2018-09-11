@@ -111,7 +111,10 @@ public class FittedFloorServiceImpl implements FittedFloorService {
     public BigDecimal getFittedFloor(FittedFloorSy fittedFloor) {
         String val = fittedFloorMapper.getFittedFloorId(fittedFloor);
         if(val == null){
-            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+            val = fittedFloorMapper.getFittedFloorIds(fittedFloor);
+            if(val == null){
+                throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+            }
         }
         BigDecimal v = new BigDecimal(val).setScale(2,BigDecimal.ROUND_HALF_UP);
         return v;

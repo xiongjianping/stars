@@ -150,6 +150,11 @@ public final class LocalDateTimeUtils {
         System.out.println(dateTimeFormatter.format(localDateTime));//2018-03-27 14:52:57*/
     }
 
-
+    public static LocalDateTime StringDate(String time) {
+        time += " 00:00:00";
+        String format = "yyyy-MM-dd HH:mm:ss";
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(format);
+        return LocalDateTime.parse(time, df);
+    }
 
 }

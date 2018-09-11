@@ -2,7 +2,9 @@ package com.yinghuaicc.stars.repository.mapper.dynamic.floor;
 
 import com.yinghuaicc.stars.repository.model.dynamic.floor.FloorRate;
 import com.yinghuaicc.stars.repository.model.dynamic.floor.FloorRateSy;
+import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuestSy;
 import com.yinghuaicc.stars.service.dynamic.floor.dto.response.FloorRateListResponse;
+import com.yinghuaicc.stars.service.dynamic.standardKxd.dto.StandardGuestListResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
@@ -21,8 +23,8 @@ public interface FloorRateMapper {
      * 新增
      * @param floorRate
      */
-    @Insert("insert into yhcc_floor_rate(id,project_id,passenger_flow,sales_volume,effect_time,create_time,create_user,building_id,floor_id)" +
-            " values(#{id},#{projectId},#{passengerFlow},#{salesVolume},#{effectTime},#{createTime},#{createUser},#{buildingId},#{floorId})")
+    @Insert("insert into yhcc_floor_rate(id,project_id,passenger_flow,effect_time,create_time,create_user,building_id,floor_id)" +
+            " values(#{id},#{projectId},#{passengerFlow},#{effectTime},#{createTime},#{createUser},#{buildingId},#{floorId})")
     void saveFloorRate(FloorRate floorRate);
 
 
@@ -37,7 +39,6 @@ public interface FloorRateMapper {
             " where " +
             " 1=1 " +
             " <if test='projectId != null and projectId != \"\"'> AND a.project_id = #{projectId} </if> " +
-            " <if test='buildingId != null and buildingId != \"\"'> AND a.building_id = #{buildingId} </if>" +
             " <if test='floorId != null and floorId != \"\"'> AND a.floor_id = #{floorId} </if>" +
             " <if test='effectTime != null and effectTime != \"\"'> AND a.effect_time = #{effectTime} </if>  " +
             " </script>")
@@ -89,7 +90,7 @@ public interface FloorRateMapper {
      * @param floorRate
      * @return
      */
-    @Select("select sum(passenger_flow) from yhcc_floor_rate where project_id = #{projectId} and building_id = #{buildingId} and floor_id = #{floorId} and effect_time >= #{createTime} and effect_time <= #{modifyTime} ")
+    @Select("select sum(passenger_flow) from yhcc_floor_rate where project_id = #{projectId} and floor_id = #{floorId} and effect_time >= #{createTime} and effect_time <= #{modifyTime} ")
     String getFloorRateByIdSy(FloorRateSy floorRate);
 
 
@@ -109,6 +110,34 @@ public interface FloorRateMapper {
      * @param floorRate
      * @return
      */
-    @Select("select sum(sales_volume) from yhcc_brand_rate where project_id = #{projectId} and building_id = #{buildingId} and floor_id = #{floorId} and effect_time >= #{createTime} and effect_time <= #{modifyTime}")
+    @Select("select sum(sales_volume) from yhcc_brand_rate where project_id = #{projectId}  and floor_id = #{floorId} and effect_time >= #{createTime} and effect_time <= #{modifyTime}")
     String getFloorBrandById(FloorRateSy floorRate);
+
+
+    /**
+     * 查询项目列表
+     */
+    @Select("<script> " +
+            " select a.*,b.name as projectName,c.name as buildingName,d.name as floorName,f.name as brandName,g.name as formName,h.name as speciesName from yhcc_standard_guest a " +
+            " LEFT JOIN yhcc_project b on b.id = a.project_id  " +
+            " LEFT JOIN yhcc_building c on c.id = a.building_id " +
+            " LEFT JOIN yhcc_floor d on d.id = a.floor_id" +
+            " LEFT JOIN yhcc_contract e on e.contract_id = a.contract_id" +
+            " LEFT JOIN yhcc_brand f on f.id = e.brand_id" +
+            " LEFT JOIN yhcc_business_form g on g.id = a.form_id" +
+            " LEFT JOIN yhcc_business_species h on h.id = a.species_id" +
+            " where " +
+            " <![CDATA[ " +
+            " a.effect_time <= #{modifyTime} " +
+            " ]]>  " +
+            "  " +
+            " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
+            " <if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
+            " <if test='formId != null'> AND a.form_id = #{formId} </if> " +
+            " <if test='speciesId != null'> AND a.species_id = #{speciesId} </if>" +
+            " <if test='contractId != null'> AND a.contract_id = #{contractId} </if> " +
+            " group by a.contract_id order by a.effect_time desc " +
+            "</script>")
+    List<StandardGuestListResponse> getStandardProjectGuestList(StandardGuestSy standardGuest);
+
 }

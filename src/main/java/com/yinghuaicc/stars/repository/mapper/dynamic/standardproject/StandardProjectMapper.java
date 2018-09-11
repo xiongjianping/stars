@@ -92,9 +92,15 @@ public interface StandardProjectMapper {
      */
     @Select(" select a.renting_rate_val from yhcc_project_standard a where " +
             " a.project_id = #{projectId} " +
-            " and a.effect_time >= #{modifyTime} " +
+            " and a.effect_time <= #{modifyTime} " +
             " ORDER BY a.effect_time desc limit 0,1 ")
     String getStandardProjectId(StandardProjectSy standardProject);
+
+    @Select(" select a.renting_rate_val from yhcc_project_standard a where " +
+            " a.project_id = #{projectId} " +
+            " and a.effect_time >= #{modifyTime} " +
+            " ORDER BY a.effect_time limit 0,1 ")
+    String getStandardProjectIds(StandardProjectSy standardProject);
 
 
 }

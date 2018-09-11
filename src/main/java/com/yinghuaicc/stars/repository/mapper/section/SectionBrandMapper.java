@@ -76,7 +76,7 @@ public interface SectionBrandMapper {
             " select a.* from yhcc_section_brand a  " +
             " where " +
             "   a.project_id = #{projectId} " +
-            "  AND a.species_id = #{speciesId} " +
+            "  AND a.species_id = #{speciesId} order by a.create_time desc limit 0,1 " +
             " ")
     SectionBrand getSectionBrandListById(SectionBrandSyRequest sectionBrandRequest);
 

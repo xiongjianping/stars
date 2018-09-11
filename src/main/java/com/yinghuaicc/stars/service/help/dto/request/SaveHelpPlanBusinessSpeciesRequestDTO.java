@@ -22,7 +22,6 @@ public class SaveHelpPlanBusinessSpeciesRequestDTO {
     private String businessFormId;
 
     //业种id
-    @NotEmpty(message = "HELP_BUSINESS_SPECIES_SAVE_002")
     private String businessSpeciesId;
 
     //类型 --》优秀:yx、良好:lh、提升:ts、合理:hl、亏损:ks

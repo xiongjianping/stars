@@ -40,6 +40,7 @@ public interface PermissionMapper {
             "<foreach item='item' collection='list' open='(' close=')' separator=','> " +
             "#{item} " +
             "</foreach> " +
+            " ORDER BY sort " +
             "</script>")
     List<Menu> findMenuByMenuId(List<String> menuIds);
 

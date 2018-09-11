@@ -47,7 +47,6 @@ public interface FittedBrandMapper {
             " where " +
             " 1=1 " +
             " <if test='projectId != null and projectId != \"\"'> AND a.project_id = #{projectId} </if> " +
-            " <if test='buildingId != null and buildingId != \"\"'> AND a.building_id = #{buildingId} </if>" +
             " <if test='floorId != null and floorId != \"\"'> AND a.floor_id = #{floorId} </if> " +
             " <if test='formId != null and formId != \"\"'> AND a.form_id = #{formId} </if> " +
             " <if test='speciesId != null and speciesId != \"\"'> AND a.species_id = #{speciesId} </if>" +
@@ -97,13 +96,19 @@ public interface FittedBrandMapper {
      */
     @Select(" select fitted_val from yhcc_brand_fitted  where " +
             " project_id = #{projectId} and form_id = #{formId} and species_id = #{speciesId} " +
-            " and effect_time >= #{createTime} and effect_time <= #{modifyTime} " +
-            " ORDER BY effect_time limit 0,1 ")
+            " and effect_time <= #{modifyTime} " +
+            " ORDER BY effect_time desc limit 0,1 ")
     String getFittedBrandId(FittedBrandSy fittedBrand);
+
+    @Select(" select fitted_val from yhcc_brand_fitted  where " +
+            " project_id = #{projectId} and form_id = #{formId} and species_id = #{speciesId} " +
+            " and effect_time >= #{modifyTime}  " +
+            " ORDER BY effect_time limit 0,1 ")
+    String getFittedBrandIds(FittedBrandSy fittedBrand);
 
 
     //根据签约
-    @Select(" select b.business_species_id from yhcc_contract a LEFT JOIN yhcc_brand b on b.id " +
+    @Select(" select b.business_species_id from yhcc_contract a INNER JOIN yhcc_brand b on b.id = a.brand_id " +
             "   where a.contract_id = #{contractId} and a.project_id = #{projectId} and b.business_form_id = #{formId} limit 0,1 ")
     String getFittedBrandSpeciesId(FittedBrandSy fittedBrand);
 }

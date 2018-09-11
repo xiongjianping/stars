@@ -2,11 +2,13 @@ package com.yinghuaicc.stars.service.section;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.yinghuaicc.stars.common.utils.exception.ExceptionUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.section.SectionProjectMapper;
+import com.yinghuaicc.stars.repository.model.section.SectionForm;
 import com.yinghuaicc.stars.repository.model.section.SectionProject;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandRequest;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandSyRequest;
@@ -32,6 +34,8 @@ public class SectionProjectServiceImpl implements SectionProjectService{
     AopResourceEmployeeBean aopResourceEmployeeBean;
 
 
+    @Autowired
+    ExceptionUtil exceptionUtil;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -69,6 +73,10 @@ public class SectionProjectServiceImpl implements SectionProjectService{
 
     @Override
     public SectionProject getSectionProjectListById(SectionBrandSyRequest sectionBrandRequest) {
-        return sectionProjectMapper.getSectionProjectListById(sectionBrandRequest);
+        SectionProject s = sectionProjectMapper.getSectionProjectListById(sectionBrandRequest);
+        if(s == null){
+            throw exceptionUtil.throwCustomException("RENTING_RATE_018");
+        }
+        return s;
     }
 }

@@ -166,7 +166,39 @@ public class HelpController {
         return JsonResult.success(
                 helpCQRSService.findHelpPlanBusinessSpeciesListCQRS(
                         Objects.nonNull(map.get("projectId")) ? map.get("projectId").toString() : null,
-                        Objects.nonNull(map.get("helpType")) ? Integer.parseInt(map.get("helpType").toString()) : null, pageParam) );
+                        Objects.nonNull(map.get("helpType")) ? Integer.parseInt(map.get("helpType").toString()) : null,
+                        Objects.nonNull(map.get("fromId")) ? map.get("fromId").toString() : null,
+                        Objects.nonNull(map.get("speciesId")) ? map.get("speciesId").toString() : null,pageParam) );
+    }
+
+
+
+
+    /**
+     *@Author:Fly Created in 2018/7/21 下午2:02
+     *@Description: 添加业态帮扶计划
+     */
+    @PostMapping(value = "/save/help/plan/from")
+    public JsonResult saveHelpFrom(@Validated @RequestBody SaveHelpPlanBusinessSpeciesRequestDTO saveHelpPlanBusinessSpeciesRequestDTO){
+
+        helpService.saveHelpFrom(
+                saveHelpPlanBusinessSpeciesRequestDTO, applicationContext.getBean(AopResourceEmployeeBean.class).getId());
+
+        return JsonResult.success("OK");
+    }
+
+    /**
+     *@Author:Fly Created in 2018/7/21 下午2:03
+     *@Description: 业态帮扶计划列表
+     */
+    @PostMapping(value = "/find/help/plan/from/list")
+    public JsonResult findHelpPlanFromList(@RequestBody Map map, @ModelAttribute PageParam pageParam){
+
+        return JsonResult.success(
+                helpCQRSService.findHelpFromListCQRS(
+                        Objects.nonNull(map.get("projectId")) ? map.get("projectId").toString() : null,
+                        Objects.nonNull(map.get("helpType")) ? Integer.parseInt(map.get("helpType").toString()) : null,
+                        Objects.nonNull(map.get("fromId")) ? map.get("fromId").toString() : null,pageParam) );
     }
 
 }

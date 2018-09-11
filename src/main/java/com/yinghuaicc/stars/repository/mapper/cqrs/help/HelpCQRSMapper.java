@@ -2,6 +2,7 @@ package com.yinghuaicc.stars.repository.mapper.cqrs.help;
 
 import com.yinghuaicc.stars.service.cqrs.help.dto.request.FindHelpPlanFloorListCQRSRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.help.dto.request.FindHelpPlanProjectListCQRSRequestDTO;
+import com.yinghuaicc.stars.service.cqrs.help.dto.request.FindHelpRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.help.dto.response.FindHelpPlanBusinessSpeciesListCQRSResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.help.dto.response.FindHelpPlanFloorListCQRSResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.help.dto.response.FindHelpPlanProjectListCQRSResponseDTO;
@@ -110,8 +111,146 @@ public interface HelpCQRSMapper {
             "<bind name='helpType' value='helpType' /> " +
             "<if test='projectId != null and projectId !=\"\" '>AND hp.project_id = #{projectId}</if> " +
             "<if test='helpType != null and helpType !=\"\" '>AND hp.type = #{helpType}</if> " +
+            "<if test='fromId != null and fromId !=\"\" '>AND hp.business_form_id = #{fromId}</if> " +
+            "<if test='speciesId != null and speciesId !=\"\" '>AND hp.business_species_id = #{speciesId}</if> " +
             "</where> " +
             "order by hp.modify_time desc " +
             "</script> ")
-    List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> findHelpPlanBusinessSpeciesCQRSList(@Param("projectId") String projectId, @Param("helpType") Integer helpType);
+    List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> findHelpPlanBusinessSpeciesCQRSList(@Param("projectId") String projectId, @Param("helpType") Integer helpType,@Param("fromId") String fromId,@Param("speciesId") String speciesId);
+
+    /**
+     *@Author:Fly Created in 2018/7/21 下午1:55
+     *@Description: 业态帮扶计划
+     */
+    @Select("<script> " +
+            "select " +
+            "hp.project_id as projectId, " +
+            "pr.name as projectName, " +
+            "ar.id as businessFormId, " +
+            "ar.name as businessFormName, " +
+            "hp.type as helpType, " +
+            "hp.yx_help_context as yx, " +
+            "hp.lh_help_context as lh, " +
+            "hp.ts_help_context as ts, " +
+            "hp.hl_help_context as hl, " +
+            "hp.ks_help_context as ks " +
+            "from yhcc_help_from_context as hp " +
+            "inner join yhcc_project as pr on hp.project_id = pr.id " +
+            "inner join yhcc_business_form as ar on hp.business_form_id = ar.id " +
+            "<where> " +
+            "<bind name='projectId' value='projectId' /> " +
+            "<bind name='helpType' value='helpType' /> " +
+            "<if test='projectId != null and projectId !=\"\" '>AND hp.project_id = #{projectId}</if> " +
+            "<if test='helpType != null and helpType !=\"\" '>AND hp.type = #{helpType}</if> " +
+            "<if test='fromId != null and fromId !=\"\" '>AND hp.business_form_id = #{fromId}</if> " +
+            "</where> " +
+            "order by hp.modify_time desc " +
+            "</script> ")
+    List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> findHelpFromCQRSList(@Param("projectId") String projectId, @Param("helpType") Integer helpType,@Param("fromId") String fromId);
+
+
+
+
+
+
+
+
+
+
+    @Select("<script> " +
+            "select " +
+            "hp.yx_help_context as yx, " +
+            "hp.lh_help_context as lh, " +
+            "hp.ts_help_context as ts, " +
+            "hp.hl_help_context as hl, " +
+            "hp.ks_help_context as ks " +
+            "from yhcc_help_project as hp " +
+            "inner join yhcc_project as pr on hp.project_id = pr.id " +
+            "inner join yhcc_area as ar on pr.area_id = ar.id " +
+            " where 1=1  " +
+            "<if test='projectId != null and projectId !=\"\" '> AND hp.project_id = #{projectId} </if> " +
+            "<if test='type != null and type !=\"\" '> AND hp.type = #{type} </if> " +
+            "<if test='state == 1 '> AND hp.yx_help_context is not null </if> " +
+            "<if test='state == 2 '> AND hp.lh_help_context is not null </if> " +
+            "<if test='state == 3 '> AND hp.ts_help_context is not null </if> " +
+            "<if test='state == 4 '> AND hp.hl_help_context is not null </if> " +
+            "<if test='state == 5 '> AND hp.ks_help_context is not null </if> " +
+            "  " +
+            "order by hp.modify_time desc limit 0,3  " +
+            "</script> ")
+    List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> getProjectList(FindHelpRequestDTO f);
+
+
+    @Select("<script> " +
+            "select " +
+            "hp.yx_help_context as yx, " +
+            "hp.lh_help_context as lh, " +
+            "hp.ts_help_context as ts, " +
+            "hp.hl_help_context as hl, " +
+            "hp.ks_help_context as ks " +
+            "from yhcc_help_floor as hp " +
+            "inner join yhcc_project as pr on hp.project_id = pr.id " +
+            "inner join yhcc_area as ar on pr.area_id = ar.id " +
+            "inner join yhcc_floor as fl on hp.floor_id = fl.id " +
+            " where 1=1 " +
+            "<if test='projectId != null and projectId !=\"\" '>AND hp.project_id = #{projectId}</if> " +
+            "<if test='floorId != null and floorId !=\"\" '>AND hp.floor_id = #{floorId}</if> " +
+            "<if test='type != null and type !=\"\" '>AND hp.type = #{type}</if> " +
+            "<if test='state == 1 '> AND hp.yx_help_context is not null </if> " +
+            "<if test='state == 2 '> AND hp.lh_help_context is not null </if> " +
+            "<if test='state == 3 '> AND hp.ts_help_context is not null </if> " +
+            "<if test='state == 4 '> AND hp.hl_help_context is not null </if> " +
+            "<if test='state == 5 '> AND hp.ks_help_context is not null </if> " +
+            "order by hp.modify_time desc  limit 0,3" +
+            "</script> ")
+    List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> getfloorList(FindHelpRequestDTO f);
+
+    @Select("<script> " +
+            "select " +
+            "hp.yx_help_context as yx, " +
+            "hp.lh_help_context as lh, " +
+            "hp.ts_help_context as ts, " +
+            "hp.hl_help_context as hl, " +
+            "hp.ks_help_context as ks " +
+            "from yhcc_help_from_context as hp " +
+            "inner join yhcc_project as pr on hp.project_id = pr.id " +
+            "inner join yhcc_business_form as ar on hp.business_form_id = ar.id " +
+            " where 1=1  " +
+            "<if test='projectId != null and projectId !=\"\" '>AND hp.project_id = #{projectId}</if> " +
+            "<if test='type != null and type !=\"\" '>AND hp.type = #{type}</if> " +
+            "<if test='formId != null and formId !=\"\" '>AND hp.business_form_id = #{formId}</if> " +
+            "<if test='state == 1 '> AND hp.yx_help_context is not null </if> " +
+            "<if test='state == 2 '> AND hp.lh_help_context is not null </if> " +
+            "<if test='state == 3 '> AND hp.ts_help_context is not null </if> " +
+            "<if test='state == 4 '> AND hp.hl_help_context is not null </if> " +
+            "<if test='state == 5 '> AND hp.ks_help_context is not null </if> " +
+            "order by hp.modify_time desc  limit 0,3 " +
+            "</script> ")
+    List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> getformList(FindHelpRequestDTO f);
+
+
+    @Select("<script> " +
+            "select " +
+            "hp.yx_help_context as yx, " +
+            "hp.lh_help_context as lh, " +
+            "hp.ts_help_context as ts, " +
+            "hp.hl_help_context as hl, " +
+            "hp.ks_help_context as ks " +
+            "from yhcc_help_business_species as hp " +
+            "inner join yhcc_project as pr on hp.project_id = pr.id " +
+            "inner join yhcc_business_form as ar on hp.business_form_id = ar.id " +
+            "inner join yhcc_business_species as fl on hp.business_species_id = fl.id " +
+            " where 1=1 " +
+            "<if test='projectId != null and projectId !=\"\" '>AND hp.project_id = #{projectId}</if> " +
+            "<if test='type != null and type !=\"\" '>AND hp.type = #{type}</if> " +
+            "<if test='formId != null and formId !=\"\" '>AND hp.business_form_id = #{formId}</if> " +
+            "<if test='speciesId != null and speciesId !=\"\" '>AND hp.business_species_id = #{speciesId}</if> " +
+            "<if test='state == 1 '> AND hp.yx_help_context is not null </if> " +
+            "<if test='state == 2 '> AND hp.lh_help_context is not null </if> " +
+            "<if test='state == 3 '> AND hp.ts_help_context is not null </if> " +
+            "<if test='state == 4 '> AND hp.hl_help_context is not null </if> " +
+            "<if test='state == 5 '> AND hp.ks_help_context is not null </if> " +
+            "order by hp.modify_time desc limit 0,3 " +
+            "</script> ")
+    List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> getspeciesList(FindHelpRequestDTO f);
 }

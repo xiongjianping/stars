@@ -449,22 +449,24 @@ public class PermissionServiceImpl implements PermissionService{
                     .setModifyUser(parentMenu.getModifyUser());
 
             child.stream().forEach(childMenu -> {
+                if(childMenu.getParentId() != null){
+                    if (childMenu.getParentId().equals(parentMenu.getId())){
 
-                if (childMenu.getParentId().equals(parentMenu.getId())){
-
-                    par.getChildMenus().add(new LoginMenuResponseDTO()
-                            .setId(childMenu.getId())
-                            .setMenuType(childMenu.getMenuType())
-                            .setName(childMenu.getName())
-                            .setRoot(childMenu.isRoot())
-                            .setUrl(childMenu.getUrl())
-                            .setSort(childMenu.getSort())
-                            .setParentId(childMenu.getParentId())
-                            .setCreateTime(childMenu.getCreateTime())
-                            .setModifyTime(childMenu.getModifyTime())
-                            .setCreateUser(childMenu.getCreateUser())
-                            .setModifyUser(childMenu.getModifyUser()));
+                        par.getChildMenus().add(new LoginMenuResponseDTO()
+                                .setId(childMenu.getId())
+                                .setMenuType(childMenu.getMenuType())
+                                .setName(childMenu.getName())
+                                .setRoot(childMenu.isRoot())
+                                .setUrl(childMenu.getUrl())
+                                .setSort(childMenu.getSort())
+                                .setParentId(childMenu.getParentId())
+                                .setCreateTime(childMenu.getCreateTime())
+                                .setModifyTime(childMenu.getModifyTime())
+                                .setCreateUser(childMenu.getCreateUser())
+                                .setModifyUser(childMenu.getModifyUser()));
+                    }
                 }
+
             });
 
             result.add(par);
@@ -497,7 +499,6 @@ public class PermissionServiceImpl implements PermissionService{
         }
 
         Collections.sort(loginMenuResponseDTOS);
-
         return loginMenuResponseDTOS;
     }
 

@@ -125,7 +125,11 @@ public class StandardBrandServiceImpl implements StandardBrandService {
     public BigDecimal getSyBrandCount(StandardBrandSy standardBrand) {
         String val = standardBrandMapper.getStandardBrandId(standardBrand);
         if(val == null){
-            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+            val = standardBrandMapper.getStandardBrandIds(standardBrand);
+            if(val == null){
+                throw exceptionUtil.throwCustomException("RENTING_RATE_015");
+            }
+
         }
         BigDecimal v = new BigDecimal(val).setScale(2,BigDecimal.ROUND_HALF_UP);
         return v;

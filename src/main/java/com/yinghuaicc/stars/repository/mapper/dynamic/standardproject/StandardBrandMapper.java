@@ -96,11 +96,18 @@ public interface StandardBrandMapper {
      * @param standardBrand
      * @return
      */
-    @Select(" select a.renting_rate_val from yhcc_floor_standard a where " +
-            " a.project_id = #{projectId}  and a.building_id = #{buildingId} and a.floor_id = #{floorId} " +
-            "  and a.species_id = #{speciesId} and a.contract_id = #{contractId} " +
-            " and a.effect_time >= #{createTime} and a.effect_time <= #{modifyTime} " +
-            " ORDER BY a.effect_time limit 0,1 ")
+    @Select(" select a.renting_rate_val from yhcc_brand_standard a where " +
+            " a.project_id = #{projectId}  and a.floor_id = #{floorId} " +
+            "  and a.species_id = #{speciesId} " +
+            " and a.effect_time <= #{modifyTime} " +
+            " ORDER BY a.effect_time desc limit 0,1 ")
     String getStandardBrandId(StandardBrandSy standardBrand);
+
+    @Select(" select a.renting_rate_val from yhcc_brand_standard a where " +
+            " a.project_id = #{projectId}  and a.floor_id = #{floorId} " +
+            "  and a.species_id = #{speciesId} " +
+            " and a.effect_time >= #{modifyTime} " +
+            " ORDER BY a.effect_time limit 0,1 ")
+    String getStandardBrandIds(StandardBrandSy standardBrand);
 
 }

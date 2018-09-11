@@ -2,14 +2,13 @@ package com.yinghuaicc.stars.service.section;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
+import com.yinghuaicc.stars.common.utils.exception.ExceptionUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.dynamic.fitted.FittedBrandMapper;
 import com.yinghuaicc.stars.repository.mapper.section.SectionBrandMapper;
-import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedBrandSy;
 import com.yinghuaicc.stars.repository.model.section.SectionBrand;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandRequest;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandSyRequest;
@@ -36,6 +35,9 @@ public class SectionBrandServiceImpl implements SectionBrandService {
 
     @Autowired
     FittedBrandMapper fittedBrandMapper;
+
+    @Autowired
+    ExceptionUtil exceptionUtil;
 
     /**
      * 新增业态级别
@@ -92,9 +94,13 @@ public class SectionBrandServiceImpl implements SectionBrandService {
 
     @Override
     public SectionBrand getSectionBrandListById(SectionBrandSyRequest sectionBrandRequest) {
-        String species = fittedBrandMapper.getFittedBrandSpeciesId(MapperFactoryUtil.mapperObject(sectionBrandRequest, FittedBrandSy.class));
-        sectionBrandRequest.setSpeciesId(species);
-        return sectionBrandMapper.getSectionBrandListById(sectionBrandRequest);
+     //   String species = fittedBrandMapper.getFittedBrandSpeciesId(MapperFactoryUtil.mapperObject(sectionBrandRequest, FittedBrandSy.class));
+      //  sectionBrandRequest.setSpeciesId(species);
+        SectionBrand s = sectionBrandMapper.getSectionBrandListById(sectionBrandRequest);
+        if(s == null){
+            throw exceptionUtil.throwCustomException("RENTING_RATE_018");
+        }
+        return s;
 
     }
 }

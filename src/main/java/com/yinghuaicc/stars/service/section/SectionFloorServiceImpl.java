@@ -2,6 +2,7 @@ package com.yinghuaicc.stars.service.section;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.yinghuaicc.stars.common.utils.exception.ExceptionUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
@@ -30,6 +31,9 @@ public class SectionFloorServiceImpl implements SectionFloorService {
 
     @Autowired
     AopResourceEmployeeBean aopResourceEmployeeBean;
+
+    @Autowired
+    ExceptionUtil exceptionUtil;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -67,6 +71,10 @@ public class SectionFloorServiceImpl implements SectionFloorService {
 
     @Override
     public SectionFloor getSectionFloorListById(SectionBrandSyRequest sectionBrandRequest) {
-        return sectionFloorMapper.getSectionFloorListById(sectionBrandRequest);
+        SectionFloor s = sectionFloorMapper.getSectionFloorListById(sectionBrandRequest);
+        if(s == null){
+            throw exceptionUtil.throwCustomException("RENTING_RATE_018");
+        }
+        return s;
     }
 }

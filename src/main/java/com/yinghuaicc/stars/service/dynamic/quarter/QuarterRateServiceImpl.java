@@ -3,6 +3,7 @@ package com.yinghuaicc.stars.service.dynamic.quarter;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yinghuaicc.stars.common.utils.exception.ExceptionUtil;
+import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
@@ -198,7 +199,10 @@ public class QuarterRateServiceImpl implements QuarterRateService {
         if(val != null){
             return val;
         }
-        return "0";
+        if(val == null || val == ""){
+            throw exceptionUtil.throwCustomException("RENTING_RATE_019");
+        }
+        return val;
     }
 
 
@@ -210,14 +214,42 @@ public class QuarterRateServiceImpl implements QuarterRateService {
      */
     @Override
     public BigDecimal getProjectQuarterRate(QuarterRateSy quarterRate) {
-        String mj = projectRateMapper.getProjectacreageById(quarterRate.getProjectId()); //项目面积
+      /*  String mj = projectRateMapper.getProjectacreageById(quarterRate.getProjectId()); //项目面积
         if(mj == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_005");
+        }*/
+        BigDecimal zspz = new BigDecimal("0"); //总适配值
+        BigDecimal xmmj = new BigDecimal("0"); //项目面积
+        List<ProjectQuarterRateResponse> mj = projectRateMapper.getFloorQuarterRate(MapperFactoryUtil.mapperObject(quarterRate, QuarterRateSy.class));
+        List<ProjectQuarterRateResponse> mjs = projectRateMapper.getFloorQuarterRates(MapperFactoryUtil.mapperObject(quarterRate, QuarterRateSy.class));
+        for (ProjectQuarterRateResponse m : mj){
+            xmmj = xmmj.add(new BigDecimal(m.getAcreage()));
         }
-        BigDecimal zspz = new BigDecimal(0); //总适配值
-        BigDecimal xmmj = new BigDecimal(mj); //项目面积
-        List<ProjectQuarterRateResponse> projectQuarterRateResponses = quarterRateMapper.getProjectQuarterRate(quarterRate); //项目铺位面积
-        projectQuarterRateResponses.forEach(p->{
+        for (ProjectQuarterRateResponse m : mjs){
+            xmmj = xmmj.add(new BigDecimal(m.getAcreage()));
+        }
+
+
+       // List<ProjectQuarterRateResponse> projectQuarterRateResponses = quarterRateMapper.getProjectQuarterRate(quarterRate); //项目铺位面积
+        for (ProjectQuarterRateResponse  p :mj ) {
+            if(p.getId() == null){
+                throw exceptionUtil.throwCustomException("RENTING_RATE_014");
+            }
+            quarterRate.setContractId(p.getId());
+            String val = val(quarterRate); //获取品牌适配值
+            //获取到品牌适配值
+            BigDecimal ppmj = new BigDecimal(p.getAcreage()); //品牌面积
+            BigDecimal ppxm = ppmj.divide(xmmj,2,BigDecimal.ROUND_UP); //品牌面积 / 项目面积
+
+            BigDecimal ppspz = new BigDecimal(val); //适配值
+            BigDecimal spz = ppspz.multiply(ppxm); // 适配值 * （品牌面积 / 项目面积）
+            zspz = zspz.add(spz); //总相加
+        }
+
+        for (ProjectQuarterRateResponse  p :mjs ) {
+            if(p.getId() == null){
+                throw exceptionUtil.throwCustomException("RENTING_RATE_014");
+            }
             quarterRate.setContractId(p.getId());
             String val = val(quarterRate); //获取品牌适配值
             //获取到品牌适配值
@@ -226,8 +258,9 @@ public class QuarterRateServiceImpl implements QuarterRateService {
 
             BigDecimal ppspz = new BigDecimal(val); //适配值
             BigDecimal spz = ppspz.multiply(ppxm); // 适配值 * （品牌面积 / 项目面积）
-            zspz.add(spz); //总相加
-        });
+            zspz = zspz.add(spz); //总相加
+        }
+
         return zspz.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
@@ -238,26 +271,59 @@ public class QuarterRateServiceImpl implements QuarterRateService {
      */
     @Override
     public BigDecimal getFormQuarterRate(QuarterRateSy quarterRate) {
+
         List<ProjectQuarterRateResponse> mj = quarterRateMapper.getFormQuarterRate(quarterRate); //业态面积
+        List<ProjectQuarterRateResponse> mjs = quarterRateMapper.getFormQuarterRates(quarterRate); //业态面积
+        for(ProjectQuarterRateResponse a : mj){
+            int i = 1;
+            int j = 0;
+            for(ProjectQuarterRateResponse b : mjs){
+
+                if(b.getId().equals(a.getId())){
+                    i++;
+                    a.setAcreage(new BigDecimal(a.getAcreage()).add(new BigDecimal(b.getAcreage())).toString());
+                    mjs.remove(j);
+                }
+                j++;
+            }
+            a.setAcreage(new BigDecimal(a.getAcreage()).divide(new BigDecimal(i)).toString());
+        }
+
         BigDecimal ytmj = new BigDecimal("0");//业态面积
         BigDecimal zspz = new BigDecimal(0); //总适配值
-        mj.forEach(a->{
-            ytmj.add(new BigDecimal(a.getAcreage()));
-        });
-        if(mj.size() == 0){
+        for(ProjectQuarterRateResponse a : mj){
+            ytmj = ytmj.add(new BigDecimal(a.getAcreage()));
+        }
+        for(ProjectQuarterRateResponse a : mjs){
+            ytmj = ytmj.add(new BigDecimal(a.getAcreage()));
+        }
+
+        if(ytmj.intValue() == 0){
             throw exceptionUtil.throwCustomException("RENTING_RATE_009");
         }
-        mj.forEach(p->{
+        for(ProjectQuarterRateResponse p : mj){
             quarterRate.setContractId(p.getId());
             String val = val(quarterRate); //获取品牌适配值
             //获取到品牌适配值
             BigDecimal ppmj = new BigDecimal(p.getAcreage()); //品牌面积
-            BigDecimal ppyt = ppmj.divide(ytmj); //品牌面积 / 业态面积
+            BigDecimal ppyt = ppmj.divide(ytmj,2,BigDecimal.ROUND_UP); //品牌面积 / 品牌面积
 
             BigDecimal ppspz = new BigDecimal(val); //适配值
-            BigDecimal spz = ppspz.multiply(ppyt); // 适配值 * （品牌面积 / 楼层面积）
-            zspz.add(spz); //总相加
-        });
+            BigDecimal spz = ppspz.multiply(ppyt); // 适配值 * （品牌面积 / 品牌面积）
+            zspz = zspz.add(spz); //总相加
+        }
+
+        for(ProjectQuarterRateResponse p : mjs){
+            quarterRate.setContractId(p.getId());
+            String val = val(quarterRate); //获取品牌适配值
+            //获取到品牌适配值
+            BigDecimal ppmj = new BigDecimal(p.getAcreage()); //品牌面积
+            BigDecimal ppyt = ppmj.divide(ytmj,2,BigDecimal.ROUND_UP); //品牌面积 / 品牌面积
+
+            BigDecimal ppspz = new BigDecimal(val); //适配值
+            BigDecimal spz = ppspz.multiply(ppyt); // 适配值 * （品牌面积 / 品牌面积）
+            zspz = zspz.add(spz); //总相加
+        }
 
         return zspz.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
@@ -269,25 +335,65 @@ public class QuarterRateServiceImpl implements QuarterRateService {
      */
     @Override
     public BigDecimal getFloorQuarterRate(QuarterRateSy quarterRate) {
-        String mj = quarterRateMapper.getFloorQuarter(quarterRate); //楼层面积
+       /* String mj = quarterRateMapper.getFloorQuarter(quarterRate); //楼层面积
         if(mj == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_007");
-        }
-        BigDecimal zspz = new BigDecimal(0); //总适配值
-        BigDecimal lcmj = new BigDecimal(mj); //楼层面积
+        }*/
+        BigDecimal zspz = new BigDecimal("0"); //总适配值
+        BigDecimal lcmj = new BigDecimal("0"); //楼层面积
 
         List<ProjectQuarterRateResponse> projectQuarterRateResponses = quarterRateMapper.getFloorQuarterRate(quarterRate); //楼层铺位面积
-        projectQuarterRateResponses.forEach(p->{
+        List<ProjectQuarterRateResponse> projectQuarterRateResponsess = quarterRateMapper.getFloorQuarterRates(quarterRate); //楼层铺位面积
+        for(ProjectQuarterRateResponse a : projectQuarterRateResponses){
+            int i = 1;
+            int j = 0;
+            for(ProjectQuarterRateResponse b : projectQuarterRateResponsess){
+
+                if(b.getId().equals(a.getId())){
+                    i++;
+                    a.setAcreage(new BigDecimal(a.getAcreage()).add(new BigDecimal(b.getAcreage())).toString());
+                    projectQuarterRateResponsess.remove(j);
+                }
+                j++;
+            }
+            a.setAcreage(new BigDecimal(a.getAcreage()).divide(new BigDecimal(i)).toString());
+        }
+
+
+        for(ProjectQuarterRateResponse p : projectQuarterRateResponses){
+            lcmj = lcmj.add(new BigDecimal(p.getAcreage()));
+        }
+
+        for(ProjectQuarterRateResponse p : projectQuarterRateResponsess){
+            lcmj = lcmj.add(new BigDecimal(p.getAcreage()));
+        }
+
+
+
+        for(ProjectQuarterRateResponse p : projectQuarterRateResponses){
             quarterRate.setContractId(p.getId());
             String val = val(quarterRate); //获取品牌适配值
             //获取到品牌适配值
             BigDecimal ppmj = new BigDecimal(p.getAcreage()); //品牌面积
-            BigDecimal pplc = ppmj.divide(lcmj); //品牌面积 / 楼层面积
+            BigDecimal pplc = ppmj.divide(lcmj,2,BigDecimal.ROUND_UP); //品牌面积 / 楼层面积
 
             BigDecimal ppspz = new BigDecimal(val); //适配值
             BigDecimal spz = ppspz.multiply(pplc); // 适配值 * （品牌面积 / 楼层面积）
-            zspz.add(spz); //总相加
-        });
+            zspz = zspz.add(spz); //总相加
+        }
+
+        for(ProjectQuarterRateResponse p : projectQuarterRateResponsess){
+            quarterRate.setContractId(p.getId());
+            String val = val(quarterRate); //获取品牌适配值
+            //获取到品牌适配值
+            BigDecimal ppmj = new BigDecimal(p.getAcreage()); //品牌面积
+            BigDecimal pplc = ppmj.divide(lcmj,2,BigDecimal.ROUND_UP); //品牌面积 / 楼层面积
+
+            BigDecimal ppspz = new BigDecimal(val); //适配值
+            BigDecimal spz = ppspz.multiply(pplc); // 适配值 * （品牌面积 / 楼层面积）
+            zspz = zspz.add(spz); //总相加
+        }
+
         return zspz.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 

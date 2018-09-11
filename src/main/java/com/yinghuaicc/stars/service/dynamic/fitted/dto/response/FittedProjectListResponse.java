@@ -10,7 +10,7 @@ public class FittedProjectListResponse {
     private String id;
     private String projectId; //项目ID
     private String projectName; //项目名称
-    private String rentingRateVal;//溢租率
+    private String fittedVal;//溢租率
     private String effectTime; //生效时间
     private LocalDateTime createTime;
     private LocalDateTime modifyTime;
@@ -41,12 +41,12 @@ public class FittedProjectListResponse {
         this.projectName = projectName;
     }
 
-    public String getRentingRateVal() {
-        return rentingRateVal;
+    public String getFittedVal() {
+        return fittedVal;
     }
 
-    public void setRentingRateVal(String rentingRateVal) {
-        this.rentingRateVal = rentingRateVal;
+    public void setFittedVal(String fittedVal) {
+        this.fittedVal = fittedVal;
     }
 
     public String getEffectTime() {

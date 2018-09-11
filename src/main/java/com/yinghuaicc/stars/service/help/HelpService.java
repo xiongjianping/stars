@@ -63,4 +63,11 @@ public interface HelpService {
      *@Description: 添加业种帮扶计划
      */
     void saveHelpPlanHelpPlanBusinessSpecies(SaveHelpPlanBusinessSpeciesRequestDTO saveHelpPlanBusinessSpeciesRequestDTO, String loginEmployeeId);
+
+
+    /**
+     *@Author:Fly Created in 2018/7/21 下午1:36
+     *@Description: 添加业态帮扶计划
+     */
+    void saveHelpFrom(SaveHelpPlanBusinessSpeciesRequestDTO saveHelpPlanBusinessSpeciesRequestDTO, String loginEmployeeId);
 }

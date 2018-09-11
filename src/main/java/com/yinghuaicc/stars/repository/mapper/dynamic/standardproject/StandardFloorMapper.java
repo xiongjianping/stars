@@ -88,8 +88,14 @@ public interface StandardFloorMapper {
      * @return
      */
     @Select(" select a.renting_rate_val from yhcc_floor_standard a where " +
-            " a.project_id = #{projectId}  and a.building_id = #{buildingId} and a.floor_id = #{floorId} " +
+            " a.project_id = #{projectId}  and a.floor_id = #{floorId} " +
             " and a.effect_time <= #{modifyTime} " +
             " ORDER BY a.effect_time desc limit 0,1 ")
     String getStandardFloorId(StandardFloorSy standardFloor);
+
+    @Select(" select a.renting_rate_val from yhcc_floor_standard a where " +
+            " a.project_id = #{projectId}  and a.floor_id = #{floorId} " +
+            " and a.effect_time >= #{modifyTime} " +
+            " ORDER BY a.effect_time limit 0,1 ")
+    String getStandardFloorIds(StandardFloorSy standardFloor);
 }

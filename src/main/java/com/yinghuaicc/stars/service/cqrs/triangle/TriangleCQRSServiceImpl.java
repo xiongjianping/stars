@@ -29,7 +29,6 @@ import com.yinghuaicc.stars.service.cqrs.brand.dto.response.BrandCQRSInfoRespons
 import com.yinghuaicc.stars.service.cqrs.contract.dto.request.ContractTriangleCQRSListRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.contract.dto.response.ContractTriangleCQRSListResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.help.HelpCQRSService;
-import com.yinghuaicc.stars.service.cqrs.help.dto.response.FindHelpPlanBusinessSpeciesListCQRSResponseDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.StandardBrandSaleService;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardBrandSaleRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.standard.dto.request.StandardConditionFittedRequestDTO;
@@ -390,14 +389,14 @@ public class TriangleCQRSServiceImpl implements TriangleCQRSService{
             }
           //  helpCQRSService.findHelpPlanBusinessSpeciesListCQRS();
             //业态帮扶计划-溢租率
-            List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> result1 =
-                    helpCQRSMapper.findHelpPlanBusinessSpeciesCQRSList(projectId, 1);
+          //  List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> result1 =
+        //            helpCQRSMapper.findHelpPlanBusinessSpeciesCQRSList(projectId, 1);
             //业态帮扶计划-客销度
-            List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> result2 =
-                    helpCQRSMapper.findHelpPlanBusinessSpeciesCQRSList(projectId, 2);
+        //    List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> result2 =
+       //             helpCQRSMapper.findHelpPlanBusinessSpeciesCQRSList(projectId, 2);
             //业态帮扶计划-适配值
-            List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> result3 =
-                    helpCQRSMapper.findHelpPlanBusinessSpeciesCQRSList(projectId, 3);
+       //     List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> result3 =
+       //             helpCQRSMapper.findHelpPlanBusinessSpeciesCQRSList(projectId, 3);
 //TODO--帮扶计划待定
             //帮扶计划客销度
             brandTriangleResponseDTO.setGuestContent("无");

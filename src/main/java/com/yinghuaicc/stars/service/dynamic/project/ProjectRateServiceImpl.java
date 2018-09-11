@@ -2,6 +2,7 @@ package com.yinghuaicc.stars.service.dynamic.project;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.yinghuaicc.stars.common.utils.date.LocalDateTimeUtils;
 import com.yinghuaicc.stars.common.utils.exception.ExceptionUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
@@ -129,18 +130,18 @@ public class ProjectRateServiceImpl implements ProjectRateService {
         }
         BigDecimal acreage = new BigDecimal(mj); //面积
 
-        Duration duration = Duration.between(LocalDateTime.parse(projectRate.getCreateTime()),LocalDateTime.parse(projectRate.getModifyTime()));
+        Duration duration = Duration.between(LocalDateTimeUtils.StringDate(projectRate.getCreateTime()),LocalDateTimeUtils.StringDate(projectRate.getModifyTime()));
 
-        BigDecimal day = new BigDecimal(duration.toDays()); //时间差
+        BigDecimal day = new BigDecimal(duration.toDays()+1); //时间差
 
-        BigDecimal rx = zkll.divide(acreage.multiply(day)); // 1 项目客流量除以面积
+        BigDecimal rx = zkll.divide(acreage.multiply(day),2,BigDecimal.ROUND_UP); // 1 项目客流量除以面积
         String pb = projectRateMapper.getProjectBrandById(projectRate); // 2 项目下所有品牌销售额
         if(pb == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_005");
         }
         BigDecimal sale = new BigDecimal(pb);
 
-        BigDecimal px = sale.divide(acreage.multiply(day)); //销售额 / 面积
+        BigDecimal px = sale.divide(acreage.multiply(day),2,BigDecimal.ROUND_UP); //销售额 / 面积
 
         BigDecimal kxd = rx.multiply(px);
         return kxd.setScale(2,BigDecimal.ROUND_HALF_UP);

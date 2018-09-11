@@ -93,8 +93,14 @@ public interface StandardFormMapper {
      */
     @Select(" select a.renting_rate_val from yhcc_form_standard a where " +
             " a.project_id = #{projectId}  and a.form_id = #{formId} " +
-            " and a.effect_time >=  #{modifyTime} " +
+            " and a.effect_time <=  #{modifyTime} " +
             " ORDER BY a.effect_time desc limit 0,1 ")
     String getStandardFormId(StandardFormSy standardForm);
+
+    @Select(" select a.renting_rate_val from yhcc_form_standard a where " +
+            " a.project_id = #{projectId}  and a.form_id = #{formId} " +
+            " and a.effect_time >=  #{modifyTime} " +
+            " ORDER BY a.effect_time limit 0,1 ")
+    String getStandardFormIds(StandardFormSy standardForm);
 
 }

@@ -286,14 +286,14 @@ public interface RegionMapper {
      *@Author:Fly Created in 2018/7/11 下午5:31
      *@Description: 按照项目查询层
      */
-    @Select("select * from yhcc_floor where project_id = #{projectId}")
+    @Select("select * from yhcc_floor where project_id = #{projectId} order by name ")
     List<Floor> findFloorByProjectId(String projectId);
 
     /**
      *@Author:Fly Created in 2018/7/11 下午11:16
      *@Description: 按照楼栋查询层
      */
-    @Select("select * from yhcc_floor where building_id = #{buildingId}")
+    @Select("select * from yhcc_floor where building_id = #{buildingId} order by name  ")
     List<Floor> findFloorByBuildingId(String buildingId);
 
     /**
@@ -352,7 +352,7 @@ public interface RegionMapper {
      *@Author:Fly Created in 2018/7/16 下午1:35
      *@Description: 按照层查询铺位
      */
-    @Select("select * from yhcc_room where floor_id = #{floorId}")
+    @Select("select * from yhcc_room where floor_id = #{floorId}  order by name ")
     List<Room> findRoomByFloorId(String floorId);
 
     /**

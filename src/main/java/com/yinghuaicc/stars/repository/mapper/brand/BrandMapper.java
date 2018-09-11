@@ -2,6 +2,7 @@ package com.yinghuaicc.stars.repository.mapper.brand;
 
 import com.yinghuaicc.stars.repository.model.brand.Brand;
 import com.yinghuaicc.stars.repository.model.brand.BrandCon;
+import com.yinghuaicc.stars.repository.model.brand.BrandRquest;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
@@ -82,7 +83,16 @@ public interface BrandMapper {
      *@Author:Fly Created in 2018/7/30 下午12:54
      *@Description: 根据业种查询品牌
      */
-    @Select(" select a.name as name ,b.contract_id as id from yhcc_brand a inner JOIN yhcc_contract b on b.brand_id = a.id where b.status = true and a.business_species_id = #{businessSpeciesId} " +
-            " GROUP BY a.id ")
-    List<BrandCon> findBrandByContractId(String businessSpeciesId);
+    @Select("<script> select a.name as name ,b.contract_id as id from yhcc_brand a inner JOIN yhcc_contract b on b.brand_id = a.id " +
+            " where b.status = true " +
+            "<if test='fromId != null and fromId != \"\"'> AND a.business_form_id = #{fromId} </if> " +
+            "<if test='projectId != null and projectId != \"\"'> AND b.project_id = #{projectId} </if> " +
+            "<if test='speciesId != null and speciesId != \"\"'> AND a.business_species_id = #{speciesId} </if> " +
+            " GROUP BY a.id " +
+            " </script> ")
+    List<BrandCon> findBrandByContractId(BrandRquest brandRquest);
+
+
+    @Select("select count(*) from yhcc_brand where name = #{values}")
+    Integer getBrandName(String name);
 }

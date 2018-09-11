@@ -195,6 +195,37 @@ public interface HelpMapper {
             "</script> ")
     void saveHelpPlanBusinessSpecies(List<HelpPlanBusinessSpecies> helpPlanBusinessSpecies);
 
+
+
+    /**
+     *@Author:Fly Created in 2018/7/21 下午1:14
+     *@Description: 添加业态度帮扶计划
+     */
+    @Insert("<script> " +
+            "insert into yhcc_help_from_context values " +
+            "<foreach item = 'item' index = 'index' collection='list' separator=','> " +
+            "(#{item.id}, #{item.projectId}, #{item.businessFormId}, #{item.yxHelpContext}, " +
+            "#{item.lhHelpContext}, #{item.tsHelpContext}, " +
+            "#{item.hlHelpContext}, #{item.ksHelpContext}, " +
+            "#{item.createTime}, #{item.modifyTime}, " +
+            "#{item.createUser}, #{item.modifyUser}, " +
+            "#{item.type} )" +
+            "</foreach> " +
+            "</script> ")
+    void saveHelpFrom(List<HelpPlanBusinessSpecies> helpPlanBusinessSpecies);
+
+
+    /**
+     *@Author:Fly Created in 2018/7/21 下午1:18
+     *@Description: 编辑业态帮扶计划
+     */
+    @Update("update yhcc_help_from_context set " +
+            "project_id = #{projectId}, business_form_id = #{businessFormId}, yx_help_context = #{yxHelpContext}, lh_help_context = #{lhHelpContext}, " +
+            "ts_help_context = #{tsHelpContext}, hl_help_context = #{hlHelpContext}, ks_help_context = #{ksHelpContext}, type=#{type}, " +
+            "create_time = #{createTime}, modify_time = #{modifyTime}, create_user = #{createUser}, modify_user = #{modifyUser} " +
+            "where project_id = #{projectId} and business_form_id = #{businessFormId} and business_species_id = #{businessSpeciesId}")
+    void editHelpFrom(HelpPlanBusinessSpecies helpPlanBusinessSpecies);
+
     /**
      *@Author:Fly Created in 2018/7/21 下午1:18
      *@Description: 编辑业种帮扶计划
@@ -217,6 +248,18 @@ public interface HelpMapper {
             @Param("businessFormId")String businessFormId,
             @Param("businessSpeciesId")String businessSpeciesId);
 
+
+
+    /**
+     *@Author:Fly Created in 2018/7/21 下午1:24
+     *@Description: 查询项目、业态、业种下的帮扶计划
+     */
+    @Select("select * from yhcc_help_from_context " +
+            "where project_id = #{projectId} and business_form_id = #{businessFormId} ")
+    HelpPlanBusinessSpecies findHelpPlanBusinessSpeciesByProjectIdAndBusinessFormId(
+            @Param("projectId") String projectId,
+            @Param("businessFormId")String businessFormId);
+
     /**
      *@Author:Fly Created in 2018/7/21 下午1:29
      *@Description: 查询项目、业态、业种下是否存在帮扶计划
@@ -227,6 +270,17 @@ public interface HelpMapper {
             @Param("projectId") String projectId,
             @Param("businessFormId")String businessFormId,
             @Param("businessSpeciesId")String businessSpeciesId);
+
+
+    /**
+     *@Author:Fly Created in 2018/7/21 下午1:29
+     *@Description: 查询项目、业态、业种下是否存在帮扶计划
+     */
+    @Select("select count(*) from yhcc_help_from_context " +
+            "where project_id = #{projectId} and business_form_id = #{businessFormId}")
+    Integer countHelpPlanBusinessSpeciesByProjectIdAndBusinessFormId(
+            @Param("projectId") String projectId,
+            @Param("businessFormId")String businessFormId);
 
     /**
      *@Author:Fly Created in 2018/7/21 下午1:33

@@ -92,7 +92,13 @@ public interface FittedProjectMapper {
      */
     @Select(" select fitted_val from yhcc_project_fitted  where " +
             " project_id = #{projectId} " +
-            " and effect_time >= #{modifyTime} " +
+            " and effect_time <= #{modifyTime} " +
             " ORDER BY effect_time desc limit 0,1 ")
     String getFittedProjectId(FittedProjectSy fittedProject);
+
+    @Select(" select fitted_val from yhcc_project_fitted  where " +
+            " project_id = #{projectId} " +
+            " and effect_time >= #{modifyTime} " +
+            " ORDER BY effect_time  limit 0,1 ")
+    String getFittedProjectIds(FittedProjectSy fittedProject);
 }

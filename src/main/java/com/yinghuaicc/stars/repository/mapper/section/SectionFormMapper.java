@@ -70,7 +70,7 @@ public interface SectionFormMapper {
             " select a.* from yhcc_section_form a  " +
             " where " +
             "   a.project_id = #{projectId} " +
-            "  AND a.form_id = #{formId} " +
+            "  AND a.form_id = #{formId} order by a.create_time desc limit 0,1 " +
             " ")
     SectionForm getSectionFormListById(SectionBrandSyRequest sectionBrandRequest);
 

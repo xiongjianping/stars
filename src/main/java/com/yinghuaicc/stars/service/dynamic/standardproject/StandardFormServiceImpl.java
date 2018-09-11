@@ -112,7 +112,10 @@ public class StandardFormServiceImpl implements StandardFormService {
     public BigDecimal getSyFormCount(StandardFormSy standardForm) {
         String val = standardFormMapper.getStandardFormId(standardForm);
         if(val == null){
-            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+            val = standardFormMapper.getStandardFormIds(standardForm);
+            if(val == null){
+                throw exceptionUtil.throwCustomException("RENTING_RATE_024");
+            }
         }
         BigDecimal v = new BigDecimal(val).setScale(2,BigDecimal.ROUND_HALF_UP);
         return v;

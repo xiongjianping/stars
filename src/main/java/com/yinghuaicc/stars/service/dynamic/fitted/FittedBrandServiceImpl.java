@@ -117,13 +117,16 @@ public class FittedBrandServiceImpl implements FittedBrandService {
         //查找业种
         String species = fittedBrandMapper.getFittedBrandSpeciesId(fittedBrand);
         if(species == null){
-            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+            throw exceptionUtil.throwCustomException("RENTING_RATE_017");
         }
         fittedBrand.setSpeciesId(species);
 
         String val = fittedBrandMapper.getFittedBrandId(fittedBrand);
         if(val == null){
-            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+            val = fittedBrandMapper.getFittedBrandIds(fittedBrand);
+            if(val == null){
+                throw exceptionUtil.throwCustomException("RENTING_RATE_016");
+            }
         }
         BigDecimal v = new BigDecimal(val).setScale(2,BigDecimal.ROUND_HALF_UP);
         return v;

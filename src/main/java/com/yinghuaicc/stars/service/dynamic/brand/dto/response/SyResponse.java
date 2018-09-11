@@ -1,6 +1,9 @@
 package com.yinghuaicc.stars.service.dynamic.brand.dto.response;
 
+import com.yinghuaicc.stars.service.cqrs.help.dto.response.FindHelpPlanBusinessSpeciesListCQRSResponseDTO;
+
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by 你看见过我吗？你想一想在回答。 on 2018/8/19.
@@ -15,15 +18,71 @@ public class SyResponse {
     //标准三角形溢租率
     private BigDecimal standardRent;
     //标准三角形适配值
-    private BigDecimal StandardFitted;
+    private BigDecimal standardFitted;
     //标准三角形客销度
-    private BigDecimal StandardGuest;
+    private BigDecimal standardGuest;
 
     BigDecimal excellentPgeVal;//优秀百分比
     BigDecimal goodPgeVal;//良好百分比
     BigDecimal promotePgeVal;//提升百分比
     BigDecimal reasonablePgeVal;//合理百分比
-    BigDecimal lossVal;//合理百分比
+    BigDecimal lossVal;//亏损百分比
+
+    List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> yzl;//溢租率 1
+    List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> kxd;//客销度 2
+    List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> spz;//适配值 3
+
+    private Integer yzlState;
+    private Integer kxdState;
+    private Integer spzState;
+
+    public Integer getYzlState() {
+        return yzlState;
+    }
+
+    public void setYzlState(Integer yzlState) {
+        this.yzlState = yzlState;
+    }
+
+    public Integer getKxdState() {
+        return kxdState;
+    }
+
+    public void setKxdState(Integer kxdState) {
+        this.kxdState = kxdState;
+    }
+
+    public Integer getSpzState() {
+        return spzState;
+    }
+
+    public void setSpzState(Integer spzState) {
+        this.spzState = spzState;
+    }
+
+    public List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> getYzl() {
+        return yzl;
+    }
+
+    public void setYzl(List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> yzl) {
+        this.yzl = yzl;
+    }
+
+    public List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> getKxd() {
+        return kxd;
+    }
+
+    public void setKxd(List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> kxd) {
+        this.kxd = kxd;
+    }
+
+    public List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> getSpz() {
+        return spz;
+    }
+
+    public void setSpz(List<FindHelpPlanBusinessSpeciesListCQRSResponseDTO> spz) {
+        this.spz = spz;
+    }
 
     public BigDecimal getTriangleRent() {
         return triangleRent;
@@ -58,19 +117,19 @@ public class SyResponse {
     }
 
     public BigDecimal getStandardFitted() {
-        return StandardFitted;
+        return standardFitted;
     }
 
     public void setStandardFitted(BigDecimal standardFitted) {
-        StandardFitted = standardFitted;
+        this.standardFitted = standardFitted;
     }
 
     public BigDecimal getStandardGuest() {
-        return StandardGuest;
+        return standardGuest;
     }
 
     public void setStandardGuest(BigDecimal standardGuest) {
-        StandardGuest = standardGuest;
+        this.standardGuest = standardGuest;
     }
 
     public BigDecimal getExcellentPgeVal() {

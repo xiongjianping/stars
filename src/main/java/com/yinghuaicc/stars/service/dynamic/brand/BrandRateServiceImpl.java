@@ -2,6 +2,7 @@ package com.yinghuaicc.stars.service.dynamic.brand;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.yinghuaicc.stars.common.utils.date.LocalDateTimeUtils;
 import com.yinghuaicc.stars.common.utils.exception.ExceptionUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.config.page.PageParam;
@@ -120,26 +121,26 @@ public class BrandRateServiceImpl implements BrandRateService {
     public BigDecimal getSyBrandRateCount(BrandRateSy brandRate) {
         String kll = brandRateMapper.getBrandRateByIdSy(brandRate); //品牌客流量
         if(kll == null){
-            throw exceptionUtil.throwCustomException("RENTING_RATE_008");
+            throw exceptionUtil.throwCustomException("RENTING_RATE_022");
         }
         BigDecimal zkll = new BigDecimal(kll); //总客流量
 
         String mj = brandRateMapper.getBrandAcreageById(brandRate); //面积
         if(mj == null){
-            throw exceptionUtil.throwCustomException("RENTING_RATE_009");
+            throw exceptionUtil.throwCustomException("RENTING_RATE_014");
         }
         BigDecimal acreage = new BigDecimal(mj); //面积
 
-        Duration duration = Duration.between(LocalDateTime.parse(brandRate.getCreateTime()),LocalDateTime.parse(brandRate.getModifyTime()));
-        BigDecimal day = new BigDecimal(duration.toDays()); //时间差
+        Duration duration = Duration.between(LocalDateTimeUtils.StringDate(brandRate.getCreateTime()),LocalDateTimeUtils.StringDate(brandRate.getModifyTime()));
+        BigDecimal day = new BigDecimal(duration.toDays()+1); //时间差
 
-        BigDecimal rx = zkll.divide(acreage.multiply(day)); // 1 品牌客流量除以面积
+        BigDecimal rx = zkll.divide(acreage.multiply(day),2,BigDecimal.ROUND_UP); // 1 品牌客流量除以面积
         String pb = brandRateMapper.getBrandBrandById(brandRate); // 2 品牌下所有品牌销售额
         if(pb == null){
             throw exceptionUtil.throwCustomException("RENTING_RATE_008");
         }
         BigDecimal sale = new BigDecimal(pb);
-        BigDecimal px = sale.divide(acreage.multiply(day)); //销售额 / 面积
+        BigDecimal px = sale.divide(acreage.multiply(day),2,BigDecimal.ROUND_UP); //销售额 / 面积
 
         BigDecimal kxd = rx.multiply(px);
         return kxd.setScale(2,BigDecimal.ROUND_HALF_UP);
@@ -164,16 +165,16 @@ public class BrandRateServiceImpl implements BrandRateService {
         }
         BigDecimal acreage = new BigDecimal(mj); //面积
 
-        Duration duration = Duration.between(LocalDateTime.parse(brandRate.getCreateTime()),LocalDateTime.parse(brandRate.getModifyTime()));
-        BigDecimal day = new BigDecimal(duration.toDays()); //时间差
+        Duration duration = Duration.between(LocalDateTimeUtils.StringDate(brandRate.getCreateTime()),LocalDateTimeUtils.StringDate(brandRate.getModifyTime()));
+        BigDecimal day = new BigDecimal(duration.toDays()+1); //时间差
 
-        BigDecimal rx = zkll.divide(acreage.multiply(day)); // 1 业态客流量除以面积
+        BigDecimal rx = zkll.divide(acreage.multiply(day),2,BigDecimal.ROUND_UP); // 1 业态客流量除以面积
         String pb = brandRateMapper.getFormBrandById(brandRate); // 2 业态下所有品牌销售额
         if(pb == null){
-            pb = "0";
+            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
         }
         BigDecimal sale = new BigDecimal(pb);
-        BigDecimal px = sale.divide(acreage.multiply(day)); //销售额 / 面积
+        BigDecimal px = sale.divide(acreage.multiply(day),2,BigDecimal.ROUND_UP); //销售额 / 面积
 
         BigDecimal kxd = rx.multiply(px);
         return kxd.setScale(2,BigDecimal.ROUND_HALF_UP);

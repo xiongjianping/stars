@@ -2,6 +2,7 @@ package com.yinghuaicc.stars.service.brand;
 
 import com.yinghuaicc.stars.repository.model.brand.Brand;
 import com.yinghuaicc.stars.repository.model.brand.BrandCon;
+import com.yinghuaicc.stars.repository.model.brand.BrandRquest;
 import com.yinghuaicc.stars.service.brand.dto.request.EditBrandRequestDTO;
 import com.yinghuaicc.stars.service.brand.dto.request.SaveBrandRequestDTO;
 import com.yinghuaicc.stars.service.brand.dto.response.BrandAllResponseDTO;
@@ -50,5 +51,5 @@ public interface BrandService {
      *@Author:Fly Created in 2018/7/30 下午12:55
      *@Description: 根据业种查询品牌
      */
-    List<BrandCon> findBrandByContractId(String businessSpeciesId);
+    List<BrandCon> findBrandByContractId(BrandRquest brandRquest);
 }

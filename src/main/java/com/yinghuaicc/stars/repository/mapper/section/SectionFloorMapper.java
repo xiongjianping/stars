@@ -73,7 +73,7 @@ public interface SectionFloorMapper {
             " select a.* from yhcc_section_floor a  " +
             " where " +
             "   a.project_id = #{projectId} " +
-            "  AND a.floor_id = #{floorId} " +
+            "  AND a.floor_id = #{floorId} order by a.create_time desc limit 0,1 " +
             " ")
     SectionFloor getSectionFloorListById(SectionBrandSyRequest sectionBrandRequest);
 

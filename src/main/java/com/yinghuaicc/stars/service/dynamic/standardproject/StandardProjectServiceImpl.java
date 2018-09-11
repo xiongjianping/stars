@@ -112,7 +112,10 @@ public class StandardProjectServiceImpl implements StandardProjectService {
     public BigDecimal getSyProjectCount(StandardProjectSy standardProject) {
         String val = standardProjectMapper.getStandardProjectId(standardProject);
         if(val == null){
-            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+            val = standardProjectMapper.getStandardProjectIds(standardProject);
+            if(val == null){
+                throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+            }
         }
         BigDecimal v = new BigDecimal(val).setScale(2,BigDecimal.ROUND_HALF_UP);
         return v;

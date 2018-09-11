@@ -42,11 +42,11 @@ public interface RentingRateMapper {
             " GROUP_CONCAT(' 楼层：',d.name,'  铺位号：',e.name,' ') as roomName," +
             " f.name as fromName," +
             " g.name as speciesName," +
-            " sum(a.rent) as rent," +
-            " sum(a.propertyfee) as propertyfee," +
-            " sum(a.depreciation) as depreciation," +
-            " sum(a.labor_cost) as laborCost," +
-            " sum(a.agency_fee) as agencyFee," +
+            " a.rent as rent," +
+            " a.propertyfee as propertyfee," +
+            " a.depreciation as depreciation," +
+            " a.labor_cost as laborCost," +
+            " a.agency_fee as agencyFee," +
             " a.effect_time," +
             " a.create_time," +
             " a.create_user " +
@@ -127,13 +127,13 @@ public interface RentingRateMapper {
     /**
      * 删除根据签约ID
      */
-    @Delete("delete from yhcc_renting_rate where contract_id = #{contractId} and left(effect_time,'7') = #{effectTime}")
+    @Delete("delete from yhcc_renting_rate where contract_id = #{contractId} and left(effect_time,7) = left(#{effectTime},7)")
     void deleteRentingRateByIdTime(RentingRate rentingRate);
 
     /**
      * 删除根据签约ID
      */
-    @Delete("delete from yhcc_renting_rate where contract_id = #{contractId} and id != #{id} and left(effect_time,'7') = #{effectTime}")
+    @Delete("delete from yhcc_renting_rate where contract_id = #{contractId} and id != #{id} and left(effect_time,7) = #{effectTime}")
     void deleteRentingRateByIdDate(RentingRate rentingRate);
 
 
@@ -157,12 +157,12 @@ public interface RentingRateMapper {
             " LEFT JOIN yhcc_project h on h.id = b.project_id" +
             " LEFT JOIN yhcc_building i on i.id = d.building_id" +
             " WHERE 1=1 " +
-            " <if test='projectId != null'> AND h.id = #{projectId} </if> " +
-            " <if test='buildingId != null'> AND i.id = #{buildingId} </if> " +
-            " <if test='floorId != null'> AND d.id = #{floorId} </if> " +
-            " <if test='businessFormId != null'> AND f.id = #{businessFormId} </if> " +
-            " <if test='contractId != null'> AND a.contract_id = #{contractId} </if> " +
-            " <if test='effectTime != null'> AND str_to_date(a.effect_time,'%Y-%m') = str_to_date(#{effectTime},'%Y-%m') </if> " +
+            " <if test='projectId != null and projectId != \"\"'> AND h.id = #{projectId} </if> " +
+            " <if test='buildingId != null and buildingId != \"\"'> AND i.id = #{buildingId} </if> " +
+            " <if test='floorId != null and floorId != \"\"'> AND d.id = #{floorId} </if> " +
+            " <if test='businessFormId != null and businessFormId != \"\"'> AND f.id = #{businessFormId} </if> " +
+            " <if test='contractId != null and contractId != \"\"'> AND a.contract_id = #{contractId} </if> " +
+            " <if test='effectTime != null and effectTime != \"\"'> AND left(a.effect_time,7) = left(#{effectTime},7) </if> " +
             " GROUP BY b.project_id " +
             " </script>")
     RentingRateListResponse getRentingRateByKxd(getRentingRateListRequest getRentingRateListRequest);
@@ -246,7 +246,7 @@ public interface RentingRateMapper {
      * @param brandRate
      * @return
      */
-    @Select("select sum(sales_volume) from yhcc_brand_rate where project_id = #{projectId}  and contract_id = #{contractId} and effect_time >= #{modifyTime}")
+    @Select("select sum(sales_volume) from yhcc_brand_rate where project_id = #{projectId}  and contract_id = #{contractId} and effect_time >= left(#{createTime},10)  and effect_time <= left(#{modifyTime},10)")
     String getBrandById(BrandRate brandRate);
 
 
@@ -276,12 +276,33 @@ public interface RentingRateMapper {
             " <if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
             " <if test='formId != null'> AND b.business_form_id = #{formId} </if> " +
             " <if test='contractId != null'> AND a.contract_id = #{contractId} </if>" +
-            " and a.effect_time >= #{createTime} and a.invalid_time >=  #{modifyTime}  " +
+            "   " +
+            " <![CDATA[ " +
+            " AND a.effect_time <= #{createTime} " +
+            " ]]>  " +
+            " and  a.invalid_time >= #{modifyTime}  " +
             "   </script>")
     List<Contract> getContract(StandardGuestSy standardGuest);
 
+
+    @Select("<script> select a.* from yhcc_contract a LEFT JOIN yhcc_brand b on b.id = a.brand_id " +
+            " where 1=1 " +
+            " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
+            " <if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
+            " <if test='formId != null'> AND b.business_form_id = #{formId} </if> " +
+            " <if test='contractId != null'> AND a.contract_id = #{contractId} </if>" +
+            "  AND a.effect_time  >= #{createTime} " +
+            " <![CDATA[ " +
+            " and  a.effect_time <= #{modifyTime}  " +
+            " ]]>  " +
+            " " +
+            "   </script>")
+    List<Contract> getContracts(StandardGuestSy standardGuest);
+
+
+
     @Select("<script> select a.* from yhcc_renting_rate a  where " +
-            " a.contract_id = #{contractId} and LEFT JOIN(a.effect_time,7) = LEFT JOIN(#{modifyUser},7) " +
+            " a.contract_id = #{contractId} and LEFT(a.effect_time,7) = LEFT(#{createUser},7) " +
             "   </script>")
     RentingRate getR(StandardGuestSy standardGuest);
 
@@ -295,7 +316,7 @@ public interface RentingRateMapper {
      * @return
      */
     @Select("  select adddate(#{createTime}, numlist.id) as date " +
-            "    from (SELECT n1.i + n10.i*10 + n100.i*100 AS id FROM num n1 cross join num as n10 cross join num as n100) as numlist where left(adddate(#{createTime}, numlist.id),7) = left(#{modifyTime},7) " +
+            "    from (SELECT n1.i + n10.i*10 + n100.i*100 AS id FROM num n1 cross join num as n10 cross join num as n100) as numlist where left(adddate(#{createTime}, numlist.id),7) = left(#{modifyUser},7)  and adddate(#{createTime}, numlist.id) <= #{modifyTime}" +
             "    GROUP BY date ")
     List<String> getSyDateDay(StandardGuestSy standardGuest);
 }

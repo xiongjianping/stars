@@ -111,7 +111,10 @@ public class StandardFloorServiceImpl implements StandardFloorService {
     public BigDecimal getSyFloorCount(StandardFloorSy standardFloor) {
         String val = standardFloorMapper.getStandardFloorId(standardFloor);
         if(val == null){
-            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+            val = standardFloorMapper.getStandardFloorIds(standardFloor);
+            if(val == null){
+                throw exceptionUtil.throwCustomException("RENTING_RATE_023");
+            }
         }
         BigDecimal v = new BigDecimal(val).setScale(2,BigDecimal.ROUND_HALF_UP);
         return v;

@@ -2,14 +2,11 @@ package com.yinghuaicc.stars.service.sso;
 
 import com.yinghuaicc.stars.common.utils.exception.ExceptionUtil;
 import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
-import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
 import com.yinghuaicc.stars.controller.config.system.SystemResource;
 import com.yinghuaicc.stars.controller.config.utils.EndecryptUtil;
 import com.yinghuaicc.stars.repository.mapper.tissue.TissueMapper;
 import com.yinghuaicc.stars.repository.mapper.token.TokenMapper;
 import com.yinghuaicc.stars.repository.model.tissue.Employee;
-import com.yinghuaicc.stars.repository.model.token.AppToken;
-import com.yinghuaicc.stars.repository.model.token.Token;
 import com.yinghuaicc.stars.service.sso.dto.request.AppSsoRequestDTO;
 import com.yinghuaicc.stars.service.sso.dto.request.SsoRequestDTO;
 import com.yinghuaicc.stars.service.tissue.dto.response.EmployeeLoginInfoResponseDTO;
@@ -18,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,9 +50,12 @@ public class SsoServiceImpl implements SsoService{
     @Override
     public EmployeeLoginTokenResponseDTO ssoLogin(SsoRequestDTO ssoRequestDTO) {
 
-        List<Employee> employees =
+      /*  List<Employee> employees =
                 tissueMapper.findEmployeeByUserName(
                         endecryptUtil.get3DESDecrypt(ssoRequestDTO.getUserName(),systemResource.getSsoPrivateKey()));
+*/
+        List<Employee> employees =
+                tissueMapper.findEmployeeByUserName(ssoRequestDTO.getUserName());
 
         if (Objects.isNull(employees)||employees.size()==0){
 

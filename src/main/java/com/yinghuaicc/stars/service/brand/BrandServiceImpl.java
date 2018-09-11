@@ -8,6 +8,7 @@ import com.yinghuaicc.stars.repository.mapper.base.BaseMapper;
 import com.yinghuaicc.stars.repository.mapper.brand.BrandMapper;
 import com.yinghuaicc.stars.repository.model.brand.Brand;
 import com.yinghuaicc.stars.repository.model.brand.BrandCon;
+import com.yinghuaicc.stars.repository.model.brand.BrandRquest;
 import com.yinghuaicc.stars.service.brand.dto.request.EditBrandRequestDTO;
 import com.yinghuaicc.stars.service.brand.dto.request.SaveBrandRequestDTO;
 import com.yinghuaicc.stars.service.brand.dto.response.BrandAllResponseDTO;
@@ -47,6 +48,10 @@ public class BrandServiceImpl implements BrandService{
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveBrand(SaveBrandRequestDTO saveBrandRequestDTO, String loginEmployeeId) {
+        Integer count = brandMapper.getBrandName(saveBrandRequestDTO.getName());
+        if(count >= 1){
+            throw exceptionUtil.throwCustomException("BRAND_SAVE_BRAND_007");
+        }
 
         if (Objects.isNull(baseMapper.findBusinessFormById(saveBrandRequestDTO.getBusinessFormId()))){
 
@@ -128,7 +133,7 @@ public class BrandServiceImpl implements BrandService{
     }
 
     @Override
-    public List<BrandCon> findBrandByContractId(String businessSpeciesId) {
-        return brandMapper.findBrandByContractId(businessSpeciesId);
+    public List<BrandCon> findBrandByContractId(BrandRquest brandRquest) {
+        return brandMapper.findBrandByContractId(brandRquest);
     }
 }

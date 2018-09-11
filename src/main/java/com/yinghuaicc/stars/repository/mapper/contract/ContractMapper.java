@@ -89,10 +89,10 @@ public interface ContractMapper {
      *@Author:Fly Created in 2018/7/16 下午4:24
      *@Description: 签约信息是否在生效日期内
      */
-    @Select("select count(*) from yhcc_contract where contract_id = #{contractId} and effect_time,7  <= #{effectTime} and (case when invalid_time is null then '9999-12-12' else invalid_time end)  >=  #{effectTime} ")
+    @Select("select count(*) from yhcc_contract where contract_id = #{contractId} and effect_time  <= #{effectTime} and (case when invalid_time is null then '9999-12-12' else invalid_time end)  >=  #{effectTime} ")
     Integer getContractByContractIdAndDate(@Param("contractId") String contractId,@Param("effectTime") String effectTime);
 
-    @Select("select count(*) from yhcc_contract where contract_id = #{contractId} and left(effect_time,7)  <= #{effectTime} and left((case when invalid_time is null then '9999-12-12' else invalid_time end),7)  >=  #{effectTime} ")
+    @Select("select count(*) from yhcc_contract where contract_id = #{contractId} and left(effect_time,7)  <= left(#{effectTime},7) and left((case when invalid_time is null then '9999-12-12' else invalid_time end),7)  >=  left(#{effectTime},7) ")
     Integer getContractByContractIdAndDates(@Param("contractId") String contractId,@Param("effectTime") String effectTime);
 
 }

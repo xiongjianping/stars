@@ -2,7 +2,9 @@ package com.yinghuaicc.stars.repository.mapper.dynamic.project;
 
 import com.yinghuaicc.stars.repository.model.dynamic.project.ProjectRate;
 import com.yinghuaicc.stars.repository.model.dynamic.project.ProjectRateSy;
+import com.yinghuaicc.stars.repository.model.dynamic.quarter.QuarterRateSy;
 import com.yinghuaicc.stars.service.dynamic.project.dto.response.ProjectRateListResponse;
+import com.yinghuaicc.stars.service.dynamic.quarter.dto.response.ProjectQuarterRateResponse;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
@@ -21,8 +23,8 @@ public interface ProjectRateMapper {
      * 新增
      * @param projectRate
      */
-    @Insert("insert into yhcc_project_rate(id,project_id,passenger_flow,sales_volume,effect_time,create_time,create_user)" +
-            " values(#{id},#{projectId},#{passengerFlow},#{salesVolume},#{effectTime},#{createTime},#{createUser})")
+    @Insert("insert into yhcc_project_rate(id,project_id,passenger_flow,effect_time,create_time,create_user)" +
+            " values(#{id},#{projectId},#{passengerFlow},#{effectTime},#{createTime},#{createUser})")
     void saveProjectRate(ProjectRate projectRate);
 
 
@@ -95,6 +97,22 @@ public interface ProjectRateMapper {
     @Select("select acreage from yhcc_project where id = #{values}")
     String getProjectacreageById(String id);
 
+    @Select("" +
+            "  select a.contract_id as id,(sum(c.acreage)/count(b.id)) as acreage   from yhcc_brand_rate a left join yhcc_contract b on b.contract_id = a.contract_id LEFT JOIN yhcc_room c on c.id = b.room_id  " +
+            "  where a.project_id = #{projectId} " +
+            " and b.effect_time <= #{createTime} and b.invalid_time >= #{createTime}" +
+            "  GROUP BY a.contract_id  " +
+            "")
+    List<ProjectQuarterRateResponse> getFloorQuarterRate(QuarterRateSy quarterRate);
+
+
+    @Select("" +
+            "  select a.contract_id as id,(sum(c.acreage)/count(b.id)) as acreage  from yhcc_brand_rate a left join yhcc_contract b on b.contract_id = a.contract_id LEFT JOIN yhcc_room c on c.id = b.room_id  " +
+            "  where a.project_id = #{projectId}  " +
+            " and b.effect_time <= #{createTime} and b.effect_time >= #{modifyTime}" +
+            "  GROUP BY a.contract_id  " +
+            "")
+    List<ProjectQuarterRateResponse> getFloorQuarterRates(QuarterRateSy quarterRate);
 
     /**
      * 项目下品牌所有销售额

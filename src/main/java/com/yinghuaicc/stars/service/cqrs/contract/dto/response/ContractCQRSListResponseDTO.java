@@ -50,6 +50,26 @@ public class ContractCQRSListResponseDTO {
     //修改时间
     private LocalDateTime modifyTime;
 
+    private String effectTime; //签约生效时间
+
+    private String invalidTime; //签约失效时间
+
+    public String getInvalidTime() {
+        return invalidTime;
+    }
+
+    public void setInvalidTime(String invalidTime) {
+        this.invalidTime = invalidTime;
+    }
+
+    public String getEffectTime() {
+        return effectTime;
+    }
+
+    public void setEffectTime(String effectTime) {
+        this.effectTime = effectTime;
+    }
+
     public String getId() {
         return id;
     }

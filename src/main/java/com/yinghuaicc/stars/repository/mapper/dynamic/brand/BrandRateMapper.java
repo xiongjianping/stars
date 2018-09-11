@@ -46,7 +46,6 @@ public interface BrandRateMapper {
             " where " +
             " 1=1 " +
             " <if test='projectId != null and projectId != \"\" '> AND a.project_id = #{projectId} </if> " +
-            " <if test='buildingId != null and buildingId != \"\"'> AND a.building_id = #{buildingId} </if>" +
             " <if test='floorId != null and floorId != \"\"'> AND a.floor_id = #{floorId} </if> " +
             " <if test='formId != null and formId != \"\"'> AND a.form_id = #{formId} </if> " +
             " <if test='speciesId != null and speciesId != \"\"'> AND a.species_id = #{speciesId} </if>" +
@@ -105,9 +104,29 @@ public interface BrandRateMapper {
      * @return
      */
     @Select(" select sum(c.acreage)/count(b.contract_id) from yhcc_brand_rate a LEFT JOIN yhcc_contract b on b.contract_id = a.contract_id  LEFT JOIN yhcc_room c on c.id = b.room_id" +
-            " where a.project_id = #{projectId} and a.form_id = #{formId} and b.effect_time >= #{createTime} and b.invalid_time <= #{modifyTime} group by a.contract_id ")
+            " where a.project_id = #{projectId} and a.form_id = #{formId} and b.effect_time >= #{createTime} and b.invalid_time >= #{modifyTime} ")
     String getFormAcreageById(BrandRateSy brandRate);
 
+
+    /**
+     * 查看业态面积
+     * @param brandRate
+     * @return
+     */
+    @Select(" select (sum(c.acreage)/count(b.id))   from yhcc_brand_rate a LEFT JOIN yhcc_contract b on b.contract_id = a.contract_id  LEFT JOIN yhcc_room c on c.id = b.room_id " +
+            " where a.project_id = #{projectId} and a.form_id = #{formId} " +
+            "and b.effect_time <= #{createTime} and b.invalid_time >= #{createTime} GROUP BY b.contract_id  ")
+    List<String> getFormAcreageByIda(BrandRateSy brandRate);
+
+    /**
+     * 查看业态面积
+     * @param brandRate
+     * @return
+     */
+    @Select(" select (sum(c.acreage)/count(b.id))   from yhcc_brand_rate a LEFT JOIN yhcc_contract b on b.contract_id = a.contract_id  LEFT JOIN yhcc_room c on c.id = b.room_id " +
+            " where a.project_id = #{projectId} and a.form_id = #{formId} " +
+            "and b.effect_time <= #{createTime} and b.effect_time >= #{modifyTime} GROUP BY b.contract_id  ")
+    List<String> getFormAcreageByIdb(BrandRateSy brandRate);
 
     /**
      * 业态下品牌所有销售额

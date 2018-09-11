@@ -111,7 +111,10 @@ public class FittedFormServiceImpl implements FittedFormService {
     public BigDecimal getFittedForm(FittedFormSy fittedForm) {
         String val = fittedFormMapper.getFittedFormId(fittedForm);
         if(val == null){
-            throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+            val = fittedFormMapper.getFittedFormIds(fittedForm);
+            if(val == null){
+                throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+            }
         }
         BigDecimal v = new BigDecimal(val).setScale(2,BigDecimal.ROUND_HALF_UP);
         return v;
