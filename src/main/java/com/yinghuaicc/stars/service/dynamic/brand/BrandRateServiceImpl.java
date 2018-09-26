@@ -161,7 +161,13 @@ public class BrandRateServiceImpl implements BrandRateService {
 
         String mj = brandRateMapper.getFormAcreageById(brandRate); //面积
         if(mj == null){
-            throw exceptionUtil.throwCustomException("RENTING_RATE_009");
+            mj = brandRateMapper.getFormAcreageByIda(brandRate); //面积
+            if(mj == null){
+                mj = brandRateMapper.getFormAcreageByIdb(brandRate); //面积
+                if(mj == null){
+                    throw exceptionUtil.throwCustomException("RENTING_RATE_009");
+                }
+            }
         }
         BigDecimal acreage = new BigDecimal(mj); //面积
 

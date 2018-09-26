@@ -32,6 +32,16 @@ public class ContractCQRSListRequestDTO {
     //铺位名称
     private String name = "";
 
+    private String status; //0 解约 1签约
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getAreaId() {
         return areaId;
     }

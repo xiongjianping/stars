@@ -8,7 +8,6 @@ import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.repository.mapper.section.SectionFormMapper;
-import com.yinghuaicc.stars.repository.model.section.SectionFloor;
 import com.yinghuaicc.stars.repository.model.section.SectionForm;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandRequest;
 import com.yinghuaicc.stars.service.section.dto.request.SectionBrandSyRequest;
@@ -39,6 +38,9 @@ public class SectionFormServiceImpl implements SectionFormService{
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveSectionForm(SectionForm sectionForm) {
+        if(sectionForm.getProjectId() == null){
+            throw exceptionUtil.throwCustomException("HELP_PROJEC_SAVE_001");
+        }
         sectionFormMapper.deleteSaveSection(sectionForm);
         sectionForm.setId(UuidUtil.randomUUID());
         sectionForm.setCreateTime(LocalDateTime.now());

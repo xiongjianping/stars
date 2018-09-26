@@ -2,10 +2,10 @@ package com.yinghuaicc.stars.controller.business.app.triangle;
 
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.response.JsonResult;
+import com.yinghuaicc.stars.controller.config.aop.pc.AopResourceEmployeeBean;
 import com.yinghuaicc.stars.service.cqrs.brand.BrandCQRSService;
 import com.yinghuaicc.stars.service.cqrs.brand.dto.request.AppBrandCQRSListRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.brand.dto.request.BrandCQRSListRequestDTO;
-import com.yinghuaicc.stars.service.cqrs.region.RegionCQRSService;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.TriangeConditionRequestDTO;
 import com.yinghuaicc.stars.service.region.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +31,9 @@ public class AppTriangleController {
     @Autowired
     private BrandCQRSService brandCQRSService;
 
+    @Autowired
+    AopResourceEmployeeBean aopResourceEmployeeBean;
+
     /**
      *@Author:Fly Created in 2018/7/4 下午5:37
      *@Description: 查询所有区域
@@ -46,7 +49,7 @@ public class AppTriangleController {
      */
     @GetMapping(value = "/find/project/by/area/{areaId}")
     public JsonResult findProjectByAreaId(@PathVariable String areaId){
-        return JsonResult.success(regionService.findProjectByAreaId(areaId));
+        return JsonResult.success(regionService.findProjectByAreaIds(areaId));
     }
 
     /**

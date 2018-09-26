@@ -88,7 +88,7 @@ public interface BrandMapper {
             "<if test='fromId != null and fromId != \"\"'> AND a.business_form_id = #{fromId} </if> " +
             "<if test='projectId != null and projectId != \"\"'> AND b.project_id = #{projectId} </if> " +
             "<if test='speciesId != null and speciesId != \"\"'> AND a.business_species_id = #{speciesId} </if> " +
-            " GROUP BY a.id " +
+            " GROUP BY a.id,b.contract_id " +
             " </script> ")
     List<BrandCon> findBrandByContractId(BrandRquest brandRquest);
 

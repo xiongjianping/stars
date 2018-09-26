@@ -63,6 +63,16 @@ public class ProjectCQRSInfoByIdResponseDTO {
 
     //面积
     private BigDecimal acreage;
+    //开业时间
+    private String createDate;
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
 
     public String getProjectId() {
         return projectId;

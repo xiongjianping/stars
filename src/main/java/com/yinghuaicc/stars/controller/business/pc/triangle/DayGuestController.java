@@ -51,5 +51,22 @@ public class DayGuestController {
         return JsonResult.success(dayGuestService.findSaleroomAll());
 
     }
+    /**
+     * 查询全国销售额7天
+     * @return
+     */
+    @GetMapping(value = "/find/day/saleroomall/list")
+    public JsonResult findDaySaleroomAll(){
+        return JsonResult.success(dayGuestService.findDaySaleroomAll());
 
+    }
+
+    /**
+     * 查询全国客流量7天
+     * @return
+     */
+    @GetMapping(value = "/find/day/passengerflowall/list")
+    public JsonResult findDayPassengerFlowAll(){
+        return JsonResult.success(dayGuestService.findDayPassengerFlowAll());
+    }
 }

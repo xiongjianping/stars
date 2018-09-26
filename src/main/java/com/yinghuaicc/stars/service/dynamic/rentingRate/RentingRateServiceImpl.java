@@ -336,6 +336,9 @@ public class RentingRateServiceImpl implements RentingRateService {
                     brandRate.setModifyTime(LocalDateTimeUtils.StringDate(day.get(day.size()-1)));
                     brandRate.setCreateTime(LocalDateTimeUtils.StringDate(day.get(0)));
                     String xssr = rentingRateMapper.getBrandById(brandRate);
+                    if(xssr == null){
+                        throw exceptionUtil.throwCustomException("RENTING_RATE_025");
+                    }
                     BigDecimal salesVolume = new BigDecimal(xssr);//销售收入
                     BigDecimal jlr = salesVolume.multiply(interestval).subtract(gdcb);
                     zjlr = zjlr.add(jlr);

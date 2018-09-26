@@ -71,10 +71,10 @@ public interface DayGuestMapper {
             "GROUP BY b.name")
     List<AllSalePassengerFlowResponseDTO> findSalePassengerFlowAll();*/
 
-    @Select(" SELECT b.name as 'areaName',case when SUM(d.passenger_flow) is null then 0 else SUM(d.passenger_flow) end as 'passengerFlow',case when SUM(d.sales_volume) is null then 0 else SUM(d.sales_volume) end as 'saleroom' FROM yhcc_project a LEFT JOIN yhcc_area b ON b.id = a.area_id " +
-            "    LEFT JOIN yhcc_contract c ON c.project_id = a.id " +
+    @Select(" SELECT a.name as 'areaName',case when SUM(d.passenger_flow) is null then 0 else SUM(d.passenger_flow) end as 'passengerFlow',case when SUM(d.sales_volume) is null then 0 else SUM(d.sales_volume) end as 'saleroom' FROM yhcc_area a LEFT JOIN yhcc_project b ON a.id = b.area_id " +
+            "    LEFT JOIN yhcc_contract c ON c.project_id = b.id " +
             "    LEFT JOIN yhcc_brand_rate d ON d.contract_id = c.contract_id " +
-            "    GROUP BY b.name ")
+            "    GROUP BY a.name ")
     List<AllSalePassengerFlowResponseDTO> findSalePassengerFlowAll();
 
 
@@ -85,4 +85,28 @@ public interface DayGuestMapper {
      */
     @Select("select * from yhcc_day_guest")
     List<DayGuest>  findDayGuestBynull();
+
+
+
+    @Select("select adddate(#{begin}, numlist.id) as date " +
+            "                from (SELECT n1.i + n10.i*10 + n100.i*100 AS id FROM num n1 cross join num as n10 cross join num as n100) as numlist where  adddate(#{begin}, numlist.id) < #{end} " +
+            "                GROUP BY date ")
+    List<String> day(@Param("begin") String begin,@Param("end") String end);
+
+
+
+    /**
+     * 查询全国销售额7天
+     * @return
+     */
+    @Select("select sum(sales_volume) from yhcc_brand_rate where effect_time = #{values}")
+    BigDecimal findDaySaleroomAll(String day);
+
+
+    /**
+     * 查询全国客流量7天
+     * @return
+     */
+    @Select("select sum(passenger_flow) from yhcc_project_rate where effect_time = #{values}")
+    BigDecimal findDayPassengerFlowAll(String day);
 }

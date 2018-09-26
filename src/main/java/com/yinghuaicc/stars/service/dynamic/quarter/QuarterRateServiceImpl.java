@@ -254,7 +254,7 @@ public class QuarterRateServiceImpl implements QuarterRateService {
             String val = val(quarterRate); //获取品牌适配值
             //获取到品牌适配值
             BigDecimal ppmj = new BigDecimal(p.getAcreage()); //品牌面积
-            BigDecimal ppxm = ppmj.divide(xmmj); //品牌面积 / 项目面积
+            BigDecimal ppxm = ppmj.divide(xmmj,2,BigDecimal.ROUND_UP); //品牌面积 / 项目面积
 
             BigDecimal ppspz = new BigDecimal(val); //适配值
             BigDecimal spz = ppspz.multiply(ppxm); // 适配值 * （品牌面积 / 项目面积）
@@ -277,15 +277,20 @@ public class QuarterRateServiceImpl implements QuarterRateService {
         for(ProjectQuarterRateResponse a : mj){
             int i = 1;
             int j = 0;
-            for(ProjectQuarterRateResponse b : mjs){
+            try{
+                for(ProjectQuarterRateResponse b : mjs){
 
-                if(b.getId().equals(a.getId())){
-                    i++;
-                    a.setAcreage(new BigDecimal(a.getAcreage()).add(new BigDecimal(b.getAcreage())).toString());
-                    mjs.remove(j);
+                    if(b.getId().equals(a.getId())){
+                        i++;
+                        a.setAcreage(new BigDecimal(a.getAcreage()).add(new BigDecimal(b.getAcreage())).toString());
+                        mjs.remove(j);
+                    }
+                    j++;
                 }
-                j++;
+            }catch (Exception e){
+
             }
+
             a.setAcreage(new BigDecimal(a.getAcreage()).divide(new BigDecimal(i)).toString());
         }
 
@@ -347,15 +352,21 @@ public class QuarterRateServiceImpl implements QuarterRateService {
         for(ProjectQuarterRateResponse a : projectQuarterRateResponses){
             int i = 1;
             int j = 0;
-            for(ProjectQuarterRateResponse b : projectQuarterRateResponsess){
+            try {
+                for(ProjectQuarterRateResponse b : projectQuarterRateResponsess){
 
-                if(b.getId().equals(a.getId())){
-                    i++;
-                    a.setAcreage(new BigDecimal(a.getAcreage()).add(new BigDecimal(b.getAcreage())).toString());
-                    projectQuarterRateResponsess.remove(j);
+                    if(b.getId().equals(a.getId())){
+                        i++;
+                        a.setAcreage(new BigDecimal(a.getAcreage()).add(new BigDecimal(b.getAcreage())).toString());
+                        projectQuarterRateResponsess.remove(j);
+                    }
+                    j++;
                 }
-                j++;
+            }catch (Exception e){
+
             }
+
+
             a.setAcreage(new BigDecimal(a.getAcreage()).divide(new BigDecimal(i)).toString());
         }
 

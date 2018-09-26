@@ -36,7 +36,7 @@ public class EditProjectRequestDTO {
     private boolean state;
 
     //项目负责人id
-    @NotEmpty(message = "REGION_EDIT_PROJECT_004")
+   // @NotEmpty(message = "REGION_EDIT_PROJECT_004")
     private String projectHeadId;
 
 //    //项目运营人id
@@ -53,6 +53,17 @@ public class EditProjectRequestDTO {
 
     //项目图片
     private List<String> projectImages = new ArrayList<>();
+
+    //开业时间
+    private String createDate;
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
 
     public String getProjectId() {
         return projectId;

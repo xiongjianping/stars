@@ -8,7 +8,6 @@ import com.yinghuaicc.stars.controller.config.system.SystemResource;
 import com.yinghuaicc.stars.repository.mapper.external.ExternalMapper;
 import com.yinghuaicc.stars.repository.mapper.region.RegionMapper;
 import com.yinghuaicc.stars.repository.mapper.tissue.TissueMapper;
-import com.yinghuaicc.stars.repository.model.contract.Contract;
 import com.yinghuaicc.stars.repository.model.external.ExternalOrg;
 import com.yinghuaicc.stars.repository.model.region.Company;
 import com.yinghuaicc.stars.repository.model.tissue.Department;
@@ -64,7 +63,7 @@ public class ExternalOrgSync {
     @Scheduled(cron = "0 30 01 ? * *")
     @Transactional(rollbackFor = Exception.class)
     public void getOrg(){
-
+        System.out.println("-----------------------------获取外部系统组织机构数据");
         String url = systemResource.getExternalUrl()+"platform-app/sys/org/user/queryUserOrOrgList";
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -73,7 +72,8 @@ public class ExternalOrgSync {
 
         Map<String, String> parameter = new HashMap<String, String>();
 
-        parameter.put("tendCode", "test_test009");
+    /*    parameter.put("tendCode", "test_test009");*/
+        parameter.put("tendCode", "test_test021");
         parameter.put("dataType", "org");
 
         ResponseEntity responseEntity = restTemplate.exchange(

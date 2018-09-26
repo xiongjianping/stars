@@ -113,8 +113,11 @@ public class IdentityCheck {
         List<Employee> employees = tissueMapper.findEmployeeByUserName(endecryptUtil.get3DESDecrypt(employeeUserName,systemResource.getSsoPrivateKey()));
 
         if (Objects.isNull(employees)||employees.size()==0){
-
-            throw exceptionUtil.throwCustomException("AOP_CHECK_TOKEN_002");
+            employees = tissueMapper.findEmployeeByUserName(employeeUserName);
+            if (Objects.isNull(employees)||employees.size()==0){
+                employees = tissueMapper.findEmployeeByUserName(endecryptUtil.get3DESDecrypt(employeeUserName,systemResource.getSsoPrivateKey()));
+                throw exceptionUtil.throwCustomException("AOP_CHECK_TOKEN_002");
+            }
         }
 
         Employee employee = employees.get(0);

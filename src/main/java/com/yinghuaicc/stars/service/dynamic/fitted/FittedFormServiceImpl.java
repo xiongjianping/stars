@@ -113,7 +113,7 @@ public class FittedFormServiceImpl implements FittedFormService {
         if(val == null){
             val = fittedFormMapper.getFittedFormIds(fittedForm);
             if(val == null){
-                throw exceptionUtil.throwCustomException("RENTING_RATE_011");
+                throw exceptionUtil.throwCustomException("RENTING_RATE_026");
             }
         }
         BigDecimal v = new BigDecimal(val).setScale(2,BigDecimal.ROUND_HALF_UP);

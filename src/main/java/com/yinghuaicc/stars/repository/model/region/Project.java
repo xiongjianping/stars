@@ -30,7 +30,7 @@ public class Project {
     private boolean state;
 
     //项目负责人id
-    private String projectHeadId;
+    private String projectHeadId = "admin";
 
     //项目运营人id
     private String projectAuditId;
@@ -49,6 +49,17 @@ public class Project {
 
     //修改人
     private String modifyUser;
+
+    //开业时间
+    private String createDate;
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
 
     public String getId() {
         return id;

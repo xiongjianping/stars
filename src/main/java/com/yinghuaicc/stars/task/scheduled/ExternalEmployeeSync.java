@@ -58,7 +58,7 @@ public class ExternalEmployeeSync {
     @Scheduled(cron = "0 30 01 ? * *")
     @Transactional(rollbackFor = Exception.class)
     public void getOrg(){
-
+        System.out.println("-----------------------------获取外部系统人员数据");
         String url = systemResource.getExternalUrl()+"platform-app/sys/org/user/queryUserOrOrgList";
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -67,7 +67,8 @@ public class ExternalEmployeeSync {
 
         Map<String, String> parameter = new HashMap<String, String>();
 
-        parameter.put("tendCode", "test_test009");
+       /* parameter.put("tendCode", "test_test009");*/
+        parameter.put("tendCode", "test_test021");
         parameter.put("dataType", "user");
 
         ResponseEntity responseEntity = restTemplate.exchange(

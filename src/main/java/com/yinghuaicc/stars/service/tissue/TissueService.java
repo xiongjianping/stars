@@ -2,7 +2,9 @@ package com.yinghuaicc.stars.service.tissue;
 
 import com.yinghuaicc.stars.config.page.PageParam;
 import com.yinghuaicc.stars.config.page.ResultPageList;
+import com.yinghuaicc.stars.repository.model.tissue.ContractNum;
 import com.yinghuaicc.stars.repository.model.tissue.Department;
+import com.yinghuaicc.stars.repository.model.tissue.ProjectImge;
 import com.yinghuaicc.stars.service.tissue.dto.request.*;
 import com.yinghuaicc.stars.service.tissue.dto.response.*;
 
@@ -89,4 +91,16 @@ public interface TissueService {
      */
     void stateEmployee(StateEmployeeRequestDTO stateEmployeeRequestDTO, String loginEmployeeId);
 
+    /**
+     * 项目详情
+     * @param id
+     * @return
+     */
+    ProjectImge findProjectId(String id);
+
+    /**
+     * 签约数量
+     * @return
+     */
+    List<ContractNum> findPbNum();
 }

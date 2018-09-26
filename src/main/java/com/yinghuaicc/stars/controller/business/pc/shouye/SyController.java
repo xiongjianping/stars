@@ -190,10 +190,10 @@ public class SyController {
        if(projeckxd.floatValue() >=s.getReasonablePgeVal().floatValue() && projeckxd.floatValue() < s.getPromotePgeVal().floatValue()){
             f.setState(4);
             s.setKxdState(4);
-        }else if(projeckxd.floatValue()  >=s.getPromotePgeVal().floatValue() && projeckxd.floatValue() < s.getPromotePgeVal().floatValue()){
+        }else if(projeckxd.floatValue()  >=s.getPromotePgeVal().floatValue() && projeckxd.floatValue() < s.getGoodPgeVal().floatValue()){
             f.setState(3);
             s.setKxdState(3);
-        }else if(projeckxd.floatValue()  >=s.getPromotePgeVal().floatValue() && projeckxd.floatValue() <s.getGoodPgeVal().floatValue()){
+        }else if(projeckxd.floatValue()  >=s.getGoodPgeVal().floatValue() && projeckxd.floatValue() <s.getExcellentPgeVal().floatValue()){
             f.setState(2);
             s.setKxdState(2);
         }else if(projeckxd.floatValue() >=s.getExcellentPgeVal().floatValue()){
@@ -296,10 +296,10 @@ public class SyController {
         if(floorkxd.floatValue() >=s.getReasonablePgeVal().floatValue() && floorkxd.floatValue() <s.getPromotePgeVal().floatValue()){
             f.setState(4);
             s.setKxdState(4);
-        }else if(floorkxd.floatValue()  >=s.getPromotePgeVal().floatValue() && floorkxd.floatValue() < s.getPromotePgeVal().floatValue()){
+        }else if(floorkxd.floatValue()  >=s.getPromotePgeVal().floatValue() && floorkxd.floatValue() < s.getGoodPgeVal().floatValue()){
             f.setState(3);
             s.setKxdState(3);
-        }else if(floorkxd.floatValue()  >=s.getPromotePgeVal().floatValue() && floorkxd.floatValue() <s.getGoodPgeVal().floatValue()){
+        }else if(floorkxd.floatValue()  >=s.getGoodPgeVal().floatValue() && floorkxd.floatValue() <s.getExcellentPgeVal().floatValue()){
             f.setState(2);
             s.setKxdState(2);
         }else if(floorkxd.floatValue() >=s.getExcellentPgeVal().floatValue()){
@@ -401,10 +401,10 @@ public class SyController {
         if(formkxd.floatValue() >=s.getReasonablePgeVal().floatValue() && formkxd.floatValue() <s.getPromotePgeVal().floatValue()){
             f.setState(4);
             s.setKxdState(4);
-        }else if(formkxd.floatValue()  >=s.getPromotePgeVal().floatValue() && formkxd.floatValue() < s.getPromotePgeVal().floatValue()){
+        }else if(formkxd.floatValue()  >=s.getPromotePgeVal().floatValue() && formkxd.floatValue() < s.getGoodPgeVal().floatValue()){
             f.setState(3);
             s.setKxdState(3);
-        }else if(formkxd.floatValue()  >=s.getPromotePgeVal().floatValue() && formkxd.floatValue() <s.getGoodPgeVal().floatValue()){
+        }else if(formkxd.floatValue()  >=s.getGoodPgeVal().floatValue() && formkxd.floatValue() <s.getExcellentPgeVal().floatValue()){
             f.setState(2);
             s.setKxdState(2);
         }else if(formkxd.floatValue() >=s.getExcellentPgeVal().floatValue()){
@@ -509,10 +509,10 @@ public class SyController {
         if(brandkxd.floatValue() >=s.getReasonablePgeVal().floatValue() && brandkxd.floatValue() <s.getPromotePgeVal().floatValue()){
             f.setState(4);
             s.setKxdState(4);
-        }else if(brandkxd.floatValue()  >=s.getPromotePgeVal().floatValue() && brandkxd.floatValue() < s.getPromotePgeVal().floatValue()){
+        }else if(brandkxd.floatValue()  >=s.getPromotePgeVal().floatValue() && brandkxd.floatValue() < s.getGoodPgeVal().floatValue()){
             f.setState(3);
             s.setKxdState(3);
-        }else if(brandkxd.floatValue()  >=s.getPromotePgeVal().floatValue() && brandkxd.floatValue() <s.getGoodPgeVal().floatValue()){
+        }else if(brandkxd.floatValue()  >=s.getGoodPgeVal().floatValue() && brandkxd.floatValue() <s.getExcellentPgeVal().floatValue()){
             f.setState(2);
             s.setKxdState(2);
         }else if(brandkxd.floatValue() >=s.getExcellentPgeVal().floatValue()){

@@ -1,9 +1,11 @@
 package com.yinghuaicc.stars.repository.mapper.region;
 
 import com.yinghuaicc.stars.repository.model.region.*;
+import com.yinghuaicc.stars.repository.model.tissue.ContractNum;
 import com.yinghuaicc.stars.repository.model.tissue.EmployeeProjectRelationTeam;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.TriangeConditionRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.TriangeConditionResponseDTO;
+import com.yinghuaicc.stars.service.region.dto.request.ProjectRequestQxDTO;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -33,7 +35,7 @@ public interface RegionMapper {
             "values(#{id}, #{num}, #{areaId}, #{companyId}, " +
             "#{name}, #{projectHeadId}, #{projectAuditId}, " +
             "#{state}, #{acreage}, #{createTime}, #{modifyTime}, " +
-            "#{createUser}, #{modifyUser})")
+            "#{createUser}, #{modifyUser}, #{createDate})")
     void saveProject(Project project);
 
     /**
@@ -62,7 +64,7 @@ public interface RegionMapper {
     @Update("update yhcc_project set num = #{num}, area_id = #{areaId}, company_id = #{companyId}, " +
             "name = #{name}, project_head_id = #{projectHeadId}, project_audit_id = #{projectAuditId}, " +
             "state = #{state}, acreage = #{acreage}, create_time = #{createTime}, modify_time = #{modifyTime}, " +
-            "create_user = #{createUser}, modify_user = #{modifyUser} " +
+            "create_user = #{createUser}, modify_user = #{modifyUser} , create_date = #{createDate}" +
             "where id = #{id}")
     void editProject(Project project);
 
@@ -84,8 +86,17 @@ public interface RegionMapper {
      *@Author:Fly Created in 2018/7/20 上午10:08
      *@Description: 按照区域查询项目
      */
+    @Select("<script> select * from yhcc_project where area_id = #{areaId} " +
+            "" +
+            " and id in " +
+            " <foreach item='item' collection='projectIds' open='(' close=')' separator=','> " +
+            " #{item} " +
+            " </foreach> " +
+            " </script> ")
+    List<Project> findProjectByAreaId(ProjectRequestQxDTO p);
+
     @Select("select * from yhcc_project where area_id = #{areaId}")
-    List<Project> findProjectByAreaId(String areaId);
+    List<Project> findProjectByAreaIds(String areaId);
 
     /**
      *@Author:Fly Created in 2018/7/5 上午10:06
@@ -377,5 +388,12 @@ public interface RegionMapper {
             " GROUP BY e.id " +
             "</script>")
     List<TriangeConditionResponseDTO> findConditionlistByOtherId(@Param("search")TriangeConditionRequestDTO triangeConditionRequestDTO);
+
+
+
+    @Select(" SELECT a.name as name ,count(c.id) as num from yhcc_area a LEFT JOIN yhcc_project b on b.area_id = a.id " +
+            " LEFT JOIN yhcc_contract c on c.project_id = b.id and c.status = true " +
+            " GROUP BY a.name ")
+    List<ContractNum> findPbNum();
 
 }

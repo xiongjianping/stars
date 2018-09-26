@@ -49,4 +49,15 @@ public interface DayGuestService {
      * @return
      */
     List<DayGuest>  findDayGuestBynull();
+
+    /**
+     * 查询全国销售额7天
+     * @return
+     */
+    List<BigDecimal> findDaySaleroomAll();
+    /**
+     * 查询全国客流量7天
+     * @return
+     */
+    List<BigDecimal> findDayPassengerFlowAll();
 }

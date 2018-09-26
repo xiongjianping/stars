@@ -30,7 +30,7 @@ public interface FittedBrandMapper {
      * 新增删除
      * @param fittedBrand
      */
-    @Delete("delete from yhcc_brand_fitted where project_id = #{projectId} and building_id = #{buildingId} and floor_id = #{floorId} and form_id = #{formId} and species_id = #{speciesId} and effect_time = #{effectTime}")
+    @Delete("delete from yhcc_brand_fitted where project_id = #{projectId} and floor_id = #{floorId} and form_id = #{formId} and species_id = #{speciesId} and effect_time = #{effectTime}")
     void deleteFittedBrandById(FittedBrand fittedBrand);
 
 

@@ -21,8 +21,8 @@ public interface StandardFormMapper {
      * 新增
      * @param standardForm
      */
-    @Insert("insert into yhcc_form_standard(id,project_id,renting_rate_val,effect_time,create_time,create_user,building_id,floor_id,form_id,species_id)" +
-            " values(#{id},#{projectId},#{rentingRateVal},#{effectTime},#{createTime},#{createUser},#{buildingId},#{floorId},#{formId},#{speciesId})")
+    @Insert("insert into yhcc_form_standard(id,project_id,renting_rate_val,effect_time,create_time,create_user,form_id)" +
+            " values(#{id},#{projectId},#{rentingRateVal},#{effectTime},#{createTime},#{createUser},#{formId})")
     void saveStandardForm(StandardForm standardForm);
 
     /**

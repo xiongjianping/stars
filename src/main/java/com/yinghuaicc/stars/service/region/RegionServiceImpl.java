@@ -1,6 +1,5 @@
 package com.yinghuaicc.stars.service.region;
 
-import com.yinghuaicc.stars.common.config.base.BaseConfig;
 import com.yinghuaicc.stars.common.utils.exception.ExceptionUtil;
 import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
@@ -10,7 +9,6 @@ import com.yinghuaicc.stars.repository.mapper.tissue.TissueMapper;
 import com.yinghuaicc.stars.repository.model.region.*;
 import com.yinghuaicc.stars.repository.model.tissue.Department;
 import com.yinghuaicc.stars.repository.model.tissue.Employee;
-import com.yinghuaicc.stars.repository.model.tissue.EmployeeProjectRelationTeam;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.request.TriangeConditionRequestDTO;
 import com.yinghuaicc.stars.service.cqrs.triangle.dto.response.TriangeConditionResponseDTO;
 import com.yinghuaicc.stars.service.region.dto.request.*;
@@ -188,9 +186,14 @@ public class RegionServiceImpl implements RegionService {
      *@Description: 按照区域查询项目
      */
     @Override
-    public List<FindProjectByAreaIdResponseDTO> findProjectByAreaId(String areaId) {
+    public List<FindProjectByAreaIdResponseDTO> findProjectByAreaId(ProjectRequestQxDTO p) {
+        System.out.println("---"+p.getProjectIds().size());
+        return MapperFactoryUtil.mapperList(regionMapper.findProjectByAreaId(p), FindProjectByAreaIdResponseDTO.class);
+    }
 
-        return MapperFactoryUtil.mapperList(regionMapper.findProjectByAreaId(areaId), FindProjectByAreaIdResponseDTO.class);
+    @Override
+    public List<FindProjectByAreaIdResponseDTO> findProjectByAreaIds(String p) {
+        return MapperFactoryUtil.mapperList(regionMapper.findProjectByAreaIds(p), FindProjectByAreaIdResponseDTO.class);
     }
 
     /**

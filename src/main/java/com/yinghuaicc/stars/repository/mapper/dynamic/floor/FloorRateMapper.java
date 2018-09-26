@@ -73,7 +73,7 @@ public interface FloorRateMapper {
      * 新增删除
      * @param FloorRate
      */
-    @Delete("delete from yhcc_floor_rate where project_id = #{projectId} and building_id = #{buildingId} and floor_id = #{floorId} and effect_time = #{effectTime}")
+    @Delete("delete from yhcc_floor_rate where project_id = #{projectId} and floor_id = #{floorId} and effect_time = #{effectTime}")
     void deleteFloorRateById(FloorRate FloorRate);
 
 

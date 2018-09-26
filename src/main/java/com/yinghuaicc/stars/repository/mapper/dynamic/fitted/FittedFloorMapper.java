@@ -70,7 +70,7 @@ public interface FittedFloorMapper {
      * 新增删除
      * @param fittedFloor
      */
-    @Delete("delete from yhcc_floor_fitted where project_id = #{projectId} and building_id = #{buildingId} and floor_id = #{floorId} and effect_time = #{effectTime}")
+    @Delete("delete from yhcc_floor_fitted where project_id = #{projectId} and floor_id = #{floorId} and effect_time = #{effectTime}")
     void deleteFittedFloorById(FittedFloor fittedFloor);
 
 

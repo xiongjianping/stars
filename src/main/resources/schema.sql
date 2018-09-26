@@ -173,6 +173,7 @@ CREATE TABLE IF NOT EXISTS `yhcc_project`(
   `modify_time` DATETIME,
   `create_user` VARCHAR (100),
   `modify_user` VARCHAR (100),
+  `create_date` VARCHAR (255),
   PRIMARY KEY (`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

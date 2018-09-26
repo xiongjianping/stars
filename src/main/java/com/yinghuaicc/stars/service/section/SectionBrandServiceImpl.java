@@ -46,6 +46,9 @@ public class SectionBrandServiceImpl implements SectionBrandService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveSectionBrand(SectionBrand sectionBrand) {
+        if(sectionBrand.getProjectId() == null){
+            throw exceptionUtil.throwCustomException("HELP_PROJEC_SAVE_001");
+        }
         sectionBrandMapper.deleteSaveSection(sectionBrand);
         sectionBrand.setId(UuidUtil.randomUUID());
         sectionBrand.setCreateTime(LocalDateTime.now());

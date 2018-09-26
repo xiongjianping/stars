@@ -31,20 +31,14 @@ public interface RegionCQRSMapper {
             "c.name as companyName, " +
             "p.create_time as createTime, " +
             "p.modify_time as modifyTime, " +
-            "e.name as projectHeadName, " +
 //            "er.name as projectAuditName, " +
             "p.state as state, " +
             "p.acreage as acreage " +
             "from yhcc_project as p " +
             "inner join yhcc_company as c on p.company_id = c.id " +
             "inner join yhcc_area as a on p.area_id = a.id " +
-            "inner join yhcc_employee as e on e.id = p.project_head_id " +
 //            "inner join yhcc_employee as er on er.id = p.project_audit_id " +
             "<where> " +
-            "p.id in " +
-            "<foreach item='item' collection='list' open='(' close=')' separator=','> " +
-            "#{item} " +
-            "</foreach> " +
             "<bind name='search.projectName' value=\"'%' + search.projectName + '%'\" /> " +
             "<bind name='search.employeeName' value=\"'%' + search.employeeName + '%'\" /> " +
             "<bind name='search.areaId' value='search.areaId' /> " +
@@ -69,6 +63,7 @@ public interface RegionCQRSMapper {
      */
     @Select("select " +
             "p.id as projectId, " +
+            "p.create_date as createDate," +
             "p.name as projectName, " +
             "a.name as areaName, " +
             "a.id as areaId, " +
@@ -86,11 +81,11 @@ public interface RegionCQRSMapper {
             "err.name as modifyUserName, " +
             "p.acreage as acreage " +
             "from yhcc_project as p " +
-            "inner join yhcc_company as c on p.company_id = c.id " +
-            "inner join yhcc_area as a on p.area_id = a.id " +
-            "inner join yhcc_employee as e on e.id = p.project_head_id " +
-            "inner join yhcc_employee as err on err.id = p.modify_user " +
-            "inner join yhcc_department as d on d.id = e.org_id " +
+            "left join yhcc_company as c on p.company_id = c.id " +
+            "left join yhcc_area as a on p.area_id = a.id " +
+            "left join yhcc_employee as e on e.id = p.project_head_id " +
+            "left join yhcc_employee as err on err.id = p.modify_user " +
+            "left join yhcc_department as d on d.id = e.org_id " +
             "where p.id = #{projectId}")
     ProjectCQRSInfoByIdResponseDTO findProjectByIdCQRS(String projectId);
 

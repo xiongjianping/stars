@@ -2,8 +2,6 @@ package com.yinghuaicc.stars.service.tissue;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.sun.org.apache.regexp.internal.RE;
-import com.yinghuaicc.stars.common.config.base.BaseConfig;
 import com.yinghuaicc.stars.common.utils.exception.ExceptionUtil;
 import com.yinghuaicc.stars.common.utils.mapper.MapperFactoryUtil;
 import com.yinghuaicc.stars.common.utils.uuid.UuidUtil;
@@ -13,10 +11,9 @@ import com.yinghuaicc.stars.config.page.ResultPageList;
 import com.yinghuaicc.stars.repository.mapper.region.RegionMapper;
 import com.yinghuaicc.stars.repository.mapper.tissue.TissueMapper;
 import com.yinghuaicc.stars.repository.mapper.token.TokenMapper;
-import com.yinghuaicc.stars.repository.model.tissue.Department;
-import com.yinghuaicc.stars.repository.model.tissue.Employee;
-import com.yinghuaicc.stars.repository.model.tissue.EmployeeProjectData;
-import com.yinghuaicc.stars.repository.model.tissue.EmployeeRoleRelation;
+import com.yinghuaicc.stars.repository.model.region.Project;
+import com.yinghuaicc.stars.repository.model.region.ProjectImage;
+import com.yinghuaicc.stars.repository.model.tissue.*;
 import com.yinghuaicc.stars.repository.model.token.Token;
 import com.yinghuaicc.stars.service.tissue.dto.request.*;
 import com.yinghuaicc.stars.service.tissue.dto.response.*;
@@ -51,6 +48,7 @@ public class TissueServiceImpl implements TissueService{
 
     @Autowired
     private RegionMapper regionMapper;
+
 
     /**
      *@Author:Fly Created in 2018/7/2 上午3:43
@@ -321,6 +319,23 @@ public class TissueServiceImpl implements TissueService{
         }
 
         tissueMapper.editEmployeeById(employee.setState(stateEmployeeRequestDTO.isState()));
+    }
+
+    @Override
+    public ProjectImge findProjectId(String id) {
+        Project p = regionMapper.findProjectById(id);
+        ProjectImge i = MapperFactoryUtil.mapperObject(p,ProjectImge.class);
+        List<ProjectImage>  img = regionMapper.findProjectImageByProjectId(id);
+        if(img.size() != 0){
+            i.setUrl(img);
+        }
+        i.setFloorNum(regionMapper.countFloorByProjectId(id));
+        return i;
+    }
+
+    @Override
+    public List<ContractNum> findPbNum() {
+        return regionMapper.findPbNum();
     }
 
     /**

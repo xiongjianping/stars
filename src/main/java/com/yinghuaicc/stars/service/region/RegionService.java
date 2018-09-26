@@ -46,7 +46,9 @@ public interface RegionService {
      *@Author:Fly Created in 2018/7/20 上午10:11
      *@Description: 按照区域查询项目
      */
-    List<FindProjectByAreaIdResponseDTO> findProjectByAreaId(String areaId);
+    List<FindProjectByAreaIdResponseDTO> findProjectByAreaId(ProjectRequestQxDTO p);
+
+    List<FindProjectByAreaIdResponseDTO> findProjectByAreaIds(String p);
 
     /**
      *@Description: 根据项目查询项目图片

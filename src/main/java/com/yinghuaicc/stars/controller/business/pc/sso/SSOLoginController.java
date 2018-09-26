@@ -29,4 +29,15 @@ public class SSOLoginController {
 
         return JsonResult.success(ssoService.ssoLogin(ssoRequestDTO));
     }
+
+
+    /**
+     *@Author:Fly Created in 2018/7/24 下午4:41
+     *@Description: 单点登录
+     */
+    @PostMapping(value = "/logins")
+    public JsonResult ssoLogins(@Validated @RequestBody SsoRequestDTO ssoRequestDTO){
+
+        return JsonResult.success(ssoService.ssoLogins(ssoRequestDTO));
+    }
 }

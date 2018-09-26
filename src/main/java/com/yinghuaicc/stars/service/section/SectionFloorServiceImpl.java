@@ -38,6 +38,9 @@ public class SectionFloorServiceImpl implements SectionFloorService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveSectionFloor(SectionFloor sectionFloor) {
+        if(sectionFloor.getProjectId() == null){
+            throw exceptionUtil.throwCustomException("HELP_PROJEC_SAVE_001");
+        }
         sectionFloorMapper.deleteSaveSection(sectionFloor);
         sectionFloor.setId(UuidUtil.randomUUID());
         sectionFloor.setCreateTime(LocalDateTime.now());

@@ -22,8 +22,8 @@ public interface StandardBrandMapper {
      * 新增
      * @param standardBrand
      */
-    @Insert("insert into yhcc_brand_standard(id,project_id,renting_rate_val,effect_time,create_time,create_user,building_id,floor_id,contract_id,form_id,species_id)" +
-            " values(#{id},#{projectId},#{rentingRateVal},#{effectTime},#{createTime},#{createUser},#{buildingId},#{floorId},#{contractId},#{formId},#{speciesId})")
+    @Insert("insert into yhcc_brand_standard(id,project_id,renting_rate_val,effect_time,create_time,create_user,form_id,species_id)" +
+            " values(#{id},#{projectId},#{rentingRateVal},#{effectTime},#{createTime},#{createUser},#{formId},#{speciesId})")
     void saveStandardBrand(StandardBrand standardBrand);
 
     /**
@@ -47,11 +47,8 @@ public interface StandardBrandMapper {
             " where " +
             " 1=1 " +
             " <if test='projectId != null and projectId != \"\"'> AND a.project_id = #{projectId} </if> " +
-            " <if test='buildingId != null and buildingId != \"\"'> AND a.building_id = #{buildingId} </if>" +
-            " <if test='floorId != null and floorId != \"\"'> AND a.floor_id = #{floorId} </if> " +
             " <if test='formId != null and formId != \"\"'> AND a.form_id = #{formId} </if> " +
             " <if test='speciesId != null and speciesId != \"\"'> AND a.species_id = #{speciesId} </if>" +
-            " <if test='contractId != null and contractId != \"\"'> AND a.contract_id = #{contractId} </if> " +
             " <if test='effectTime != null and effectTime != \"\"'> AND a.effect_time = #{effectTime} </if>" +
             " group by a.id " +
             "</script>")
@@ -97,14 +94,14 @@ public interface StandardBrandMapper {
      * @return
      */
     @Select(" select a.renting_rate_val from yhcc_brand_standard a where " +
-            " a.project_id = #{projectId}  and a.floor_id = #{floorId} " +
+            " a.project_id = #{projectId}  " +
             "  and a.species_id = #{speciesId} " +
             " and a.effect_time <= #{modifyTime} " +
             " ORDER BY a.effect_time desc limit 0,1 ")
     String getStandardBrandId(StandardBrandSy standardBrand);
 
     @Select(" select a.renting_rate_val from yhcc_brand_standard a where " +
-            " a.project_id = #{projectId}  and a.floor_id = #{floorId} " +
+            " a.project_id = #{projectId} " +
             "  and a.species_id = #{speciesId} " +
             " and a.effect_time >= #{modifyTime} " +
             " ORDER BY a.effect_time limit 0,1 ")

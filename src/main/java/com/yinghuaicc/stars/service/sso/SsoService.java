@@ -19,6 +19,12 @@ public interface SsoService {
     EmployeeLoginTokenResponseDTO ssoLogin(SsoRequestDTO ssoRequestDTO);
 
     /**
+     *@Author:Fly Created in 2018/7/24 下午4:52
+     *@Description: 单点登录
+     */
+    EmployeeLoginTokenResponseDTO ssoLogins(SsoRequestDTO ssoRequestDTO);
+
+    /**
      *@Author:Fly Created in 2018/7/25 下午5:00
      *@Description: 移动端单点登录
      */

@@ -49,6 +49,58 @@ public class SsoServiceImpl implements SsoService{
     @Transactional(rollbackFor = Exception.class)
     @Override
     public EmployeeLoginTokenResponseDTO ssoLogin(SsoRequestDTO ssoRequestDTO) {
+        System.out.println("-----"+ssoRequestDTO.getUserName());
+        List<Employee> employees =
+                tissueMapper.findEmployeeByUserName(
+                        endecryptUtil.get3DESDecrypt(ssoRequestDTO.getUserName(),systemResource.getSsoPrivateKey()));
+
+
+        if (Objects.isNull(employees)||employees.size()==0){
+            employees =
+                    tissueMapper.findEmployeeByUserName(ssoRequestDTO.getUserName());
+            if (Objects.isNull(employees)||employees.size()==0){
+                throw exceptionUtil.throwCustomException("SSO_LOGIN_002");
+            }
+        }
+
+        Employee employee = employees.get(0);
+
+//        List<Token> tokens =
+//                tokenMapper.findTokenByEmployeeId(employee.getId());
+
+//        Token token = null;
+//
+//        //修改用户的token信息
+//        if (Objects.nonNull(tokens)&&tokens.size()>0){
+//
+//            token = tokens.get(0);
+//
+//            List<String> uuids = UuidUtil.batchRandomUUID(2);
+//
+//            token.setAccessToken(uuids.get(0))
+//                    .setRefreshToken(uuids.get(1))
+//                    .setEmployeeId(employee.getId())
+//                    .setCreateUser(employee.getId())
+//                    .setModifyUser(employee.getId())
+//                    .setCreateTime(LocalDateTime.now())
+//                    .setModifyTime(LocalDateTime.now());
+//        }
+
+        return new EmployeeLoginTokenResponseDTO()
+                .setAccessToken(endecryptUtil.get3DESEncrypt(employee.getUserName(),systemResource.getSsoPrivateKey()))
+//                .setRefreshToken(token.getRefreshToken())
+                .setEmployeeLoginInfoResponseDTO(
+                        MapperFactoryUtil.mapperObject(employee, EmployeeLoginInfoResponseDTO.class));
+    }
+
+    /**
+     * 界面登陆
+     * @param ssoRequestDTO
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public EmployeeLoginTokenResponseDTO ssoLogins(SsoRequestDTO ssoRequestDTO) {
 
       /*  List<Employee> employees =
                 tissueMapper.findEmployeeByUserName(
@@ -99,6 +151,10 @@ public class SsoServiceImpl implements SsoService{
     @Transactional(rollbackFor = Exception.class)
     @Override
     public EmployeeLoginTokenResponseDTO appSsoLogin(AppSsoRequestDTO appSsoRequestDTO) {
+
+        if(appSsoRequestDTO.getThirdUserName() == null){
+            appSsoRequestDTO.setThirdUserName("tCgvUkkOjdqFT0hNqOZIUTEbd83BmMLF");
+        }
 
         List<Employee> employees =
                 tissueMapper.findEmployeeByUserName(

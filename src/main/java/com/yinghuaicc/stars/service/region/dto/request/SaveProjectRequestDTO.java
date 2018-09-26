@@ -32,7 +32,7 @@ public class SaveProjectRequestDTO {
     private boolean state;
 
     //项目负责人id
-    @NotEmpty(message = "REGION_SAVE_PROJECT_004")
+   // @NotEmpty(message = "REGION_SAVE_PROJECT_004")
     private String projectHeadId;
 
     //面积
@@ -41,6 +41,18 @@ public class SaveProjectRequestDTO {
 
     //项目图片
     private List<String> projectImages = new ArrayList<>();
+
+    //开业时间
+    @NotEmpty(message = "REGION_SAVE_PROJECT_009")
+    private String createDate;
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
 
     public String getName() {
         return name;

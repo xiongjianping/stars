@@ -38,6 +38,9 @@ public class RegionController {
     @Autowired
     private TissueService tissueService;
 
+    @Autowired
+    AopResourceEmployeeBean aopResourceEmployeeBean;
+
     /**
      *@Author:Fly Created in 2018/7/3 下午8:13
      *@Description: 查询项目列表
@@ -105,8 +108,10 @@ public class RegionController {
      */
     @GetMapping(value = "/find/project/by/area/{areaId}")
     public JsonResult findProjectByAreaId(@PathVariable String areaId){
-
-        return JsonResult.success(regionService.findProjectByAreaId(areaId));
+        ProjectRequestQxDTO p = new ProjectRequestQxDTO();
+        p.setAreaId(areaId);
+        p.setProjectIds(aopResourceEmployeeBean.getProjectIds());
+        return JsonResult.success(regionService.findProjectByAreaId(p));
     }
 
     /**
@@ -351,5 +356,27 @@ public class RegionController {
     public JsonResult findDepartmentByParentId(@PathVariable String parentId){
 
         return JsonResult.success(tissueService.findDepartmentByParentId(parentId));
+    }
+
+
+    /**
+     *@Author:Fly Created in 2018/7/28 下午1:12
+     *@Description: 项目详情
+     */
+    @GetMapping(value = "/sy/project/{id}")
+    public JsonResult findProjectId(@PathVariable String id){
+
+        return JsonResult.success(tissueService.findProjectId(id));
+    }
+
+
+    /**
+     *@Author:Fly Created in 2018/7/28 下午1:12
+     *@Description: 全国品牌签约数量
+     */
+    @GetMapping(value = "/sy/pb/num")
+    public JsonResult findPbNum(){
+
+        return JsonResult.success(tissueService.findPbNum());
     }
 }

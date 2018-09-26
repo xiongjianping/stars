@@ -32,7 +32,7 @@ public interface SectionFloorMapper {
      * 新增删除
      * @param sectionFloor
      */
-    @Delete("delete from yhcc_section_floor where project_id = #{projectId} and building_id = #{buildingId} and floor_id = #{floorId}")
+    @Delete("delete from yhcc_section_floor where project_id = #{projectId} and floor_id = #{floorId}")
     void deleteSaveSection(SectionFloor sectionFloor);
 
     /**

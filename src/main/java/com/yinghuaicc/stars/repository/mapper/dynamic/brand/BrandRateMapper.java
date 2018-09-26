@@ -115,8 +115,8 @@ public interface BrandRateMapper {
      */
     @Select(" select (sum(c.acreage)/count(b.id))   from yhcc_brand_rate a LEFT JOIN yhcc_contract b on b.contract_id = a.contract_id  LEFT JOIN yhcc_room c on c.id = b.room_id " +
             " where a.project_id = #{projectId} and a.form_id = #{formId} " +
-            "and b.effect_time <= #{createTime} and b.invalid_time >= #{createTime} GROUP BY b.contract_id  ")
-    List<String> getFormAcreageByIda(BrandRateSy brandRate);
+            "and b.effect_time <= #{createTime} and b.invalid_time >= #{createTime}   ")
+    String getFormAcreageByIda(BrandRateSy brandRate);
 
     /**
      * 查看业态面积
@@ -125,8 +125,8 @@ public interface BrandRateMapper {
      */
     @Select(" select (sum(c.acreage)/count(b.id))   from yhcc_brand_rate a LEFT JOIN yhcc_contract b on b.contract_id = a.contract_id  LEFT JOIN yhcc_room c on c.id = b.room_id " +
             " where a.project_id = #{projectId} and a.form_id = #{formId} " +
-            "and b.effect_time <= #{createTime} and b.effect_time >= #{modifyTime} GROUP BY b.contract_id  ")
-    List<String> getFormAcreageByIdb(BrandRateSy brandRate);
+            "and b.effect_time <= #{createTime} and b.effect_time >= #{modifyTime}  ")
+    String getFormAcreageByIdb(BrandRateSy brandRate);
 
     /**
      * 业态下品牌所有销售额
