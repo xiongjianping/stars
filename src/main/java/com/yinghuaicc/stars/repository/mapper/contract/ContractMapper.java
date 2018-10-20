@@ -36,7 +36,7 @@ public interface ContractMapper {
      *@Author:Fly Created in 2018/7/16 下午1:58
      *@Description: 查询铺位是否已经签约
      */
-    @Select("select count(*) from yhcc_contract where room_id = #{roomId}")
+    @Select("select count(*) from yhcc_contract where room_id = #{roomId} and status = true ")
     Integer countContractByRoomId(String roomId);
 
     /**
@@ -94,5 +94,18 @@ public interface ContractMapper {
 
     @Select("select count(*) from yhcc_contract where contract_id = #{contractId} and left(effect_time,7)  <= left(#{effectTime},7) and left((case when invalid_time is null then '9999-12-12' else invalid_time end),7)  >=  left(#{effectTime},7) ")
     Integer getContractByContractIdAndDates(@Param("contractId") String contractId,@Param("effectTime") String effectTime);
+
+
+
+    /**
+     *@Author:Fly Created in 2018/7/16 下午4:24
+     *@Description: 签约详情
+     */
+    @Select("select b.name from yhcc_contract a left join yhcc_brand b on b.id = a.brand_id where a.contract_id = #{id} limit 0,1 ")
+    String findBradeName(String id);
+
+
+    @Select("select contract_id from yhcc_contract where project_id = #{projectId} and effect_time  <= #{effectTime} and (case when invalid_time is null then '9999-12-12' else invalid_time end)  >=  #{effectTime} ")
+    List<String> getContractBycontractId(@Param("projectId") String projectId,@Param("effectTime") String effectTime);
 
 }

@@ -43,14 +43,18 @@ public interface BrandRateMapper {
             " LEFT JOIN yhcc_brand f on f.id = e.brand_id" +
             " LEFT JOIN yhcc_business_form g on g.id = a.form_id" +
             " LEFT JOIN yhcc_business_species h on h.id = a.species_id" +
+            " LEFT JOIN yhcc_room j on j.id = e.room_id" +
             " where " +
             " 1=1 " +
+
             " <if test='projectId != null and projectId != \"\" '> AND a.project_id = #{projectId} </if> " +
             " <if test='floorId != null and floorId != \"\"'> AND a.floor_id = #{floorId} </if> " +
             " <if test='formId != null and formId != \"\"'> AND a.form_id = #{formId} </if> " +
             " <if test='speciesId != null and speciesId != \"\"'> AND a.species_id = #{speciesId} </if>" +
             " <if test='contractId != null and contractId != \"\"'> AND a.contract_id = #{contractId} </if> " +
             " <if test='effectTime != null and effectTime != \"\"'> AND a.effect_time = #{effectTime} </if>" +
+            " <if test='brandName != null and brandName != \"\"'> AND f.name like CONCAT('%','${brandName}','%') OR j.name like CONCAT('%','${brandName}','%') </if>" +
+
             " group by a.id " +
             "</script>")
     List<BrandRateListResponse> getBrandRateList(BrandRate brandRate);

@@ -20,4 +20,6 @@ public interface SectionFormService {
     ResultPageList<SectionBrandResponse> getSectionFormList(SectionBrandRequest sectionBrandRequest, PageParam pageParam);
 
     SectionForm getSectionFormListById(SectionBrandSyRequest sectionBrandRequest);
+
+    String getWtSectionFormListById(SectionBrandSyRequest sectionBrandRequest);
 }

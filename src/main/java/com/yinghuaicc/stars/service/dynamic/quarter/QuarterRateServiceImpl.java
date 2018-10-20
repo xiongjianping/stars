@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -185,6 +186,16 @@ public class QuarterRateServiceImpl implements QuarterRateService {
         return new BigDecimal(val(quarterRate)).setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
+    @Override
+    public List<String> getWtBrandQuarterRate(QuarterRateSy quarterRate) {
+        List<String> list = new ArrayList<>();
+        String val = valWt(quarterRate); //获取品牌适配值
+        if(val == null || val == ""){
+            list.add("缺失：品牌适配值");
+        }
+        return list;
+    }
+
 
     private String val(QuarterRateSy quarterRate){
         String val = quarterRateMapper.getQuarterContractId(quarterRate);
@@ -204,7 +215,22 @@ public class QuarterRateServiceImpl implements QuarterRateService {
         }
         return val;
     }
+    private String valWt(QuarterRateSy quarterRate){
+        String val = quarterRateMapper.getQuarterContractId(quarterRate);
+        if(val != null){
+            return val;
+        }
+        val = quarterRateMapper.getBigQuarterContractId(quarterRate);
+        if(val != null){
+            return val;
+        }
+        val = quarterRateMapper.getSmalQuarterContractId(quarterRate);
+        if(val != null){
+            return val;
+        }
 
+        return val;
+    }
 
 
     /**
@@ -239,7 +265,7 @@ public class QuarterRateServiceImpl implements QuarterRateService {
             String val = val(quarterRate); //获取品牌适配值
             //获取到品牌适配值
             BigDecimal ppmj = new BigDecimal(p.getAcreage()); //品牌面积
-            BigDecimal ppxm = ppmj.divide(xmmj,2,BigDecimal.ROUND_UP); //品牌面积 / 项目面积
+            BigDecimal ppxm = ppmj.divide(xmmj,6,BigDecimal.ROUND_UP); //品牌面积 / 项目面积
 
             BigDecimal ppspz = new BigDecimal(val); //适配值
             BigDecimal spz = ppspz.multiply(ppxm); // 适配值 * （品牌面积 / 项目面积）
@@ -254,7 +280,7 @@ public class QuarterRateServiceImpl implements QuarterRateService {
             String val = val(quarterRate); //获取品牌适配值
             //获取到品牌适配值
             BigDecimal ppmj = new BigDecimal(p.getAcreage()); //品牌面积
-            BigDecimal ppxm = ppmj.divide(xmmj,2,BigDecimal.ROUND_UP); //品牌面积 / 项目面积
+            BigDecimal ppxm = ppmj.divide(xmmj,6,BigDecimal.ROUND_UP); //品牌面积 / 项目面积
 
             BigDecimal ppspz = new BigDecimal(val); //适配值
             BigDecimal spz = ppspz.multiply(ppxm); // 适配值 * （品牌面积 / 项目面积）
@@ -262,6 +288,38 @@ public class QuarterRateServiceImpl implements QuarterRateService {
         }
 
         return zspz.setScale(2,BigDecimal.ROUND_HALF_UP);
+    }
+
+    @Override
+    public List<String> getWtProjectQuarterRate(QuarterRateSy quarterRate) {
+        List<String> list = new ArrayList<>();
+        List<ProjectQuarterRateResponse> mj = projectRateMapper.getFloorQuarterRate(MapperFactoryUtil.mapperObject(quarterRate, QuarterRateSy.class));
+        List<ProjectQuarterRateResponse> mjs = projectRateMapper.getFloorQuarterRates(MapperFactoryUtil.mapperObject(quarterRate, QuarterRateSy.class));
+
+        for (ProjectQuarterRateResponse  p :mj ) {
+            if(p.getId() != null){
+                quarterRate.setContractId(p.getId());
+                String val = valWt(quarterRate); //获取品牌适配值
+
+                if(val == null || val == ""){
+                    list.add("缺失："+contractMapper.findBradeName(p.getId())+"，品牌适配值");
+                }
+            }
+
+        }
+
+        for (ProjectQuarterRateResponse  p :mjs ) {
+            if(p.getId() != null){
+                quarterRate.setContractId(p.getId());
+                String val = valWt(quarterRate); //获取品牌适配值
+                if(val == null || val == ""){
+                    list.add("缺失："+contractMapper.findBradeName(p.getId())+"，品牌适配值");
+                }
+            }
+
+        }
+
+        return list;
     }
 
     /**
@@ -311,7 +369,7 @@ public class QuarterRateServiceImpl implements QuarterRateService {
             String val = val(quarterRate); //获取品牌适配值
             //获取到品牌适配值
             BigDecimal ppmj = new BigDecimal(p.getAcreage()); //品牌面积
-            BigDecimal ppyt = ppmj.divide(ytmj,2,BigDecimal.ROUND_UP); //品牌面积 / 品牌面积
+            BigDecimal ppyt = ppmj.divide(ytmj,6,BigDecimal.ROUND_UP); //品牌面积 / 品牌面积
 
             BigDecimal ppspz = new BigDecimal(val); //适配值
             BigDecimal spz = ppspz.multiply(ppyt); // 适配值 * （品牌面积 / 品牌面积）
@@ -323,7 +381,7 @@ public class QuarterRateServiceImpl implements QuarterRateService {
             String val = val(quarterRate); //获取品牌适配值
             //获取到品牌适配值
             BigDecimal ppmj = new BigDecimal(p.getAcreage()); //品牌面积
-            BigDecimal ppyt = ppmj.divide(ytmj,2,BigDecimal.ROUND_UP); //品牌面积 / 品牌面积
+            BigDecimal ppyt = ppmj.divide(ytmj,6,BigDecimal.ROUND_UP); //品牌面积 / 品牌面积
 
             BigDecimal ppspz = new BigDecimal(val); //适配值
             BigDecimal spz = ppspz.multiply(ppyt); // 适配值 * （品牌面积 / 品牌面积）
@@ -331,6 +389,45 @@ public class QuarterRateServiceImpl implements QuarterRateService {
         }
 
         return zspz.setScale(2,BigDecimal.ROUND_HALF_UP);
+    }
+
+    @Override
+    public List<String> getWtFormQuarterRate(QuarterRateSy quarterRate) {
+
+        List<String> list = new ArrayList<>();
+
+        List<ProjectQuarterRateResponse> mj = quarterRateMapper.getFormQuarterRate(quarterRate); //业态面积
+        List<ProjectQuarterRateResponse> mjs = quarterRateMapper.getFormQuarterRates(quarterRate); //业态面积
+
+
+        BigDecimal ytmj = new BigDecimal("0");//业态面积
+        for(ProjectQuarterRateResponse a : mj){
+            ytmj = ytmj.add(new BigDecimal(a.getAcreage()));
+        }
+        for(ProjectQuarterRateResponse a : mjs){
+            ytmj = ytmj.add(new BigDecimal(a.getAcreage()));
+        }
+
+        if(ytmj.intValue() == 0){
+            list.add("缺失：业态下无品牌铺位面积");
+        }
+        for(ProjectQuarterRateResponse p : mj){
+            quarterRate.setContractId(p.getId());
+            String val = valWt(quarterRate); //获取品牌适配值
+            if(val == null || val == ""){
+                list.add("缺失:"+contractMapper.findBradeName(p.getId())+"，品牌适配值");
+            }
+        }
+
+        for(ProjectQuarterRateResponse p : mjs){
+            quarterRate.setContractId(p.getId());
+            String val = valWt(quarterRate); //获取品牌适配值
+            if(val == null || val == ""){
+                list.add("缺失:"+contractMapper.findBradeName(p.getId())+"，品牌适配值");
+            }
+        }
+
+        return list;
     }
 
     /**
@@ -386,7 +483,7 @@ public class QuarterRateServiceImpl implements QuarterRateService {
             String val = val(quarterRate); //获取品牌适配值
             //获取到品牌适配值
             BigDecimal ppmj = new BigDecimal(p.getAcreage()); //品牌面积
-            BigDecimal pplc = ppmj.divide(lcmj,2,BigDecimal.ROUND_UP); //品牌面积 / 楼层面积
+            BigDecimal pplc = ppmj.divide(lcmj,6,BigDecimal.ROUND_UP); //品牌面积 / 楼层面积
 
             BigDecimal ppspz = new BigDecimal(val); //适配值
             BigDecimal spz = ppspz.multiply(pplc); // 适配值 * （品牌面积 / 楼层面积）
@@ -398,7 +495,7 @@ public class QuarterRateServiceImpl implements QuarterRateService {
             String val = val(quarterRate); //获取品牌适配值
             //获取到品牌适配值
             BigDecimal ppmj = new BigDecimal(p.getAcreage()); //品牌面积
-            BigDecimal pplc = ppmj.divide(lcmj,2,BigDecimal.ROUND_UP); //品牌面积 / 楼层面积
+            BigDecimal pplc = ppmj.divide(lcmj,6,BigDecimal.ROUND_UP); //品牌面积 / 楼层面积
 
             BigDecimal ppspz = new BigDecimal(val); //适配值
             BigDecimal spz = ppspz.multiply(pplc); // 适配值 * （品牌面积 / 楼层面积）
@@ -406,6 +503,33 @@ public class QuarterRateServiceImpl implements QuarterRateService {
         }
 
         return zspz.setScale(2,BigDecimal.ROUND_HALF_UP);
+    }
+
+    @Override
+    public List<String> getWtFloorQuarterRate(QuarterRateSy quarterRate) {
+        List<String> list = new ArrayList<>();
+
+        List<ProjectQuarterRateResponse> projectQuarterRateResponses = quarterRateMapper.getFloorQuarterRate(quarterRate); //楼层铺位面积
+        List<ProjectQuarterRateResponse> projectQuarterRateResponsess = quarterRateMapper.getFloorQuarterRates(quarterRate); //楼层铺位面积
+
+
+        for(ProjectQuarterRateResponse p : projectQuarterRateResponses){
+            quarterRate.setContractId(p.getId());
+            String val = valWt(quarterRate); //获取品牌适配值
+            if(val == null || val == ""){
+                list.add("缺失:"+contractMapper.findBradeName(p.getId())+"，品牌适配值");
+            }
+        }
+
+        for(ProjectQuarterRateResponse p : projectQuarterRateResponsess){
+            quarterRate.setContractId(p.getId());
+            String val = valWt(quarterRate); //获取品牌适配值
+            if(val == null || val == ""){
+                list.add("缺失:"+contractMapper.findBradeName(p.getId())+"，品牌适配值");
+            }
+        }
+
+        return list;
     }
 
 

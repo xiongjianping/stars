@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -119,5 +120,18 @@ public class StandardFormServiceImpl implements StandardFormService {
         }
         BigDecimal v = new BigDecimal(val).setScale(2,BigDecimal.ROUND_HALF_UP);
         return v;
+    }
+
+    @Override
+    public List<String> getSyWtFormCount(StandardFormSy standardForm) {
+        List<String> list = new ArrayList<>();
+        String val = standardFormMapper.getStandardFormId(standardForm);
+        if(val == null){
+            val = standardFormMapper.getStandardFormIds(standardForm);
+            if(val == null){
+                list.add("缺失：标准三角形业态溢租率信息");
+            }
+        }
+        return list;
     }
 }

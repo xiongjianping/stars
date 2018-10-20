@@ -139,4 +139,11 @@ public interface BaseMapper {
      */
     @Select("select * from yhcc_business_species where business_form_id = #{businessFormId}")
     List<BusinessSpecies> findBusinessSpeciesByBusinessFormId(String businessFormId);
+
+    /**
+     *@Author:Fly Created in 2018/7/27 下午5:57
+     *@Description: 根据业态id查询业种
+     */
+    @Select("select * from yhcc_business_species ")
+    List<BusinessSpecies> findBusinessSpeciesByBusinessForm();
 }

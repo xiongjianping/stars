@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -175,6 +176,92 @@ public class RentingRateServiceImpl implements RentingRateService {
         return yzl.setScale(2,BigDecimal.ROUND_UP);*/
     }
 
+    @Override
+    public List<String> getSyWtProjectRentingRateCount(StandardGuestSy standardGuest) {
+        return getContWt(standardGuest);
+    }
+
+    private List<String> getContWt(StandardGuestSy standardGuest){
+        List<String> listerro = new ArrayList<>();
+        //获取所有品牌签约ID
+        List<Contract>  contractProject = rentingRateMapper.getProject(standardGuest);
+        if(contractProject.size() == 0){
+            listerro.add("缺失：对象条件下，无签约信息");
+        }
+
+        List<String> list = rentingRateMapper.getSyDate(standardGuest);
+        for(Contract p : contractProject){
+            standardGuest.setContractId(p.getContractId());
+            List<Contract> getContract = rentingRateMapper.getContract(standardGuest);
+            for(Contract a : getContract){
+                for(String b : list){
+
+                    standardGuest.setCreateUser(b);
+                    RentingRate r = rentingRateMapper.getR(standardGuest);
+                    if(r == null) {
+                        listerro.add("缺失：固定成本数据，品牌名称："+contractMapper.findBradeName(p.getContractId())+"，缺失时间："+b);
+                    }
+                    standardGuest.setModifyUser(b);
+                    List<String> day = rentingRateMapper.getSyDateDay(standardGuest);
+
+                    StandardGuest bz = standardGuestMapper.getStandardBrandGuestListByFloor(standardGuest);
+                    if(bz == null) {
+                        bz = standardGuestMapper.getStandardBrandGuestListByFloors(standardGuest);
+                        if(bz == null){
+                            listerro.add("缺失：标准三角形客销度数据，品牌名称："+contractMapper.findBradeName(p.getContractId()));
+                        }
+
+                    }
+                    //动态
+                    BrandRate brandRate = new BrandRate();
+                    brandRate.setProjectId(standardGuest.getProjectId());
+                    brandRate.setContractId(standardGuest.getContractId());
+                    brandRate.setModifyTime(LocalDateTimeUtils.StringDate(day.get(day.size()-1)));
+                    brandRate.setCreateTime(LocalDateTimeUtils.StringDate(day.get(0)));
+                    String xssr = rentingRateMapper.getBrandById(brandRate);
+                    if(xssr == null){
+                        listerro.add("缺失：品牌销售额数据，品牌名称："+contractMapper.findBradeName(p.getContractId()));
+                    }
+
+                }
+            }
+
+            List<Contract> getContracts = rentingRateMapper.getContracts(standardGuest);
+            for(Contract a : getContracts){
+                for(String b : list){
+                    standardGuest.setCreateUser(b);
+                    RentingRate r = rentingRateMapper.getR(standardGuest);
+                    if(r == null) {
+                        listerro.add("缺失：固定成本数据，品牌名称："+contractMapper.findBradeName(p.getContractId())+"，缺失时间："+b);
+                    }
+                    standardGuest.setModifyUser(b);
+                    List<String> day = rentingRateMapper.getSyDateDay(standardGuest);
+
+                    StandardGuest bz = standardGuestMapper.getStandardBrandGuestListByFloor(standardGuest);
+                    if(bz == null) {
+                        bz = standardGuestMapper.getStandardBrandGuestListByFloors(standardGuest);
+                        if(bz == null){
+                            listerro.add("缺失：标准三角形客销度数据，品牌名称："+contractMapper.findBradeName(p.getContractId()));
+                        }
+
+                    }
+                    //动态
+                    BrandRate brandRate = new BrandRate();
+                    brandRate.setProjectId(standardGuest.getProjectId());
+                    brandRate.setContractId(standardGuest.getContractId());
+                    brandRate.setModifyTime(LocalDateTimeUtils.StringDate(day.get(day.size()-1)));
+                    brandRate.setCreateTime(LocalDateTimeUtils.StringDate(day.get(0)));
+                    String xssr = rentingRateMapper.getBrandById(brandRate);
+                    if(xssr == null){
+                        listerro.add("缺失：品牌销售额数据，品牌名称："+contractMapper.findBradeName(p.getContractId()));
+                    }
+                }
+            }
+        }
+
+        return listerro;
+    }
+
 
     /**
      * 首页楼层
@@ -226,6 +313,11 @@ public class RentingRateServiceImpl implements RentingRateService {
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");
         }
         return yzl.setScale(2,BigDecimal.ROUND_UP);*/
+    }
+
+    @Override
+    public List<String> getSyWtFloorRentingRateCount(StandardGuestSy standardGuest) {
+        return getContWt(standardGuest);
     }
 
 
@@ -281,6 +373,11 @@ public class RentingRateServiceImpl implements RentingRateService {
         return yzl.setScale(2,BigDecimal.ROUND_UP);*/
     }
 
+    @Override
+    public List<String> getSyWtFromRentingRateCount(StandardGuestSy standardGuest) {
+        return getContWt(standardGuest);
+    }
+
 
     private BigDecimal getCont(StandardGuestSy standardGuest){
         BigDecimal yzl =  new BigDecimal("0");
@@ -310,13 +407,13 @@ public class RentingRateServiceImpl implements RentingRateService {
                     }
                     standardGuest.setModifyUser(b);
                     List<String> day = rentingRateMapper.getSyDateDay(standardGuest);
-                    BigDecimal rent = new BigDecimal(r.getRent()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size())); //租金
-                    BigDecimal propertyfee = new BigDecimal(r.getPropertyfee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size()));; //物业费
+                    BigDecimal rent = new BigDecimal(r.getRent() == null ? "0" : r.getRent()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size())); //租金
+                    BigDecimal propertyfee = new BigDecimal(r.getPropertyfee() == null ? "0" : r.getPropertyfee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size())); //物业费
                     BigDecimal fm = rent.add(propertyfee); //分母
 
-                    BigDecimal depreciation = new BigDecimal(r.getDepreciation()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size()));;//装修折旧费
-                    BigDecimal agencyFee = new BigDecimal(r.getAgencyFee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size()));;//代理费\
-                    BigDecimal laborCost = new BigDecimal(r.getLaborCost()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size()));;//人工成本
+                    BigDecimal depreciation = new BigDecimal(r.getDepreciation() == null ? "0" : r.getDepreciation()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size()));//装修折旧费
+                    BigDecimal agencyFee = new BigDecimal(r.getAgencyFee() == null ? "0" : r.getAgencyFee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size()));//代理费\
+                    BigDecimal laborCost = new BigDecimal(r.getLaborCost() == null ? "0" : r.getLaborCost()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size()));//人工成本
                     BigDecimal gdcb = rent.add(propertyfee).add(depreciation).add(agencyFee).add(laborCost); //固定成品
                     //净利润=销售收入（动态客销度）*毛利率(标准客销度)-固定成本
 
@@ -328,7 +425,10 @@ public class RentingRateServiceImpl implements RentingRateService {
                         }
 
                     }
-                    BigDecimal interestval = new BigDecimal(bz.getInterestVal());//毛利率
+                    if(bz == null){
+                        throw exceptionUtil.throwCustomException("RENTING_RATE_013");
+                    }
+                    BigDecimal interestval = new BigDecimal(bz.getInterestVal() == null ? "0" : bz.getInterestVal());//毛利率
                     //动态
                     BrandRate brandRate = new BrandRate();
                     brandRate.setProjectId(standardGuest.getProjectId());
@@ -358,13 +458,13 @@ public class RentingRateServiceImpl implements RentingRateService {
                     }
                     standardGuest.setModifyUser(b);
                     List<String> day = rentingRateMapper.getSyDateDay(standardGuest);
-                    BigDecimal rent = new BigDecimal(r.getRent()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size())); //租金
-                    BigDecimal propertyfee = new BigDecimal(r.getPropertyfee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size()));; //物业费
+                    BigDecimal rent = new BigDecimal(r.getRent() == null ? "0" : r.getRent()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size())); //租金
+                    BigDecimal propertyfee = new BigDecimal(r.getPropertyfee() == null ? "0" : r.getPropertyfee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size()));; //物业费
                     BigDecimal fm = rent.add(propertyfee); //分母
 
-                    BigDecimal depreciation = new BigDecimal(r.getDepreciation()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size()));;//装修折旧费
-                    BigDecimal agencyFee = new BigDecimal(r.getAgencyFee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size()));;//代理费\
-                    BigDecimal laborCost = new BigDecimal(r.getLaborCost()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size()));;//人工成本
+                    BigDecimal depreciation = new BigDecimal(r.getDepreciation() == null ? "0" : r.getDepreciation()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size()));;//装修折旧费
+                    BigDecimal agencyFee = new BigDecimal(r.getAgencyFee() == null ? "0" : r.getAgencyFee()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size()));;//代理费\
+                    BigDecimal laborCost = new BigDecimal(r.getLaborCost() == null ? "0" : r.getLaborCost()).divide(new BigDecimal("30"),2,BigDecimal.ROUND_UP).multiply(new BigDecimal(day.size()));;//人工成本
                     BigDecimal gdcb = rent.add(propertyfee).add(depreciation).add(agencyFee).add(laborCost); //固定成品
                     //净利润=销售收入（动态客销度）*毛利率(标准客销度)-固定成本
 
@@ -450,6 +550,11 @@ public class RentingRateServiceImpl implements RentingRateService {
             throw exceptionUtil.throwCustomException("RENTING_RATE_011");
         }
         return yzl.setScale(2,BigDecimal.ROUND_UP);*/
+    }
+
+    @Override
+    public List<String> getSyWtBrandRentingRateCount(StandardGuestSy standardGuest) {
+        return  getContWt(standardGuest);
     }
 
 

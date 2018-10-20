@@ -98,19 +98,19 @@ public interface ProjectRateMapper {
     String getProjectacreageById(String id);
 
     @Select("" +
-            "  select a.contract_id as id,(sum(c.acreage)/count(b.id)) as acreage   from yhcc_brand_rate a left join yhcc_contract b on b.contract_id = a.contract_id LEFT JOIN yhcc_room c on c.id = b.room_id  " +
-            "  where a.project_id = #{projectId} " +
+            "  select b.contract_id as id,(sum(c.acreage)/count(b.id)) as acreage   from  yhcc_contract b  LEFT JOIN yhcc_room c on c.id = b.room_id  " +
+            "  where b.project_id = #{projectId} " +
             " and b.effect_time <= #{createTime} and b.invalid_time >= #{createTime}" +
-            "  GROUP BY a.contract_id  " +
+            "  GROUP BY b.contract_id  " +
             "")
     List<ProjectQuarterRateResponse> getFloorQuarterRate(QuarterRateSy quarterRate);
 
 
     @Select("" +
-            "  select a.contract_id as id,(sum(c.acreage)/count(b.id)) as acreage  from yhcc_brand_rate a left join yhcc_contract b on b.contract_id = a.contract_id LEFT JOIN yhcc_room c on c.id = b.room_id  " +
-            "  where a.project_id = #{projectId}  " +
+            "  select b.contract_id as id,(sum(c.acreage)/count(b.id)) as acreage  from yhcc_contract b  LEFT JOIN yhcc_room c on c.id = b.room_id  " +
+            "  where b.project_id = #{projectId}  " +
             " and b.effect_time <= #{createTime} and b.effect_time >= #{modifyTime}" +
-            "  GROUP BY a.contract_id  " +
+            "  GROUP BY b.contract_id  " +
             "")
     List<ProjectQuarterRateResponse> getFloorQuarterRates(QuarterRateSy quarterRate);
 

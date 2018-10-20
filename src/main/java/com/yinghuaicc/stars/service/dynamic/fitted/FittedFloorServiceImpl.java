@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -118,5 +119,18 @@ public class FittedFloorServiceImpl implements FittedFloorService {
         }
         BigDecimal v = new BigDecimal(val).setScale(2,BigDecimal.ROUND_HALF_UP);
         return v;
+    }
+
+    @Override
+    public List<String> getWtFittedFloor(FittedFloorSy fittedFloor) {
+        List<String> list = new ArrayList<>();
+        String val = fittedFloorMapper.getFittedFloorId(fittedFloor);
+        if(val == null){
+            val = fittedFloorMapper.getFittedFloorIds(fittedFloor);
+            if(val == null){
+                list.add("楼层，未配置标准三角形，适配值");
+            }
+        }
+        return list;
     }
 }

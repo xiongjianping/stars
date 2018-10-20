@@ -20,6 +20,15 @@ public class BrandRate {
     private LocalDateTime modifyTime;
     private String createUser;
     private String modifyUser;
+    private String brandName; //品牌
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
 
     public String getFormId() {
         return formId;

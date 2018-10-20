@@ -89,4 +89,10 @@ public interface BaseService {
      *@Description: 业种下拉
      */
     List<FindBusinessSpeciesSelectResponseDTO> findBusinessSpeciesSelect(String businessFormId);
+
+    /**
+     *@Author:Fly Created in 2018/7/27 下午5:54
+     *@Description: 业种下拉
+     */
+    List<FindBusinessSpeciesSelectResponseDTO> findBusinessSpeciesSelectAll();
 }

@@ -7,6 +7,7 @@ import com.yinghuaicc.stars.repository.model.dynamic.brand.BrandRateSy;
 import com.yinghuaicc.stars.service.dynamic.brand.dto.response.BrandRateListResponse;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by 你看见过我吗？你想一想在回答。 on 2018/8/17.
@@ -25,5 +26,9 @@ public interface BrandRateService {
 
     public BigDecimal getSyBrandRateCount(BrandRateSy brandRate);
 
+    public List<String> getSyWtBrandRateCount(BrandRateSy brandRate);
+
     public BigDecimal getSyFormRateCount(BrandRateSy brandRate);
+
+    public List<String> getSyWtFormRateCount(BrandRateSy brandRate);
 }

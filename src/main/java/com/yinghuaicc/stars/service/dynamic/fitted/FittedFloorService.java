@@ -7,6 +7,7 @@ import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedFloorSy;
 import com.yinghuaicc.stars.service.dynamic.fitted.dto.response.FittedFloorListResponse;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by 你看见过我吗？你想一想在回答。 on 2018/8/20.
@@ -24,5 +25,7 @@ public interface FittedFloorService {
     void deleteFittedFloor(String id);
 
     BigDecimal getFittedFloor(FittedFloorSy fittedFloor);
+
+    List<String> getWtFittedFloor(FittedFloorSy fittedFloor);
 
 }

@@ -7,6 +7,7 @@ import com.yinghuaicc.stars.repository.model.dynamic.floor.FloorRateSy;
 import com.yinghuaicc.stars.service.dynamic.floor.dto.response.FloorRateListResponse;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by 你看见过我吗？你想一想在回答。 on 2018/8/17.
@@ -23,5 +24,7 @@ public interface FloorRateService {
 
     void deleteFloorRate(String id);
 
-    public BigDecimal getSyFloorRateCount(FloorRateSy FloorRate);
+    BigDecimal getSyFloorRateCount(FloorRateSy FloorRate);
+
+    List<String> getSyWtFloorRateCount(FloorRateSy FloorRate);
 }

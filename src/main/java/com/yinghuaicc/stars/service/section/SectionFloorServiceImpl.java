@@ -80,4 +80,14 @@ public class SectionFloorServiceImpl implements SectionFloorService {
         }
         return s;
     }
+
+    @Override
+    public String getWtSectionFloorListById(SectionBrandSyRequest sectionBrandRequest) {
+        String a = "";
+        SectionFloor s = sectionFloorMapper.getSectionFloorListById(sectionBrandRequest);
+        if(s == null){
+           a = "楼层未配置区间";
+        }
+        return a;
+    }
 }

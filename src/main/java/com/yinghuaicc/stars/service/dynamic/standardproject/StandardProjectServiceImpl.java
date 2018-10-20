@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -119,5 +120,18 @@ public class StandardProjectServiceImpl implements StandardProjectService {
         }
         BigDecimal v = new BigDecimal(val).setScale(2,BigDecimal.ROUND_HALF_UP);
         return v;
+    }
+
+    @Override
+    public List<String> getSyWtProjectCount(StandardProjectSy standardProject) {
+        List<String> list = new ArrayList<>();
+        String val = standardProjectMapper.getStandardProjectId(standardProject);
+        if(val == null){
+            val = standardProjectMapper.getStandardProjectIds(standardProject);
+            if(val == null){
+                list.add("该项目下，缺失标准三角形溢租率信息");
+            }
+        }
+        return list;
     }
 }

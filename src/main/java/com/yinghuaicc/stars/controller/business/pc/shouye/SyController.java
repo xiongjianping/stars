@@ -141,7 +141,7 @@ public class SyController {
         s.setStandardGuest(projecbzkxd);
         s.setTriangleGuest(projeckxd);
         s.setTriangleFitted(projecspz);
-
+        s.setTriangleRent(projecyzl.multiply(new BigDecimal("100")));
 
         SectionProject sp = sectionProjectService.getSectionProjectListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandSyRequest.class));
 
@@ -167,18 +167,18 @@ public class SyController {
         f.setProjectId(brandRate.getProjectId());
         f.setType(1);
 
-        if(projecyzl.floatValue() >=1 && projecyzl.floatValue()<=99){
-            s.setYzlState(4);
+        if(s.getTriangleRent().floatValue() >= new BigDecimal("0").floatValue() && s.getTriangleRent().floatValue()<=new BigDecimal("99").floatValue()){
             f.setState(4);
-        }else if(projecyzl.floatValue() >=100 && projecyzl.floatValue()<=199){
-            s.setYzlState(3);
+            s.setYzlState(4);
+        }else if(s.getTriangleRent().floatValue() >=new BigDecimal("100").floatValue() && s.getTriangleRent().floatValue()<=new BigDecimal("199").floatValue()){
             f.setState(3);
-        }else if(projecyzl.floatValue() >=200 && projecyzl.floatValue()<=299){
-            s.setYzlState(2);
+            s.setYzlState(3);
+        }else if(s.getTriangleRent().floatValue() >=new BigDecimal("200").floatValue() && s.getTriangleRent().floatValue()<=new BigDecimal("299").floatValue()){
             f.setState(2);
-        }else if(projecyzl.floatValue()>=300){
-            s.setYzlState(1);
+            s.setYzlState(2);
+        }else if(s.getTriangleRent().floatValue()>=new BigDecimal("300").floatValue()){
             f.setState(1);
+            s.setYzlState(1);
         }else{
             s.setYzlState(5);
             f.setState(5);
@@ -223,7 +223,7 @@ public class SyController {
             f.setState(5);
         }
         s.setSpz(helpCQRSService.getProjectList(f).size() == 0 ? null : helpCQRSService.getProjectList(f));
-        s.setTriangleRent(projecyzl.multiply(new BigDecimal("100")));
+
         return JsonResult.success(s);
     }
 
@@ -251,7 +251,7 @@ public class SyController {
         s.setStandardGuest(floorbzkxd);
         s.setTriangleGuest(floorkxd);
         s.setTriangleFitted(floorspz);
-
+        s.setTriangleRent(flooryzl.multiply(new BigDecimal("100")));
 
 
         SectionFloor sp = sectionFloorService.getSectionFloorListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandSyRequest.class));
@@ -274,16 +274,16 @@ public class SyController {
         f.setProjectId(brandRate.getProjectId());
         f.setFloorId(brandRate.getFloorId());
         f.setType(1);
-        if(flooryzl.floatValue() >=1 && flooryzl.floatValue()<=99){
+        if(s.getTriangleRent().floatValue() >= new BigDecimal("0").floatValue() && s.getTriangleRent().floatValue()<=new BigDecimal("99").floatValue()){
             f.setState(4);
             s.setYzlState(4);
-        }else if(flooryzl.floatValue() >=100 && flooryzl.floatValue()<=199){
+        }else if(s.getTriangleRent().floatValue() >=new BigDecimal("100").floatValue() && s.getTriangleRent().floatValue()<=new BigDecimal("199").floatValue()){
             f.setState(3);
             s.setYzlState(3);
-        }else if(flooryzl.floatValue() >=200 && flooryzl.floatValue()<=299){
+        }else if(s.getTriangleRent().floatValue() >=new BigDecimal("200").floatValue() && s.getTriangleRent().floatValue()<=new BigDecimal("299").floatValue()){
             f.setState(2);
             s.setYzlState(2);
-        }else if(flooryzl.floatValue()>=300){
+        }else if(s.getTriangleRent().floatValue()>=new BigDecimal("300").floatValue()){
             f.setState(1);
             s.setYzlState(1);
         }else{
@@ -329,7 +329,7 @@ public class SyController {
             s.setSpzState(5);
         }
         s.setSpz(helpCQRSService.getfloorList(f).size() == 0 ? null : helpCQRSService.getfloorList(f));
-        s.setTriangleRent(flooryzl.multiply(new BigDecimal("100")));
+
         return JsonResult.success(s);
     }
 
@@ -357,7 +357,7 @@ public class SyController {
         s.setStandardGuest(formbzkxd);
         s.setTriangleGuest(formkxd);
         s.setTriangleFitted(formspz);
-
+        s.setTriangleRent(formyzl.multiply(new BigDecimal("100")));
 
         SectionForm sp = sectionFormService.getSectionFormListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandSyRequest.class));
 
@@ -379,16 +379,16 @@ public class SyController {
         f.setProjectId(brandRate.getProjectId());
         f.setFormId(brandRate.getFormId());
         f.setType(1);
-        if(formyzl.floatValue() >=1 && formyzl.floatValue()<=99){
+        if(s.getTriangleRent().floatValue() >= new BigDecimal("0").floatValue() && s.getTriangleRent().floatValue()<=new BigDecimal("99").floatValue()){
             f.setState(4);
             s.setYzlState(4);
-        }else if(formyzl.floatValue() >=100 && formyzl.floatValue()<=199){
+        }else if(s.getTriangleRent().floatValue() >=new BigDecimal("100").floatValue() && s.getTriangleRent().floatValue()<=new BigDecimal("199").floatValue()){
             f.setState(3);
             s.setYzlState(3);
-        }else if(formyzl.floatValue() >=200 && formyzl.floatValue()<=299){
+        }else if(s.getTriangleRent().floatValue() >=new BigDecimal("200").floatValue() && s.getTriangleRent().floatValue()<=new BigDecimal("299").floatValue()){
             f.setState(2);
             s.setYzlState(2);
-        }else if(formyzl.floatValue()>=300){
+        }else if(s.getTriangleRent().floatValue()>=new BigDecimal("300").floatValue()){
             f.setState(1);
             s.setYzlState(1);
         }else{
@@ -434,7 +434,7 @@ public class SyController {
             s.setSpzState(5);
         }
         s.setSpz(helpCQRSService.getformList(f).size() == 0 ? null : helpCQRSService.getformList(f));
-        s.setTriangleRent(formyzl.multiply(new BigDecimal("100")));
+
         return JsonResult.success(s);
     }
 
@@ -463,7 +463,7 @@ public class SyController {
         s.setStandardGuest(brandbzkxd);
         s.setTriangleGuest(brandkxd);
         s.setTriangleFitted(brandspz);
-
+        s.setTriangleRent(brandyzl.multiply(new BigDecimal("100")));
 
 
         SectionBrand sp = sectionBrandService.getSectionBrandListById(MapperFactoryUtil.mapperObject(brandRate,SectionBrandSyRequest.class));
@@ -487,16 +487,16 @@ public class SyController {
         f.setFormId(brandRate.getFormId());
         f.setSpeciesId(brandRate.getSpeciesId());
         f.setType(1);
-        if(brandyzl.floatValue() >=1 && brandyzl.floatValue()<=99){
+        if(s.getTriangleRent().floatValue() >= new BigDecimal("0").floatValue() && s.getTriangleRent().floatValue()<=new BigDecimal("99").floatValue()){
             f.setState(4);
             s.setYzlState(4);
-        }else if(brandyzl.floatValue() >=100 && brandyzl.floatValue()<=199){
+        }else if(s.getTriangleRent().floatValue() >=new BigDecimal("100").floatValue() && s.getTriangleRent().floatValue()<=new BigDecimal("199").floatValue()){
             f.setState(3);
             s.setYzlState(3);
-        }else if(brandyzl.floatValue() >=200 && brandyzl.floatValue()<=299){
+        }else if(s.getTriangleRent().floatValue() >=new BigDecimal("200").floatValue() && s.getTriangleRent().floatValue()<=new BigDecimal("299").floatValue()){
             f.setState(2);
             s.setYzlState(2);
-        }else if(brandyzl.floatValue()>=300){
+        }else if(s.getTriangleRent().floatValue()>=new BigDecimal("300").floatValue()){
             f.setState(1);
             s.setYzlState(1);
         }else{
@@ -543,7 +543,7 @@ public class SyController {
         }
         s.setSpz(helpCQRSService.getspeciesList(f).size() == 0 ? null : helpCQRSService.getspeciesList(f));
 
-        s.setTriangleRent(brandyzl.multiply(new BigDecimal("100")));
+
         return JsonResult.success(s);
     }
 

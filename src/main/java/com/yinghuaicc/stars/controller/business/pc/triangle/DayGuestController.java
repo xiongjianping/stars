@@ -57,7 +57,10 @@ public class DayGuestController {
      */
     @GetMapping(value = "/find/day/saleroomall/list")
     public JsonResult findDaySaleroomAll(){
-        return JsonResult.success(dayGuestService.findDaySaleroomAll());
+        DayResponse day = new DayResponse();
+        day.setXse(dayGuestService.findDaySaleroomAll());//销售额
+        day.setKll(dayGuestService.findDayPassengerFlowAll());//客流量
+        return JsonResult.success(day);
 
     }
 
@@ -67,6 +70,6 @@ public class DayGuestController {
      */
     @GetMapping(value = "/find/day/passengerflowall/list")
     public JsonResult findDayPassengerFlowAll(){
-        return JsonResult.success(dayGuestService.findDayPassengerFlowAll());
+        return JsonResult.success("");
     }
 }

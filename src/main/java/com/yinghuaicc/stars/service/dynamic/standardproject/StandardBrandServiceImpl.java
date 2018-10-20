@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -133,5 +134,19 @@ public class StandardBrandServiceImpl implements StandardBrandService {
         }
         BigDecimal v = new BigDecimal(val).setScale(2,BigDecimal.ROUND_HALF_UP);
         return v;
+    }
+
+    @Override
+    public List<String> getSyWtBrandCount(StandardBrandSy standardBrand) {
+        List<String> list = new ArrayList<>();
+        String val = standardBrandMapper.getStandardBrandId(standardBrand);
+        if(val == null){
+            val = standardBrandMapper.getStandardBrandIds(standardBrand);
+            if(val == null){
+                list.add("缺失：标准三角形业种益租率信息");
+            }
+
+        }
+        return list;
     }
 }

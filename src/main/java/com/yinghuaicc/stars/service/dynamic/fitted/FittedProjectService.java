@@ -7,6 +7,7 @@ import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedProjectSy;
 import com.yinghuaicc.stars.service.dynamic.fitted.dto.response.FittedProjectListResponse;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by 你看见过我吗？你想一想在回答。 on 2018/8/20.
@@ -25,4 +26,5 @@ public interface FittedProjectService {
 
     BigDecimal getFittedProject(FittedProjectSy fittedProject);
 
+    List<String> getWtFittedProject(FittedProjectSy fittedProject);
 }

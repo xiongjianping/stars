@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -130,5 +131,25 @@ public class FittedBrandServiceImpl implements FittedBrandService {
         }
         BigDecimal v = new BigDecimal(val).setScale(2,BigDecimal.ROUND_HALF_UP);
         return v;
+    }
+
+    @Override
+    public List<String> getWtFittedBrand(FittedBrandSy fittedBrand) {
+        List<String> list = new ArrayList<>();
+        //查找业种
+        String species = fittedBrandMapper.getFittedBrandSpeciesId(fittedBrand);
+        if(species == null){
+            list.add("缺失：品牌数据无业种");
+        }
+        fittedBrand.setSpeciesId(species);
+
+        String val = fittedBrandMapper.getFittedBrandId(fittedBrand);
+        if(val == null){
+            val = fittedBrandMapper.getFittedBrandIds(fittedBrand);
+            if(val == null){
+                list.add("缺失：缺失标准三角形业种适配值");
+            }
+        }
+        return list;
     }
 }

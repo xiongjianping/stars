@@ -58,6 +58,7 @@ public interface ContractCQRSMapper {
             "<bind name='search.brandId' value='search.brandId' /> " +
             "<bind name='search.status' value='search.status' /> " +
             "<bind name='search.name' value=\"'%' + search.name + '%'\" /> " +
+            "<bind name='search.brandName' value=\"'%' + search.brandName + '%'\" /> " +
             "<if test='search.areaId != null and search.areaId !=\"\" '>AND ar.id = #{search.areaId}</if> " +
             "<if test='search.projectId != null and search.projectId !=\"\" '>AND pr.id = #{search.projectId}</if> " +
             "<if test='search.buildingId != null and search.buildingId !=\"\" '>AND bui.id = #{search.buildingId}</if> " +
@@ -67,6 +68,7 @@ public interface ContractCQRSMapper {
             "<if test='search.brandId != null and search.brandId !=\"\" '>AND br.id = #{search.brandId}</if> " +
             "<if test='search.name != null and search.name !=\"\" '>AND ro.name like #{search.name}</if> " +
             "<if test='search.status != null and search.status !=\"\" '>AND co.status = #{search.status}</if> " +
+            "<if test='search.brandName != null and search.brandName !=\"\" '>AND br.name like #{search.brandName} OR ro.name like #{search.brandName} </if> " +
             "</where> " +
             "order by co.modify_time desc" +
             "</script>")

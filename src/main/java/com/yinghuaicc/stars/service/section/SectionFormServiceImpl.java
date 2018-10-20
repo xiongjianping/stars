@@ -80,4 +80,14 @@ public class SectionFormServiceImpl implements SectionFormService{
         }
         return s;
     }
+
+    @Override
+    public String getWtSectionFormListById(SectionBrandSyRequest sectionBrandRequest) {
+        String a = "";
+        SectionForm s = sectionFormMapper.getSectionFormListById(sectionBrandRequest);
+        if(s == null){
+            a = "缺失：业态区间值";
+        }
+        return a;
+    }
 }

@@ -9,6 +9,7 @@ import com.yinghuaicc.stars.service.dynamic.rentingRate.dto.response.RentingRate
 import com.yinghuaicc.stars.service.dynamic.rentingRate.dto.response.RentingRateListResponse;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by 你看见过我吗？你想一想在回答。 on 2018/8/17.
@@ -26,9 +27,17 @@ public interface RentingRateService {
 
     BigDecimal getSyProjectRentingRateCount(StandardGuestSy standardGuest);
 
+    List<String> getSyWtProjectRentingRateCount(StandardGuestSy standardGuest);
+
     BigDecimal getSyFloorRentingRateCount(StandardGuestSy standardGuest);
+
+    List<String> getSyWtFloorRentingRateCount(StandardGuestSy standardGuest);
 
     BigDecimal getSyFromRentingRateCount(StandardGuestSy standardGuest);
 
+    List<String> getSyWtFromRentingRateCount(StandardGuestSy standardGuest);
+
     BigDecimal getSyBrandRentingRateCount(StandardGuestSy standardGuest);
+
+    List<String> getSyWtBrandRentingRateCount(StandardGuestSy standardGuest);
 }

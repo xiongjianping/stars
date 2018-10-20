@@ -47,6 +47,7 @@ public interface QuarterRateMapper {
             " LEFT JOIN yhcc_brand f on f.id = e.brand_id" +
             " LEFT JOIN yhcc_business_form g on g.id = a.form_id" +
             " LEFT JOIN yhcc_business_species h on h.id = a.species_id" +
+            " LEFT JOIN yhcc_room j on j.id = e.room_id" +
             " where " +
             " 1=1 " +
             " <if test='projectId != null and projectId != \"\"'> AND a.project_id = #{projectId} </if> " +
@@ -55,6 +56,8 @@ public interface QuarterRateMapper {
             " <if test='speciesId != null and speciesId != \"\"'> AND a.species_id = #{speciesId} </if>" +
             " <if test='contractId != null and contractId != \"\"'> AND a.contract_id = #{contractId} </if> " +
             " <if test='effectTime != null and effectTime != \"\"'> AND a.effect_time = #{effectTime} </if>" +
+            " <if test='brandName != null and brandName != \"\"'> AND f.name like CONCAT('%','${brandName}','%') OR j.name like CONCAT('%','${brandName}','%') </if>" +
+
             " group by a.id" +
             "</script>")
     List<QuarterRateListResponse> getQuarterRateList(QuarterRate quarterRate);
@@ -112,19 +115,19 @@ public interface QuarterRateMapper {
      * @return
      */
     @Select("" +
-            "  select a.contract_id as id ,(sum(c.acreage)/count(b.id)) as acreage from yhcc_brand_rate a left join yhcc_contract b on b.contract_id = a.contract_id LEFT JOIN yhcc_room c on c.id = b.room_id  " +
-            "  where a.project_id = #{projectId} and a.floor_id = #{floorId} " +
+            "  select b.contract_id as id ,(sum(c.acreage)/count(b.id)) as acreage from yhcc_contract b LEFT JOIN yhcc_room c on c.id = b.room_id  " +
+            "  where b.project_id = #{projectId} and b.floor_id = #{floorId} " +
             " and b.effect_time <= #{createTime} and b.invalid_time >= #{createTime}" +
-            "  GROUP BY a.contract_id  " +
+            "  GROUP BY b.contract_id  " +
             "")
     List<ProjectQuarterRateResponse> getFloorQuarterRate(QuarterRateSy quarterRate);
 
 
     @Select("" +
-            "  select a.contract_id as id ,(sum(c.acreage)/count(b.id)) as acreage from yhcc_brand_rate a left join yhcc_contract b on b.contract_id = a.contract_id LEFT JOIN yhcc_room c on c.id = b.room_id  " +
-            "  where a.project_id = #{projectId} and a.floor_id = #{floorId} " +
+            "  select b.contract_id as id ,(sum(c.acreage)/count(b.id)) as acreage from yhcc_contract b LEFT JOIN yhcc_room c on c.id = b.room_id  " +
+            "  where b.project_id = #{projectId} and b.floor_id = #{floorId} " +
             " and b.effect_time <= #{createTime} and b.effect_time >= #{modifyTime}" +
-            "  GROUP BY a.contract_id  " +
+            "  GROUP BY b.contract_id  " +
             "")
     List<ProjectQuarterRateResponse> getFloorQuarterRates(QuarterRateSy quarterRate);
 

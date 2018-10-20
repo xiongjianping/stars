@@ -124,7 +124,7 @@ public class RegionServiceImpl implements RegionService {
                         .setProjectHeadId(editProjectRequestDTO.getProjectHeadId())
                         .setAcreage(editProjectRequestDTO.getAcreage())
                         .setModifyUser(loginEmployeeId)
-                        .setModifyTime(LocalDateTime.now()));
+                        .setModifyTime(LocalDateTime.now()).setCreateDate(editProjectRequestDTO.getCreateDate()));
 
         //删除原负责小组人员，添加新负责小组人员
         regionMapper.removeEmployeeProjectRelationTeam(project.getId());

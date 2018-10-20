@@ -7,6 +7,7 @@ import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardBra
 import com.yinghuaicc.stars.service.dynamic.standardproject.dto.response.StandardBrandListResponse;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by 你看见过我吗？你想一想在回答。 on 2018/8/20.
@@ -24,4 +25,6 @@ public interface StandardBrandService {
     void updateStandardBrand(StandardBrand standardBrand);
 
     BigDecimal getSyBrandCount(StandardBrandSy standardBrand);
+
+    List<String> getSyWtBrandCount(StandardBrandSy standardBrand);
 }

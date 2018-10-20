@@ -14,6 +14,7 @@ public class QuarterRate {
     private String formId;//业态
     private String speciesId;//业种
     private String contractId;//签约ID
+    private String brandName; //品牌
 
     private String marketVal;//市场地位
     private String brandPositioningVal;//品牌定位
@@ -29,6 +30,14 @@ public class QuarterRate {
     private LocalDateTime modifyTime;
     private String createUser;
     private String modifyUser;
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
 
     public String getId() {
         return id;

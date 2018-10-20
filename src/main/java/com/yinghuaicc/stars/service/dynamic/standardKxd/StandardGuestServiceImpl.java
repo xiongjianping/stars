@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -273,6 +274,37 @@ public class StandardGuestServiceImpl implements StandardGuestService {
         return kxd.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
+    @Override
+    public List<String> getSyWtStandardProjectGuestCount(StandardGuestSy standardGuest) {
+        List<String> listerro = new ArrayList<>();
+        String mj = projectRateMapper.getProjectacreageById(standardGuest.getProjectId()); //项目面积
+        if(mj == null){
+            listerro.add("此项目缺失面积");
+        }
+        List<StandardGuestListResponse> getStandardProjectGuestList = floorRateMapper.getStandardProjectGuestList(standardGuest);
+        if(getStandardProjectGuestList.size() == 0){
+            getStandardProjectGuestList = standardGuestMapper.getStandardProjectGuestLists(standardGuest);
+            if(getStandardProjectGuestList.size() == 0){
+                listerro.add("此项目下缺失标准三角形毛利率信息");
+            }
+        }
+
+        for(StandardGuestListResponse p : getStandardProjectGuestList){
+            standardGuest.setContractId(p.getContractId());
+            List<String> list = rentingRateMapper.getSyDate(standardGuest);
+            for(String b : list){
+                standardGuest.setCreateUser(b);
+                RentingRate r = rentingRateMapper.getR(standardGuest);
+                if(r == null) {
+                    listerro.add("缺失固定成本信息，品牌名称："+contractMapper.findBradeName(p.getContractId()));
+                }
+            }
+
+
+        }
+        return listerro;
+    }
+
     /**
      * 首页，客销度，楼层级
      * @param standardGuest
@@ -335,6 +367,39 @@ public class StandardGuestServiceImpl implements StandardGuestService {
 
         BigDecimal kxd = zkll.divide(xmmj.multiply(day),2,BigDecimal.ROUND_UP).multiply(zxse.divide(xmmj.multiply(day),2,BigDecimal.ROUND_UP)); //客销度
         return kxd.setScale(2,BigDecimal.ROUND_HALF_UP);
+    }
+
+    @Override
+    public List<String> getSyWtStandardFloorGuestCount(StandardGuestSy standardGuest) {
+        List<String> listerro = new ArrayList<>();
+        String mj = floorRateMapper.getFloorAcreageById(standardGuest.getFloorId()); //面积
+        if(mj == null){
+            listerro.add("楼层面积为空");
+        }
+        List<StandardGuestListResponse> getStandardProjectGuestList = floorRateMapper.getStandardProjectGuestList(standardGuest);
+        if(getStandardProjectGuestList.size() == 0){
+            getStandardProjectGuestList = standardGuestMapper.getStandardProjectGuestLists(standardGuest);
+            if(getStandardProjectGuestList.size() == 0){
+                listerro.add("缺失：楼层下无品牌标准三角形客销度数据");
+            }
+        }
+        Duration duration = Duration.between(LocalDateTimeUtils.StringDate(standardGuest.getCreateTime()),LocalDateTimeUtils.StringDate(standardGuest.getModifyTime()));
+        BigDecimal day = new BigDecimal(duration.toDays()+1); //时间差
+
+        for(StandardGuestListResponse p : getStandardProjectGuestList){
+            standardGuest.setContractId(p.getContractId());
+            List<String> list = rentingRateMapper.getSyDate(standardGuest);
+
+            for(String b : list){
+                standardGuest.setCreateUser(b);
+                RentingRate r = rentingRateMapper.getR(standardGuest);
+                if(r == null) {
+                    listerro.add("缺失：品牌固定成品，品牌名称："+contractMapper.findBradeName(p.getContractId()));
+                }
+            }
+        }
+
+        return listerro;
     }
 
     /**
@@ -404,6 +469,43 @@ public class StandardGuestServiceImpl implements StandardGuestService {
         return kxd.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
+    @Override
+    public List<String> getSyWtStandardFormGuestCount(StandardGuestSy standardGuest) {
+        List<String> listerro = new ArrayList<>();
+        String mj = brandRateMapper.getFormAcreageById(MapperFactoryUtil.mapperObject(standardGuest, BrandRateSy.class)); //面积
+        if(mj == null){
+            mj = brandRateMapper.getFormAcreageByIda(MapperFactoryUtil.mapperObject(standardGuest, BrandRateSy.class)); //面积
+            if(mj == null){
+                mj = brandRateMapper.getFormAcreageByIdb(MapperFactoryUtil.mapperObject(standardGuest, BrandRateSy.class)); //面积
+                if(mj == null){
+                    listerro.add("缺失：业态下无品牌铺位面积");
+                }
+            }
+        }
+        List<StandardGuestListResponse> getStandardProjectGuestList = floorRateMapper.getStandardProjectGuestList(standardGuest);
+        if(getStandardProjectGuestList.size() == 0){
+            getStandardProjectGuestList = standardGuestMapper.getStandardProjectGuestLists(standardGuest);
+            if(getStandardProjectGuestList.size() == 0){
+                listerro.add("缺失：标准三角形，业态下品牌毛利率为空");
+            }
+        }
+        for(StandardGuestListResponse p : getStandardProjectGuestList){
+            standardGuest.setContractId(p.getContractId());
+            standardGuest.setBusinessFormId(p.getFormId());
+            List<String> list = rentingRateMapper.getSyDate(standardGuest);
+
+            for(String b : list){
+                standardGuest.setCreateUser(b);
+                RentingRate r = rentingRateMapper.getR(standardGuest);
+                if(r == null) {
+                    listerro.add("缺失：固定成本数据，品牌："+contractMapper.findBradeName(p.getContractId())+"，时间："+b);
+                }
+
+            }
+        }
+        return listerro;
+    }
+
     /**
      * 首页，客销度，品牌级
      * @param standardGuest
@@ -468,6 +570,36 @@ public class StandardGuestServiceImpl implements StandardGuestService {
 
         BigDecimal kxd = zkll.divide(xmmj.multiply(day),2,BigDecimal.ROUND_UP).multiply(zxse.divide(xmmj.multiply(day),2,BigDecimal.ROUND_UP)); //客销度
         return kxd.setScale(2,BigDecimal.ROUND_HALF_UP);
+    }
+
+    @Override
+    public List<String> getSyWtStandardBrandGuestCount(StandardGuestSy standardGuest) {
+        List<String> listerro = new ArrayList<>();
+        String mj = brandRateMapper.getBrandAcreageById(MapperFactoryUtil.mapperObject(standardGuest, BrandRateSy.class)); //面积
+        if(mj == null){
+            listerro.add("缺失：品牌铺位面积");
+        }
+        List<StandardGuestListResponse> getStandardProjectGuestList = floorRateMapper.getStandardProjectGuestList(standardGuest);
+        if(getStandardProjectGuestList.size() == 0){
+            getStandardProjectGuestList = standardGuestMapper.getStandardProjectGuestLists(standardGuest);
+            if(getStandardProjectGuestList.size() == 0){
+                listerro.add("缺失：标准三角形品牌毛利率信息");
+            }
+        }
+        for(StandardGuestListResponse p : getStandardProjectGuestList){
+            standardGuest.setContractId(p.getContractId());
+            standardGuest.setBusinessFormId(p.getFormId());
+
+            List<String> list = rentingRateMapper.getSyDate(standardGuest);
+            for(String b : list){
+                standardGuest.setCreateUser(b);
+                RentingRate r = rentingRateMapper.getR(standardGuest);
+                if(r == null) {
+                    listerro.add("缺失：品牌固定成本信息");
+                }
+            }
+        }
+        return listerro;
     }
 
 

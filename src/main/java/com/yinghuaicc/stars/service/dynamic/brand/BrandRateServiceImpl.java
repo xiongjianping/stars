@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -146,6 +147,25 @@ public class BrandRateServiceImpl implements BrandRateService {
         return kxd.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
+    @Override
+    public List<String> getSyWtBrandRateCount(BrandRateSy brandRate) {
+        List<String> list = new ArrayList<>();
+        String kll = brandRateMapper.getBrandRateByIdSy(brandRate); //品牌客流量
+        if(kll == null){
+            list.add("缺失：品牌客流量为空");
+        }
+
+        String mj = brandRateMapper.getBrandAcreageById(brandRate); //面积
+        if(mj == null){
+            list.add("缺失：品牌面积为空");
+        }
+        String pb = brandRateMapper.getBrandBrandById(brandRate); // 2 品牌下所有品牌销售额
+        if(pb == null){
+            list.add("缺失：品牌销售额为空");
+        }
+        return list;
+    }
+
     /**
      * 首页业态客销度
      * @param brandRate
@@ -184,5 +204,31 @@ public class BrandRateServiceImpl implements BrandRateService {
 
         BigDecimal kxd = rx.multiply(px);
         return kxd.setScale(2,BigDecimal.ROUND_HALF_UP);
+    }
+
+    @Override
+    public List<String> getSyWtFormRateCount(BrandRateSy brandRate) {
+        List<String> list = new ArrayList<>();
+        String kll = brandRateMapper.getFormRateByIdSy(brandRate); //业态客流量
+        if(kll == null){
+            list.add("缺失：业态下无品牌客流量");
+        }
+
+        String mj = brandRateMapper.getFormAcreageById(brandRate); //面积
+        if(mj == null){
+            mj = brandRateMapper.getFormAcreageByIda(brandRate); //面积
+            if(mj == null){
+                mj = brandRateMapper.getFormAcreageByIdb(brandRate); //面积
+                if(mj == null){
+                    list.add("缺失：业态下无品牌铺位面积");
+                }
+            }
+        }
+
+        String pb = brandRateMapper.getFormBrandById(brandRate); // 2 业态下所有品牌销售额
+        if(pb == null){
+            list.add("缺失：业态下无品牌销售额");
+        }
+        return list;
     }
 }

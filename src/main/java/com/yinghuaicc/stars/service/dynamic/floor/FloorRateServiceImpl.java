@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -142,6 +143,28 @@ public class FloorRateServiceImpl implements FloorRateService {
         return kxd.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
+    @Override
+    public List<String> getSyWtFloorRateCount(FloorRateSy FloorRate) {
+        List<String> list = new ArrayList<>();
+        String kll = floorRateMapper.getFloorRateByIdSy(FloorRate); //楼层客流量
+        if(kll == null){
+            list.add("楼层缺失客流量");
+        }
+
+        String mj = floorRateMapper.getFloorAcreageById(FloorRate.getFloorId()); //面积
+        if(mj == null){
+            list.add("楼层面积为空");
+        }
+
+        Duration duration = Duration.between(LocalDateTimeUtils.StringDate(FloorRate.getCreateTime()),LocalDateTimeUtils.StringDate(FloorRate.getModifyTime()));
+        BigDecimal day = new BigDecimal(duration.toDays()+1); //时间差
+
+        String pb = floorRateMapper.getFloorBrandById(FloorRate); // 2 楼层下所有品牌销售额
+        if(pb == null){
+            list.add("楼层，无品牌销售额");
+        }
+        return list;
+    }
 
 
 }

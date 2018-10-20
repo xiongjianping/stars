@@ -59,13 +59,15 @@ public interface RentingRateMapper {
             " LEFT JOIN yhcc_business_species g on g.id = c.business_species_id" +
             " LEFT JOIN yhcc_project h on h.id = b.project_id" +
             " LEFT JOIN yhcc_building i on i.id = d.building_id" +
-            " WHERE 1=1 " +
+            " where 1=1 " +
             " <if test='projectId != null and projectId != \"\"' > AND h.id = #{projectId} </if> " +
             " <if test='buildingId != null and buildingId != \"\"' > AND i.id = #{buildingId} </if> " +
             " <if test='floorId != null and floorId != \"\"' > AND d.id = #{floorId} </if> " +
             " <if test='businessFormId != null and businessFormId != \"\"' > AND f.id = #{businessFormId} </if> " +
             " <if test='contractId != null and contractId != \"\"' > AND a.contract_id = #{contractId} </if> " +
             " <if test='effectTime != null and effectTime != \"\" '  > AND left(a.effect_time,7) = left(#{effectTime},7) </if> " +
+            " <if test='brandName != null and brandName != \"\"' > AND c.name like CONCAT('%','${brandName}','%') OR e.name like CONCAT('%','${brandName}','%') </if> " +
+            "  " +
             " GROUP BY a.id " +
             " </script>")
     List<RentingRateListResponse> getRentingRateList(getRentingRateListRequest getRentingRateListRequest);

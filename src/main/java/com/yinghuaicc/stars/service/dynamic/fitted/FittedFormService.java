@@ -7,6 +7,7 @@ import com.yinghuaicc.stars.repository.model.dynamic.fitted.FittedFormSy;
 import com.yinghuaicc.stars.service.dynamic.fitted.dto.response.FittedFormListResponse;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by 你看见过我吗？你想一想在回答。 on 2018/8/20.
@@ -24,4 +25,6 @@ public interface FittedFormService {
     void deleteFittedForm(String id);
 
     BigDecimal getFittedForm(FittedFormSy fittedForm);
+
+    List<String> getWtFittedForm(FittedFormSy fittedForm);
 }

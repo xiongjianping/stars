@@ -25,6 +25,7 @@ VALUES
   ('f7f3be432ac24846926805951d634cab', '签约管理', 0, '2fe2ed895194421a8abdb21c9a41ebfa', 'TOW', '/qianyue/qianyue/list', 1, NOW(), NOW(), 'system', 'system'),
   ('6343dbdcc70041b1a909d73f76ec3d02', '动态三角形', 0, '708f1224ef3c4c4d836321134cc071b1', 'TOW', '/dataManage/dongtai/list', 1, NOW(), NOW(), 'system', 'system'),
   ('6d020f29d8f5433a9a6da556c9602fba', '标准三角形', 0, '708f1224ef3c4c4d836321134cc071b1', 'TOW', '/dataManage/version/list', 2, NOW(), NOW(), 'system', 'system'),
+  ('213asdasd23423dsnrfkkldsndsflj33', '数据缺失', 0, '708f1224ef3c4c4d836321134cc071b1', 'TOW', '/dataManage/queshi/list', 2, NOW(), NOW(), 'system', 'system'),
   ('1be992713572491290b01405ac1109d0', '区间设置', 0, '708f1224ef3c4c4d836321134cc071b1', 'TOW', '/dataManage/trigonometric/list', 3, NOW(), NOW(), 'system', 'system'),
   ('ea9b25a1cf364b7cb4d106baa5ecafcb', '项目帮扶', 0, 'db34210cc50041848195a0f7e052f9aa', 'TOW', '/evaluationTpl/template/list', 1, NOW(), NOW(), 'system', 'system'),
   ('59b00750e02241f6b8760b29603591b4', '楼层帮扶', 0, 'db34210cc50041848195a0f7e052f9aa', 'TOW', '/evaluationTpl/evaluation/list', 2, NOW(), NOW(), 'system', 'system'),

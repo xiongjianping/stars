@@ -179,4 +179,15 @@ public class BaseController {
 
         return JsonResult.success(baseService.findBusinessSpeciesSelect(businessFormId));
     }
+
+    /**
+     *@Author:Fly Created in 2018/7/27 下午5:59
+     *@Description: 业种下拉
+     */
+    @GetMapping(value = "/find/business/species/select/")
+    public JsonResult findBusinessSpecies(){
+
+        return JsonResult.success(baseService.findBusinessSpeciesSelectAll());
+    }
+
 }

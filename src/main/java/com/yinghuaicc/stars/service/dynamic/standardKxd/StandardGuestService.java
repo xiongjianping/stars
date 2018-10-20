@@ -7,6 +7,7 @@ import com.yinghuaicc.stars.repository.model.dynamic.standardkxd.StandardGuestSy
 import com.yinghuaicc.stars.service.dynamic.standardKxd.dto.StandardGuestListResponse;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by 你看见过我吗？你想一想在回答。 on 2018/8/20.
@@ -25,10 +26,18 @@ public interface StandardGuestService {
 
     BigDecimal getSyStandardProjectGuestCount(StandardGuestSy standardGuest);
 
+    List<String> getSyWtStandardProjectGuestCount(StandardGuestSy standardGuest);
+
     BigDecimal getSyStandardFloorGuestCount(StandardGuestSy standardGuest);
+
+    List<String> getSyWtStandardFloorGuestCount(StandardGuestSy standardGuest);
 
     BigDecimal getSyStandardFormGuestCount(StandardGuestSy standardGuest);
 
+    List<String> getSyWtStandardFormGuestCount(StandardGuestSy standardGuest);
+
     BigDecimal getSyStandardBrandGuestCount(StandardGuestSy standardGuest);
+
+    List<String> getSyWtStandardBrandGuestCount(StandardGuestSy standardGuest);
 
 }

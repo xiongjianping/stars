@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -145,5 +146,30 @@ public class ProjectRateServiceImpl implements ProjectRateService {
 
         BigDecimal kxd = rx.multiply(px);
         return kxd.setScale(2,BigDecimal.ROUND_HALF_UP);
+    }
+
+    /**
+     * 问题项目
+     * @param projectRate
+     * @return
+     */
+    @Override
+    public List<String> getSyWtProjectCount(ProjectRateSy projectRate) {
+        List<String> list = new ArrayList<>();
+        String kll = projectRateMapper.getProjectRateByIdSy(projectRate); //项目客流量
+        if(kll == null){
+            list.add("缺失：项目客流量");
+        }
+
+        String mj = projectRateMapper.getProjectacreageById(projectRate.getProjectId()); //面积
+        if(mj == null){
+            list.add("缺失：项目面积");
+        }
+
+        String pb = projectRateMapper.getProjectBrandById(projectRate); // 2 项目下所有品牌销售额
+        if(pb == null){
+            list.add("缺失：项目下无品牌销售额");
+        }
+        return list;
     }
 }

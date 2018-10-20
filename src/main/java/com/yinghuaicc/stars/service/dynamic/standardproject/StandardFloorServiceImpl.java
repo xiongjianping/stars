@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -118,5 +119,18 @@ public class StandardFloorServiceImpl implements StandardFloorService {
         }
         BigDecimal v = new BigDecimal(val).setScale(2,BigDecimal.ROUND_HALF_UP);
         return v;
+    }
+
+    @Override
+    public List<String> getSyWtFloorCount(StandardFloorSy standardFloor) {
+        List<String> list = new ArrayList<>();
+        String val = standardFloorMapper.getStandardFloorId(standardFloor);
+        if(val == null){
+            val = standardFloorMapper.getStandardFloorIds(standardFloor);
+            if(val == null){
+                list.add("缺失楼层，无品牌溢祖率信息标准三角形");
+            }
+        }
+        return list;
     }
 }

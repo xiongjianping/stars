@@ -7,6 +7,7 @@ import com.yinghuaicc.stars.repository.model.dynamic.standardproject.StandardFor
 import com.yinghuaicc.stars.service.dynamic.standardproject.dto.response.StandardFormListResponse;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by 你看见过我吗？你想一想在回答。 on 2018/8/20.
@@ -24,4 +25,6 @@ public interface StandardFormService {
     void deleteStandardForm(String id);
 
     BigDecimal getSyFormCount(StandardFormSy standardForm);
+
+    List<String> getSyWtFormCount(StandardFormSy standardForm);
 }

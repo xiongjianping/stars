@@ -21,4 +21,6 @@ public interface SectionFloorService {
     ResultPageList<SectionBrandResponse> getSectionFloorList(SectionBrandRequest sectionBrandRequest, PageParam pageParam);
 
     SectionFloor getSectionFloorListById(SectionBrandSyRequest sectionBrandRequest);
+
+    String getWtSectionFloorListById(SectionBrandSyRequest sectionBrandRequest);
 }

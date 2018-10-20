@@ -32,7 +32,18 @@ public class ContractCQRSListRequestDTO {
     //铺位名称
     private String name = "";
 
+    //品牌名称
+    private String brandName = "";
+
     private String status; //0 解约 1签约
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
 
     public String getStatus() {
         return status;

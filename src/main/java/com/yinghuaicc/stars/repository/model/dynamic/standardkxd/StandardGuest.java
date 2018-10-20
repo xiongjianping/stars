@@ -25,6 +25,15 @@ public class StandardGuest {
     private String createUser;
     private String modifyUser;
     private String businessFormId; //业态
+    private String brandName;
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
 
     public String getBusinessFormId() {
         return businessFormId;

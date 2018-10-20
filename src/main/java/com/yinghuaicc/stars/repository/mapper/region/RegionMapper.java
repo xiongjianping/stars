@@ -64,8 +64,8 @@ public interface RegionMapper {
     @Update("update yhcc_project set num = #{num}, area_id = #{areaId}, company_id = #{companyId}, " +
             "name = #{name}, project_head_id = #{projectHeadId}, project_audit_id = #{projectAuditId}, " +
             "state = #{state}, acreage = #{acreage}, create_time = #{createTime}, modify_time = #{modifyTime}, " +
-            "create_user = #{createUser}, modify_user = #{modifyUser} , create_date = #{createDate}" +
-            "where id = #{id}")
+            "create_user = #{createUser}, modify_user = #{modifyUser},create_date = #{createDate} " +
+            " where id = #{id}")
     void editProject(Project project);
 
     /**

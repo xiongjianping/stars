@@ -81,4 +81,14 @@ public class SectionProjectServiceImpl implements SectionProjectService{
         }
         return s;
     }
+
+    @Override
+    public String getWtSectionProjectListById(SectionBrandSyRequest sectionBrandRequest) {
+        String a = "";
+        SectionProject s = sectionProjectMapper.getSectionProjectListById(sectionBrandRequest);
+        if(s == null){
+            a = "缺失项目区间数据";
+        }
+        return a;
+    }
 }

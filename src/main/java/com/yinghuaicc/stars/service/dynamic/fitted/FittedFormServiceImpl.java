@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -118,5 +119,18 @@ public class FittedFormServiceImpl implements FittedFormService {
         }
         BigDecimal v = new BigDecimal(val).setScale(2,BigDecimal.ROUND_HALF_UP);
         return v;
+    }
+
+    @Override
+    public List<String> getWtFittedForm(FittedFormSy fittedForm) {
+        List<String> list = new ArrayList<>();
+        String val = fittedFormMapper.getFittedFormId(fittedForm);
+        if(val == null){
+            val = fittedFormMapper.getFittedFormIds(fittedForm);
+            if(val == null){
+                list.add("缺失：标准三角形，业态无适配值");
+            }
+        }
+        return list;
     }
 }

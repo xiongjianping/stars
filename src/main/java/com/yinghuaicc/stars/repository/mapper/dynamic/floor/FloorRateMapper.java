@@ -110,7 +110,9 @@ public interface FloorRateMapper {
      * @param floorRate
      * @return
      */
-    @Select("select sum(sales_volume) from yhcc_brand_rate where project_id = #{projectId}  and floor_id = #{floorId} and effect_time >= #{createTime} and effect_time <= #{modifyTime}")
+    @Select(" select sum(a.sales_volume) from yhcc_brand_rate a " +
+            " inner JOIN yhcc_contract b on b.contract_id = a.contract_id" +
+            " where a.project_id = #{projectId}  and b.floor_id = #{floorId} and a.effect_time >= #{createTime} and a.effect_time <= #{modifyTime} ")
     String getFloorBrandById(FloorRateSy floorRate);
 
 
@@ -121,8 +123,8 @@ public interface FloorRateMapper {
             " select a.*,b.name as projectName,c.name as buildingName,d.name as floorName,f.name as brandName,g.name as formName,h.name as speciesName from yhcc_standard_guest a " +
             " LEFT JOIN yhcc_project b on b.id = a.project_id  " +
             " LEFT JOIN yhcc_building c on c.id = a.building_id " +
-            " LEFT JOIN yhcc_floor d on d.id = a.floor_id" +
             " LEFT JOIN yhcc_contract e on e.contract_id = a.contract_id" +
+            " LEFT JOIN yhcc_floor d on d.id = e.floor_id" +
             " LEFT JOIN yhcc_brand f on f.id = e.brand_id" +
             " LEFT JOIN yhcc_business_form g on g.id = a.form_id" +
             " LEFT JOIN yhcc_business_species h on h.id = a.species_id" +
@@ -132,7 +134,7 @@ public interface FloorRateMapper {
             " ]]>  " +
             "  " +
             " <if test='projectId != null'> AND a.project_id = #{projectId} </if> " +
-            " <if test='floorId != null'> AND a.floor_id = #{floorId} </if> " +
+            " <if test='floorId != null'> AND e.floor_id = #{floorId} </if> " +
             " <if test='formId != null'> AND a.form_id = #{formId} </if> " +
             " <if test='speciesId != null'> AND a.species_id = #{speciesId} </if>" +
             " <if test='contractId != null'> AND a.contract_id = #{contractId} </if> " +

@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -120,5 +121,18 @@ public class FittedProjectServiceImpl implements FittedProjectService {
         }
         BigDecimal v = new BigDecimal(val).setScale(2,BigDecimal.ROUND_HALF_UP);
         return v;
+    }
+
+    @Override
+    public List<String> getWtFittedProject(FittedProjectSy fittedProject) {
+        List<String> list = new ArrayList<>();
+        String val = fittedProjectMapper.getFittedProjectId(fittedProject);
+        if(val == null){
+            val = fittedProjectMapper.getFittedProjectIds(fittedProject);
+            if(val == null){
+                list.add("该项目下，缺失适配值信息");
+            }
+        }
+        return list;
     }
 }

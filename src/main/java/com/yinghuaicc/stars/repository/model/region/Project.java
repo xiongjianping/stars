@@ -57,8 +57,9 @@ public class Project {
         return createDate;
     }
 
-    public void setCreateDate(String createDate) {
+    public Project setCreateDate(String createDate) {
         this.createDate = createDate;
+        return this;
     }
 
     public String getId() {

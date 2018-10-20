@@ -276,4 +276,10 @@ public class BaseServiceImpl implements BaseService{
 
         return MapperFactoryUtil.mapperList(baseMapper.findBusinessSpeciesByBusinessFormId(businessFormId), FindBusinessSpeciesSelectResponseDTO.class);
     }
+
+    @Override
+    public List<FindBusinessSpeciesSelectResponseDTO> findBusinessSpeciesSelectAll() {
+        return MapperFactoryUtil.mapperList(baseMapper.findBusinessSpeciesByBusinessForm(), FindBusinessSpeciesSelectResponseDTO.class);
+
+    }
 }
